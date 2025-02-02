@@ -65,11 +65,23 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "order": {
+    "order_histories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order.order",
+      "mappedBy": "owner"
+    },
+    "reviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::review.review",
+      "mappedBy": "user"
+    },
+    "cart": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::order.order",
-      "mappedBy": "user"
+      "target": "api::cart.cart",
+      "mappedBy": "owner_cart"
     }
   }
 }

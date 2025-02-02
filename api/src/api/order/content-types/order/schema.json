@@ -18,13 +18,13 @@
       "target": "api::product.product",
       "inversedBy": "order"
     },
-    "user": {
+    "owner": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "order"
+      "inversedBy": "order_histories"
     },
-    "Stutus": {
+    "orderStatus": {
       "type": "enumeration",
       "enum": [
         "Pending",
@@ -32,6 +32,13 @@
         "Shipped",
         "Canceled"
       ]
+    },
+    "total_price": {
+      "type": "decimal"
+    },
+    "address": {
+      "type": "string",
+      "required": true
     }
   }
 }
