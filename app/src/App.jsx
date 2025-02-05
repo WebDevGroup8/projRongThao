@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import { LoginPage } from "./pages/Login";
+import SignIn from "./pages/Login";
 import { HomePage } from "./pages/HomePage";
 import { DashBoard } from "./pages/DashBoard";
 import ShoppingCart from "./pages/shoppingCart";
@@ -12,9 +12,9 @@ function App() {
     <div className="w-full h-full">
       <NavigationBar />
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<SignIn />} />
 
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<SignIn />} />
 
         <Route path="/customer/homepage" element={<HomePage />} />
 
