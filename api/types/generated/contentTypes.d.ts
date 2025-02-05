@@ -447,6 +447,7 @@ export interface ApiOrderOrder extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::order.order'> &
       Schema.Attribute.Private;
+    order_product: Schema.Attribute.JSON;
     orderStatus: Schema.Attribute.Enumeration<
       ['Pending', 'Completed', 'Shipped', 'Canceled']
     >;
@@ -454,7 +455,6 @@ export interface ApiOrderOrder extends Struct.CollectionTypeSchema {
       'manyToOne',
       'plugin::users-permissions.user'
     >;
-    products: Schema.Attribute.Relation<'manyToMany', 'api::product.product'>;
     publishedAt: Schema.Attribute.DateTime;
     total_price: Schema.Attribute.Decimal;
     updatedAt: Schema.Attribute.DateTime;
@@ -467,7 +467,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   collectionName: 'products';
   info: {
     description: '';
-    displayName: 'product';
+    displayName: 'Product';
     pluralName: 'products';
     singularName: 'product';
   };
@@ -493,7 +493,6 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     name: Schema.Attribute.String;
     NEW: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
-    order: Schema.Attribute.Relation<'manyToMany', 'api::order.order'>;
     price: Schema.Attribute.Decimal;
     publishedAt: Schema.Attribute.DateTime;
     rating: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
