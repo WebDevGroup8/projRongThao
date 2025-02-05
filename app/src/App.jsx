@@ -23,7 +23,7 @@ function App() {
 
           <Route path="/admin/dashboard" element={<DashBoard />} />
 
-          <Route path="/customer/Cart" element={<ShoppingCart />} />
+          <Route path="/customer/cart" element={<ShoppingCart />} />
         </Routes>
       </AuthProvider>
     </div>
