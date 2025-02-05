@@ -1,7 +1,7 @@
 const apiUrlPrefix =
     import.meta.env.VITE_STATUS === "production"
-        ? "https://deploy-registrar-systems-production.up.railway.app/api"
-        : "http://localhost:1337/api";
+        ? import.meta.env.VITE_API_URL_PROD
+        : import.meta.env.VITE_API_URL;
 
 
 const conf = {
