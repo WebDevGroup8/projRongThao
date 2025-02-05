@@ -5,18 +5,24 @@ import { LoginPage } from "./pages/Login";
 import { HomePage } from "./pages/HomePage";
 import { DashBoard } from "./pages/DashBoard";
 import ShoppingCart from "./pages/shoppingCart";
+import NavigationBar from "./components/NavBar";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/login" element={<LoginPage />} />
+    <div className="w-full h-full">
+      <NavigationBar />
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
 
-      <Route path="/customer/homepage" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
 
-      <Route path="/admin/dashboard" element={<DashBoard />} />
+        <Route path="/customer/homepage" element={<HomePage />} />
 
-      <Route path="/customer/Cart" element={<ShoppingCart />} />
-    </Routes>
+        <Route path="/admin/dashboard" element={<DashBoard />} />
+
+        <Route path="/customer/Cart" element={<ShoppingCart />} />
+      </Routes>
+    </div>
   );
 }
 
