@@ -70,6 +70,7 @@ export const AuthProvider = ({ children }) => {
 
                 const roleResponse = await ax.get(conf.jwtRoleEndpoint);
                 const role = roleResponse.data.role.name;
+                console.log(roleResponse);
 
                 const cookieOptions = formData.rememberMe
                     ? {
@@ -81,10 +82,10 @@ export const AuthProvider = ({ children }) => {
                 setJwt({ jwt }, cookieOptions, formData.rememberMe);
                 setUser({ ...userData, role });
                 setShowModal(true);
-                if (role === "student") {
-                    navigate("/student/dashboard", { replace: true });
-                } else if (role === "teacher") {
-                    navigate("/teacher/dashboard", { replace: true });
+                if (role === "CUSTOMER") {
+                    navigate("/customer/homepage", { replace: true });
+                } else if (role === "ADMIN") {
+                    navigate("/admin/dashboard", { replace: true });
                 }
                 setErrMsg(null);
             } catch (error) {

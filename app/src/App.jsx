@@ -6,22 +6,26 @@ import { HomePage } from "./pages/HomePage";
 import { DashBoard } from "./pages/DashBoard";
 import ShoppingCart from "./pages/shoppingCart";
 import NavigationBar from "./components/NavBar";
+import { AuthProvider } from "./context/useAuth";
 
 function App() {
   return (
+
     <div className="w-full h-full">
-      <NavigationBar />
-      <Routes>
-        <Route path="/" element={<SignIn />} />
+      <AuthProvider>
+        <NavigationBar />
+        <Routes>
+          <Route path="/" element={<SignIn />} />
 
-        <Route path="/login" element={<SignIn />} />
+          <Route path="/login" element={<SignIn />} />
 
-        <Route path="/customer/homepage" element={<HomePage />} />
+          <Route path="/customer/homepage" element={<HomePage />} />
 
-        <Route path="/admin/dashboard" element={<DashBoard />} />
+          <Route path="/admin/dashboard" element={<DashBoard />} />
 
-        <Route path="/customer/Cart" element={<ShoppingCart />} />
-      </Routes>
+          <Route path="/customer/Cart" element={<ShoppingCart />} />
+        </Routes>
+      </AuthProvider>
     </div>
   );
 }
