@@ -4,7 +4,7 @@
   "info": {
     "singularName": "product",
     "pluralName": "products",
-    "displayName": "product",
+    "displayName": "Product",
     "description": ""
   },
   "options": {
@@ -51,12 +51,6 @@
     "NEW": {
       "type": "boolean",
       "default": true
-    },
-    "order": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::order.order",
-      "mappedBy": "products"
     },
     "rating": {
       "type": "decimal",
