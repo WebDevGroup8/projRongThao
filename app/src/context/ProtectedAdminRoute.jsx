@@ -3,7 +3,7 @@ import { useAuth } from "./useAuth";
 import { useEffect } from "react";
 import Loading from "../components/Loading";
 
-export const ProtectedStudentRoute = ({ children }) => {
+export const ProtectedTeacherRoute = ({ children }) => {
   const { isLoginPending, user } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
@@ -11,14 +11,14 @@ export const ProtectedStudentRoute = ({ children }) => {
       navigate("/login", { replace: true });
     }
   }, [user, navigate, isLoginPending]);
-  if (!user || user.role !== "student") {
+  if (!user || user.role !== "ADMIN") {
     return isLoginPending ? (
       <Loading />
     ) : (
       <>
         <div className="container mt-20 text-center ">
-          <p className="text-4xl font-bold mb-5">You must Login as Student!</p>
-          <a href="/teacher/dashboard" className=" text-xl underline">
+          <p className="text-4xl font-bold mb-5">You must Login as Teacher!</p>
+          <a href="/student/dashboard" className=" text-xl underline">
             Go Back
           </a>
         </div>
@@ -26,7 +26,7 @@ export const ProtectedStudentRoute = ({ children }) => {
     );
   }
   return (
-    <div className="max-w-screen-lg flex flex-wrap items-center justify-between mx-auto ">
+    <div className="max-w-screen-lg flex flex-wrap items-center justify-between mx-auto p-4">
       {children}
     </div>
   );

@@ -1,7 +1,44 @@
 
+import { useAuth } from "../context/useAuth";
 import React from "react";
 
+const UserDetails = React.memo(({ user, logout }) => {
+  if (!user) return null;
+
+  return (
+    <div className="flex bg-gradient-to-l  flex-row text-white gap-4">
+      <p>Login as : {user.username}</p>
+      <a className="self-center text-normal  whitespace-nowrap text-white">
+        |
+      </a>
+      <button
+        href="/#"
+        onClick={logout}
+        type="button"
+        className="flex flex-row items-center gap-1">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-5"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M7.5 3.75A1.5 1.5 0 0 0 6 5.25v13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5V15a.75.75 0 0 1 1.5 0v3.75a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3V5.25a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3V9A.75.75 0 0 1 15 9V5.25a1.5 1.5 0 0 0-1.5-1.5h-6Zm10.72 4.72a.75.75 0 0 1 1.06 0l3 3a.75.75 0 0 1 0 1.06l-3 3a.75.75 0 1 1-1.06-1.06l1.72-1.72H9a.75.75 0 0 1 0-1.5h10.94l-1.72-1.72a.75.75 0 0 1 0-1.06Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <a className="hover:underline">LOGOUT</a>
+      </button>
+
+    </div>
+  );
+});
+
+
+
 export default function NavigationBar() {
+  const { user, logout } = useAuth();
   return (
     <div className="bg-blue-900" l>
       <div className="max-w-screen-lg flex flex-row items-center justify-between mx-auto py-2">
@@ -74,41 +111,12 @@ export default function NavigationBar() {
           <a className="self-center text-normal  whitespace-nowrap text-white">
             |
           </a>
-          <button type="button" className="flex flex-row items-center gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              class="size-5"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M7.5 3.75A1.5 1.5 0 0 0 6 5.25v13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5V15a.75.75 0 0 1 1.5 0v3.75a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3V5.25a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3V9A.75.75 0 0 1 15 9V5.25a1.5 1.5 0 0 0-1.5-1.5h-6Zm5.03 4.72a.75.75 0 0 1 0 1.06l-1.72 1.72h10.94a.75.75 0 0 1 0 1.5H10.81l1.72 1.72a.75.75 0 1 1-1.06 1.06l-3-3a.75.75 0 0 1 0-1.06l3-3a.75.75 0 0 1 1.06 0Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <a className="hover:underline">LOGIN</a>
-          </button>
-          <a className="self-center text-normal  whitespace-nowrap text-white">
-            |
-          </a>
-          <button type="button" className="flex flex-row items-center gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              class="size-5"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M7.5 3.75A1.5 1.5 0 0 0 6 5.25v13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5V15a.75.75 0 0 1 1.5 0v3.75a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3V5.25a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3V9A.75.75 0 0 1 15 9V5.25a1.5 1.5 0 0 0-1.5-1.5h-6Zm10.72 4.72a.75.75 0 0 1 1.06 0l3 3a.75.75 0 0 1 0 1.06l-3 3a.75.75 0 1 1-1.06-1.06l1.72-1.72H9a.75.75 0 0 1 0-1.5h10.94l-1.72-1.72a.75.75 0 0 1 0-1.06Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-
-            <a className="hover:underline">LOGOUT</a>
-          </button>
+          {/* User Details Section */}
+          <div className="w-fit">
+            <UserDetails user={user} logout={logout} />
+          </div>
         </div>
+
       </div>
       <div className=" max-w-screen-lg flex flex-row items-center justify-between gap-11 mx-auto py-1">
         <div className="w-fit">
@@ -164,6 +172,7 @@ export default function NavigationBar() {
             />
           </svg>
         </button>
+
       </div>
     </div>
   );
