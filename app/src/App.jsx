@@ -7,13 +7,14 @@ import { DashBoard } from "./pages/DashBoard";
 import ShoppingCart from "./pages/ShoppingCart";
 import NavigationBar from "./components/NavBar";
 import { AuthProvider } from "./context/useAuth";
+import Demo from "./pages/Demo";
 
 function App() {
   return (
 
     <div className="w-full h-full">
       <AuthProvider>
-        <NavigationBar />
+        {/* <NavigationBar /> */}
         <Routes>
           <Route path="/" element={<SignIn />} />
 
@@ -24,6 +25,8 @@ function App() {
           <Route path="/admin/dashboard" element={<DashBoard />} />
 
           <Route path="/customer/cart" element={<ShoppingCart />} />
+
+          <Route path="/demo" element={<Demo />} />
         </Routes>
       </AuthProvider>
     </div>
