@@ -11,7 +11,7 @@ export const ProtectedTeacherRoute = ({ children }) => {
       navigate("/login", { replace: true });
     }
   }, [user, navigate, isLoginPending]);
-  if (!user || user.role !== "ADMIN") {
+  if (!user || user.role !== "admin") {
     return isLoginPending ? (
       <Loading />
     ) : (

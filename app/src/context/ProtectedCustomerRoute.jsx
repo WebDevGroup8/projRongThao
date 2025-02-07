@@ -11,7 +11,7 @@ export const ProtectedStudentRoute = ({ children }) => {
       navigate("/login", { replace: true });
     }
   }, [user, navigate, isLoginPending]);
-  if (!user || user.role !== "CUSTOMER") {
+  if (!user || user.role !== "customer") {
     return isLoginPending ? (
       <Loading />
     ) : (
