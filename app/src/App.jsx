@@ -24,6 +24,7 @@ function App() {
           <Route path="/admin/dashboard" element={<DashBoard />} />
 
           <Route path="/customer/cart" element={<ShoppingCart />} />
+
           <Route path="/customer/seeallitem" element={<SeeAllItem />} />
         </Routes>
       </AuthProvider>

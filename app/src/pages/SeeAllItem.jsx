@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
 import ax from "../conf/ax";
 import { ProductCard } from "../components/ProductCard";
+import { SideBar } from "../components/SideBar";
 
+//TODO SideBar Sort
 export const SeeAllItem = () => {
-  const [category, setCategory] = useState([]);
-  const [product, setProduct] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const fetchCategories = async () => {
     try {
       const res = await ax.get(`/categories`);
-      setCategory(res.data.data);
+      setCategories(res.data.data);
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
@@ -17,8 +21,8 @@ export const SeeAllItem = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await ax.get(`/products?populate=image`);
-      setProduct(res.data.data);
+      const res = await ax.get(`/products?populate=image&populate=category`);
+      setProducts(res.data.data);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -29,27 +33,31 @@ export const SeeAllItem = () => {
     fetchProducts();
   }, []);
 
+  const filteredProducts = products
+    .filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter((product) =>
+      selectedCategory ? product.category?.title === selectedCategory : true
+    );
+
   return (
     <div className="flex bg-gray-100 min-h-screen p-4 px-50">
-      <div className="w-1/ bg-white shadow-md rounded-lg p-4 overflow-y-auto h-[80vh]">
-        <h2 className="text-lg font-bold mb-4">Category</h2>
-        <ul className="space-y-2">
-          {category.map((cat) => (
-            <li
-              key={cat.id}
-              className="p-2 bg-gray-200 rounded-lg hover:bg-gray-300 cursor-pointer"
-            >
-              {cat.title}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Product Grid */}
-      <div className="flex-1 p-4">
-        <h2 className="text-xl font-bold mb-4">All item</h2>
+      <SideBar
+        categories={categories}
+        onSelectCategory={setSelectedCategory}
+        className="w-1/4 bg-white p-4 shadow-md"
+      />
+      <div className="flex-1 px-4">
+        <input
+          type="text"
+          placeholder="Search products..."
+          className="p-2 m-4 border rounded w-full"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-          {product.map((product) => (
+          {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
               image={product.image}

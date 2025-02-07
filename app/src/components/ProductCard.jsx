@@ -1,32 +1,38 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 export const ProductCard = (props) => {
   const image = props.image[0].url;
+  const { navigate } = useNavigate();
+
+  // TODO : navigate to product detail page
+  // const handleDetail = () => {
+  //   navigate(`/product-detail/${props.id}`);
+  // };
+
   return (
-    <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
+    <div
+      // onClick={handleDetail}
+
+      className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow flex flex-col justify-between p-2"
+    >
       <div className="relative aspect-square">
         <img
           src={`http://localhost:1337${image}`}
           alt={props.name}
-          className="w-64 h-64 object-cover rounded-lg shadow-md"
+          className="w-64 h-44 object-cover rounded-xl transition-transform transform hover:scale-110"
         />
-      </div>
-
-      <div className="p-4">
-        <h3 className="font-semibold text-lg">{props.name}</h3>
-
-        <div className="flex items-center mt-2">
-          <div className="flex items-center text-yellow-400">
-            <span className="ml-1">11</span>
+        <div>
+          <h3 className="font-semibold text-md  mt-2">{props.name}</h3>
+          <div className="flex items-center mt-1">
+            <span className="text-sm text-gray-800">
+              Size: {props.size.join(",")}
+            </span>
           </div>
-          <span className="text-gray-500 text-sm ml-1">( Reviews)</span>
         </div>
-
-        <div className="flex items-center mt-2">
-          <span className="text-sm text-gray-600">thailand</span>
-        </div>
-
-        <div className="mt-3 font-bold">฿{props.price}</div>
+      </div>
+      <div className="flex flex-row mt-1 font-bold text-lg text-[#213555]">
+        ฿ {props.price}
       </div>
     </div>
   );
