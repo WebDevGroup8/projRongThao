@@ -40,9 +40,9 @@ const UserDetails = React.memo(({ user, logout }) => {
 export default function NavigationBar() {
   const { user, logout } = useAuth();
   return (
-    <div className="bg-blue-900" l>
-      <div className="max-w-screen-lg flex flex-row items-center justify-between mx-auto py-2">
-        {/* Logo Section */}
+    <div className="bg-blue-900 px-10 lg:px-40">
+      {/* <div className="max-w-screen-lg flex flex-row items-center justify-between mx-auto py-2">
+
         <div className="w-fit text-xs">
           <p className="flex items-center space-x-3 rtl:space-x-reverse">
             <button
@@ -111,13 +111,13 @@ export default function NavigationBar() {
           <a className="self-center text-normal  whitespace-nowrap text-white">
             |
           </a>
-          {/* User Details Section */}
+
           <div className="w-fit">
             <UserDetails user={user} logout={logout} />
           </div>
         </div>
 
-      </div>
+      </div> */}
       <div className=" max-w-screen-lg flex flex-row items-center justify-between gap-11 mx-auto py-1">
         <div className="w-fit">
           <a className="flex items-center space-x-3 rtl:space-x-reverse">
