@@ -71,12 +71,16 @@ export const SideBar = ({
               {children}
             </div>
           )}
-          renderThumb={({ props: thumbProps }) => (
-            <div
-              {...thumbProps}
-              className="w-3 h-3 bg-gray-800 border-2 border-gray-800 rounded-full cursor-pointer shadow-md transform"
-            />
-          )}
+          renderThumb={({ props: thumbProps }) => {
+            const { key, ...rest } = thumbProps;
+            return (
+              <div
+                key={key}
+                {...rest}
+                className="w-3 h-3 bg-gray-800 border-2 border-gray-800 rounded-full cursor-pointer shadow-md transform"
+              />
+            );
+          }}
         />
         <div className="flex justify-between text-sm text-gray-600 mt-2">
           <span>฿{priceRange[0]}</span>
@@ -85,8 +89,8 @@ export const SideBar = ({
       </div>
       <div className="text-sm pb-2 font-medium text-gray-700">Sizes</div>
 
-      {sizes.map((size) => (
-        <div key={size} className="flex items-center">
+      {sizes.map((index, size) => (
+        <div key={index} className="flex items-center">
           <input
             id={size}
             type="checkbox"
