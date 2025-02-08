@@ -47,11 +47,11 @@ export const SeeAllItem = () => {
       <SideBar
         categories={categories}
         onSelectCategory={setSelectedCategory}
-        className="w-1/4 bg-white p-4 shadow-md"
+        className="p-4"
       />
       <div className="flex-1 px-4">
         <SearchBar onSearch={(term) => setSearchTerm(term)} />
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7">
           {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
