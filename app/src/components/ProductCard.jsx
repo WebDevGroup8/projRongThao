@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { Star, MapPin } from "lucide-react";
+import conf from "../conf/mainapi";
 
 export const ProductCard = (props) => {
   const [animate, setAnimate] = useState(false);
@@ -35,7 +36,7 @@ export const ProductCard = (props) => {
     >
       <div className="relative aspect-square">
         <img
-          src={`http://localhost:1337${image}`}
+          src={`${conf.imageUrlPrefix}${image}`}
           alt={props.name}
           className={`w-64 h-44 object-cover rounded-sm transition-transform transform duration-500 ${
             animate ? "hover:scale-115" : ""
