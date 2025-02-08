@@ -12,12 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "products": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::product.product",
-      "inversedBy": "order"
-    },
     "owner": {
       "type": "relation",
       "relation": "manyToOne",
@@ -39,6 +33,9 @@
     "address": {
       "type": "string",
       "required": true
+    },
+    "order_product": {
+      "type": "json"
     }
   }
 }
