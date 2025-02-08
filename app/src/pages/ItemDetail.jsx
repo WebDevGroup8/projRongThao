@@ -49,8 +49,7 @@ export const ExampleImg = ({ img, shoeName }) => {
         {img?.map((image, index) => (
           <button
             key={index}
-            className="w-15 h-15 lg:h-fit object-cover border-2 border-gray-300 rounded-xl focus:ring-1 focus:outline-none focus:ring-black
-          "
+            className="w-15 h-15 lg:h-fit object-cover border-2 border-gray-300 rounded-xl focus:ring-1 focus:outline-none focus:ring-black"
             onClick={() => setKey(index)}
           >
             <img
@@ -177,7 +176,7 @@ export default function ItemDetail() {
                 <p>Size</p>
                 <button
                   onClick={() => setIsOpenSize(!IsOpenSize)}
-                  className="font-light text-black border-1 bg-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+                  className="font-light text-black border-1 bg-white  focus:ring-1 focus:outline-none focus:ring-black rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
                   type="button"
                 >
                   {size}
@@ -208,7 +207,7 @@ export default function ItemDetail() {
                 <p>Colors</p>
                 <button
                   onClick={() => setIsOpenColor(!IsOpenColor)}
-                  class="font-light text-black border-1 bg-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+                  class="font-light text-black border-1 bg-white  focus:ring-1 focus:outline-none focus:ring-black rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
                   type="button"
                 >
                   {color}
