@@ -25,6 +25,7 @@ function App() {
           <Route path="/admin/dashboard" element={<DashBoard />} />
 
           <Route path="/customer/cart" element={<ShoppingCart />} />
+          {/* TODO: remove this route and change to some order view with handle payment status */}
           <Route path="/payment" element={<Payment />} />
           <Route path="/test" element={<Test />} />
         </Routes>

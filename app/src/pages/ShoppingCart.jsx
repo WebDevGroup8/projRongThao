@@ -3,6 +3,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import ax from "../conf/ax";
 export default function ShoppingCart() {
+  // TODOs: Implement fetch data from strapi
   const [cartItems, setCartItems] = useState([
     {
       id: 11,

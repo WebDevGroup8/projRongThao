@@ -53,6 +53,7 @@ export default factories.createCoreController(
         const session = await stripe.checkout.sessions.create({
           line_items: lineItems,
           mode: "payment",
+          // TODOs: Update url for handle payment result
           success_url: `${process.env.CLIENT_URL}/payment?success=true`,
           cancel_url: `${process.env.CLIENT_URL}/payment?success=false`,
           shipping_address_collection: { allowed_countries: ["TH"] },
