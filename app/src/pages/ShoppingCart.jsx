@@ -1,59 +1,84 @@
-import { useState } from "react"
-
+import { useState } from "react";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import ax from "../conf/ax";
 export default function ShoppingCart() {
+  // TODOs: Implement fetch data from strapi
   const [cartItems, setCartItems] = useState([
     {
-      id: 1,
-      name: "Converse Air Jordy",
-      price: 4000,
+      id: 11,
+      documentId: "a6iod8iq8pmrhjypke155a4p",
+      name: "Chuck 70 De Luxe Heel Platform",
+      description: null,
+      price: 3999,
       quantity: 1,
       size: "44 EU",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeJQeJyzgAzTEVqXiGe90RGBFhfp_4RcJJMQ&s",
+      image:
+        "https://i5.walmartimages.com/seo/Fashion-Running-Sneaker-for-Men-Shoes-Casual-Shoes-Leather-Sport-Shoes-Breathable-Comfortable-Walking-Shoes-Black-US11_8e9d44bb-b19b-42e9-bca1-979205c0779e.6fc41a815c10699375294302df46565a.jpeg",
     },
     {
-      id: 2,
-      name: "Nike Air JorChay",
-      price: 4000,
+      id: 19,
+      documentId: "qyqbcu9jkbun0xbq8kec9d9j",
+      name: "Run Star Motion Canvas Platform",
+      description: null,
+      price: 3700,
       quantity: 1,
       size: "44 EU",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeJQeJyzgAzTEVqXiGe90RGBFhfp_4RcJJMQ&s",
+      image:
+        "https://images-cdn.ubuy.co.in/633b4d0ec453a05ef838979c-damyuan-running-shoes-men-fashion.jpg",
     },
     {
-      id: 3,
-      name: "Valorant Shoes",
-      price: 8000,
+      id: 21,
+      documentId: "s1k8lmqogh8g5zobsxmkk7fu",
+      name: "Run Star Legacy CX",
+      description: null,
+      price: 3000,
       quantity: 1,
       size: "44 EU",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeJQeJyzgAzTEVqXiGe90RGBFhfp_4RcJJMQ&s",
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpxtLxkCfAqfViZreiFtnJFI3fkFijiFoH9Q&s",
     },
     {
-      id: 3,
-      name: "Valorant Shoes",
-      price: 8000,
+      id: 25,
+      documentId: "lxd7nd90kd0ri9q46zvpy1lu",
+      name: "Converse Weapon Leather Lux Pack",
+      description: null,
+      price: 2600,
       quantity: 1,
       size: "44 EU",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeJQeJyzgAzTEVqXiGe90RGBFhfp_4RcJJMQ&s",
-    }, {
-      id: 3,
-      name: "Valorant Shoes",
-      price: 8000,
-      quantity: 1,
-      size: "44 EU",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeJQeJyzgAzTEVqXiGe90RGBFhfp_4RcJJMQ&s",
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw_2iwaya08RkTGTBypU1FNnk8Z9PVjq413nLkPtCrYDo50vCvh-vhopfOQ80MU9dboNY&usqp=CAU",
     },
-  ])
+    {
+      id: 27,
+      documentId: "fea8vg5ufn3b6zeg081dqe0c",
+      name: "Converse Cruise",
+      description: null,
+      price: 3100,
+      quantity: 1,
+      size: "44 EU",
+      image: "https://m.media-amazon.com/images/I/71Li53y47aL._AC_UY1000_.jpg",
+    },
+  ]);
 
   const updateQuantity = (id, change) => {
     setCartItems((items) =>
-      items.map((item) => (item.id === id ? { ...item, quantity: Math.max(1, item.quantity + change) } : item)),
-    )
-  }
+      items.map((item) =>
+        item.id === id
+          ? { ...item, quantity: Math.max(1, item.quantity + change) }
+          : item
+      )
+    );
+  };
 
   const removeItem = (id) => {
-    setCartItems((items) => items.filter((item) => item.id !== id))
-  }
+    setCartItems((items) => items.filter((item) => item.id !== id));
+  };
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  const subtotal = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
   let shipping = 0;
   let discountPercentage = 0;
   let discount = 0;
@@ -66,19 +91,47 @@ export default function ShoppingCart() {
     total = subtotal + shipping - discount;
   }
 
+  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+
+  const handlePayment = async () => {
+    try {
+      const stripe = await stripePromise;
+      const response = await ax.post("/orders", {
+        order_product: cartItems,
+      });
+
+      // Correct way to extract session ID
+      const sessionId = response.data?.stripeSession?.id;
+
+      if (!sessionId) {
+        throw new Error("Stripe session ID not received.");
+      }
+
+      await stripe.redirectToCheckout({ sessionId });
+    } catch (error) {
+      console.error("Payment Error:", error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Main Content */}
       <main className="max-w-7xl mx-auto py-8 px-4">
-        <h2 className="text-xl font-bold text-gray-800 mb-8">🛒 Your Shopping Cart</h2>
+        <h2 className="text-xl font-bold text-gray-800 mb-8">
+          🛒 Your Shopping Cart
+        </h2>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
             {cartItems.length === 0 ? (
               <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <p className="text-xl font-semibold text-gray-600">Your cart is empty</p>
-                <p className="text-gray-500 mt-2">Add some items to get started!</p>
+                <p className="text-xl font-semibold text-gray-600">
+                  Your cart is empty
+                </p>
+                <p className="text-gray-500 mt-2">
+                  Add some items to get started!
+                </p>
               </div>
             ) : (
               cartItems.map((item) => (
@@ -97,7 +150,10 @@ export default function ShoppingCart() {
                   </div>
                   <div className="flex items-center space-x-15 mt-4 sm:mt-0 ">
                     <div className="flex items-center">
-                    <button onClick={() => updateQuantity(item.id, 1)} className="p-1 hover:bg-gray-200 rounded">
+                      <button
+                        onClick={() => updateQuantity(item.id, 1)}
+                        className="p-1 hover:bg-gray-200 rounded"
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-4 w-4"
@@ -112,7 +168,10 @@ export default function ShoppingCart() {
                         </svg>
                       </button>
                       <span className="mx-3">{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.id, -1)} className="p-1 hover:bg-gray-200 rounded">
+                      <button
+                        onClick={() => updateQuantity(item.id, -1)}
+                        className="p-1 hover:bg-gray-200 rounded"
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-4 w-4"
@@ -125,12 +184,17 @@ export default function ShoppingCart() {
                             clipRule="evenodd"
                           />
                         </svg>
-                      </button>                     
+                      </button>
                     </div>
                     <div className="text-right">
-                      <p className="font-semibold">{item.price * item.quantity} THB</p>
+                      <p className="font-semibold">
+                        {item.price * item.quantity} THB
+                      </p>
                     </div>
-                    <button onClick={() => removeItem(item.id)} className="p-1 text-red-400 hover:bg-red-500 hover:text-white transition rounded">
+                    <button
+                      onClick={() => removeItem(item.id)}
+                      className="p-1 text-red-400 hover:bg-red-500 hover:text-white transition rounded"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-5 w-5"
@@ -160,13 +224,14 @@ export default function ShoppingCart() {
                   <span className="font-semibold">{subtotal} THB</span>
                 </div>
                 <div className="flex justify-between">
-
                   <span>Shipping</span>
                   <span className="font-semibold">{shipping} THB</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Discount</span>
-                  <span className="font-semibold text-green-600">{discountPercentage} %</span>
+                  <span className="font-semibold text-green-600">
+                    {discountPercentage} %
+                  </span>
                 </div>
                 <div className="pt-3 border-t">
                   <div className="flex justify-between">
@@ -182,6 +247,7 @@ export default function ShoppingCart() {
                   placeholder="Promo code"
                 />
                 <button
+                  onClick={handlePayment}
                   className={`w-full px-4 py-2 bg-blue-500 border border-transparent rounded-md text-sm font-medium text-white ${
                     cartItems.length === 0
                       ? "opacity-50 cursor-not-allowed"
@@ -197,6 +263,5 @@ export default function ShoppingCart() {
         </div>
       </main>
     </div>
-  )
+  );
 }
-

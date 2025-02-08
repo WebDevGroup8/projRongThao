@@ -82,9 +82,9 @@ export const AuthProvider = ({ children }) => {
                 setJwt({ jwt }, cookieOptions, formData.rememberMe);
                 setUser({ ...userData, role });
                 setShowModal(true);
-                if (role === "CUSTOMER") {
+                if (role === "customer") {
                     navigate("/customer/homepage", { replace: true });
-                } else if (role === "ADMIN") {
+                } else if (role === "admin") {
                     navigate("/admin/dashboard", { replace: true });
                 }
                 setErrMsg(null);
