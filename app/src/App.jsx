@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import { LoginPage } from "./pages/Login";
 import { HomePage } from "./pages/HomePage";
 import { DashBoard } from "./pages/DashBoard";
-import ShoppingCart from "./pages/shoppingCart";
+import ShoppingCart from "./pages/ShoppingCart";
 import NavigationBar from "./components/NavBar";
 import ItemDetail from "./pages/ItemDetail";
 
@@ -23,8 +23,7 @@ function App() {
 
         <Route path="/customer/Cart" element={<ShoppingCart />} />
 
-        <Route path="/customer/itemdetail" element={<ItemDetail/>}/>
-
+        <Route path="/customer/itemdetail" element={<ItemDetail />} />
       </Routes>
     </div>
   );
