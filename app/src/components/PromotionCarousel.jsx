@@ -25,7 +25,7 @@ export default function PromotionCarousel() {
     loop: true,
   })
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const [scrollSnaps, setScrollSnaps] = useState<number[]>([])
+  const [scrollSnaps, setScrollSnaps] = useState([])
 
   const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi])
   const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi])
@@ -53,7 +53,7 @@ export default function PromotionCarousel() {
 
   return (
     <div className="relative">
-    <div className="overflow-hidden rounded-2xl" ref={emblaRef}>
+      <div className="overflow-hidden rounded-2xl" ref={emblaRef}>
         <div className="flex">
           {promotions.map((promo, index) => (
             <div key={index} className="relative flex-[0_0_100%] min-w-0">
@@ -63,7 +63,7 @@ export default function PromotionCarousel() {
                 width={1200}
                 height={250}
                 className="w-full h-auto object-cover"
-                //priority={index === 0}
+              //priority={index === 0}
               />
             </div>
           ))}
