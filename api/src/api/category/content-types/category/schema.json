@@ -18,9 +18,9 @@
     },
     "products": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToMany",
       "target": "api::product.product",
-      "mappedBy": "category"
+      "mappedBy": "categories"
     }
   }
 }
