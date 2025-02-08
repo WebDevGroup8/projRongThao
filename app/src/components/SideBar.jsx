@@ -89,7 +89,7 @@ export const SideBar = ({
       </div>
       <div className="text-sm pb-2 font-medium text-gray-700">Sizes</div>
 
-      {sizes.map((index, size) => (
+      {sizes.map((size, index) => (
         <div key={index} className="flex items-center">
           <input
             id={size}
