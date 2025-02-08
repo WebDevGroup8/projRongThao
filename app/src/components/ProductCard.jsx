@@ -31,7 +31,7 @@ export const ProductCard = (props) => {
       // onClick={handleDetail}
       onMouseEnter={() => setAnimate(true)}
       onMouseLeave={() => setAnimate(false)}
-      className="bg-white rounded-md overflow-hidden border-2 border-gray-200 hover:shadow-xl transition-shadow flex flex-col p-4 h-80 justify-end"
+      className="bg-white rounded-md overflow-hidden border-2 border-gray-200 hover:shadow-xl transition-shadow flex flex-col p-4 h-75 w-54 justify-end"
     >
       <div className="relative aspect-square">
         <img
@@ -61,7 +61,7 @@ export const ProductCard = (props) => {
           </div>
         ))}
       </div>
-      <div className="flex items-center justify-between text-sm text-gray-600 mt-3">
+      <div className="flex items-center justify-between text-xs text-gray-600 mt-2">
         <div className="flex items-center">
           <Star className="text-yellow-500 w-4 h-4 mr-1 fill-yellow-500" />
           <span className="font-medium">

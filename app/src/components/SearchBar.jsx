@@ -13,7 +13,7 @@ const SearchBar = (props) => {
         <input
           type="text"
           id="simple-search"
-          className="bg-white placeholder-black border-gray-200 border-2 text-gray-900 text-sm rounded-lg block w-full  p-3 m-5 "
+          className="bg-white placeholder-black border-gray-200 border-2 text-gray-900 text-sm rounded-md block w-full  p-3 m-5 "
           placeholder="Search"
           required
           onChange={handleInputChange} // เรียกฟังก์ชันเมื่อมีการพิมพ์
@@ -21,7 +21,7 @@ const SearchBar = (props) => {
       </div>
 
       <svg
-        className="absolute top-34 left-200 w-4 h-4"
+        className="absolute top-34 left-188 w-4 h-4"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
