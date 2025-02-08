@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ax from "../conf/ax";
 import { ProductCard } from "../components/ProductCard";
 import { SideBar } from "../components/SideBar";
+import SearchBar from "../components/SearchBar";
 
 //TODO SideBar Sort
 export const SeeAllItem = () => {
@@ -49,13 +50,7 @@ export const SeeAllItem = () => {
         className="w-1/4 bg-white p-4 shadow-md"
       />
       <div className="flex-1 px-4">
-        <input
-          type="text"
-          placeholder="Search products..."
-          className="p-2 m-4 border rounded w-full"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+        <SearchBar onSearch={(term) => setSearchTerm(term)} />
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {filteredProducts.map((product) => (
             <ProductCard
