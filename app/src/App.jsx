@@ -6,6 +6,7 @@ import { HomePage } from "./pages/HomePage";
 import { DashBoard } from "./pages/DashBoard";
 import ShoppingCart from "./pages/ShoppingCart";
 import NavigationBar from "./components/NavBar";
+import ItemDetail from "./pages/ItemDetail";
 import { AuthProvider } from "./context/useAuth";
 import { SeeAllItem } from "./pages/SeeAllItem";
 import Test from "./components/Test";
@@ -24,6 +25,8 @@ function App() {
           <Route path="/customer/homepage" element={<HomePage />} />
 
           <Route path="/admin/dashboard" element={<DashBoard />} />
+
+          <Route path="/customer/itemdetail" element={<ItemDetail />} />
 
           <Route path="/customer/cart" element={<ShoppingCart />} />
 
