@@ -37,7 +37,7 @@ export const ProductCard = (props) => {
         <img
           src={`http://localhost:1337${image}`}
           alt={props.name}
-          className={`w-64 h-40 object-cover rounded-sm transition-transform transform duration-500 ${
+          className={`w-64 h-44 object-cover rounded-sm transition-transform transform duration-500 ${
             animate ? "hover:scale-115" : ""
           }`}
         />
