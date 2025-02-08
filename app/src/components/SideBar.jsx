@@ -5,24 +5,51 @@ export const SideBar = ({
   categories,
   priceRange,
   setPriceRange,
-  onSelectCategory,
+  selectedCategories,
+  setSelectedCategories,
+  selectedSizes,
+  setSelectedSizes,
 }) => {
+  const sizes = [34, 36, 38, 40, 42, 44, 46];
+  const toggleCategory = (categoryTitle) => {
+    setSelectedCategories((prev) =>
+      prev.includes(categoryTitle)
+        ? prev.filter((c) => c !== categoryTitle)
+        : [...prev, categoryTitle]
+    );
+  };
+
+  const toggleSize = (sizeNumber) => {
+    setSelectedSizes((prev) =>
+      prev.includes(sizeNumber)
+        ? prev.filter((c) => c !== sizeNumber)
+        : [...prev, sizeNumber]
+    );
+  };
   return (
-    <div className="w-48 bg-white p-4 shadow-md rounded-md">
-      {/* Category List */}
-      <ul>
-        {categories.map((category) => (
-          <li
-            key={category.id}
-            className="cursor-pointer p-2 hover:bg-gray-200 rounded-md transition"
-            onClick={() => onSelectCategory(category.title)}
+    <div className="w-48 h-fit bg-white p-4 mt-5 rounded-md border-gray-200 border-2">
+      <div className="text-sm pb-2 font-medium text-gray-700">Categories</div>
+
+      {categories.map((category) => (
+        <div key={category.id} className="flex items-center">
+          <input
+            id={`category-${category.id}`}
+            type="checkbox"
+            checked={selectedCategories.includes(category.title)}
+            onChange={() => toggleCategory(category.title)}
+            className="w-5 h-5 m-1 accent-gray-800 border-black  focus:ring-black"
+          />
+          <label
+            htmlFor={`category-${category.id}`}
+            className="w-full p-1 ms-2 text-md text-gray-800 "
           >
             {category.title}
-          </li>
-        ))}
-      </ul>
+          </label>
+        </div>
+      ))}
+
       <div className="w-full max-w-md mx-auto py-6">
-        <div className="text-sm pb-2 font-medium text-gray-700">Price</div>
+        <div className="text-sm pb-2 font-medium text-gray-700">Prices</div>
         <Range
           step={100}
           min={0}
@@ -44,19 +71,41 @@ export const SideBar = ({
               {children}
             </div>
           )}
-          renderThumb={({ props: thumbProps }) => (
-            <div
-              {...thumbProps}
-              className="w-3 h-3 bg-gray-800 border-2 border-gray-800 rounded-full cursor-pointer shadow-md transform -translate-y-1/2"
-            />
-          )}
+          renderThumb={({ props: thumbProps }) => {
+            const { key, ...rest } = thumbProps;
+            return (
+              <div
+                key={key}
+                {...rest}
+                className="w-3 h-3 bg-gray-800 border-2 border-gray-800 rounded-full cursor-pointer shadow-md transform"
+              />
+            );
+          }}
         />
         <div className="flex justify-between text-sm text-gray-600 mt-2">
           <span>฿{priceRange[0]}</span>
           <span>฿{priceRange[1]}</span>
         </div>
       </div>
-      <div></div>
+      <div className="text-sm pb-2 font-medium text-gray-700">Sizes</div>
+
+      {sizes.map((index, size) => (
+        <div key={index} className="flex items-center">
+          <input
+            id={size}
+            type="checkbox"
+            checked={selectedSizes.includes(size)}
+            onChange={() => toggleSize(size)}
+            className="w-5 h-5 m-1 accent-gray-800 border-black  focus:ring-black"
+          />
+          <label
+            htmlFor={size}
+            className="w-full p-1 ms-2 text-md text-gray-800 "
+          >
+            {size}
+          </label>
+        </div>
+      ))}
     </div>
   );
 };

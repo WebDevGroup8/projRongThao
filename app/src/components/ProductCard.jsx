@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { Star, MapPin } from "lucide-react";
+import conf from "../conf/mainapi";
 
 export const ProductCard = (props) => {
   const [animate, setAnimate] = useState(false);
@@ -31,11 +32,11 @@ export const ProductCard = (props) => {
       // onClick={handleDetail}
       onMouseEnter={() => setAnimate(true)}
       onMouseLeave={() => setAnimate(false)}
-      className="bg-white rounded-md overflow-hidden border-2 border-gray-200 hover:shadow-xl transition-shadow flex flex-col p-4 h-80 justify-end"
+      className="bg-white rounded-md overflow-hidden border-2 border-gray-200 hover:shadow-xl transition-shadow flex flex-col p-4 h-75 w-54 justify-end"
     >
       <div className="relative aspect-square">
         <img
-          src={`http://localhost:1337${image}`}
+          src={`${conf.imageUrlPrefix}${image}`}
           alt={props.name}
           className={`w-64 h-44 object-cover rounded-sm transition-transform transform duration-500 ${
             animate ? "hover:scale-115" : ""
@@ -61,7 +62,7 @@ export const ProductCard = (props) => {
           </div>
         ))}
       </div>
-      <div className="flex items-center justify-between text-sm text-gray-600 mt-3">
+      <div className="flex items-center justify-between text-xs text-gray-600 mt-2">
         <div className="flex items-center">
           <Star className="text-yellow-500 w-4 h-4 mr-1 fill-yellow-500" />
           <span className="font-medium">

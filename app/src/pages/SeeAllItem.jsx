@@ -9,14 +9,14 @@ export const SeeAllItem = () => {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedSizes, setSelectedSizes] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 10000]);
 
   const fetchCategories = async () => {
     try {
       const res = await ax.get(`/categories`);
       setCategories(res.data.data);
-      console.log(res.data.data);
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
@@ -43,24 +43,32 @@ export const SeeAllItem = () => {
       product.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .filter((product) =>
-      selectedCategory
-        ? product.categories?.some(
-            (category) => category.title === selectedCategory
+      selectedCategories.length > 0
+        ? product.categories?.some((category) =>
+            selectedCategories.includes(category.title)
           )
         : true
     )
     .filter(
       (product) =>
         product.price >= priceRange[0] && product.price <= priceRange[1]
+    )
+    .filter((product) =>
+      selectedSizes.length > 0
+        ? product.size.some((size) => selectedSizes.includes(size))
+        : true
     );
 
   return (
-    <div className="flex bg-gray-50 min-h-screen p-4 px-50">
+    <div className="flex bg-gray-50 min-h-screen p-4 px-50 ">
       <SideBar
         categories={categories}
-        onSelectCategory={setSelectedCategory}
+        selectedCategories={selectedCategories}
+        setSelectedCategories={setSelectedCategories}
         priceRange={priceRange}
         setPriceRange={setPriceRange}
+        selectedSizes={selectedSizes}
+        setSelectedSizes={setSelectedSizes}
         className="p-4"
       />
       <div className="flex-1 px-4">
