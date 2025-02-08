@@ -3,23 +3,7 @@ import React, { useState, useCallback, useEffect } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
-const promotions = [
-  {
-    image:
-      "https://png.pngtree.com/template/20220330/ourmid/pngtree-new-shoes-promotion-in-simple-winter-2018-image_908218.jpg",
-    alt: "Buy More Save More",
-  },
-  {
-    image: "https://png.pngtree.com/template/20220331/ourlarge/pngtree-new-sports-shoes-promotion-rotation-banner-image_909903.jpg",
-    alt: "New Arrivals - Shop Now",
-  },
-  {
-    image: "https://png.pngtree.com/template/20220330/ourmid/pngtree-national-day-sports-shoes-promotion-rotation-banner-image_907554.jpg",
-    alt: "Free Shipping on Orders Over $50",
-  },
-]
-
-export default function PromotionCarousel() {
+export default function PromotionCarousel(props) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
     loop: true,
@@ -55,7 +39,7 @@ export default function PromotionCarousel() {
     <div className="relative">
       <div className="overflow-hidden rounded-2xl" ref={emblaRef}>
         <div className="flex">
-          {promotions.map((promo, index) => (
+          {props.promotions.map((promo, index) => (
             <div key={index} className="relative flex-[0_0_100%] min-w-0">
               <img
                 src={promo.image || "/placeholder.svg"}
@@ -93,6 +77,7 @@ export default function PromotionCarousel() {
         ))}
       </div>
     </div>
+
   )
 }
 

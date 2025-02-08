@@ -17,7 +17,7 @@ function App() {
       <AuthProvider>
         <NavigationBar />
         <Routes>
-          <Route path="/" element={<SignIn />} />
+          <Route path="/" element={<HomePage />} />
 
           <Route path="/login" element={<SignIn />} />
 
