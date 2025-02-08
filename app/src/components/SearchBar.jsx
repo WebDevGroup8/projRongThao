@@ -21,7 +21,7 @@ const SearchBar = (props) => {
       </div>
       <button
         type="button"
-        className="p-2.5 m-7 text-sm font-medium text-white bg-primarydark rounded-lg border border-primaryfade hover:bg-primaryfade focus:ring-4 focus:outline-none focus:ring-blue-300 "
+        className="p-2.5 m-7 text-md font-medium text-blue bg-primaryblue rounded-lg   border border-primaryfade hover:bg-primaryfade"
       >
         <svg
           className="w-4 h-4"

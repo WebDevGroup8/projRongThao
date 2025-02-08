@@ -17,7 +17,7 @@ export const ProductCard = (props) => {
       // onClick={handleDetail}
       onMouseEnter={() => setAnimate(true)}
       onMouseLeave={() => setAnimate(false)}
-      className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow flex flex-col justify-between p-2"
+      className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow flex flex-col justify-between p-2 h-85"
     >
       <div className="relative aspect-square">
         <img
