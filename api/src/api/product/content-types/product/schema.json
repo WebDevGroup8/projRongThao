@@ -57,6 +57,12 @@
       "relation": "manyToMany",
       "target": "api::category.category",
       "inversedBy": "products"
+    },
+    "soldCount": {
+      "type": "integer",
+      "default": 1,
+      "required": true,
+      "min": 1
     }
   }
 }

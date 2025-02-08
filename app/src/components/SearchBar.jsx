@@ -21,7 +21,7 @@ const SearchBar = (props) => {
       </div>
 
       <svg
-        className="absolute top-34 left-188 w-4 h-4"
+        className="absolute top-34 left-200 w-4 h-4"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

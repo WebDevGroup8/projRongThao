@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import { Star, MapPin } from "lucide-react";
 
 export const ProductCard = (props) => {
   const [animate, setAnimate] = useState(false);
+
   const navigate = useNavigate();
 
   const image = props.image[0].url;
@@ -29,7 +31,7 @@ export const ProductCard = (props) => {
       // onClick={handleDetail}
       onMouseEnter={() => setAnimate(true)}
       onMouseLeave={() => setAnimate(false)}
-      className="bg-white rounded-md overflow-hidden border-2 border-gray-200 hover:shadow-xl transition-shadow flex flex-col p-4 h-70"
+      className="bg-white rounded-md overflow-hidden border-2 border-gray-200 hover:shadow-xl transition-shadow flex flex-col p-4 h-80 justify-end"
     >
       <div className="relative aspect-square">
         <img
@@ -40,8 +42,8 @@ export const ProductCard = (props) => {
           }`}
         />
         <div>
-          <h3 className="text-sm  mt-2">{props.name}</h3>
-          <div className="flex flex-row font-bold text-sm text-[#213555] transition-all duration-500 ">
+          <h3 className="text-md  mt-2">{props.name}</h3>
+          <div className="flex flex-row font-bold text-md text-[#213555] transition-all duration-500 ">
             ฿ {props.price}
           </div>
         </div>
@@ -58,6 +60,24 @@ export const ProductCard = (props) => {
             {category.title}
           </div>
         ))}
+      </div>
+      <div className="flex items-center justify-between text-sm text-gray-600 mt-3">
+        <div className="flex items-center">
+          <Star className="text-yellow-500 w-4 h-4 mr-1 fill-yellow-500" />
+          <span className="font-medium">
+            {/* {props.rating} */}
+            4.5
+          </span>
+
+          <span className="ml-1 text-gray-500">
+            {/* {props.reviews.length} */}
+            (5.1k Reviews)
+          </span>
+        </div>
+        <span>
+          {/* {props.soldCount}  */}
+          2.51k Solds
+        </span>
       </div>
     </div>
   );

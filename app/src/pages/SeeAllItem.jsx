@@ -10,6 +10,7 @@ export const SeeAllItem = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [priceRange, setPriceRange] = useState([0, 10000]);
 
   const fetchCategories = async () => {
     try {
@@ -23,7 +24,9 @@ export const SeeAllItem = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await ax.get(`/products?populate=image&populate=categories`);
+      const res = await ax.get(
+        `/products?populate=image&populate=categories&populate=reviews`
+      );
       setProducts(res.data.data);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -45,6 +48,10 @@ export const SeeAllItem = () => {
             (category) => category.title === selectedCategory
           )
         : true
+    )
+    .filter(
+      (product) =>
+        product.price >= priceRange[0] && product.price <= priceRange[1]
     );
 
   return (
@@ -52,6 +59,8 @@ export const SeeAllItem = () => {
       <SideBar
         categories={categories}
         onSelectCategory={setSelectedCategory}
+        priceRange={priceRange}
+        setPriceRange={setPriceRange}
         className="p-4"
       />
       <div className="flex-1 px-4">
@@ -75,6 +84,9 @@ export const SeeAllItem = () => {
                   size={product.size}
                   color={product.color}
                   categories={product.categories}
+                  soldCount={product.soldCount}
+                  reviews={product.reviews}
+                  rating={product.rating}
                 />
               </motion.div>
             ))}
