@@ -8,7 +8,7 @@
     "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -32,10 +32,16 @@
     },
     "address": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "order_product": {
       "type": "json"
+    },
+    "stripeId": {
+      "type": "text"
+    },
+    "email": {
+      "type": "email"
     }
   }
 }
