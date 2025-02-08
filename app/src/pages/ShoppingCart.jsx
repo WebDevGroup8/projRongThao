@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useState } from "react"
 
 export default function ShoppingCart() {
-  //TODO: Implement the shopping cart
   const [cartItems, setCartItems] = useState([
     {
       id: 1,
@@ -27,91 +26,128 @@ export default function ShoppingCart() {
       size: "44 EU",
       image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeJQeJyzgAzTEVqXiGe90RGBFhfp_4RcJJMQ&s",
     },
-  ]);
+    {
+      id: 3,
+      name: "Valorant Shoes",
+      price: 8000,
+      quantity: 1,
+      size: "44 EU",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeJQeJyzgAzTEVqXiGe90RGBFhfp_4RcJJMQ&s",
+    }, {
+      id: 3,
+      name: "Valorant Shoes",
+      price: 8000,
+      quantity: 1,
+      size: "44 EU",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeJQeJyzgAzTEVqXiGe90RGBFhfp_4RcJJMQ&s",
+    },
+  ])
 
   const updateQuantity = (id, change) => {
     setCartItems((items) =>
-      items.map((item) => (item.id === id ? { ...item, quantity: Math.max(1, item.quantity + change) } : item))
-    );
-  };
+      items.map((item) => (item.id === id ? { ...item, quantity: Math.max(1, item.quantity + change) } : item)),
+    )
+  }
 
   const removeItem = (id) => {
-    setCartItems((items) => items.filter((item) => item.id !== id));
-  };
+    setCartItems((items) => items.filter((item) => item.id !== id))
+  }
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const shipping = 150;
-  const discountPercentage = 10;
-  const discount = subtotal * (discountPercentage / 100);
-  const total = subtotal + shipping - discount;
+  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  let shipping = 0;
+  let discountPercentage = 0;
+  let discount = 0;
+  let total = subtotal;
+
+  if (cartItems.length !== 0) {
+    shipping = 150;
+    discountPercentage = 10;
+    discount = subtotal * (discountPercentage / 100);
+    total = subtotal + shipping - discount;
+  }
 
   return (
-    <>
+    <div className="min-h-screen bg-gray-100">
       {/* Main Content */}
       <main className="max-w-7xl mx-auto py-8 px-4">
-        <h2 className="text-2xl font-semibold mb-6">Item in cart</h2>
+        <h2 className="text-xl font-bold text-gray-800 mb-8">🛒 Your Shopping Cart</h2>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
-            {cartItems.map((item) => (
-              <div key={item.id} className="bg-white p-4 rounded-lg shadow flex items-center">
-                <img
-                  src={item.image || "/placeholder.svg"}
-                  alt={item.name}
-                  className="w-24 h-24 object-cover rounded-md"
-                />
-                <div className="flex-1 ml-4">
-                  <h3 className="font-semibold">{item.name}</h3>
-                  <p className="text-sm text-gray-500">Size: {item.size}</p>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <div className="flex flex-col items-center">
-                    <button onClick={() => updateQuantity(item.id, 1)} className="p-1 hover:bg-gray-100 rounded">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </button>
-                    <span className="mx-2">{item.quantity}</span>
-                    <button onClick={() => updateQuantity(item.id, -1)} className="p-1 hover:bg-gray-100 rounded">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-semibold">{item.price * item.quantity} THB</p>
-                  </div>
-                  <button onClick={() => removeItem(item.id)} className="p-1 hover:text-red-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path
-                        fillRule="evenodd"
-                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </div>
+            {cartItems.length === 0 ? (
+              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
+                <p className="text-xl font-semibold text-gray-600">Your cart is empty</p>
+                <p className="text-gray-500 mt-2">Add some items to get started!</p>
               </div>
-            ))}
+            ) : (
+              cartItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="bg-white p-4 sm:p-6 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 flex flex-col sm:flex-row items-center border border-gray-100"
+                >
+                  <img
+                    src={item.image || "/placeholder.svg"}
+                    alt={item.name}
+                    className="w-24 h-24 object-cover rounded-md mb-4 sm:mb-0"
+                  />
+                  <div className="flex-1 ml-0 sm:ml-4 text-center sm:text-left">
+                    <h3 className="font-semibold">{item.name}</h3>
+                    <p className="text-sm text-gray-500">Size: {item.size}</p>
+                  </div>
+                  <div className="flex items-center space-x-15 mt-4 sm:mt-0 ">
+                    <div className="flex items-center">
+                    <button onClick={() => updateQuantity(item.id, 1)} className="p-1 hover:bg-gray-200 rounded">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                      <span className="mx-3">{item.quantity}</span>
+                      <button onClick={() => updateQuantity(item.id, -1)} className="p-1 hover:bg-gray-200 rounded">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>                     
+                    </div>
+                    <div className="text-right">
+                      <p className="font-semibold">{item.price * item.quantity} THB</p>
+                    </div>
+                    <button onClick={() => removeItem(item.id)} className="p-1 text-red-400 hover:bg-red-500 hover:text-white transition rounded">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
 
           {/* Summary */}
@@ -124,6 +160,7 @@ export default function ShoppingCart() {
                   <span className="font-semibold">{subtotal} THB</span>
                 </div>
                 <div className="flex justify-between">
+
                   <span>Shipping</span>
                   <span className="font-semibold">{shipping} THB</span>
                 </div>
@@ -144,7 +181,14 @@ export default function ShoppingCart() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-md"
                   placeholder="Promo code"
                 />
-                <button className="w-full px-4 py-2 bg-blue-500 border border-transparent rounded-md text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <button
+                  className={`w-full px-4 py-2 bg-blue-500 border border-transparent rounded-md text-sm font-medium text-white ${
+                    cartItems.length === 0
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  }`}
+                  disabled={cartItems.length === 0}
+                >
                   Checkout →
                 </button>
               </div>
@@ -152,6 +196,7 @@ export default function ShoppingCart() {
           </div>
         </div>
       </main>
-    </>
-  );
+    </div>
+  )
 }
+
