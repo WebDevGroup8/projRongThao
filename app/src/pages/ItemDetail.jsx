@@ -11,13 +11,13 @@ import { useState } from "react";
 export const ExampleImg = ({ img, shoeName }) => {
   const [key, setKey] = useState(0);
   return (
-    <div className="relative flex flex-col w-full lg:w-1/2 h-80 mt-2">
+    <div className="relative flex flex-col w-full lg:w-full h-80 mt-2 items-center ">
       {/* Shoe Name - Stays Above the Image on Mobile */}
-      <p className=" mb-10 text-xl font-bold lg:text-white lg:absolute">
+      <p className=" mb-10 text-xl font-bold lg:hidden lg:absolute">
         {shoeName}
       </p>
 
-      <div className="relative w-full lg:w-80 lg:flex-row flex justify-center lg:mb-5 lg:ml-10 lg:mt-10">
+      <div className="relative w-full flex justify-center lg:w-80 lg:flex-row lg:justify-center lg:mb-5 lg:ml-10 lg:mt-10  ">
         {key > 0 && (
           <button
             className="lg:-start-18 t-0 absolute start-5 flex items-center h-full"
@@ -45,7 +45,7 @@ export const ExampleImg = ({ img, shoeName }) => {
         )}
       </div>
 
-      <div className="w-full justify-start lg:ml-10 lg:mt-0 flex flex-row gap-3 mt-8 ">
+      <div className="w-full justify-center lg:ml-10 lg:mt-0 flex flex-wrap gap-3 mt-8  ">
         {img?.map((image, index) => (
           <button
             key={index}
@@ -96,10 +96,11 @@ export const Tag = ({ text }) => {
   return (
     <div className="flex flex-wrap gap-3">
       {text?.map((text, index) => (
-        <div className=" text-center w-fit p-3 py-1 rounded-md border-folid bg-blue-950">
-          <p key={index} className="text-center text-white font-semibold">
-            {text}
-          </p>
+        <div
+          key={index}
+          className=" text-center w-fit p-3 py-1 rounded-md border-folid bg-blue-950"
+        >
+          <p className="text-center text-white font-semibold">{text}</p>
         </div>
       ))}
 
@@ -150,7 +151,7 @@ export default function ItemDetail() {
   return (
     <div className="space-y-5 h-full w-full flex-wrap p-10 lg:px-60 lg:py-12">
       <div className="lg:flex lg:flex-row lg:justify-between ">
-        <div>
+        <div className="lg:w-full">
           <ExampleImg
             shoeName="Unisex สกอลล์ รุ่น Sprinter Plus"
             img={[
@@ -207,7 +208,7 @@ export default function ItemDetail() {
                 <p>Colors</p>
                 <button
                   onClick={() => setIsOpenColor(!IsOpenColor)}
-                  class="font-light text-black border-1 bg-white  focus:ring-1 focus:outline-none focus:ring-black rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+                  className="font-light text-black border-1 bg-white  focus:ring-1 focus:outline-none focus:ring-black rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
                   type="button"
                 >
                   {color}
