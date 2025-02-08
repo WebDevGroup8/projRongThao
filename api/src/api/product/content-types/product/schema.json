@@ -42,16 +42,6 @@
     "stock": {
       "type": "integer"
     },
-    "category": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::category.category",
-      "inversedBy": "products"
-    },
-    "NEW": {
-      "type": "boolean",
-      "default": true
-    },
     "rating": {
       "type": "decimal",
       "default": 0
@@ -61,6 +51,12 @@
       "relation": "oneToMany",
       "target": "api::review.review",
       "mappedBy": "product"
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::category.category",
+      "inversedBy": "products"
     }
   }
 }

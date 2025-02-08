@@ -7,6 +7,18 @@ export const ProductCard = (props) => {
 
   const image = props.image[0].url;
 
+  const categoryColors = {
+    limited: "bg-yellow-100 text-yellow-800 border-yellow-400",
+    new: "bg-green-100 text-green-800 border-green-400",
+    "on sale": "bg-red-100 text-red-800 border-red-400",
+    sport: "bg-gray-100 text-gray-800 border-gray-400",
+    "high top": "bg-purple-100 text-purple-800 border-purple-400",
+    "mid top": "bg-indigo-100 text-indigo-800 border-indigo-400",
+    "low top": "bg-blue-100 text-blue-800 border-blue-400",
+    platform: "bg-orange-100 text-orange-800 border-orange-400",
+    heel: "bg-teal-100 text-teal-800 border-teal-400",
+  };
+
   // TODO : navigate to product detail page
   // const handleDetail = () => {
   //   navigate(`/product-detail/${props.id}`);
@@ -17,27 +29,35 @@ export const ProductCard = (props) => {
       // onClick={handleDetail}
       onMouseEnter={() => setAnimate(true)}
       onMouseLeave={() => setAnimate(false)}
-      className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow flex flex-col justify-between p-2 h-85"
+      className="bg-white rounded-md overflow-hidden border-2 border-gray-200 hover:shadow-xl transition-shadow flex flex-col p-4 h-70"
     >
       <div className="relative aspect-square">
         <img
           src={`http://localhost:1337${image}`}
           alt={props.name}
-          className={`w-64 h-48 object-cover rounded-xl transition-transform transform duration-500 ${
+          className={`w-64 h-40 object-cover rounded-sm transition-transform transform duration-500 ${
             animate ? "hover:scale-115" : ""
           }`}
         />
         <div>
-          <h3 className="font-semibold text-lg  mt-2">{props.name}</h3>
-          <div className="flex items-center mt-1">
-            <span className="text-md text-gray-800">
-              Size: {props.size.join(",")}
-            </span>
+          <h3 className="text-sm  mt-2">{props.name}</h3>
+          <div className="flex flex-row font-bold text-sm text-[#213555] transition-all duration-500 ">
+            ฿ {props.price}
           </div>
         </div>
       </div>
-      <div className="flex flex-row mt-2 font-bold text-xl text-[#213555] transition-all duration-500 ">
-        ฿ {props.price}
+      <div className="flex flex-wrap">
+        {props.categories.map((category) => (
+          <div
+            key={category.title}
+            className={`text-xs font-medium me-2 px-2.5 mt-1 rounded-sm w-fit border ${
+              categoryColors[category.title.toLowerCase()] ||
+              "bg-gray-100 text-gray-800 border-gray-400"
+            }`}
+          >
+            {category.title}
+          </div>
+        ))}
       </div>
     </div>
   );

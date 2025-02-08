@@ -15,6 +15,7 @@ export const SeeAllItem = () => {
     try {
       const res = await ax.get(`/categories`);
       setCategories(res.data.data);
+      console.log(res.data.data);
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
@@ -22,7 +23,7 @@ export const SeeAllItem = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await ax.get(`/products?populate=image&populate=category`);
+      const res = await ax.get(`/products?populate=image&populate=categories`);
       setProducts(res.data.data);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -39,11 +40,15 @@ export const SeeAllItem = () => {
       product.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .filter((product) =>
-      selectedCategory ? product.category?.title === selectedCategory : true
+      selectedCategory
+        ? product.categories?.some(
+            (category) => category.title === selectedCategory
+          )
+        : true
     );
 
   return (
-    <div className="flex bg-gray-100 min-h-screen p-4 px-50">
+    <div className="flex bg-gray-50 min-h-screen p-4 px-50">
       <SideBar
         categories={categories}
         onSelectCategory={setSelectedCategory}
@@ -51,7 +56,7 @@ export const SeeAllItem = () => {
       />
       <div className="flex-1 px-4">
         <SearchBar onSearch={(term) => setSearchTerm(term)} />
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           <AnimatePresence>
             {filteredProducts.map((product, index) => (
               <motion.div
@@ -69,7 +74,7 @@ export const SeeAllItem = () => {
                   stock={product.stock}
                   size={product.size}
                   color={product.color}
-                  NEW={product.NEW}
+                  categories={product.categories}
                 />
               </motion.div>
             ))}
