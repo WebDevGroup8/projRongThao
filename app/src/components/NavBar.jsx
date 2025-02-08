@@ -1,11 +1,10 @@
-
 import React from "react";
 
 export default function NavigationBar() {
   return (
-    <div className="bg-blue-900" l>
-      <div className="max-w-screen-lg flex flex-row items-center justify-between mx-auto py-2">
-        {/* Logo Section */}
+    <div className="bg-blue-900" >
+      {/* <div className="max-w-screen-lg flex flex-row items-center justify-between mx-auto py-2">
+     
         <div className="w-fit text-xs">
           <p className="flex items-center space-x-3 rtl:space-x-reverse">
             <button
@@ -109,7 +108,7 @@ export default function NavigationBar() {
             <a className="hover:underline">LOGOUT</a>
           </button>
         </div>
-      </div>
+      </div> */}
       <div className=" max-w-screen-lg flex flex-row items-center justify-between gap-11 mx-auto py-1">
         <div className="w-fit">
           <a className="flex items-center space-x-3 rtl:space-x-reverse">

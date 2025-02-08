@@ -6,6 +6,7 @@ import { HomePage } from "./pages/HomePage";
 import { DashBoard } from "./pages/DashBoard";
 import ShoppingCart from "./pages/shoppingCart";
 import NavigationBar from "./components/NavBar";
+import ItemDetail from "./pages/ItemDetail";
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
         <Route path="/admin/dashboard" element={<DashBoard />} />
 
         <Route path="/customer/Cart" element={<ShoppingCart />} />
+
+        <Route path="/customer/itemdetail" element={<ItemDetail/>}/>
+
       </Routes>
     </div>
   );
