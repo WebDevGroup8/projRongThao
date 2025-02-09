@@ -12,6 +12,7 @@ export const SeeAllItem = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 10000]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const fetchCategories = async () => {
     try {
@@ -60,7 +61,7 @@ export const SeeAllItem = () => {
     );
 
   return (
-    <div className="flex bg-gray-50 min-h-screen p-4 px-50 ">
+    <div className="flex flex-col lg:flex-row bg-gray-50 min-h-screen p-4">
       <SideBar
         categories={categories}
         selectedCategories={selectedCategories}
@@ -69,10 +70,18 @@ export const SeeAllItem = () => {
         setPriceRange={setPriceRange}
         selectedSizes={selectedSizes}
         setSelectedSizes={setSelectedSizes}
-        className="p-4"
+        className="h-full overflow-y-auto"
       />
-      <div className="flex-1 px-4">
-        <SearchBar onSearch={(term) => setSearchTerm(term)} />
+      <div className="flex-1 px-4 ">
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-4 ">
+          <button
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="mb-4 sm:mb-0 lg:hidden text-gray-800 bg-white border-2 border-gray-300 p-2 rounded-md"
+          >
+            {isSidebarOpen ? "Close Filters" : "Open Filters"}
+          </button>
+          <SearchBar onSearch={(term) => setSearchTerm(term)} />
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           <AnimatePresence>
             {filteredProducts.map((product, index) => (

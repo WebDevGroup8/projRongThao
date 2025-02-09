@@ -29,9 +29,9 @@ export const SideBar = ({
   };
 
   return (
-    <div className="w-25 lg:w-48 h-fit bg-white p-4 mt-5 rounded-md border border-gray-200 shadow-md">
-      <div className="text-sm pb-2 font-medium text-gray-700">Categories</div>
-      <div className="space-y-2">
+    <div className="w-4/12 lg:w-48 h-fit bg-white p-4 mt-5 rounded-md border border-gray-200 shadow-md">
+      <div className="text-md pb-2 font-medium text-gray-900">Categories</div>
+      <div className="grid grid-cols-1 gap-2">
         {categories.map((category) => (
           <label key={category.id} className="flex items-center gap-2">
             <input
@@ -46,7 +46,7 @@ export const SideBar = ({
       </div>
 
       <div className="py-6">
-        <div className="text-sm pb-2 font-medium text-gray-700">Prices</div>
+        <div className="text-md pb-2 font-medium text-gray-900">Prices</div>
         <Range
           step={100}
           min={0}
@@ -79,13 +79,13 @@ export const SideBar = ({
             );
           }}
         />
-        <div className="flex justify-between text-sm text-gray-600 mt-2">
+        <div className="flex justify-between text-sm text-gray-700 mt-2">
           <span>฿{priceRange[0]}</span>
           <span>฿{priceRange[1]}</span>
         </div>
       </div>
 
-      <div className="text-sm pb-2 font-medium text-gray-700">Sizes</div>
+      <div className="text-md pb-2 font-medium text-gray-900">Sizes</div>
       <div className="grid grid-cols-1 gap-2">
         {sizes.map((size, index) => (
           <label key={index} className="flex items-center gap-2">
