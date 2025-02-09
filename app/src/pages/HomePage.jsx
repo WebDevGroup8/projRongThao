@@ -62,14 +62,14 @@ export const HomePage = () => {
         fetchProducts();
     }, []);
     return (
-        <div className="flex flex-col px-1 lg:px-40 w-full pt-1 gap-4 lg:gap-10 lg:pt-10 ">
+        <div className="flex flex-col px-1 w-full pt-1 gap-4 lg:gap-10 lg:pt-10 ">
             <div className="lg:flex lg:flex-row hidden">
                 <PromotionCarousel promotions={promotionsL} />
             </div>
             <div className="flex flex-row lg:hidden">
                 <PromotionCarousel promotions={promotionsP} />
             </div>
-            <div className="lg:flex lg:flex-row lg:flex-wrap lg:justify-center lg:gap-6 hidden">
+            <div className="lg:flex lg:flex-row lg:flex-wrap lg:justify-center lg:gap-10 hidden">
                 {categories.map((item, index) => (
                     <ClickableCard key={index} {...item} />
                 ))}
