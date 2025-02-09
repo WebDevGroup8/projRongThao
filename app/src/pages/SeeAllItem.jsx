@@ -80,7 +80,7 @@ export const SeeAllItem = () => {
         <div className="flex flex-col sm:flex-row justify-between items-center w-full mb-4">
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="mb-4 sm:mb-0 lg:hidden text-gray-800 bg-white border-2 border-gray-300 p-2 rounded-md"
+            className="mt-5 sm:mb-0 lg:hidden text-gray-800 bg-white border-2 border-gray-300 p-2 rounded-md"
           >
             {isSidebarOpen ? "Close Filters" : "Open Filters"}
           </button>
