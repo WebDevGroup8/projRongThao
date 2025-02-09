@@ -2,8 +2,9 @@ import { useNavigate } from "react-router";
 import { useAuth } from "./useAuth";
 import { useEffect } from "react";
 import Loading from "../components/Loading";
+import NavigationBar from "../components/NavBar";
 
-export const ProtectedStudentRoute = ({ children }) => {
+export const ProtectedCustomerRoute = ({ children }) => {
   const { isLoginPending, user } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
@@ -17,8 +18,8 @@ export const ProtectedStudentRoute = ({ children }) => {
     ) : (
       <>
         <div className="container mt-20 text-center ">
-          <p className="text-4xl font-bold mb-5">You must Login as Student!</p>
-          <a href="/teacher/dashboard" className=" text-xl underline">
+          <p className="text-4xl font-bold mb-5">You must Login as Customer!</p>
+          <a href="/admin/dashboard" className=" text-xl underline">
             Go Back
           </a>
         </div>
@@ -26,8 +27,11 @@ export const ProtectedStudentRoute = ({ children }) => {
     );
   }
   return (
-    <div className="max-w-screen-lg flex flex-wrap items-center justify-between mx-auto ">
-      {children}
+    <div>
+      <NavigationBar />
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto border-2">
+        {children}
+      </div>
     </div>
   );
 };
