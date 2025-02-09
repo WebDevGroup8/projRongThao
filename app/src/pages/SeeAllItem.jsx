@@ -4,6 +4,7 @@ import ax from "../conf/ax";
 import { ProductCard } from "../components/ProductCard";
 import { SideBar } from "../components/SideBar";
 import SearchBar from "../components/SearchBar";
+import { Link } from "react-router-dom";
 
 export const SeeAllItem = () => {
   const [categories, setCategories] = useState([]);
@@ -98,7 +99,21 @@ export const SeeAllItem = () => {
                 exit={{ opacity: 0, y: 50 }}
                 transition={{ duration: 0.4, ease: "easeInOut" }}
               >
-                <ProductCard {...product} />
+                <Link to={`/customer/product/${product.id}`}>
+                  <ProductCard
+                    image={product.image}
+                    name={product.name}
+                    description={product.description}
+                    price={product.price}
+                    stock={product.stock}
+                    size={product.size}
+                    color={product.color}
+                    categories={product.categories}
+                    soldCount={product.soldCount}
+                    reviews={product.reviews}
+                    rating={product.rating}
+                  />
+                </Link>
               </motion.div>
             ))}
           </AnimatePresence>
