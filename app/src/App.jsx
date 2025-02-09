@@ -11,6 +11,7 @@ import { AuthProvider } from "./context/useAuth";
 import { SeeAllItem } from "./pages/SeeAllItem";
 import Test from "./components/Test";
 import Payment from "./components/Payment";
+import ViewOrder from "./pages/ViewOrder";
 
 function App() {
   return (
@@ -29,6 +30,8 @@ function App() {
           <Route path="/customer/itemdetail" element={<ItemDetail />} />
 
           <Route path="/customer/cart" element={<ShoppingCart />} />
+
+          <Route path="/customer/vieworder" element={<ViewOrder />} />
 
           <Route path="/customer/seeallitem" element={<SeeAllItem />} />
           {/* TODO: remove this route and change to some order view with handle payment status */}
