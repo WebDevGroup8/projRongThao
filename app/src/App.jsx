@@ -11,6 +11,7 @@ import { AuthProvider } from "./context/useAuth";
 import { SeeAllItem } from "./pages/SeeAllItem";
 import Test from "./components/Test";
 import Payment from "./components/Payment";
+import ProductDetail from "./pages/ProductDetail";
 
 function App() {
   return (
@@ -26,7 +27,9 @@ function App() {
 
           <Route path="/admin/dashboard" element={<DashBoard />} />
 
-          <Route path="/customer/itemdetail" element={<ItemDetail />} />
+          <Route path="/customer/itemdetail/" element={<ItemDetail />} />
+
+          <Route path="/customer/product/:id" element={<ProductDetail />} />
 
           <Route path="/customer/cart" element={<ShoppingCart />} />
 
