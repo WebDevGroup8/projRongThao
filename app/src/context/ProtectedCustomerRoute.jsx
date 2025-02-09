@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 import { useAuth } from "./useAuth";
 import { useEffect } from "react";
 import Loading from "../components/Loading";
+import NavigationBar from "../components/NavBar";
 
 export const ProtectedCustomerRoute = ({ children }) => {
   const { isLoginPending, user } = useAuth();
@@ -26,8 +27,11 @@ export const ProtectedCustomerRoute = ({ children }) => {
     );
   }
   return (
-    <div className="max-w-screen-lg flex flex-wrap items-center justify-between mx-auto ">
-      {children}
+    <div>
+      <NavigationBar />
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto ">
+        {children}
+      </div>
     </div>
   );
 };

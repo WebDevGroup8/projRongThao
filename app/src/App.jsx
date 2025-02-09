@@ -18,7 +18,6 @@ function App() {
   return (
     <div className="w-full h-full">
       <AuthProvider>
-        <NavigationBar />
         <Routes>
 
           <Route
