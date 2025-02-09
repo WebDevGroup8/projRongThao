@@ -38,7 +38,7 @@ export const SideBar = ({
               type="checkbox"
               checked={selectedCategories.includes(category.title)}
               onChange={() => toggleCategory(category.title)}
-              className="w-5 h-5 accent-gray-800 border-black focus:ring-black"
+              className="w-4 h-4 accent-gray-800 border-black focus:ring-black"
             />
             <span className="text-md text-gray-800">{category.title}</span>
           </label>
@@ -93,7 +93,7 @@ export const SideBar = ({
               type="checkbox"
               checked={selectedSizes.includes(size)}
               onChange={() => toggleSize(size)}
-              className="w-5 h-5 accent-gray-800 border-black focus:ring-black"
+              className="w-4 h-4 accent-gray-800 border-black focus:ring-black"
             />
             <span className="text-md text-gray-800">{size}</span>
           </label>
