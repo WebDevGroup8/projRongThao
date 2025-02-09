@@ -66,8 +66,8 @@ export default function ShoppingCart() {
       items.map((item) =>
         item.id === id
           ? { ...item, quantity: Math.max(1, item.quantity + change) }
-          : item
-      )
+          : item,
+      ),
     );
   };
 
@@ -77,7 +77,7 @@ export default function ShoppingCart() {
 
   const subtotal = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
-    0
+    0,
   );
   let shipping = 0;
   let discountPercentage = 0;
@@ -116,20 +116,20 @@ export default function ShoppingCart() {
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto py-8 px-4">
-        <h2 className="text-xl font-bold text-gray-800 mb-8">
+      <main className="mx-auto max-w-7xl px-4 py-8">
+        <h2 className="mb-8 text-xl font-bold text-gray-800">
           🛒 Your Shopping Cart
         </h2>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid gap-8 lg:grid-cols-3">
           {/* Cart Items */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="space-y-4 lg:col-span-2">
             {cartItems.length === 0 ? (
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
+              <div className="rounded-lg bg-white p-6 text-center shadow-sm">
                 <p className="text-xl font-semibold text-gray-600">
                   Your cart is empty
                 </p>
-                <p className="text-gray-500 mt-2">
+                <p className="mt-2 text-gray-500">
                   Add some items to get started!
                 </p>
               </div>
@@ -137,22 +137,22 @@ export default function ShoppingCart() {
               cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white p-4 sm:p-6 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200 flex flex-col sm:flex-row items-center border border-gray-100"
+                  className="flex flex-col items-center rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition-shadow duration-200 hover:shadow-lg sm:flex-row sm:p-6"
                 >
                   <img
                     src={item.image || "/placeholder.svg"}
                     alt={item.name}
-                    className="w-24 h-24 object-cover rounded-md mb-4 sm:mb-0"
+                    className="mb-4 h-24 w-24 rounded-md object-cover sm:mb-0"
                   />
-                  <div className="flex-1 ml-0 sm:ml-4 text-center sm:text-left">
+                  <div className="ml-0 flex-1 text-center sm:ml-4 sm:text-left">
                     <h3 className="font-semibold">{item.name}</h3>
                     <p className="text-sm text-gray-500">Size: {item.size}</p>
                   </div>
-                  <div className="flex items-center space-x-15 mt-4 sm:mt-0 ">
+                  <div className="mt-4 flex items-center space-x-15 sm:mt-0">
                     <div className="flex items-center">
                       <button
                         onClick={() => updateQuantity(item.id, 1)}
-                        className="p-1 hover:bg-gray-200 rounded"
+                        className="rounded p-1 hover:bg-gray-200"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -170,7 +170,7 @@ export default function ShoppingCart() {
                       <span className="mx-3">{item.quantity}</span>
                       <button
                         onClick={() => updateQuantity(item.id, -1)}
-                        className="p-1 hover:bg-gray-200 rounded"
+                        className="rounded p-1 hover:bg-gray-200"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -193,7 +193,7 @@ export default function ShoppingCart() {
                     </div>
                     <button
                       onClick={() => removeItem(item.id)}
-                      className="p-1 text-red-400 hover:bg-red-500 hover:text-white transition rounded"
+                      className="rounded p-1 text-red-400 transition hover:bg-red-500 hover:text-white"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -216,8 +216,8 @@ export default function ShoppingCart() {
 
           {/* Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h3 className="text-xl font-semibold mb-4">Summary</h3>
+            <div className="rounded-lg bg-white p-6 shadow">
+              <h3 className="mb-4 text-xl font-semibold">Summary</h3>
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span>Sub Total</span>
@@ -233,7 +233,7 @@ export default function ShoppingCart() {
                     {discountPercentage} %
                   </span>
                 </div>
-                <div className="pt-3 border-t">
+                <div className="border-t pt-3">
                   <div className="flex justify-between">
                     <span className="font-semibold">Total</span>
                     <span className="font-semibold">{total} THB</span>
@@ -243,15 +243,15 @@ export default function ShoppingCart() {
               <div className="mt-6 space-y-3">
                 <input
                   type="text"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  className="w-full rounded-md border border-gray-300 px-4 py-2"
                   placeholder="Promo code"
                 />
                 <button
                   onClick={handlePayment}
-                  className={`w-full px-4 py-2 bg-blue-500 border border-transparent rounded-md text-sm font-medium text-white ${
+                  className={`w-full rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white ${
                     cartItems.length === 0
-                      ? "opacity-50 cursor-not-allowed"
-                      : "hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                      ? "cursor-not-allowed opacity-50"
+                      : "hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
                   }`}
                   disabled={cartItems.length === 0}
                 >
