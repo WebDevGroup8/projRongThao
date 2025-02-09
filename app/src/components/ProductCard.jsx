@@ -32,7 +32,7 @@ export const ProductCard = (props) => {
       // onClick={handleDetail}
       onMouseEnter={() => setAnimate(true)}
       onMouseLeave={() => setAnimate(false)}
-      className="flex flex-col bg-white rounded-md overflow-hidden border-2 border-gray-200 hover:shadow-xl transition-shadow p-4  justify-between min-h-70 lg:min-h-93"
+      className="flex flex-col bg-white rounded-md overflow-hidden border-2 border-gray-200 hover:shadow-xl transition-shadow px-4 py-1 pb-4  justify-between min-h-70 lg:min-h-90"
     >
       <div>
         <img

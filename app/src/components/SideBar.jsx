@@ -29,7 +29,7 @@ export const SideBar = ({
   };
 
   return (
-    <div className="w-4/12 lg:w-48 h-fit bg-white p-4 mt-5 rounded-md border border-gray-200 shadow-md fixed lg:absolute z-50">
+    <div className="w-4/12 lg:w-48 h-fit bg-white p-4 mt-5 rounded-md border border-gray-200 shadow-md fixed top-10 lg:top-24.5 lg:absolute z-50">
       <div className="text-md pb-2 font-medium text-gray-900">Categories</div>
       <div className="grid grid-cols-1 gap-2">
         {categories.map((category) => (
