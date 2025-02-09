@@ -11,6 +11,8 @@ import { AuthProvider } from "./context/useAuth";
 import { SeeAllItem } from "./pages/SeeAllItem";
 import Test from "./components/Test";
 import Payment from "./components/Payment";
+import { ProtectedCustomerRoute } from "./context/ProtectedCustomerRoute";
+import { ProtectedAdminRoute } from "./context/ProtectedAdminRoute";
 
 function App() {
   return (
@@ -18,22 +20,75 @@ function App() {
       <AuthProvider>
         <NavigationBar />
         <Routes>
-          <Route path="/" element={<HomePage />} />
 
-          <Route path="/login" element={<SignIn />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedCustomerRoute>
+                <HomePage />
+              </ProtectedCustomerRoute>
+            } />
 
-          <Route path="/customer/homepage" element={<HomePage />} />
+          <Route
+            path="/login"
+            element={
+              <SignIn />
+            } />
 
-          <Route path="/admin/dashboard" element={<DashBoard />} />
+          <Route
+            path="/customer/homepage"
+            element={
+              <ProtectedCustomerRoute>
+                <HomePage />
+              </ProtectedCustomerRoute>
+            } />
 
-          <Route path="/customer/itemdetail" element={<ItemDetail />} />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedAdminRoute>
+                <DashBoard />
+              </ProtectedAdminRoute>
+            } />
 
-          <Route path="/customer/cart" element={<ShoppingCart />} />
+          <Route
+            path="/customer/itemdetail"
+            element={
+              <ProtectedCustomerRoute>
+                <ItemDetail />
+              </ProtectedCustomerRoute>
+            } />
 
-          <Route path="/customer/seeallitem" element={<SeeAllItem />} />
+          <Route
+            path="/customer/cart"
+            element={
+              <ProtectedCustomerRoute>
+                <ShoppingCart />
+              </ProtectedCustomerRoute>
+            } />
+
+          <Route
+            path="/customer/seeallitem"
+            element={
+              <ProtectedCustomerRoute>
+                <SeeAllItem />
+              </ProtectedCustomerRoute>
+            } />
           {/* TODO: remove this route and change to some order view with handle payment status */}
-          <Route path="/payment" element={<Payment />} />
-          <Route path="/test" element={<Test />} />
+          <Route
+            path="/payment"
+            element={
+              <ProtectedCustomerRoute>
+                <Payment />
+              </ProtectedCustomerRoute>
+            } />
+          <Route
+            path="/test"
+            element={
+              <ProtectedCustomerRoute>
+                <Test />
+              </ProtectedCustomerRoute>
+            } />
         </Routes>
       </AuthProvider>
     </div>
