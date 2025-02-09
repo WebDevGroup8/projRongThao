@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Star, MapPin } from "lucide-react";
 import conf from "../conf/mainapi";
 
@@ -22,14 +22,13 @@ export const ProductCard = (props) => {
     heel: "bg-teal-100 text-teal-800 border-teal-400",
   };
 
-  // TODO : navigate to product detail page
-  // const handleDetail = () => {
-  //   navigate(`/product-detail/${props.id}`);
-  // };
+  const handleDetail = () => {
+    navigate(`/customer/product/${props.id}`);
+  };
 
   return (
     <div
-      // onClick={handleDetail}
+      onClick={handleDetail}
       onMouseEnter={() => setAnimate(true)}
       onMouseLeave={() => setAnimate(false)}
       className="flex flex-col bg-white rounded-md overflow-hidden border-2 border-gray-200 hover:shadow-xl transition-shadow px-4 py-1 pb-4  justify-between min-h-70 lg:min-h-90"
