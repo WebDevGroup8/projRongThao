@@ -14,9 +14,9 @@ export default function SignIn() {
 
     useEffect(() => {
         if (user) {
-            if (user.role === "CUSTOMER") {
+            if (user.role === "customer") {
                 navigate("/customer/homepage", { replace: true });
-            } else if (user.role === "ADMIN") {
+            } else if (user.role === "admin") {
                 navigate("/admin/dashboard", { replace: true });
             }
         }
@@ -97,7 +97,7 @@ export default function SignIn() {
                                 {errMsg && <div className="text-red-500 text-sm">{errMsg}</div>}
                                 <button
                                     type="submit"
-                                    className=" w-full text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 "
+                                    className=" w-full text-white bg-gradient-to-r bg-primary hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-500 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 "
                                 >
                                     Sign in
                                 </button>
