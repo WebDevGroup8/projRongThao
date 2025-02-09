@@ -98,7 +98,20 @@ export const SeeAllItem = () => {
                 exit={{ opacity: 0, y: 50 }}
                 transition={{ duration: 0.4, ease: "easeInOut" }}
               >
-                <ProductCard {...product} />
+                <ProductCard
+                  id={product.id}
+                  image={product.image}
+                  name={product.name}
+                  description={product.description}
+                  price={product.price}
+                  stock={product.stock}
+                  size={product.size}
+                  color={product.color}
+                  categories={product.categories}
+                  soldCount={product.soldCount}
+                  reviews={product.reviews}
+                  rating={product.rating}
+                />
               </motion.div>
             ))}
           </AnimatePresence>
