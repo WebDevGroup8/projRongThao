@@ -32,7 +32,7 @@ export const ProductCard = (props) => {
       // onClick={handleDetail}
       onMouseEnter={() => setAnimate(true)}
       onMouseLeave={() => setAnimate(false)}
-      className="flex flex-col bg-white rounded-md overflow-hidden border-2 border-gray-200 hover:shadow-xl transition-shadow p-3 justify-between min-h-80 lg:min-h-95"
+      className="flex flex-col bg-white rounded-md overflow-hidden border-2 border-gray-200 hover:shadow-xl transition-shadow p-4  justify-between min-h-70 lg:min-h-93"
     >
       <div>
         <img
@@ -43,8 +43,8 @@ export const ProductCard = (props) => {
           }`}
         />
         <div className="mt-2">
-          <h3 className="text-md mb-2">{props.name}</h3>
-          <p className="text-md font-bold text-[#213555] mb-2">
+          <h3 className="text-sm lg:text-md mb-2">{props.name}</h3>
+          <p className="text-sm lg:text-md font-bold text-[#213555] mb-2">
             ฿{props.price}
           </p>
         </div>
@@ -52,7 +52,7 @@ export const ProductCard = (props) => {
           {props.categories.map((category) => (
             <div
               key={category.title}
-              className={`px-2 py-1 bg-gray-200 text-gray-700 text-xs font-medium rounded-full ${
+              className={`px-1 py-0.5 lg:px-2 lg:py-1 bg-gray-200 text-gray-700 text-xs font-medium rounded-full ${
                 categoryColors[category.title.toLowerCase()] ||
                 "bg-gray-100 text-gray-800 border-gray-400"
               }`}
@@ -62,7 +62,7 @@ export const ProductCard = (props) => {
           ))}
         </div>
       </div>
-      <div className="flex flex-row justify-between text-xs text-gray-600 mt-2">
+      <div className="flex flex-row justify-between text-xs text-gray-600 mt-1">
         <div className="flex ">
           <Star className="w-4 h-4 text-yellow-400 mr-1" />
           <span>

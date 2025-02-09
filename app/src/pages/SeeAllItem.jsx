@@ -12,7 +12,7 @@ export const SeeAllItem = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 10000]);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const fetchCategories = async () => {
     try {
@@ -61,19 +61,23 @@ export const SeeAllItem = () => {
     );
 
   return (
-    <div className="flex flex-col lg:flex-row bg-gray-50 min-h-screen p-4">
-      <SideBar
-        categories={categories}
-        selectedCategories={selectedCategories}
-        setSelectedCategories={setSelectedCategories}
-        priceRange={priceRange}
-        setPriceRange={setPriceRange}
-        selectedSizes={selectedSizes}
-        setSelectedSizes={setSelectedSizes}
-        className="h-full overflow-y-auto"
-      />
-      <div className="flex-1 px-4 ">
-        <div className="flex flex-col sm:flex-row justify-between items-center mb-4 ">
+    <div className="flex bg-gray-50 min-h-screen p-4">
+      {isSidebarOpen && (
+        <div className="flex-shrink-0">
+          <SideBar
+            categories={categories}
+            selectedCategories={selectedCategories}
+            setSelectedCategories={setSelectedCategories}
+            priceRange={priceRange}
+            setPriceRange={setPriceRange}
+            selectedSizes={selectedSizes}
+            setSelectedSizes={setSelectedSizes}
+          />
+        </div>
+      )}
+
+      <div className="flex flex-col items-center w-full max-w-screen-lg mx-auto">
+        <div className="flex flex-col sm:flex-row justify-between items-center w-full mb-4">
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             className="mb-4 sm:mb-0 lg:hidden text-gray-800 bg-white border-2 border-gray-300 p-2 rounded-md"
@@ -82,9 +86,11 @@ export const SeeAllItem = () => {
           </button>
           <SearchBar onSearch={(term) => setSearchTerm(term)} />
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+
+        {/* Grid แสดงสินค้า */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full">
           <AnimatePresence>
-            {filteredProducts.map((product, index) => (
+            {filteredProducts.map((product) => (
               <motion.div
                 key={product.id}
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -92,19 +98,7 @@ export const SeeAllItem = () => {
                 exit={{ opacity: 0, y: 50 }}
                 transition={{ duration: 0.4, ease: "easeInOut" }}
               >
-                <ProductCard
-                  image={product.image}
-                  name={product.name}
-                  description={product.description}
-                  price={product.price}
-                  stock={product.stock}
-                  size={product.size}
-                  color={product.color}
-                  categories={product.categories}
-                  soldCount={product.soldCount}
-                  reviews={product.reviews}
-                  rating={product.rating}
-                />
+                <ProductCard {...product} />
               </motion.div>
             ))}
           </AnimatePresence>
