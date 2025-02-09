@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Range } from "react-range";
 
 export const SideBar = ({
@@ -11,6 +11,7 @@ export const SideBar = ({
   setSelectedSizes,
 }) => {
   const sizes = [34, 36, 38, 40, 42, 44, 46];
+
   const toggleCategory = (categoryTitle) => {
     setSelectedCategories((prev) =>
       prev.includes(categoryTitle)
@@ -26,30 +27,26 @@ export const SideBar = ({
         : [...prev, sizeNumber]
     );
   };
+
   return (
-    <div className="w-48 h-fit bg-white p-4 mt-5 rounded-md border-gray-200 border-2">
-      <div className="text-sm pb-2 font-medium text-gray-700">Categories</div>
-
-      {categories.map((category) => (
-        <div key={category.id} className="flex items-center">
-          <input
-            id={`category-${category.id}`}
-            type="checkbox"
-            checked={selectedCategories.includes(category.title)}
-            onChange={() => toggleCategory(category.title)}
-            className="w-5 h-5 m-1 accent-gray-800 border-black  focus:ring-black"
-          />
-          <label
-            htmlFor={`category-${category.id}`}
-            className="w-full p-1 ms-2 text-md text-gray-800 "
-          >
-            {category.title}
+    <div className="w-4/12 lg:w-48 h-fit bg-white p-4 mt-5 rounded-md border border-gray-200 shadow-md fixed top-10 md:top-35 lg:top-24.5 lg:absolute z-50">
+      <div className="text-md pb-2 font-medium text-gray-900">Categories</div>
+      <div className="grid grid-cols-1 gap-2">
+        {categories.map((category) => (
+          <label key={category.id} className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={selectedCategories.includes(category.title)}
+              onChange={() => toggleCategory(category.title)}
+              className="w-4 h-4 accent-gray-800 border-black focus:ring-black"
+            />
+            <span className="text-md text-gray-800">{category.title}</span>
           </label>
-        </div>
-      ))}
+        ))}
+      </div>
 
-      <div className="w-full max-w-md mx-auto py-6">
-        <div className="text-sm pb-2 font-medium text-gray-700">Prices</div>
+      <div className="py-6">
+        <div className="text-md pb-2 font-medium text-gray-900">Prices</div>
         <Range
           step={100}
           min={0}
@@ -59,7 +56,7 @@ export const SideBar = ({
           renderTrack={({ props: trackProps, children }) => (
             <div
               {...trackProps}
-              className="h-2 bg-gray-200 rounded-full relative"
+              className="h-2 bg-gray-200 rounded-full relative touch-none"
             >
               <div
                 className="absolute h-2 bg-gradient-to-r from-sky-500 to-indigo-500 rounded-full"
@@ -77,35 +74,31 @@ export const SideBar = ({
               <div
                 key={key}
                 {...rest}
-                className="w-3 h-3 bg-gray-800 border-2 border-gray-800 rounded-full cursor-pointer shadow-md transform"
+                className="w-4 h-4 bg-gray-800 border-2 border-gray-800 rounded-full cursor-pointer shadow-md transform"
               />
             );
           }}
         />
-        <div className="flex justify-between text-sm text-gray-600 mt-2">
+        <div className="flex justify-between text-sm text-gray-700 mt-2">
           <span>฿{priceRange[0]}</span>
           <span>฿{priceRange[1]}</span>
         </div>
       </div>
-      <div className="text-sm pb-2 font-medium text-gray-700">Sizes</div>
 
-      {sizes.map((size, index) => (
-        <div key={index} className="flex items-center">
-          <input
-            id={size}
-            type="checkbox"
-            checked={selectedSizes.includes(size)}
-            onChange={() => toggleSize(size)}
-            className="w-5 h-5 m-1 accent-gray-800 border-black  focus:ring-black"
-          />
-          <label
-            htmlFor={size}
-            className="w-full p-1 ms-2 text-md text-gray-800 "
-          >
-            {size}
+      <div className="text-md pb-2 font-medium text-gray-900">Sizes</div>
+      <div className="grid grid-cols-1 gap-2">
+        {sizes.map((size, index) => (
+          <label key={index} className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={selectedSizes.includes(size)}
+              onChange={() => toggleSize(size)}
+              className="w-4 h-4 accent-gray-800 border-black focus:ring-black"
+            />
+            <span className="text-md text-gray-800">{size}</span>
           </label>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
