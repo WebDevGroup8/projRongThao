@@ -12,7 +12,6 @@ export const SeeAllItem = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 10000]);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const fetchCategories = async () => {
     try {
