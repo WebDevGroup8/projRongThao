@@ -29,7 +29,7 @@ export const ProtectedCustomerRoute = ({ children }) => {
   return (
     <div>
       <NavigationBar />
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto border-2">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto ">
         {children}
       </div>
     </div>
