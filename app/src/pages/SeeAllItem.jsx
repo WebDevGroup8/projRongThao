@@ -12,7 +12,6 @@ export const SeeAllItem = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 10000]);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const fetchCategories = async () => {
     try {
@@ -61,9 +60,8 @@ export const SeeAllItem = () => {
     );
 
   return (
-    <div className="flex bg-gray-50 min-h-screen p-4">
-      {isSidebarOpen && (
-        <div className="flex-shrink-0">
+    <div className="flex bg-gray-50 min-h-screen">
+        <div className=" hidden lg:flex w-fit flex-shrink-0">
           <SideBar
             categories={categories}
             selectedCategories={selectedCategories}
@@ -74,21 +72,25 @@ export const SeeAllItem = () => {
             setSelectedSizes={setSelectedSizes}
           />
         </div>
-      )}
-
+       
       <div className="flex flex-col items-center w-full max-w-screen-lg mx-auto">
-        <div className="flex flex-col sm:flex-row justify-between items-center w-full mb-4">
-          <button
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="mt-5 sm:mb-0 lg:hidden text-gray-800 bg-white border-2 border-gray-300 p-2 rounded-md"
-          >
-            {isSidebarOpen ? "Close Filters" : "Open Filters"}
-          </button>
+      <div className=" lg:hidden w-full flex-shrink-0">
+          <SideBar
+            categories={categories}
+            selectedCategories={selectedCategories}
+            setSelectedCategories={setSelectedCategories}
+            priceRange={priceRange}
+            setPriceRange={setPriceRange}
+            selectedSizes={selectedSizes}
+            setSelectedSizes={setSelectedSizes}
+          />
+        </div>
+        <div className="flex flex-col sm:flex-row justify-between items-center w-full mb-4 px-3 lg:px-1">
           <SearchBar onSearch={(term) => setSearchTerm(term)} />
         </div>
 
         {/* Grid แสดงสินค้า */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full px-3 lg:px-1">
           <AnimatePresence>
             {filteredProducts.map((product) => (
               <motion.div
