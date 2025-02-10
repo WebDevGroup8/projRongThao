@@ -6,7 +6,10 @@ import {
   Minus,
   Plus,
 } from "lucide-react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import ax from "../conf/ax";
+import { useParams } from "react-router-dom";
+import conf from "../conf/mainapi";
 
 export const ExampleImg = ({ img, shoeName }) => {
   const [key, setKey] = useState(0);
@@ -27,7 +30,7 @@ export const ExampleImg = ({ img, shoeName }) => {
           </button>
         )}
         <img
-          src={img[key]}
+          src={`${conf.imageUrlPrefix}${img[key]}`}
           alt="รองเท้า"
           className="w-50 h-50 lg:w-80 lg:h-80 object-cover border-4 border-gray-300 rounded-2xl "
         />
@@ -53,7 +56,7 @@ export const ExampleImg = ({ img, shoeName }) => {
             onClick={() => setKey(index)}
           >
             <img
-              src={image}
+              src={`${conf.imageUrlPrefix}${image}`}
               alt="รองเท้า"
               className="w-fit h-fit object-cover rounded-xl"
             />
@@ -147,29 +150,70 @@ export default function ItemDetail() {
   const [IsOpenColor, setIsOpenColor] = useState(false);
   const [size, setSize] = useState("Value");
   const [color, setColor] = useState("Value");
+  const [product, setProduct] = useState(null);
+  const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  return (
+
+      const { id } = useParams();
+
+      const fetchProduct = async () => {
+        try {
+          setIsLoading(true);
+
+
+          const response = await ax.get(
+            `/products?populate=image&populate=categories&filters[id]=${id}`
+          );
+          setProduct(response.data.data[0]);
+          console.log(response.data.data[0])
+        
+          setImages(response.data.data[0].image);
+          console.log(response.data.data[0].image)
+
+        } catch (error) {
+          console.error("Error fetching product:", error);
+        }
+        finally {
+          setIsLoading(false);
+        }
+    
+      };
+    
+      useEffect(() => {
+        fetchProduct();
+      }, [id]);
+    
+  
+
+  return isLoading ? <div>loading</div> : (
     <div className="space-y-5 h-full w-full flex-wrap p-10 lg:px-60 lg:py-12">
       <div className="lg:flex lg:flex-row lg:justify-between ">
         <div className="lg:w-full">
+      
           <ExampleImg
             shoeName="Unisex สกอลล์ รุ่น Sprinter Plus"
-            img={[
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTD1cNiw_n7sItJoy44v8jclD11baK1HQGcB5mMHE_7P0dwtr72zg2fLeyd4dDYaKtMp0M&usqp=CAU",
-              "https://image.makewebeasy.net/makeweb/m_1920x0/bAHmwaCEf/Content/what_is_safety_shoes.png",
-              "https://mpics.mgronline.com/pics/Images/564000003615401.JPEG",
-            ]}
+            img={images.map((image)=>(
+              image.url
+
+            ))
+            
+            }
           />
         </div>
         <div className="flex flex-col gap-5 lg:w-1/2">
-          <Detail
-            shoeName="Unisex สกอลล์ รุ่น Sprinter Plus"
-            country="Bangkok Thailand"
-            solds={2500}
-            price={469}
-            disCountPrice={399}
-          />
-          <Tag text={["รองเท้าผ้าใบ", "-15%"]} />
+        {
+          <Detail   
+          country = "Thailand"
+          solds = {product.soldCount}
+          price = "1000"
+          disCountPrice = {product.price}
+          shoeName = {product.name}/>
+       
+        }
+    <Tag text={product.categories.map((category)=>(category.title
+                    ))} />
+
 
           <div className="flex flex-col gap-10">
             <div className="flex flex-row justify-between gap-12">
@@ -188,7 +232,7 @@ export default function ItemDetail() {
                 {IsOpenSize && (
                   <div className="absolute bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 top-full mt-1">
                     <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
-                      {["7", "7.5", "8.5", "9"].map((item, index) => (
+                      {product.size.map((item, index) => (
                         <li key={index}>
                           <a
                             className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -220,7 +264,7 @@ export default function ItemDetail() {
                 {IsOpenColor && (
                   <div className="absolute bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 top-full mt-1">
                     <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
-                      {["Black", "White", "Blue"].map((item, index) => (
+                      {product.color.map((item, index) => (
                         <li key={index}>
                           <a
                             className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"

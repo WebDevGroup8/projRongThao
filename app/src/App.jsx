@@ -14,7 +14,6 @@ import Payment from "./components/Payment";
 import ViewOrder from "./pages/ViewOrder";
 import { ProtectedCustomerRoute } from "./context/ProtectedCustomerRoute";
 import { ProtectedAdminRoute } from "./context/ProtectedAdminRoute";
-import ProductDetail from "./pages/ProductDetail";
 
 function App() {
   return (
@@ -53,20 +52,13 @@ function App() {
             } />
 
           <Route
-            path="/customer/itemdetail"
+            path="/customer/itemdetail/:id"
             element={
               <ProtectedCustomerRoute>
                 <ItemDetail />
               </ProtectedCustomerRoute>
             } />
 
-          <Route
-            path="/customer/product/:id"
-            element={
-              <ProtectedCustomerRoute>
-                <ProductDetail />
-              </ProtectedCustomerRoute>
-            } />
 
           <Route
             path="/customer/cart"
