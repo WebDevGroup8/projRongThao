@@ -11,6 +11,7 @@ import { AuthProvider } from "./context/useAuth";
 import { SeeAllItem } from "./pages/SeeAllItem";
 import Test from "./components/Test";
 import Payment from "./components/Payment";
+import ViewOrder from "./pages/ViewOrder";
 import { ProtectedCustomerRoute } from "./context/ProtectedCustomerRoute";
 import { ProtectedAdminRoute } from "./context/ProtectedAdminRoute";
 import ProductDetail from "./pages/ProductDetail";
@@ -74,7 +75,13 @@ function App() {
                 <ShoppingCart />
               </ProtectedCustomerRoute>
             } />
-
+          <Route
+            path="/customer/vieworder"
+            element={
+              <ProtectedCustomerRoute>
+                <ViewOrder />
+              </ProtectedCustomerRoute>
+            } />
           <Route
             path="/customer/seeallitem"
             element={
