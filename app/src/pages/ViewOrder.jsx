@@ -30,13 +30,13 @@ export const GroupViewCard = (props) => {
 
   return (
     <div>
-      {orderItems.map((item) => (
+      {orderItems?.map((item) => (
         <div
           key={item.id}
-          className=" bg-white rounded-lg shadow-sm h transition-shadow  flex flex-col border border-gray-300 px-5 pt-2 pb-10 mt-5 lg:px-10"
+          className=" bg-white rounded-lg shadow-sm h transition-shadow  flex flex-col border border-gray-300 px-5 pt-2 pb-10 mt-5 lg:px-10 lg:pb-10"
         >
-          <div className="flex flex-col h-full lg:flex-row ">
-            <div className="flex flex-col relative ">
+          <div className="flex flex-col h-full lg:flex-row lg:pb-10 lg:pt-5">
+            <div className="flex flex-col relative lg:pe-90">
               <div className="text-2xl lg:text-4xl whitespace-nowrap">
                 Order #{item.id}
               </div>
@@ -46,7 +46,7 @@ export const GroupViewCard = (props) => {
                 )}
               </div>
             </div>
-            <div className="lg:justify-center flex flex-col relative w-full h-full justify-center items-center mt-4 ">
+            <div className="lg:justify-center flex flex-col relative w-full  h-full justify-center items-center mt-4 ">
               <div className="flex w-60 lg:w-120 h-5 justify-center items-center">
                 {item.orderStatus === "Shipped" && (
                   <hr className="transition-normal  border-5 rounded-2xl border-blue-700 w-full" />
@@ -84,6 +84,7 @@ export const GroupViewCard = (props) => {
               )}
             </div>
           </div>
+          
           <ViewOrderCard item={item.order_product} />
         </div>
       ))}
@@ -93,8 +94,8 @@ export const GroupViewCard = (props) => {
 
 export const ViewOrderCard = ({ item }) => {
   return (
-    <div className="lg:flex lg:gap-0 lg:flex-wrap lg:justify-between mt-2">
-      {item.map((item) => (
+    <div className="lg:flex lg:gap-0 lg:flex-wrap lg:justify-between lg:px-18 mt-2">
+      {item?.map((item) => (
         <div
           key={item.id}
           className=" w-full mt-2 gap-5 lg:w-110 lg:flex lg:justify-between"
@@ -164,7 +165,7 @@ export default function ViewOrder() {
   const [active, setActive] = useState("To Ship");
 
   return (
-    <div className="p-10 lg:px-60">
+    <div className="p-10 ">
       <div className="flex flex-col relative w-full">
         <div className="lg:text-5xl text-2xl font-semibold lg:mb-3 mb-1">
           Your Order

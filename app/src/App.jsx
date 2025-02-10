@@ -12,6 +12,9 @@ import { SeeAllItem } from "./pages/SeeAllItem";
 import Test from "./components/Test";
 import Payment from "./components/Payment";
 import ViewOrder from "./pages/ViewOrder";
+import { ProtectedCustomerRoute } from "./context/ProtectedCustomerRoute";
+import { ProtectedAdminRoute } from "./context/ProtectedAdminRoute";
+import ProductDetail from "./pages/ProductDetail";
 
 function App() {
   return (
@@ -58,13 +61,27 @@ function App() {
             } />
 
           <Route
+            path="/customer/product/:id"
+            element={
+              <ProtectedCustomerRoute>
+                <ProductDetail />
+              </ProtectedCustomerRoute>
+            } />
+
+          <Route
             path="/customer/cart"
             element={
               <ProtectedCustomerRoute>
                 <ShoppingCart />
               </ProtectedCustomerRoute>
             } />
-
+          <Route
+            path="/customer/vieworder"
+            element={
+              <ProtectedCustomerRoute>
+                <ViewOrder />
+              </ProtectedCustomerRoute>
+            } />
           <Route
             path="/customer/seeallitem"
             element={
