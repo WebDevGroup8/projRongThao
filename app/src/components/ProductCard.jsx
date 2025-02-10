@@ -23,7 +23,7 @@ export const ProductCard = (props) => {
   };
 
   const handleDetail = () => {
-    navigate(`/customer/product/${props.id}`);
+    navigate(`/customer/itemdetail/${props.id}`);
   };
 
   return (
