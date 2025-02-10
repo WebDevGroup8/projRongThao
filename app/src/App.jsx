@@ -13,6 +13,7 @@ import Test from "./components/Test";
 import Payment from "./components/Payment";
 import { ProtectedCustomerRoute } from "./context/ProtectedCustomerRoute";
 import { ProtectedAdminRoute } from "./context/ProtectedAdminRoute";
+import ProductDetail from "./pages/ProductDetail";
 
 function App() {
   return (
@@ -55,6 +56,14 @@ function App() {
             element={
               <ProtectedCustomerRoute>
                 <ItemDetail />
+              </ProtectedCustomerRoute>
+            } />
+
+          <Route
+            path="/customer/product/:id"
+            element={
+              <ProtectedCustomerRoute>
+                <ProductDetail />
               </ProtectedCustomerRoute>
             } />
 

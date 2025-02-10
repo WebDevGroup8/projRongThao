@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "../context/useAuth";
 import React from "react";
+import {useNavigate } from "react-router"
 
 const UserDetails = React.memo(({ user, logout }) => {
   if (!user) return null;
@@ -30,6 +31,16 @@ const UserDetails = React.memo(({ user, logout }) => {
 });
 
 export default function NavigationBar() {
+  const navigate = useNavigate()
+
+const handleAllItem = () => {
+  navigate(`/customer/seeallitem`);
+};
+
+const handleHome = () => {
+  navigate(`/customer/homepage`);
+};
+
   const { user, logout } = useAuth();
   return (
     <div className="bg-primary flex flex-col justify-center w-full">
@@ -54,13 +65,14 @@ export default function NavigationBar() {
         <div className="w-fit text-xs">
           <p className="flex items-center space-x-3 rtl:space-x-reverse">
             <button
+            onClick={()=>{ handleHome() }}
               type="button"
               className="self-center whitespace-nowrap text-white"
             >
               <p className="hover:underline">HOME</p>
             </button>
             <a className="self-center whitespace-nowrap text-white">|</a>
-            <button className="self-center  whitespace-nowrap text-white">
+            <button  onClick={()=>{ handleAllItem() }}  className="self-center  whitespace-nowrap text-white">
               <p className="hover:underline">SEE ALL</p>
             </button>
           </p>
