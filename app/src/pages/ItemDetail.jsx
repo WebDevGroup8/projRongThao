@@ -182,7 +182,7 @@ export default function ItemDetail() {
       <div className="lg:flex lg:w-full lg:flex-row lg:justify-between">
         <div className="lg:w-full">
           <ExampleImg
-            shoeName="Unisex สกอลล์ รุ่น Sprinter Plus"
+            shoeName={product.name}
             img={images.map((image) => image.url)}
           />
         </div>
