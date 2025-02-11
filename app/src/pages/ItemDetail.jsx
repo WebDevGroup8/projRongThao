@@ -14,51 +14,47 @@ import conf from "../conf/mainapi";
 export const ExampleImg = ({ img, shoeName }) => {
   const [key, setKey] = useState(0);
   return (
-    <div className="relative flex flex-col w-full lg:w-full h-80 mt-2 items-center ">
+    <div className="relative mt-2 flex h-80 w-full flex-col items-center lg:w-full">
       {/* Shoe Name - Stays Above the Image on Mobile */}
-      <p className=" mb-10 text-xl font-bold lg:hidden lg:absolute">
+      <p className="mb-10 text-xl font-bold lg:absolute lg:hidden">
         {shoeName}
       </p>
 
-      <div className="relative w-full flex justify-center lg:w-80 lg:flex-row lg:justify-center lg:mb-5 lg:ml-10 lg:mt-10  ">
+      <div className="relative flex w-full justify-center lg:mt-10 lg:mb-5 lg:w-100 lg:flex-row lg:justify-center">
         {key > 0 && (
           <button
-            className="lg:-start-18 t-0 absolute start-5 flex items-center h-full"
+            className="t-0 absolute start-5 flex h-full items-center lg:-start-18"
             onClick={() => setKey(key - 1)}
           >
-            <ChevronLeft size={80} strokeWidth={2} className="text-gray-400 " />
+            <ChevronLeft size={80} strokeWidth={2} className="text-gray-400" />
           </button>
         )}
         <img
           src={`${conf.imageUrlPrefix}${img[key]}`}
           alt="รองเท้า"
-          className="w-50 h-50 lg:w-80 lg:h-80 object-cover border-4 border-gray-300 rounded-2xl "
+          className="h-50 w-50 rounded-2xl border-4 border-gray-300 object-cover lg:h-100 lg:w-full"
         />
         {key < img.length - 1 && (
           <button
-            className="lg:-end-18 absolute end-5 top-1/2 -translate-y-1/2"
+            className="absolute end-5 top-1/2 -translate-y-1/2 lg:-end-18"
             onClick={() => setKey(key + 1)}
           >
-            <ChevronRight
-              size={80}
-              strokeWidth={2}
-              className="text-gray-400 "
-            />
+            <ChevronRight size={80} strokeWidth={2} className="text-gray-400" />
           </button>
         )}
       </div>
 
-      <div className="w-full justify-center lg:ml-10 lg:mt-0 flex flex-wrap gap-3 mt-8  ">
+      <div className="mt-8 flex w-full flex-wrap justify-center gap-3 lg:mt-0">
         {img?.map((image, index) => (
           <button
             key={index}
-            className="w-15 h-15 lg:h-fit object-cover border-2 border-gray-300 rounded-xl focus:ring-1 focus:outline-none focus:ring-black"
+            className="h-15 w-15 rounded-xl border-2 border-gray-300 object-cover focus:ring-1 focus:ring-black focus:outline-none lg:h-fit"
             onClick={() => setKey(index)}
           >
             <img
               src={`${conf.imageUrlPrefix}${image}`}
               alt="รองเท้า"
-              className="w-fit h-fit object-cover rounded-xl"
+              className="aspect-square h-fit w-fit rounded-xl object-cover"
             />
           </button>
         ))}
@@ -71,7 +67,7 @@ export const Detail = ({ country, solds, price, disCountPrice, shoeName }) => {
   return (
     <div className="mt-12 flex flex-col lg:mt-0 lg:gap-2">
       <div className="lg:mb-7">
-        <p className=" text-xl font-bold lg:text-black text-white lg:text-2xl">
+        <p className="text-xl font-bold text-white lg:text-2xl lg:text-black">
           {shoeName}
         </p>
       </div>
@@ -82,8 +78,8 @@ export const Detail = ({ country, solds, price, disCountPrice, shoeName }) => {
       </div>
 
       {/* Location & Sold Info */}
-      <div className="flex flex-row gap-9 ">
-        <div className="gap-2 flex flex-row">
+      <div className="flex flex-row gap-9">
+        <div className="flex flex-row gap-2">
           <MapPinned />
           <p>{country}</p>
         </div>
@@ -101,27 +97,27 @@ export const Tag = ({ text }) => {
       {text?.map((text, index) => (
         <div
           key={index}
-          className=" text-center w-fit p-3 py-1 rounded-md border-folid bg-blue-950"
+          className="border-folid w-fit rounded-md bg-blue-950 p-3 py-1 text-center"
         >
-          <p className="text-center text-white font-semibold">{text}</p>
+          <p className="text-center font-semibold text-white">{text}</p>
         </div>
       ))}
 
-      <p className="text-center text-white font-semibold">{text}</p>
+      <p className="text-center font-semibold text-white">{text}</p>
     </div>
   );
 };
 
 export const Description = ({ description }) => {
-  const [isOpenDescription, setIsOpenDescription] = useState(false);
+  const [isOpenDescription, setIsOpenDescription] = useState(true);
   return (
-    <div className="relative flex flex-col gap-2 text-center justify-center ">
-      <hr className=" my-0 bg-primarydark border-1"></hr>
+    <div className="relative flex flex-col justify-center gap-2 text-center">
+      <hr className="bg-primarydark my-0 border-1"></hr>
       <button
         type="button"
         onClick={() => setIsOpenDescription(!isOpenDescription)}
       >
-        <div className="flex flex-row w-full hover:text-blue-600">
+        <div className="flex w-full flex-row hover:text-blue-600">
           <div className="w-full justify-center hover:underline">
             Description
           </div>
@@ -129,10 +125,10 @@ export const Description = ({ description }) => {
           {isOpenDescription && <Minus />}
         </div>
       </button>
-      {isOpenDescription && <hr className=" my-0 bg-primarydark border-1"></hr>}
+      {isOpenDescription && <hr className="bg-primarydark my-0 border-1"></hr>}
 
       {isOpenDescription && (
-        <div className="flex flex-wrap w-fit text-left px-6 text-sm">
+        <div className="flex w-fit flex-wrap px-6 text-left text-sm">
           {description.split("\n").map((line, index) => (
             <p key={index} className="mb-2">
               {line}
@@ -140,7 +136,7 @@ export const Description = ({ description }) => {
           ))}
         </div>
       )}
-      <hr className=" my-0 bg-primarydark border-1"></hr>
+      <hr className="bg-primarydark my-0 border-1"></hr>
     </div>
   );
 };
@@ -154,88 +150,75 @@ export default function ItemDetail() {
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const { id } = useParams();
 
-      const { id } = useParams();
+  const fetchProduct = async () => {
+    try {
+      setIsLoading(true);
 
-      const fetchProduct = async () => {
-        try {
-          setIsLoading(true);
+      const response = await ax.get(
+        `/products?populate=image&populate=categories&filters[id]=${id}`,
+      );
+      setProduct(response.data.data[0]);
+      console.log(response.data.data[0]);
 
+      setImages(response.data.data[0].image);
+      console.log(response.data.data[0].image);
+    } catch (error) {
+      console.error("Error fetching product:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-          const response = await ax.get(
-            `/products?populate=image&populate=categories&filters[id]=${id}`
-          );
-          setProduct(response.data.data[0]);
-          console.log(response.data.data[0])
-        
-          setImages(response.data.data[0].image);
-          console.log(response.data.data[0].image)
+  useEffect(() => {
+    fetchProduct();
+  }, [id]);
 
-        } catch (error) {
-          console.error("Error fetching product:", error);
-        }
-        finally {
-          setIsLoading(false);
-        }
-    
-      };
-    
-      useEffect(() => {
-        fetchProduct();
-      }, [id]);
-    
-  
-
-  return isLoading ? <div>loading</div> : (
-    <div className="space-y-5 h-full w-full flex-wrap p-10 lg:px-60 lg:py-12">
-      <div className="lg:flex lg:flex-row lg:justify-between ">
+  return isLoading ? (
+    <div>loading</div>
+  ) : (
+    <div className="mb-20 h-full w-full flex-wrap space-y-5 lg:mb-10 lg:px-20 lg:py-10">
+      <div className="lg:flex lg:w-full lg:flex-row lg:justify-between">
         <div className="lg:w-full">
-      
           <ExampleImg
-            shoeName="Unisex สกอลล์ รุ่น Sprinter Plus"
-            img={images.map((image)=>(
-              image.url
-
-            ))
-            
-            }
+            shoeName={product.name}
+            img={images.map((image) => image.url)}
           />
         </div>
-        <div className="flex flex-col gap-5 lg:w-1/2">
-        {
-          <Detail   
-          country = "Thailand"
-          solds = {product.soldCount}
-          price = "1000"
-          disCountPrice = {product.price}
-          shoeName = {product.name}/>
-       
-        }
-    <Tag text={product.categories.map((category)=>(category.title
-                    ))} />
-
+        <div className="flex flex-col gap-5 px-5 lg:w-1/2">
+          {
+            <Detail
+              country="Thailand"
+              solds={product.soldCount}
+              price="1000"
+              disCountPrice={product.price}
+              shoeName={product.name}
+            />
+          }
+          <Tag text={product.categories.map((category) => category.title)} />
 
           <div className="flex flex-col gap-10">
             <div className="flex flex-row justify-between gap-12">
-              <div className="flex flex-col relative w-84 gap-y-2">
+              <div className="relative flex w-84 flex-col gap-y-2">
                 <p>Size</p>
                 <button
                   onClick={() => setIsOpenSize(!IsOpenSize)}
-                  className="font-light text-black border-1 bg-white  focus:ring-1 focus:outline-none focus:ring-black rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+                  className="inline-flex items-center rounded-lg border-1 bg-white px-5 py-2.5 text-center text-sm font-light text-black focus:ring-1 focus:ring-black focus:outline-none"
                   type="button"
                 >
                   {size}
-                  <div className=" ms-auto">
+                  <div className="ms-auto">
                     <ChevronDown />
                   </div>
                 </button>
                 {IsOpenSize && (
-                  <div className="absolute bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 top-full mt-1">
-                    <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+                  <div className="absolute top-full mt-1 w-44 divide-y divide-gray-100 rounded-lg bg-white shadow-sm">
+                    <ul className="py-2 text-sm text-gray-700">
                       {product.size.map((item, index) => (
                         <li key={index}>
                           <a
-                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                            className="block px-4 py-2 hover:bg-gray-100"
                             onClick={() => {
                               return setSize(item), setIsOpenSize(!IsOpenSize);
                             }}
@@ -248,26 +231,26 @@ export default function ItemDetail() {
                   </div>
                 )}
               </div>
-              <div className="relative flex flex-col w-84 gap-y-2">
+              <div className="relative flex w-84 flex-col gap-y-2">
                 <p>Colors</p>
                 <button
                   onClick={() => setIsOpenColor(!IsOpenColor)}
-                  className="font-light text-black border-1 bg-white  focus:ring-1 focus:outline-none focus:ring-black rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+                  className="inline-flex items-center rounded-lg border-1 bg-white px-5 py-2.5 text-center text-sm font-light text-black focus:ring-1 focus:ring-black focus:outline-none"
                   type="button"
                 >
                   {color}
 
-                  <div className=" ms-auto">
+                  <div className="ms-auto">
                     <ChevronDown />
                   </div>
                 </button>
                 {IsOpenColor && (
-                  <div className="absolute bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 top-full mt-1">
-                    <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+                  <div className="absolute top-full mt-1 w-44 divide-y divide-gray-100 rounded-lg bg-white shadow-sm">
+                    <ul className="py-2 text-sm text-gray-700">
                       {product.color.map((item, index) => (
                         <li key={index}>
                           <a
-                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                            className="block px-4 py-2 hover:bg-gray-100"
                             onClick={() => {
                               return (
                                 setColor(item), setIsOpenColor(!IsOpenColor)
@@ -284,11 +267,11 @@ export default function ItemDetail() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-5 w-full">
-              <button className="text-white text-center text-xl px-4 py-2 rounded-md bg-blue-950 w-full">
+            <div className="flex w-full flex-col gap-5">
+              <button className="w-full rounded-md bg-blue-950 px-4 py-2 text-center text-xl text-white">
                 <p className="hover:underline">ADD TO CART</p>
               </button>
-              <button className="text-white text-center text-xl px-4 py-2 rounded-md bg-black">
+              <button className="rounded-md bg-black px-4 py-2 text-center text-xl text-white">
                 <p className="hover:underline">BUY IT NOW</p>
               </button>
             </div>
