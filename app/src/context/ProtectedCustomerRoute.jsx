@@ -17,9 +17,9 @@ export const ProtectedCustomerRoute = ({ children }) => {
       <Loading />
     ) : (
       <>
-        <div className="container mt-20 text-center ">
-          <p className="text-4xl font-bold mb-5">You must Login as Customer!</p>
-          <a href="/admin/dashboard" className=" text-xl underline">
+        <div className="container mt-20 text-center">
+          <p className="mb-5 text-4xl font-bold">You must Login as Customer!</p>
+          <a href="/admin/dashboard" className="text-xl underline">
             Go Back
           </a>
         </div>
@@ -29,7 +29,7 @@ export const ProtectedCustomerRoute = ({ children }) => {
   return (
     <div>
       <NavigationBar />
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
+      <div className="mx-auto flex max-w-screen-xl flex-wrap items-center">
         {children}
       </div>
     </div>
