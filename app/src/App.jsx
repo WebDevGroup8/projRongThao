@@ -17,23 +17,19 @@ import { ProtectedAdminRoute } from "./context/ProtectedAdminRoute";
 
 function App() {
   return (
-    <div className="w-full h-full">
+    <div className="h-full w-full">
       <AuthProvider>
         <Routes>
-
           <Route
             path="/"
             element={
               <ProtectedCustomerRoute>
                 <HomePage />
               </ProtectedCustomerRoute>
-            } />
+            }
+          />
 
-          <Route
-            path="/login"
-            element={
-              <SignIn />
-            } />
+          <Route path="/login" element={<SignIn />} />
 
           <Route
             path="/customer/homepage"
@@ -41,7 +37,8 @@ function App() {
               <ProtectedCustomerRoute>
                 <HomePage />
               </ProtectedCustomerRoute>
-            } />
+            }
+          />
 
           <Route
             path="/admin/dashboard"
@@ -49,7 +46,8 @@ function App() {
               <ProtectedAdminRoute>
                 <DashBoard />
               </ProtectedAdminRoute>
-            } />
+            }
+          />
 
           <Route
             path="/customer/itemdetail/:id"
@@ -57,8 +55,8 @@ function App() {
               <ProtectedCustomerRoute>
                 <ItemDetail />
               </ProtectedCustomerRoute>
-            } />
-
+            }
+          />
 
           <Route
             path="/customer/cart"
@@ -66,21 +64,24 @@ function App() {
               <ProtectedCustomerRoute>
                 <ShoppingCart />
               </ProtectedCustomerRoute>
-            } />
+            }
+          />
           <Route
             path="/customer/vieworder"
             element={
               <ProtectedCustomerRoute>
                 <ViewOrder />
               </ProtectedCustomerRoute>
-            } />
+            }
+          />
           <Route
             path="/customer/seeallitem"
             element={
               <ProtectedCustomerRoute>
                 <SeeAllItem />
               </ProtectedCustomerRoute>
-            } />
+            }
+          />
           {/* TODO: remove this route and change to some order view with handle payment status */}
           <Route
             path="/payment"
@@ -88,14 +89,16 @@ function App() {
               <ProtectedCustomerRoute>
                 <Payment />
               </ProtectedCustomerRoute>
-            } />
+            }
+          />
           <Route
             path="/test"
             element={
               <ProtectedCustomerRoute>
                 <Test />
               </ProtectedCustomerRoute>
-            } />
+            }
+          />
         </Routes>
       </AuthProvider>
     </div>
