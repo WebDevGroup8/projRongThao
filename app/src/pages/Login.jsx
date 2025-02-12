@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/useAuth";
 import { useNavigate } from "react-router-dom";
+import loginImage from "../assets/loginpage_img.png"; // ใช้ relative path
 
 export default function SignIn() {
     const [isLoading, setIsLoading] = useState(false);
@@ -33,10 +34,12 @@ export default function SignIn() {
     };
     return (
         !isLoading && (
-            <div className="flex flex-row w-screen h-screen">
-                <div className="flex flex-col w-full h-full bg-[url('https://schollshoesthailand.com/cdn/shop/files/3M.webp?v=1736230585&width=800')] bg-cover bg-center">
+            <div className="flex lg:flex-row flex-col w-screen h-screen">
+                <div
+                    className="flex flex-col w-full h-full bg-cover bg-center"
+                    style={{ backgroundImage: `url(${loginImage})` }}>
                 </div>
-                <div className="flex flex-col items-center justify-center px-20 py-8 mx-auto w-2/3 h-full bg-white gap-10">
+                <div className="flex flex-col items-center justify-center px-10 lg:px-20 py-8 mx-auto lg:w-2/3 w-full h-full bg-white lg:gap-10 gap-5">
                     <div className="flex flex-col">
                         <span className="italic self-center text-4xl font-bold whitespace-nowrap text-primary">
                             RONGTHAO
