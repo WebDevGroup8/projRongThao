@@ -12,15 +12,10 @@ import { useParams } from "react-router-dom";
 import conf from "../conf/mainapi";
 import Loading from "../components/Loading";
 
-export const ExampleImg = ({ img, shoeName }) => {
+export const ExampleImg = ({ img }) => {
   const [key, setKey] = useState(0);
   return (
-    <div className="relative mt-2 flex h-80 w-full flex-col items-center lg:w-full">
-      {/* Shoe Name - Stays Above the Image on Mobile */}
-      <p className="mb-10 text-xl font-bold lg:absolute lg:hidden">
-        {shoeName}
-      </p>
-
+    <div className="relative mt-4 mb-8 flex h-80 w-full flex-col items-center lg:w-full">
       <div className="relative flex w-full justify-center lg:mt-10 lg:mb-5 lg:w-100 lg:flex-row lg:justify-center">
         {key > 0 && (
           <button
@@ -33,7 +28,7 @@ export const ExampleImg = ({ img, shoeName }) => {
         <img
           src={`${conf.imageUrlPrefix}${img[key]}`}
           alt="รองเท้า"
-          className="h-50 w-50 rounded-2xl border-4 border-gray-300 object-cover lg:h-100 lg:w-full"
+          className="h-80 w-80 rounded-2xl border-4 border-gray-300 object-cover lg:h-100 lg:w-full"
         />
         {key < img.length - 1 && (
           <button
@@ -45,7 +40,7 @@ export const ExampleImg = ({ img, shoeName }) => {
         )}
       </div>
 
-      <div className="mt-8 flex w-full flex-wrap justify-center gap-3 lg:mt-0">
+      <div className="mt-4 flex w-full flex-wrap justify-center gap-3 lg:mt-0">
         {img?.map((image, index) => (
           <button
             key={index}
@@ -68,7 +63,7 @@ export const Detail = ({ country, solds, price, disCountPrice, shoeName }) => {
   return (
     <div className="mt-12 flex flex-col lg:mt-0 lg:gap-2">
       <div className="lg:mb-7">
-        <p className="text-xl font-bold text-white lg:text-2xl lg:text-black">
+        <p className="mt-2 mb-2 text-xl font-bold lg:mb-0 lg:text-2xl lg:text-black">
           {shoeName}
         </p>
       </div>
@@ -77,7 +72,6 @@ export const Detail = ({ country, solds, price, disCountPrice, shoeName }) => {
         <p className="text-3xl font-bold text-blue-950">{disCountPrice}฿</p>
         <p className="font-thin line-through">{price ? price + "฿" : ""}</p>
       </div>
-
       {/* Location & Sold Info */}
       <div className="flex flex-row gap-9">
         <div className="flex flex-row gap-2">
