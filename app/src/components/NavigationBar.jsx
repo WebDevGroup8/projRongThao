@@ -1,8 +1,10 @@
 import {
   HelpCircle,
   House,
+  LogInIcon,
   LogOut,
   Menu,
+  ReceiptText,
   Search,
   Settings,
   ShoppingCart,
@@ -16,8 +18,9 @@ const UserDetails = React.memo(({ user, logout }) => {
   if (!user) return null;
 
   return (
-    <div className="flex flex-row gap-4 bg-gradient-to-l text-white">
-      <p className="text-sm">Login as : {user.username}</p>
+    <div className="ml-4 flex flex-row gap-4 bg-gradient-to-l text-white">
+      <a className="text-normal self-center whitespace-nowrap text-white">|</a>
+      <p className="text-base">Login as : {user.username}</p>
       <a className="text-normal self-center whitespace-nowrap text-white">|</a>
       <button
         href="/#"
@@ -37,11 +40,11 @@ export default function NavigationBar() {
   const navigate = useNavigate();
 
   const handleAllItem = () => {
-    navigate(`/customer/seeallitem`);
+    navigate(`/products`);
   };
 
   const handleHome = () => {
-    navigate(`/customer/homepage`);
+    navigate(`/`);
   };
 
   const { user, logout } = useAuthStore();
@@ -52,24 +55,19 @@ export default function NavigationBar() {
         <button onClick={() => setShowMenuBar(!showMenuBar)}>
           <Menu size={24} color="white" />
         </button>
-        <div className="block w-full text-center">
-          <a
-            href="/customer/homepage"
-            className="items-center rtl:space-x-reverse"
-          >
-            <span className="self-center text-2xl font-semibold whitespace-nowrap text-white italic">
-              RONGTHAO
-            </span>
-          </a>
+        <div className="block w-full cursor-pointer text-center">
+          <span className="cursor-pointer self-center text-2xl font-semibold whitespace-nowrap text-white italic">
+            RONGTHAO
+          </span>
         </div>
-        <button>
+        <button onClick={() => navigate("/cart")}>
           <ShoppingCart size={24} color="white" />
         </button>
       </div>
 
       {/* Upper Row Section Desktop */}
       <div className="mx-auto hidden w-full max-w-screen-xl flex-row items-center justify-between px-4 pt-3 md:flex lg:px-0">
-        <div className="w-fit text-xs">
+        <div className="w-fit text-sm">
           <p className="flex items-center space-x-3 rtl:space-x-reverse">
             <button
               onClick={() => {
@@ -78,7 +76,7 @@ export default function NavigationBar() {
               type="button"
               className="self-center whitespace-nowrap text-white"
             >
-              <p className="hover:underline">HOME</p>
+              <p className="cursor-pointer hover:underline">HOME</p>
             </button>
             <a className="self-center whitespace-nowrap text-white">|</a>
             <button
@@ -87,26 +85,43 @@ export default function NavigationBar() {
               }}
               className="self-center whitespace-nowrap text-white"
             >
-              <p className="hover:underline">SEE ALL</p>
+              <p className="cursor-pointer hover:underline">SEE ALL PRODUCT</p>
             </button>
           </p>
         </div>
 
-        <div className="flex w-fit flex-row gap-3 text-xs text-white">
-          <button type="button" className="flex flex-row items-center gap-1">
-            <HelpCircle size={16} />
-            <a className="hover:underline">HELP</a>
-          </button>
-          <a className="text-normal self-center whitespace-nowrap text-white">
-            |
-          </a>
-          <button type="button" className="flex flex-row items-center gap-1">
-            <UserPlus size={16} />
-            <a className="hover:underline">SIGN UP</a>
-          </button>
-          <a className="text-normal self-center whitespace-nowrap text-white">
-            |
-          </a>
+        <div className="flex cursor-pointer flex-row text-sm text-white">
+          <div className="flex flex-row justify-end gap-3">
+            <button
+              type="button"
+              className="flex flex-row items-center gap-1"
+              onClick={() => {
+                navigate("/help");
+              }}
+            >
+              <HelpCircle size={16} />
+              <a className="cursor-pointer hover:underline">HELP</a>
+            </button>
+            {!user && (
+              <>
+                {" "}
+                <a className="text-normal self-center whitespace-nowrap text-white">
+                  |
+                </a>
+                <button
+                  type="button"
+                  className="flex flex-row items-center gap-1"
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                >
+                  <LogInIcon size={16} />
+                  <a className="cursor-pointer hover:underline">SIGN IN</a>
+                </button>
+              </>
+            )}
+          </div>
+
           {/* User Details Section */}
           <div className="w-fit">
             <UserDetails user={user} logout={() => logout(navigate)} />
@@ -117,8 +132,8 @@ export default function NavigationBar() {
       {/* Bottom Row search section */}
       <div className="mx-auto flex w-full max-w-screen-xl flex-row items-center justify-between gap-12 px-4 pt-1.5 pb-3 md:pb-2 lg:px-0">
         <div className="hidden w-fit lg:flex">
-          <a className="items-center rtl:space-x-reverse">
-            <span className="self-center text-3xl font-semibold whitespace-nowrap text-white italic">
+          <a href="/" className="items-center rtl:space-x-reverse">
+            <span className="cursor-pointer self-center text-3xl font-semibold whitespace-nowrap text-white italic">
               RONGTHAO
             </span>
           </a>
@@ -143,7 +158,8 @@ export default function NavigationBar() {
 
         <button
           type="button"
-          className="hidden rounded-xl hover:bg-blue-800 lg:flex"
+          className="hidden cursor-pointer rounded-xl hover:bg-blue-800 lg:flex"
+          onClick={() => navigate("/cart")}
         >
           <ShoppingCart size={24} color="white" />
         </button>
@@ -155,7 +171,7 @@ export default function NavigationBar() {
       >
         <div
           onClick={() => {
-            navigate("/customer/homepage");
+            navigate("/");
             setShowMenuBar(false);
           }}
           className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
@@ -165,34 +181,47 @@ export default function NavigationBar() {
         </div>
         <div
           onClick={() => {
-            navigate("/customer/seeallitem");
+            navigate("/products");
             setShowMenuBar(false);
           }}
           className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
         >
           <Search size={18} />
-          See All
+          See All Product
         </div>
-        <div
-          onClick={() => {
-            navigate("/customer/vieworder");
-            setShowMenuBar(false);
-          }}
-          className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
-        >
-          <ShoppingCart size={18} />
-          Your Order
-        </div>
-        <div
-          onClick={() => {
-            navigate("/settings");
-            setShowMenuBar(false);
-          }}
-          className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
-        >
-          <Settings size={18} />
-          Settings
-        </div>
+        {user && (
+          <>
+            <div
+              onClick={() => {
+                navigate("/order");
+                setShowMenuBar(false);
+              }}
+              className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
+            >
+              <ReceiptText size={18} />
+              Your Order
+            </div>
+            <div
+              onClick={() => {
+                navigate("/settings");
+                setShowMenuBar(false);
+              }}
+              className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
+            >
+              <Settings size={18} />
+              Settings
+            </div>
+            <div
+              onClick={() => {
+                logout(navigate);
+              }}
+              className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
+            >
+              <LogOut size={18} />
+              Logout
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

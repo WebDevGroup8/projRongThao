@@ -23,7 +23,7 @@ export const ProductCard = (props) => {
   };
 
   const handleDetail = () => {
-    navigate(`/customer/itemdetail/${props.id}`);
+    navigate(`/product/${props.id}`);
   };
 
   return (
@@ -31,29 +31,29 @@ export const ProductCard = (props) => {
       onClick={handleDetail}
       onMouseEnter={() => setAnimate(true)}
       onMouseLeave={() => setAnimate(false)}
-      className="flex flex-col bg-white rounded-md overflow-hidden border-2 border-gray-200 hover:shadow-xl transition-shadow px-4 py-1 pb-4  justify-between min-h-65 lg:min-h-90"
+      className="flex min-h-65 flex-col justify-between overflow-hidden rounded-md border-2 border-gray-200 bg-white px-4 py-1 pb-4 transition-shadow hover:shadow-xl lg:min-h-90"
     >
       <div>
         <img
           src={`${conf.imageUrlPrefix}${image}`}
           alt={props.name}
-          className={`w-full h-[100px] lg:h-[200px] object-cover rounded-sm transition-transform transform duration-500 ${
+          className={`h-[100px] w-full transform rounded-sm object-cover transition-transform duration-500 lg:h-[200px] ${
             animate ? "hover:scale-115" : ""
           }`}
         />
         <div className="mt-2">
-          <h3 className="text-sm lg:text-md mb-2">{props.name}</h3>
-          <p className="text-sm lg:text-md font-bold text-[#213555] mb-2">
+          <h3 className="lg:text-md mb-2 text-sm">{props.name}</h3>
+          <p className="lg:text-md mb-2 text-sm font-bold text-[#213555]">
             ฿{props.price}
           </p>
         </div>
         <div className="flex flex-wrap">
-          {props.categories.map((category) => (
+          {props.categories?.map((category) => (
             <div
               key={category.title}
-              className={`px-1 py-0.5 lg:px-2 lg:py-1 bg-gray-200 text-gray-700 text-xs font-medium rounded-full ${
+              className={`rounded-full bg-gray-200 px-1 py-0.5 text-xs font-medium text-gray-700 lg:px-2 lg:py-1 ${
                 categoryColors[category.title.toLowerCase()] ||
-                "bg-gray-100 text-gray-800 border-gray-400"
+                "border-gray-400 bg-gray-100 text-gray-800"
               }`}
             >
               {category.title}
@@ -61,9 +61,9 @@ export const ProductCard = (props) => {
           ))}
         </div>
       </div>
-      <div className="flex flex-row justify-between text-xs text-gray-600 mt-1">
-        <div className="flex ">
-          <Star className="w-4 h-4 text-yellow-400 mr-1" />
+      <div className="mt-1 flex flex-row justify-between text-xs text-gray-600">
+        <div className="flex">
+          <Star className="mr-1 h-4 w-4 text-yellow-400" />
           <span>
             {/* {props.rating} */}
             4.5

@@ -16,7 +16,7 @@ export default function SignIn() {
   useEffect(() => {
     if (user) {
       if (user.role === "customer") {
-        navigate("/customer/homepage", { replace: true });
+        navigate("/", { replace: true });
       } else if (user.role === "admin") {
         navigate("/admin/dashboard", { replace: true });
       }
@@ -43,9 +43,12 @@ export default function SignIn() {
         ></div>
         <div className="mx-auto flex h-full w-full flex-col items-center justify-center gap-5 bg-white px-10 py-8 lg:w-2/3 lg:gap-10 lg:px-20">
           <div className="flex flex-col">
-            <span className="text-primary self-center text-4xl font-bold whitespace-nowrap italic">
+            <button
+              onClick={() => navigate("/")}
+              className="text-primary self-center text-4xl font-bold whitespace-nowrap italic"
+            >
               RONGTHAO
-            </span>
+            </button>
           </div>
           <div className="w-full rounded-lg border-gray-200 bg-white">
             <div className="space-y-4 p-6 sm:p-8 md:space-y-6">

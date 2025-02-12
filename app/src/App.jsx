@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import SignIn from "./pages/SignIn";
@@ -13,100 +12,112 @@ import ViewOrder from "./pages/ViewOrder";
 import { ProtectedCustomerRoute } from "./context/ProtectedCustomerRoute";
 import { ProtectedAdminRoute } from "./context/ProtectedAdminRoute";
 import useAuthStore from "./store";
+import { useEffect } from "react";
+import NavigationBar from "./components/NavigationBar";
+import Container from "./components/Container";
 
 function App() {
-  const { autoLogin, user } = useAuthStore();
+  const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
   useEffect(() => {
-    autoLogin();
-    console.log("auto login");
-    console.log(user);
+    const autoLoginHandler = async () => {
+      setIsLoginPending(true);
+      try {
+        await autoLogin();
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setIsLoginPending(false);
+      }
+    };
+    if (jwt) {
+      autoLoginHandler();
+    } else {
+      setIsLoginPending(false);
+    }
   }, []);
+
   return (
-    <div className="h-full w-full">
-      {/* <AuthProvider> */}
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <ProtectedCustomerRoute>
-              <HomePage />
-            </ProtectedCustomerRoute>
-          }
-        />
+    !isLoginPending && (
+      <div className="h-full w-full">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <NavigationBar />
+                <HomePage />
+              </>
+            }
+          />
 
-        <Route path="/login" element={<SignIn />} />
+          <Route path="/login" element={<SignIn />} />
 
-        <Route
-          path="/customer/homepage"
-          element={
-            <ProtectedCustomerRoute>
-              <HomePage />
-            </ProtectedCustomerRoute>
-          }
-        />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedAdminRoute>
+                <DashBoard />
+              </ProtectedAdminRoute>
+            }
+          />
 
-        <Route
-          path="/admin/dashboard"
-          element={
-            <ProtectedAdminRoute>
-              <DashBoard />
-            </ProtectedAdminRoute>
-          }
-        />
+          <Route
+            path="/product/:id"
+            element={
+              <ProtectedCustomerRoute>
+                <ItemDetail />
+              </ProtectedCustomerRoute>
+            }
+          />
 
-        <Route
-          path="/customer/itemdetail/:id"
-          element={
-            <ProtectedCustomerRoute>
-              <ItemDetail />
-            </ProtectedCustomerRoute>
-          }
-        />
-
-        <Route
-          path="/customer/cart"
-          element={
-            <ProtectedCustomerRoute>
-              <ShoppingCart />
-            </ProtectedCustomerRoute>
-          }
-        />
-        <Route
-          path="/customer/vieworder"
-          element={
-            <ProtectedCustomerRoute>
-              <ViewOrder />
-            </ProtectedCustomerRoute>
-          }
-        />
-        <Route
-          path="/customer/seeallitem"
-          element={
-            <ProtectedCustomerRoute>
-              <SeeAllItem />
-            </ProtectedCustomerRoute>
-          }
-        />
-        {/* TODO: remove this route and change to some order view with handle payment status */}
-        <Route
-          path="/payment"
-          element={
-            <ProtectedCustomerRoute>
-              <Payment />
-            </ProtectedCustomerRoute>
-          }
-        />
-        <Route
-          path="/test"
-          element={
-            <ProtectedCustomerRoute>
-              <Test />
-            </ProtectedCustomerRoute>
-          }
-        />
-      </Routes>
-      {/* </AuthProvider> */}
-    </div>
+          <Route
+            path="/cart"
+            element={
+              <ProtectedCustomerRoute>
+                <ShoppingCart />
+              </ProtectedCustomerRoute>
+            }
+          />
+          <Route
+            path="/order"
+            element={
+              <ProtectedCustomerRoute>
+                <ViewOrder />
+              </ProtectedCustomerRoute>
+            }
+          />
+          <Route
+            path="/products"
+            element={
+              <>
+                <NavigationBar />
+                <Container>
+                  <SeeAllItem />
+                </Container>
+              </>
+            }
+          />
+          {/* TODO: remove this route and change to some order view with handle payment status */}
+          <Route
+            path="/payment"
+            element={
+              <ProtectedCustomerRoute>
+                <Payment />
+              </ProtectedCustomerRoute>
+            }
+          />
+          <Route path="/test" element={<Test />} />
+          <Route
+            path="*"
+            element={
+              <a className="hover:underline" href="/">
+                Go Back
+              </a>
+            }
+          />
+        </Routes>
+      </div>
+    )
   );
 }
 

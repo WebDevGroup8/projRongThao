@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import Loading from "../components/Loading";
+import Container from "../components/Container";
 import NavigationBar from "../components/NavigationBar";
 import useAuthStore from "../store";
+import ScrollToTop from "../components/ScrollToTop";
 
 export const ProtectedCustomerRoute = ({ children }) => {
   const { isLoginPending, user } = useAuthStore();
@@ -28,10 +30,9 @@ export const ProtectedCustomerRoute = ({ children }) => {
   }
   return (
     <div>
+      <ScrollToTop />
       <NavigationBar />
-      <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between">
-        {children}
-      </div>
+      <Container>{children}</Container>
     </div>
   );
 };
