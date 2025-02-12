@@ -1,20 +1,25 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import SignIn from "./pages/Login";
+import SignIn from "./pages/SignIn";
 import { HomePage } from "./pages/HomePage";
 import { DashBoard } from "./pages/DashBoard";
 import ShoppingCart from "./pages/ShoppingCart";
-import NavigationBar from "./components/NavBar";
 import ItemDetail from "./pages/ItemDetail";
-import { AuthProvider } from "./context/useAuth";
 import { SeeAllItem } from "./pages/SeeAllItem";
 import Test from "./components/Test";
 import Payment from "./components/Payment";
 import ViewOrder from "./pages/ViewOrder";
 import { ProtectedCustomerRoute } from "./context/ProtectedCustomerRoute";
 import { ProtectedAdminRoute } from "./context/ProtectedAdminRoute";
+import useAuthStore from "./store";
 
 function App() {
+  const { autoLogin, user } = useAuthStore();
+  useEffect(() => {
+    autoLogin();
+    console.log("auto login");
+    console.log(user);
+  }, []);
   return (
     <div className="h-full w-full">
       <AuthProvider>

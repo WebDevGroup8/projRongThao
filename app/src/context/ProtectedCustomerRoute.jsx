@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router";
-import { useAuth } from "./useAuth";
 import { useEffect } from "react";
 import Loading from "../components/Loading";
-import NavigationBar from "../components/NavBar";
 import Container from "../components/Container";
+import NavigationBar from "../components/NavigationBar";
+import useAuthStore from "../store";
 
 export const ProtectedCustomerRoute = ({ children }) => {
-  const { isLoginPending, user } = useAuth();
+  const { isLoginPending, user } = useAuthStore();
   const navigate = useNavigate();
   useEffect(() => {
     if (!isLoginPending && !user) {

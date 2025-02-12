@@ -8,9 +8,9 @@ import {
   ShoppingCart,
   UserPlus,
 } from "lucide-react";
-import { useAuth } from "../context/useAuth";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import useAuthStore from "../store";
 
 const UserDetails = React.memo(({ user, logout }) => {
   if (!user) return null;
@@ -45,7 +45,7 @@ export default function NavigationBar() {
     navigate(`/`);
   };
 
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuthStore();
   return (
     <div className="bg-primary flex w-full flex-col justify-center">
       {/* Upper Row Section Mobile */}
@@ -110,7 +110,7 @@ export default function NavigationBar() {
 
           {/* User Details Section */}
           <div className="w-fit">
-            <UserDetails user={user} logout={logout} />
+            <UserDetails user={user} logout={() => logout(navigate)} />
           </div>
         </div>
       </div>

@@ -1,9 +1,8 @@
 import { useNavigate } from "react-router";
-import { useAuth } from "./useAuth";
 import { useEffect } from "react";
 
 export const ProtectedRoute = ({ children }) => {
-  const { user } = useAuth();
+  const { user } = useAuthStore;
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) {
