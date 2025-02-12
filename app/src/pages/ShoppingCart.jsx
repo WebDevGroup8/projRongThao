@@ -38,6 +38,9 @@ export default function ShoppingCart() {
       const stripe = await stripePromise;
       const response = await ax.post("/orders", {
         order_product: cartItems,
+        amount_shipping: shipping,
+        // TODO: remove hard code
+        discount: "promo_10percent",
       });
 
       // Correct way to extract session ID

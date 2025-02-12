@@ -147,7 +147,7 @@ export default function ItemDetail() {
   const [isLoading, setIsLoading] = useState(true);
 
   const { id } = useParams();
-  const { cart, addToCart, updateCartItem, removeFromCart } = useAuthStore();
+  const { cart, addToCart } = useAuthStore();
   const isItemInCart = cart.find((item) => item.id === Number(id));
   const fetchProduct = async () => {
     try {

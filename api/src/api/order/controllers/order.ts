@@ -15,15 +15,20 @@ type OrderProduct = {
 type ItemData = {
   name: string;
   price: number;
+  image: Image[];
   quantity: number;
+};
+
+type Image = {
+  url: string;
 };
 
 export default factories.createCoreController(
   "api::order.order",
   ({ strapi }) => ({
     async create(ctx) {
-      const { order_product } = ctx.request.body;
-
+      const { order_product, amount_shipping, discount } = ctx.request.body;
+      console.log(amount_shipping);
       if (!order_product || !Array.isArray(order_product)) {
         ctx.response.status = 400;
         return { error: "Invalid order_product format" };
@@ -33,15 +38,24 @@ export default factories.createCoreController(
         order_product.map(async (product: OrderProduct) => {
           const item: ItemData = await strapi
             .service("api::product.product")
-            .findOne(product.documentId);
+            .findOne(product.documentId, {
+              populate: {
+                image: { fields: ["url"] },
+              },
+            });
           if (!item) {
             console.error("Item not found for ID:", product.documentId);
             throw new Error(`Item not found for ID: ${product.documentId}`);
           }
+          const image = `${process.env.SELF_URL}${item.image[0].url}`;
+          console.log(image);
           return {
             price_data: {
               currency: "THB",
-              product_data: { name: item.name },
+              product_data: {
+                name: item.name,
+                images: [image],
+              },
               unit_amount: item.price * 100,
             },
             quantity: product.quantity,
@@ -57,6 +71,23 @@ export default factories.createCoreController(
           success_url: `${process.env.STAGE == "production" ? process.env.DEPLOY_URL : process.env.CLIENT_URL}/payment?success=true`,
           cancel_url: `${process.env.STAGE == "production" ? process.env.DEPLOY_URL : process.env.CLIENT_URL}/payment?success=false`,
           shipping_address_collection: { allowed_countries: ["TH"] },
+          shipping_options: [
+            {
+              shipping_rate_data: {
+                display_name: "Standard Shipping",
+                type: "fixed_amount",
+                fixed_amount: {
+                  amount: amount_shipping * 100, // Convert to cents
+                  currency: "thb",
+                },
+              },
+            },
+          ],
+          discounts: [
+            {
+              coupon: discount, // Use the coupon ID from Stripe Dashboard
+            },
+          ],
         });
         await strapi
           .service("api::order.order")
