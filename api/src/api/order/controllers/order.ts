@@ -28,7 +28,7 @@ export default factories.createCoreController(
   ({ strapi }) => ({
     async create(ctx) {
       const { order_product, amount_shipping, discount } = ctx.request.body;
-      console.log(amount_shipping);
+
       if (!order_product || !Array.isArray(order_product)) {
         ctx.response.status = 400;
         return { error: "Invalid order_product format" };
@@ -47,8 +47,9 @@ export default factories.createCoreController(
             console.error("Item not found for ID:", product.documentId);
             throw new Error(`Item not found for ID: ${product.documentId}`);
           }
+
           const image = `${process.env.SELF_URL}${item.image[0].url}`;
-          console.log(image);
+
           return {
             price_data: {
               currency: "THB",

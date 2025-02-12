@@ -15,7 +15,6 @@ import useAuthStore from "./store";
 import { useEffect } from "react";
 import NavigationBar from "./components/NavigationBar";
 import Container from "./components/Container";
-import Footer from "./components/Footer";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
@@ -47,7 +46,6 @@ function App() {
               <>
                 <NavigationBar />
                 <HomePage />
-                <Footer />
               </>
             }
           />
@@ -108,7 +106,6 @@ function App() {
                 <Container>
                   <SeeAllItem />
                 </Container>
-                <Footer />
               </>
             }
           />
