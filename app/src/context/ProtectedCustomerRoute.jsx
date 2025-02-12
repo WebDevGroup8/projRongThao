@@ -3,6 +3,7 @@ import { useAuth } from "./useAuth";
 import { useEffect } from "react";
 import Loading from "../components/Loading";
 import NavigationBar from "../components/NavBar";
+import Footer from "../components/Footer";
 
 export const ProtectedCustomerRoute = ({ children }) => {
   const { isLoginPending, user } = useAuth();
@@ -32,6 +33,7 @@ export const ProtectedCustomerRoute = ({ children }) => {
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center">
         {children}
       </div>
+      <Footer />
     </div>
   );
 };
