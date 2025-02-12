@@ -14,7 +14,7 @@ import { ProtectedAdminRoute } from "./context/ProtectedAdminRoute";
 import useAuthStore from "./store";
 import { useEffect } from "react";
 import NavigationBar from "./components/NavigationBar";
-import ScrollToTop from "./components/ScrollToTop";
+import Container from "./components/Container";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
@@ -31,6 +31,8 @@ function App() {
     };
     if (jwt) {
       autoLoginHandler();
+    } else {
+      setIsLoginPending(false);
     }
   }, []);
 
@@ -87,9 +89,12 @@ function App() {
           <Route
             path="/products"
             element={
-              <ProtectedCustomerRoute>
-                <SeeAllItem />
-              </ProtectedCustomerRoute>
+              <>
+                <NavigationBar />
+                <Container>
+                  <SeeAllItem />
+                </Container>
+              </>
             }
           />
           {/* TODO: remove this route and change to some order view with handle payment status */}

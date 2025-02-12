@@ -4,6 +4,7 @@ import {
   LogInIcon,
   LogOut,
   Menu,
+  ReceiptText,
   Search,
   Settings,
   ShoppingCart,
@@ -59,7 +60,7 @@ export default function NavigationBar() {
             RONGTHAO
           </span>
         </div>
-        <button>
+        <button onClick={() => navigate("/cart")}>
           <ShoppingCart size={24} color="white" />
         </button>
       </div>
@@ -186,28 +187,41 @@ export default function NavigationBar() {
           className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
         >
           <Search size={18} />
-          See All
+          See All Product
         </div>
-        <div
-          onClick={() => {
-            navigate("/order");
-            setShowMenuBar(false);
-          }}
-          className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
-        >
-          <ShoppingCart size={18} />
-          Your Order
-        </div>
-        <div
-          onClick={() => {
-            navigate("/settings");
-            setShowMenuBar(false);
-          }}
-          className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
-        >
-          <Settings size={18} />
-          Settings
-        </div>
+        {user && (
+          <>
+            <div
+              onClick={() => {
+                navigate("/order");
+                setShowMenuBar(false);
+              }}
+              className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
+            >
+              <ReceiptText size={18} />
+              Your Order
+            </div>
+            <div
+              onClick={() => {
+                navigate("/settings");
+                setShowMenuBar(false);
+              }}
+              className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
+            >
+              <Settings size={18} />
+              Settings
+            </div>
+            <div
+              onClick={() => {
+                logout(navigate);
+              }}
+              className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
+            >
+              <LogOut size={18} />
+              Logout
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
