@@ -14,6 +14,7 @@ import { ProtectedAdminRoute } from "./context/ProtectedAdminRoute";
 import useAuthStore from "./store";
 import { useEffect } from "react";
 import NavigationBar from "./components/NavigationBar";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();

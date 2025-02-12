@@ -4,6 +4,7 @@ import Loading from "../components/Loading";
 import Container from "../components/Container";
 import NavigationBar from "../components/NavigationBar";
 import useAuthStore from "../store";
+import ScrollToTop from "../components/ScrollToTop";
 
 export const ProtectedCustomerRoute = ({ children }) => {
   const { isLoginPending, user } = useAuthStore();
@@ -29,6 +30,7 @@ export const ProtectedCustomerRoute = ({ children }) => {
   }
   return (
     <div>
+      <ScrollToTop />
       <NavigationBar />
       <Container>{children}</Container>
     </div>

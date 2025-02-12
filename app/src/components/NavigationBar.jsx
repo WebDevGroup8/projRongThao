@@ -54,12 +54,10 @@ export default function NavigationBar() {
         <button onClick={() => setShowMenuBar(!showMenuBar)}>
           <Menu size={24} color="white" />
         </button>
-        <div className="block w-full text-center">
-          <a href="/" className="items-center rtl:space-x-reverse">
-            <span className="self-center text-2xl font-semibold whitespace-nowrap text-white italic">
-              RONGTHAO
-            </span>
-          </a>
+        <div className="block w-full cursor-pointer text-center">
+          <span className="cursor-pointer self-center text-2xl font-semibold whitespace-nowrap text-white italic">
+            RONGTHAO
+          </span>
         </div>
         <button>
           <ShoppingCart size={24} color="white" />
@@ -133,8 +131,8 @@ export default function NavigationBar() {
       {/* Bottom Row search section */}
       <div className="mx-auto flex w-full max-w-screen-xl flex-row items-center justify-between gap-12 px-4 pt-1.5 pb-3 md:pb-2 lg:px-0">
         <div className="hidden w-fit lg:flex">
-          <a className="items-center rtl:space-x-reverse">
-            <span className="self-center text-3xl font-semibold whitespace-nowrap text-white italic">
+          <a href="/" className="items-center rtl:space-x-reverse">
+            <span className="cursor-pointer self-center text-3xl font-semibold whitespace-nowrap text-white italic">
               RONGTHAO
             </span>
           </a>
