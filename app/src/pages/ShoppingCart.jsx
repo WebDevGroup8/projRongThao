@@ -2,64 +2,10 @@ import { useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import ax from "../conf/ax";
+import useAuthStore from "../store";
 export default function ShoppingCart() {
-  // TODOs: Implement fetch data from strapi
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 11,
-      documentId: "a6iod8iq8pmrhjypke155a4p",
-      name: "Chuck 70 De Luxe Heel Platform",
-      description: null,
-      price: 3999,
-      quantity: 1,
-      size: "44 EU",
-      image:
-        "https://i5.walmartimages.com/seo/Fashion-Running-Sneaker-for-Men-Shoes-Casual-Shoes-Leather-Sport-Shoes-Breathable-Comfortable-Walking-Shoes-Black-US11_8e9d44bb-b19b-42e9-bca1-979205c0779e.6fc41a815c10699375294302df46565a.jpeg",
-    },
-    {
-      id: 19,
-      documentId: "qyqbcu9jkbun0xbq8kec9d9j",
-      name: "Run Star Motion Canvas Platform",
-      description: null,
-      price: 3700,
-      quantity: 1,
-      size: "44 EU",
-      image:
-        "https://images-cdn.ubuy.co.in/633b4d0ec453a05ef838979c-damyuan-running-shoes-men-fashion.jpg",
-    },
-    {
-      id: 21,
-      documentId: "s1k8lmqogh8g5zobsxmkk7fu",
-      name: "Run Star Legacy CX",
-      description: null,
-      price: 3000,
-      quantity: 1,
-      size: "44 EU",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpxtLxkCfAqfViZreiFtnJFI3fkFijiFoH9Q&s",
-    },
-    {
-      id: 25,
-      documentId: "lxd7nd90kd0ri9q46zvpy1lu",
-      name: "Converse Weapon Leather Lux Pack",
-      description: null,
-      price: 2600,
-      quantity: 1,
-      size: "44 EU",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw_2iwaya08RkTGTBypU1FNnk8Z9PVjq413nLkPtCrYDo50vCvh-vhopfOQ80MU9dboNY&usqp=CAU",
-    },
-    {
-      id: 27,
-      documentId: "fea8vg5ufn3b6zeg081dqe0c",
-      name: "Converse Cruise",
-      description: null,
-      price: 3100,
-      quantity: 1,
-      size: "44 EU",
-      image: "https://m.media-amazon.com/images/I/71Li53y47aL._AC_UY1000_.jpg",
-    },
-  ]);
+  const { cart } = useAuthStore();
+  const [cartItems, setCartItems] = useState(cart);
 
   const updateQuantity = (id, change) => {
     setCartItems((items) =>
@@ -75,7 +21,7 @@ export default function ShoppingCart() {
     setCartItems((items) => items.filter((item) => item.id !== id));
   };
 
-  const subtotal = cartItems.reduce(
+  const subtotal = cartItems?.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0,
   );
@@ -84,7 +30,7 @@ export default function ShoppingCart() {
   let discount = 0;
   let total = subtotal;
 
-  if (cartItems.length !== 0) {
+  if (cartItems?.length !== 0) {
     shipping = 150;
     discountPercentage = 10;
     discount = subtotal * (discountPercentage / 100);
@@ -114,9 +60,9 @@ export default function ShoppingCart() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen w-full">
       {/* Main Content */}
-      <main className="mx-auto max-w-7xl px-4 py-8">
+      <main className="w-full px-4 py-8">
         <h2 className="mb-8 text-xl font-bold text-gray-800">
           🛒 Your Shopping Cart
         </h2>
@@ -124,7 +70,7 @@ export default function ShoppingCart() {
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Cart Items */}
           <div className="space-y-4 lg:col-span-2">
-            {cartItems.length === 0 ? (
+            {cartItems?.length === 0 ? (
               <div className="rounded-lg bg-white p-6 text-center shadow-sm">
                 <p className="text-xl font-semibold text-gray-600">
                   Your cart is empty
@@ -134,7 +80,7 @@ export default function ShoppingCart() {
                 </p>
               </div>
             ) : (
-              cartItems.map((item) => (
+              cartItems?.map((item) => (
                 <div
                   key={item.id}
                   className="flex flex-col items-center rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition-shadow duration-200 hover:shadow-lg sm:flex-row sm:p-6"

@@ -11,6 +11,7 @@ import ax from "../conf/ax";
 import { useParams } from "react-router-dom";
 import conf from "../conf/mainapi";
 import Loading from "../components/Loading";
+import useAuthStore from "../store";
 
 export const ExampleImg = ({ img }) => {
   const [key, setKey] = useState(0);
@@ -146,7 +147,8 @@ export default function ItemDetail() {
   const [isLoading, setIsLoading] = useState(true);
 
   const { id } = useParams();
-
+  const { cart, addToCart, updateCartItem, removeFromCart } = useAuthStore();
+  const isItemInCart = cart.find((item) => item.id === Number(id));
   const fetchProduct = async () => {
     try {
       setIsLoading(true);
@@ -155,14 +157,20 @@ export default function ItemDetail() {
         `/products?populate=image&populate=categories&filters[id]=${id}`,
       );
       setProduct(response.data.data[0]);
-      console.log(response.data.data[0]);
-
       setImages(response.data.data[0].image);
-      console.log(response.data.data[0].image);
     } catch (error) {
       console.error("Error fetching product:", error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    try {
+      await addToCart({ id: product.id });
+      console.log(cart);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -263,10 +271,19 @@ export default function ItemDetail() {
             </div>
 
             <div className="flex w-full flex-col gap-5">
-              <button className="w-full rounded-md bg-blue-950 px-4 py-2 text-center text-xl text-white">
-                <p className="hover:underline">ADD TO CART</p>
-              </button>
-              <button className="rounded-md bg-black px-4 py-2 text-center text-xl text-white">
+              {isItemInCart ? (
+                <button className="w-full cursor-pointer rounded-md border border-blue-950 px-4 py-2 text-center text-xl text-blue-950">
+                  <p className="hover:underline">ITEM ALREADY IN CART</p>
+                </button>
+              ) : (
+                <button
+                  onClick={handleAddToCart}
+                  className="w-full cursor-pointer rounded-md bg-blue-950 px-4 py-2 text-center text-xl text-white"
+                >
+                  <p className="hover:underline">ADD TO CART</p>
+                </button>
+              )}
+              <button className="w-full cursor-pointer rounded-md bg-black px-4 py-2 text-center text-xl text-white">
                 <p className="hover:underline">BUY IT NOW</p>
               </button>
             </div>

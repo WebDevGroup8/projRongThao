@@ -47,7 +47,7 @@ export default function NavigationBar() {
     navigate(`/`);
   };
 
-  const { user, logout } = useAuthStore();
+  const { user, logout, cart } = useAuthStore();
   return (
     <div className="bg-primary flex w-full flex-col justify-center">
       {/* Upper Row Section Mobile */}
@@ -60,8 +60,13 @@ export default function NavigationBar() {
             RONGTHAO
           </span>
         </div>
-        <button onClick={() => navigate("/cart")}>
+        <button onClick={() => navigate("/cart")} className="relative">
           <ShoppingCart size={24} color="white" />
+          {cart.length > 0 && (
+            <span className="absolute -top-1 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+              {cart.length}
+            </span>
+          )}
         </button>
       </div>
 
@@ -158,10 +163,15 @@ export default function NavigationBar() {
 
         <button
           type="button"
-          className="hidden cursor-pointer rounded-xl hover:bg-blue-800 lg:flex"
+          className="relative hidden cursor-pointer rounded-xl hover:bg-blue-800 lg:flex"
           onClick={() => navigate("/cart")}
         >
           <ShoppingCart size={24} color="white" />
+          {cart.length > 0 && (
+            <span className="absolute -top-1 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+              {cart.length}
+            </span>
+          )}
         </button>
       </div>
 

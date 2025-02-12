@@ -50,6 +50,17 @@ function App() {
             }
           />
 
+          <Route
+            path="/products"
+            element={
+              <>
+                <NavigationBar />
+                <Container>
+                  <SeeAllItem />
+                </Container>
+              </>
+            }
+          />
           <Route path="/login" element={<SignIn />} />
 
           <Route
@@ -86,17 +97,7 @@ function App() {
               </ProtectedCustomerRoute>
             }
           />
-          <Route
-            path="/products"
-            element={
-              <>
-                <NavigationBar />
-                <Container>
-                  <SeeAllItem />
-                </Container>
-              </>
-            }
-          />
+
           {/* TODO: remove this route and change to some order view with handle payment status */}
           <Route
             path="/payment"
