@@ -54,10 +54,7 @@ export default function NavigationBar() {
           <Menu size={24} color="white" />
         </button>
         <div className="block w-full text-center">
-          <a
-            href="/customer/homepage"
-            className="items-center rtl:space-x-reverse"
-          >
+          <a href="/" className="items-center rtl:space-x-reverse">
             <span className="self-center text-2xl font-semibold whitespace-nowrap text-white italic">
               RONGTHAO
             </span>
@@ -156,7 +153,7 @@ export default function NavigationBar() {
       >
         <div
           onClick={() => {
-            navigate("/customer/homepage");
+            navigate("/");
             setShowMenuBar(false);
           }}
           className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
@@ -166,7 +163,7 @@ export default function NavigationBar() {
         </div>
         <div
           onClick={() => {
-            navigate("/customer/seeallitem");
+            navigate("/products");
             setShowMenuBar(false);
           }}
           className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
@@ -176,7 +173,7 @@ export default function NavigationBar() {
         </div>
         <div
           onClick={() => {
-            navigate("/customer/vieworder");
+            navigate("/order");
             setShowMenuBar(false);
           }}
           className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"

@@ -16,7 +16,7 @@ export default function SignIn() {
   useEffect(() => {
     if (user) {
       if (user.role === "customer") {
-        navigate("/customer/homepage", { replace: true });
+        navigate("/", { replace: true });
       } else if (user.role === "admin") {
         navigate("/admin/dashboard", { replace: true });
       }

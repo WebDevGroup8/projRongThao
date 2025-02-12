@@ -12,92 +12,86 @@ import ViewOrder from "./pages/ViewOrder";
 import { ProtectedCustomerRoute } from "./context/ProtectedCustomerRoute";
 import { ProtectedAdminRoute } from "./context/ProtectedAdminRoute";
 import useAuthStore from "./store";
+import { useEffect } from "react";
+import NavigationBar from "./components/NavigationBar";
 
 function App() {
   const { autoLogin, user } = useAuthStore();
   useEffect(() => {
-    autoLogin();
-    console.log("auto login");
-    console.log(user);
+    if (user) {
+      autoLogin();
+      console.log(user);
+    }
   }, []);
   return (
     <div className="h-full w-full">
-      <AuthProvider>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <NavigationBar />
-                <HomePage />
-              </>
-            }
-          />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <NavigationBar />
+              <HomePage />
+            </>
+          }
+        />
 
-          <Route path="/login" element={<SignIn />} />
+        <Route path="/login" element={<SignIn />} />
 
-          <Route
-            path="/admin/dashboard"
-            element={
-              <ProtectedAdminRoute>
-                <DashBoard />
-              </ProtectedAdminRoute>
-            }
-          />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedAdminRoute>
+              <DashBoard />
+            </ProtectedAdminRoute>
+          }
+        />
 
-          <Route
-            path="/product/:id"
-            element={
-              <ProtectedCustomerRoute>
-                <ItemDetail />
-              </ProtectedCustomerRoute>
-            }
-          />
+        <Route
+          path="/product/:id"
+          element={
+            <ProtectedCustomerRoute>
+              <ItemDetail />
+            </ProtectedCustomerRoute>
+          }
+        />
 
-          <Route
-            path="/customer/cart"
-            element={
-              <ProtectedCustomerRoute>
-                <ShoppingCart />
-              </ProtectedCustomerRoute>
-            }
-          />
-          <Route
-            path="/order"
-            element={
-              <ProtectedCustomerRoute>
-                <ViewOrder />
-              </ProtectedCustomerRoute>
-            }
-          />
-          <Route
-            path="/products"
-            element={
-              <ProtectedCustomerRoute>
-                <SeeAllItem />
-              </ProtectedCustomerRoute>
-            }
-          />
-          {/* TODO: remove this route and change to some order view with handle payment status */}
-          <Route
-            path="/payment"
-            element={
-              <ProtectedCustomerRoute>
-                <Payment />
-              </ProtectedCustomerRoute>
-            }
-          />
-          <Route
-            path="/test"
-            element={
-              <ProtectedCustomerRoute>
-                <Test />
-              </ProtectedCustomerRoute>
-            }
-          />
-          <Route path="*" element={<>404</>} />
-        </Routes>
-      </AuthProvider>
+        <Route
+          path="/cart"
+          element={
+            <ProtectedCustomerRoute>
+              <ShoppingCart />
+            </ProtectedCustomerRoute>
+          }
+        />
+        <Route
+          path="/order"
+          element={
+            <ProtectedCustomerRoute>
+              <ViewOrder />
+            </ProtectedCustomerRoute>
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <ProtectedCustomerRoute>
+              <SeeAllItem />
+            </ProtectedCustomerRoute>
+          }
+        />
+        {/* TODO: remove this route and change to some order view with handle payment status */}
+        <Route
+          path="/payment"
+          element={
+            <ProtectedCustomerRoute>
+              <Payment />
+            </ProtectedCustomerRoute>
+          }
+        />
+        <Route path="/test" element={<Test />} />
+        <Route path="*" element={<>404</>} />
+      </Routes>
     </div>
   );
 }

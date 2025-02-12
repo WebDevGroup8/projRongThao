@@ -78,10 +78,8 @@ const useAuthStore = create((set) => ({
       Cookies.set("user", JSON.stringify(jwt), cookieOptions);
       set({ user: { ...userData, role }, showModal: true, errMsg: null });
 
-      if (role === "customer")
-        navigate("/customer/homepage", { replace: true });
-      else if (role === "admin")
-        navigate("/admin/dashboard", { replace: true });
+      if (role === "customer") navigate("/", { replace: true });
+      else if (role === "admin") navigate("/admin", { replace: true });
     } catch (error) {
       console.log(error);
       set({

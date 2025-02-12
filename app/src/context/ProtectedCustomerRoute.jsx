@@ -9,10 +9,10 @@ export const ProtectedCustomerRoute = ({ children }) => {
   const { isLoginPending, user } = useAuthStore();
   const navigate = useNavigate();
   useEffect(() => {
-    if (!isLoginPending && !user) {
+    if (!user) {
       navigate("/login", { replace: true });
     }
-  }, [user, navigate, isLoginPending]);
+  }, [user, navigate]);
   if (!user || user.role !== "customer") {
     return isLoginPending ? (
       <Loading />
