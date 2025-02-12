@@ -12,9 +12,8 @@ import ViewOrder from "./pages/ViewOrder";
 import { ProtectedCustomerRoute } from "./context/ProtectedCustomerRoute";
 import { ProtectedAdminRoute } from "./context/ProtectedAdminRoute";
 import useAuthStore from "./store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import NavigationBar from "./components/NavigationBar";
-import Loading from "./components/Loading";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
@@ -102,7 +101,14 @@ function App() {
             }
           />
           <Route path="/test" element={<Test />} />
-          <Route path="*" element={<>404</>} />
+          <Route
+            path="*"
+            element={
+              <a className="hover:underline" href="/">
+                Go Back
+              </a>
+            }
+          />
         </Routes>
       </div>
     )

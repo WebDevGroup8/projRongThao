@@ -114,7 +114,7 @@ export default function ShoppingCart() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen">
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-4 py-8">
         <h2 className="mb-8 text-xl font-bold text-gray-800">

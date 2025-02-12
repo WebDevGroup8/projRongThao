@@ -159,7 +159,8 @@ export default function NavigationBar() {
 
         <button
           type="button"
-          className="hidden rounded-xl hover:bg-blue-800 lg:flex"
+          className="hidden cursor-pointer rounded-xl hover:bg-blue-800 lg:flex"
+          onClick={() => navigate("/cart")}
         >
           <ShoppingCart size={24} color="white" />
         </button>
