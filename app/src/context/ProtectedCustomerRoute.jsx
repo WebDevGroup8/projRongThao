@@ -33,9 +33,7 @@ export const ProtectedCustomerRoute = ({ children }) => {
     <div>
       <ScrollToTop />
       <NavigationBar />
-      <div className="mx-auto flex max-w-screen-xl flex-wrap items-center">
-        {children}
-      </div>
+      <Container>{children}</Container>
       <Footer />
     </div>
   );
