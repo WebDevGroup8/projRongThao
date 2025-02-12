@@ -1,6 +1,7 @@
 import {
   HelpCircle,
   House,
+  LogInIcon,
   LogOut,
   Menu,
   Search,
@@ -16,9 +17,9 @@ const UserDetails = React.memo(({ user, logout }) => {
   if (!user) return null;
 
   return (
-    <div className="flex flex-row gap-4 bg-gradient-to-l text-white">
+    <div className="ml-4 flex flex-row gap-4 bg-gradient-to-l text-white">
       <a className="text-normal self-center whitespace-nowrap text-white">|</a>
-      <p className="text-sm">Login as : {user.username}</p>
+      <p className="text-base">Login as : {user.username}</p>
       <a className="text-normal self-center whitespace-nowrap text-white">|</a>
       <button
         href="/#"
@@ -67,7 +68,7 @@ export default function NavigationBar() {
 
       {/* Upper Row Section Desktop */}
       <div className="mx-auto hidden w-full max-w-screen-xl flex-row items-center justify-between px-4 pt-3 md:flex lg:px-0">
-        <div className="w-fit text-xs">
+        <div className="w-fit text-sm">
           <p className="flex items-center space-x-3 rtl:space-x-reverse">
             <button
               onClick={() => {
@@ -85,24 +86,41 @@ export default function NavigationBar() {
               }}
               className="self-center whitespace-nowrap text-white"
             >
-              <p className="cursor-pointer hover:underline">SEE ALL</p>
+              <p className="cursor-pointer hover:underline">SEE ALL PRODUCT</p>
             </button>
           </p>
         </div>
 
         <div className="flex cursor-pointer flex-row text-sm text-white">
           <div className="flex flex-row justify-end gap-3">
-            <button type="button" className="flex flex-row items-center gap-1">
+            <button
+              type="button"
+              className="flex flex-row items-center gap-1"
+              onClick={() => {
+                navigate("/help");
+              }}
+            >
               <HelpCircle size={16} />
-              <a className="cursor-pointer hover:underline">Help</a>
+              <a className="cursor-pointer hover:underline">HELP</a>
             </button>
-            <a className="text-normal self-center whitespace-nowrap text-white">
-              |
-            </a>
-            <button type="button" className="flex flex-row items-center gap-1">
-              <UserPlus size={16} />
-              <a className="cursor-pointer hover:underline">Sign in</a>
-            </button>
+            {!user && (
+              <>
+                {" "}
+                <a className="text-normal self-center whitespace-nowrap text-white">
+                  |
+                </a>
+                <button
+                  type="button"
+                  className="flex flex-row items-center gap-1"
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                >
+                  <LogInIcon size={16} />
+                  <a className="cursor-pointer hover:underline">SIGN IN</a>
+                </button>
+              </>
+            )}
           </div>
 
           {/* User Details Section */}

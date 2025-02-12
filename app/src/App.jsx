@@ -16,11 +16,10 @@ import { useEffect } from "react";
 import NavigationBar from "./components/NavigationBar";
 
 function App() {
-  const { autoLogin, user } = useAuthStore();
+  const { autoLogin, jwt } = useAuthStore();
   useEffect(() => {
-    if (user) {
+    if (jwt) {
       autoLogin();
-      console.log(user);
     }
   }, []);
   return (
