@@ -41,7 +41,7 @@ export const ProductCard = (props) => {
             animate ? "hover:scale-115" : ""
           }`}
         />
-        <div className="mt-2">
+        <div className="mt-3">
           <h3 className="lg:text-md mb-2 text-sm">{props.name}</h3>
           <p className="lg:text-md mb-2 text-sm font-bold text-[#213555]">
             ฿{props.price}
@@ -51,7 +51,7 @@ export const ProductCard = (props) => {
           {props.categories?.map((category) => (
             <div
               key={category.title}
-              className={`rounded-full bg-gray-200 px-1 py-0.5 text-xs font-medium text-gray-700 lg:px-2 lg:py-1 ${
+              className={`mr-2 rounded-full bg-gray-200 px-1 py-0.5 text-xs font-medium text-gray-700 lg:px-2 lg:py-1 ${
                 categoryColors[category.title.toLowerCase()] ||
                 "border-gray-400 bg-gray-100 text-gray-800"
               }`}

@@ -71,7 +71,7 @@ export const SeeAllItem = () => {
     <Loading />
   ) : (
     <div className="flex min-h-screen bg-gray-50">
-      <div className="hidden w-fit flex-shrink-0 lg:flex">
+      <div className="hidden w-2/12 flex-shrink-0 lg:flex">
         <SideBar
           categories={categories}
           selectedCategories={selectedCategories}

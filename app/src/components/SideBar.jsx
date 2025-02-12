@@ -16,7 +16,7 @@ export const SideBar = ({
     setSelectedCategories((prev) =>
       prev.includes(categoryTitle)
         ? prev.filter((c) => c !== categoryTitle)
-        : [...prev, categoryTitle]
+        : [...prev, categoryTitle],
     );
   };
 
@@ -24,21 +24,21 @@ export const SideBar = ({
     setSelectedSizes((prev) =>
       prev.includes(sizeNumber)
         ? prev.filter((c) => c !== sizeNumber)
-        : [...prev, sizeNumber]
+        : [...prev, sizeNumber],
     );
   };
 
   return (
-    <div className="w-11/12 lg:w-48 h-fit bg-white p-4 mx-5 mt-5 rounded-md border border-gray-200 shadow-md">
+    <div className="mx-2 mt-5 h-fit w-auto rounded-md border border-gray-200 bg-white p-4 shadow-md lg:w-48">
       <div className="text-md pb-2 font-medium text-gray-900">Categories</div>
-      <div className="grid grid-cols-3 lg:grid-cols-1 gap-2">
+      <div className="grid grid-cols-3 gap-2 lg:grid-cols-1">
         {categories.map((category) => (
           <label key={category.id} className="flex items-center gap-2">
             <input
               type="checkbox"
               checked={selectedCategories.includes(category.title)}
               onChange={() => toggleCategory(category.title)}
-              className="w-4 h-4 accent-gray-800 border-black focus:ring-black"
+              className="h-4 w-4 border-black accent-gray-800 focus:ring-black"
             />
             <span className="text-md text-gray-800">{category.title}</span>
           </label>
@@ -56,10 +56,10 @@ export const SideBar = ({
           renderTrack={({ props: trackProps, children }) => (
             <div
               {...trackProps}
-              className="h-2 bg-gray-200 rounded-full relative touch-none"
+              className="relative h-2 touch-none rounded-full bg-gray-200"
             >
               <div
-                className="absolute h-2 bg-gradient-to-r from-sky-500 to-indigo-500 rounded-full"
+                className="absolute h-2 rounded-full bg-gradient-to-r from-sky-500 to-indigo-500"
                 style={{
                   left: `${(priceRange[0] / 10000) * 100}%`,
                   right: `${100 - (priceRange[1] / 10000) * 100}%`,
@@ -74,26 +74,26 @@ export const SideBar = ({
               <div
                 key={key}
                 {...rest}
-                className="w-4 h-4 bg-gray-800 border-2 border-gray-800 rounded-full cursor-pointer shadow-md transform"
+                className="h-4 w-4 transform cursor-pointer rounded-full border-2 border-gray-800 bg-gray-800 shadow-md"
               />
             );
           }}
         />
-        <div className="flex justify-between text-sm text-gray-700 mt-2">
+        <div className="mt-2 flex justify-between text-sm text-gray-700">
           <span>฿{priceRange[0]}</span>
           <span>฿{priceRange[1]}</span>
         </div>
       </div>
 
       <div className="text-md pb-2 font-medium text-gray-900">Sizes</div>
-      <div className="grid grid-cols-3 lg:grid-cols-1 gap-2">
+      <div className="grid grid-cols-3 gap-2 lg:grid-cols-1">
         {sizes.map((size, index) => (
           <label key={index} className="flex items-center gap-2">
             <input
               type="checkbox"
               checked={selectedSizes.includes(size)}
               onChange={() => toggleSize(size)}
-              className="w-4 h-4 accent-gray-800 border-black focus:ring-black"
+              className="h-4 w-4 border-black accent-gray-800 focus:ring-black"
             />
             <span className="text-md text-gray-800">{size}</span>
           </label>
