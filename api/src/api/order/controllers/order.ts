@@ -89,9 +89,9 @@ export default factories.createCoreController(
             },
           ],
         });
-        await strapi
-          .service("api::order.order")
-          .create({ data: { order_product, stripeId: session.id } });
+        await strapi.service("api::order.order").create({
+          data: { order_product, stripeId: session.id, orderStatus: "Pending" },
+        });
 
         return { stripeSession: session };
       } catch (error) {
