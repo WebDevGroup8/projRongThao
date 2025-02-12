@@ -5,6 +5,7 @@ import CategoryCarousel from "../components/CategoryCarousel.jsx";
 import { ProductCard } from "../components/ProductCard";
 import React, { useEffect, useState } from "react";
 import ax from "../conf/ax";
+import Container from "../components/Container.jsx";
 
 const categories = [
   {
@@ -100,42 +101,45 @@ export const HomePage = () => {
       <div className="flex flex-row lg:hidden">
         <PromotionCarousel promotions={promotionsP} />
       </div>
-      <div className="hidden lg:flex lg:flex-row lg:flex-wrap lg:justify-center lg:gap-10">
-        {categories.map((item, index) => (
-          <ClickableCard key={index} {...item} />
-        ))}
-      </div>
-      <div className="lg:hidden">
-        <CategoryCarousel categories={categories} />
-      </div>
-      <div className="flex w-full flex-row justify-center">
-        <div className="flex w-full flex-row items-center">
-          <hr className="w-full border-1 border-black" />
-          <h1 className="text-ms px-3 font-bold whitespace-nowrap text-black lg:text-xl">
-            BEST SELLER
-          </h1>
-          <hr className="w-full border-1 border-black" />
+
+      <Container>
+        <div className="hidden lg:flex lg:flex-row lg:flex-wrap lg:justify-center lg:gap-10">
+          {categories.map((item, index) => (
+            <ClickableCard key={index} {...item} />
+          ))}
         </div>
-      </div>
-      <div className="grid grid-cols-2 gap-1 md:grid-cols-3 md:gap-4 lg:grid-cols-4 lg:gap-5">
-        {products.map((product, index) => (
-          <ProductCard
-            key={product.id}
-            id={product.id}
-            image={product.image}
-            name={product.name}
-            description={product.description}
-            price={product.price}
-            stock={product.stock}
-            size={product.size}
-            color={product.color}
-            categories={product.categories}
-            soldCount={product.soldCount}
-            reviews={product.reviews}
-            rating={product.rating}
-          />
-        ))}
-      </div>
+        <div className="lg:hidden">
+          <CategoryCarousel categories={categories} />
+        </div>
+        <div className="flex w-full flex-row justify-center">
+          <div className="flex w-full flex-row items-center">
+            <hr className="w-full border-1 border-black" />
+            <h1 className="text-ms px-3 font-bold whitespace-nowrap text-black lg:text-xl">
+              BEST SELLER
+            </h1>
+            <hr className="w-full border-1 border-black" />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-1 md:grid-cols-3 md:gap-4 lg:grid-cols-4 lg:gap-5">
+          {products.map((product, index) => (
+            <ProductCard
+              key={product.id}
+              id={product.id}
+              image={product.image}
+              name={product.name}
+              description={product.description}
+              price={product.price}
+              stock={product.stock}
+              size={product.size}
+              color={product.color}
+              categories={product.categories}
+              soldCount={product.soldCount}
+              reviews={product.reviews}
+              rating={product.rating}
+            />
+          ))}
+        </div>
+      </Container>
     </div>
   );
 };

@@ -17,6 +17,7 @@ const UserDetails = React.memo(({ user, logout }) => {
 
   return (
     <div className="flex flex-row gap-4 bg-gradient-to-l text-white">
+      <a className="text-normal self-center whitespace-nowrap text-white">|</a>
       <p className="text-sm">Login as : {user.username}</p>
       <a className="text-normal self-center whitespace-nowrap text-white">|</a>
       <button
@@ -78,7 +79,7 @@ export default function NavigationBar() {
               type="button"
               className="self-center whitespace-nowrap text-white"
             >
-              <p className="hover:underline">HOME</p>
+              <p className="cursor-pointer hover:underline">HOME</p>
             </button>
             <a className="self-center whitespace-nowrap text-white">|</a>
             <button
@@ -87,26 +88,26 @@ export default function NavigationBar() {
               }}
               className="self-center whitespace-nowrap text-white"
             >
-              <p className="hover:underline">SEE ALL</p>
+              <p className="cursor-pointer hover:underline">SEE ALL</p>
             </button>
           </p>
         </div>
 
-        <div className="flex w-fit flex-row gap-3 text-xs text-white">
-          <button type="button" className="flex flex-row items-center gap-1">
-            <HelpCircle size={16} />
-            <a className="hover:underline">HELP</a>
-          </button>
-          <a className="text-normal self-center whitespace-nowrap text-white">
-            |
-          </a>
-          <button type="button" className="flex flex-row items-center gap-1">
-            <UserPlus size={16} />
-            <a className="hover:underline">SIGN UP</a>
-          </button>
-          <a className="text-normal self-center whitespace-nowrap text-white">
-            |
-          </a>
+        <div className="flex cursor-pointer flex-row text-sm text-white">
+          <div className="flex flex-row justify-end gap-3">
+            <button type="button" className="flex flex-row items-center gap-1">
+              <HelpCircle size={16} />
+              <a className="cursor-pointer hover:underline">Help</a>
+            </button>
+            <a className="text-normal self-center whitespace-nowrap text-white">
+              |
+            </a>
+            <button type="button" className="flex flex-row items-center gap-1">
+              <UserPlus size={16} />
+              <a className="cursor-pointer hover:underline">Sign in</a>
+            </button>
+          </div>
+
           {/* User Details Section */}
           <div className="w-fit">
             <UserDetails user={user} logout={logout} />
