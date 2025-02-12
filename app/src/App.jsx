@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import SignIn from "./pages/Login";
@@ -23,22 +22,14 @@ function App() {
           <Route
             path="/"
             element={
-              <ProtectedCustomerRoute>
+              <>
+                <NavigationBar />
                 <HomePage />
-              </ProtectedCustomerRoute>
+              </>
             }
           />
 
           <Route path="/login" element={<SignIn />} />
-
-          <Route
-            path="/customer/homepage"
-            element={
-              <ProtectedCustomerRoute>
-                <HomePage />
-              </ProtectedCustomerRoute>
-            }
-          />
 
           <Route
             path="/admin/dashboard"
@@ -50,7 +41,7 @@ function App() {
           />
 
           <Route
-            path="/customer/itemdetail/:id"
+            path="/product/:id"
             element={
               <ProtectedCustomerRoute>
                 <ItemDetail />
@@ -67,7 +58,7 @@ function App() {
             }
           />
           <Route
-            path="/customer/vieworder"
+            path="/order"
             element={
               <ProtectedCustomerRoute>
                 <ViewOrder />
@@ -75,7 +66,7 @@ function App() {
             }
           />
           <Route
-            path="/customer/seeallitem"
+            path="/product"
             element={
               <ProtectedCustomerRoute>
                 <SeeAllItem />
@@ -99,6 +90,7 @@ function App() {
               </ProtectedCustomerRoute>
             }
           />
+          <Route path="*" element={<>404</>} />
         </Routes>
       </AuthProvider>
     </div>

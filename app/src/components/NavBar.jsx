@@ -37,11 +37,11 @@ export default function NavigationBar() {
   const navigate = useNavigate();
 
   const handleAllItem = () => {
-    navigate(`/customer/seeallitem`);
+    navigate(`/products`);
   };
 
   const handleHome = () => {
-    navigate(`/customer/homepage`);
+    navigate(`/`);
   };
 
   const { user, logout } = useAuth();
