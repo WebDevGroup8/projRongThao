@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import Loading from "../components/Loading";
-import Footer from "../components/Footer";
 import Container from "../components/Container";
 import NavigationBar from "../components/NavigationBar";
 import useAuthStore from "../store";
@@ -34,7 +33,6 @@ export const ProtectedCustomerRoute = ({ children }) => {
       <ScrollToTop />
       <NavigationBar />
       <Container>{children}</Container>
-      <Footer />
     </div>
   );
 };
