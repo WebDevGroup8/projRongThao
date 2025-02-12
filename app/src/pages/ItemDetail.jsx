@@ -10,6 +10,7 @@ import React, { useEffect, useState } from "react";
 import ax from "../conf/ax";
 import { useParams } from "react-router-dom";
 import conf from "../conf/mainapi";
+import Loading from "../components/Loading";
 
 export const ExampleImg = ({ img, shoeName }) => {
   const [key, setKey] = useState(0);
@@ -176,7 +177,7 @@ export default function ItemDetail() {
   }, [id]);
 
   return isLoading ? (
-    <div>loading</div>
+    <Loading />
   ) : (
     <div className="mb-20 h-full w-full flex-wrap space-y-5 lg:mb-10 lg:px-20 lg:py-10">
       <div className="lg:flex lg:w-full lg:flex-row lg:justify-between">

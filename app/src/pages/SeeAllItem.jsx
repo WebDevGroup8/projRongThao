@@ -4,6 +4,7 @@ import ax from "../conf/ax";
 import { ProductCard } from "../components/ProductCard";
 import { SideBar } from "../components/SideBar";
 import SearchBar from "../components/SearchBar";
+import Loading from "../components/Loading";
 
 export const SeeAllItem = () => {
   const [categories, setCategories] = useState([]);
@@ -12,6 +13,7 @@ export const SeeAllItem = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 10000]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchCategories = async () => {
     try {
@@ -25,7 +27,7 @@ export const SeeAllItem = () => {
   const fetchProducts = async () => {
     try {
       const res = await ax.get(
-        `/products?populate=image&populate=categories&populate=reviews`
+        `/products?populate=image&populate=categories&populate=reviews`,
       );
       setProducts(res.data.data);
     } catch (error) {
@@ -34,34 +36,55 @@ export const SeeAllItem = () => {
   };
 
   useEffect(() => {
-    fetchCategories();
-    fetchProducts();
+    try {
+      setIsLoading(true);
+      fetchCategories();
+      fetchProducts();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
-
   const filteredProducts = products
     .filter((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()),
     )
     .filter((product) =>
       selectedCategories.length > 0
         ? product.categories?.some((category) =>
-            selectedCategories.includes(category.title)
+            selectedCategories.includes(category.title),
           )
-        : true
+        : true,
     )
     .filter(
       (product) =>
-        product.price >= priceRange[0] && product.price <= priceRange[1]
+        product.price >= priceRange[0] && product.price <= priceRange[1],
     )
     .filter((product) =>
       selectedSizes.length > 0
         ? product.size.some((size) => selectedSizes.includes(size))
-        : true
+        : true,
     );
 
-  return (
-    <div className="flex bg-gray-50 min-h-screen">
-        <div className=" hidden lg:flex w-fit flex-shrink-0">
+  return isLoading ? (
+    <Loading />
+  ) : (
+    <div className="flex min-h-screen bg-gray-50">
+      <div className="hidden w-fit flex-shrink-0 lg:flex">
+        <SideBar
+          categories={categories}
+          selectedCategories={selectedCategories}
+          setSelectedCategories={setSelectedCategories}
+          priceRange={priceRange}
+          setPriceRange={setPriceRange}
+          selectedSizes={selectedSizes}
+          setSelectedSizes={setSelectedSizes}
+        />
+      </div>
+
+      <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center">
+        <div className="w-full flex-shrink-0 lg:hidden">
           <SideBar
             categories={categories}
             selectedCategories={selectedCategories}
@@ -72,25 +95,12 @@ export const SeeAllItem = () => {
             setSelectedSizes={setSelectedSizes}
           />
         </div>
-       
-      <div className="flex flex-col items-center w-full max-w-screen-lg mx-auto">
-      <div className=" lg:hidden w-full flex-shrink-0">
-          <SideBar
-            categories={categories}
-            selectedCategories={selectedCategories}
-            setSelectedCategories={setSelectedCategories}
-            priceRange={priceRange}
-            setPriceRange={setPriceRange}
-            selectedSizes={selectedSizes}
-            setSelectedSizes={setSelectedSizes}
-          />
-        </div>
-        <div className="flex flex-col sm:flex-row justify-between items-center w-full mb-4 px-3 lg:px-1">
+        <div className="mb-4 flex w-full flex-col items-center justify-between px-3 sm:flex-row lg:px-1">
           <SearchBar onSearch={(term) => setSearchTerm(term)} />
         </div>
 
         {/* Grid แสดงสินค้า */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 w-full px-3 lg:px-1">
+        <div className="grid w-full grid-cols-2 gap-5 px-3 md:grid-cols-3 lg:grid-cols-4 lg:px-1">
           <AnimatePresence>
             {filteredProducts.map((product) => (
               <motion.div
