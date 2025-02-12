@@ -369,36 +369,6 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiCartCart extends Struct.CollectionTypeSchema {
-  collectionName: 'carts';
-  info: {
-    description: '';
-    displayName: 'Cart';
-    pluralName: 'carts';
-    singularName: 'cart';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    item: Schema.Attribute.JSON;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::cart.cart'> &
-      Schema.Attribute.Private;
-    owner_cart: Schema.Attribute.Relation<
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
-    publishedAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   collectionName: 'categories';
   info: {
@@ -1038,11 +1008,10 @@ export interface PluginUsersPermissionsUser
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    cart: Schema.Attribute.Relation<'oneToOne', 'api::cart.cart'>;
+    cart: Schema.Attribute.JSON;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
@@ -1095,7 +1064,6 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::cart.cart': ApiCartCart;
       'api::category.category': ApiCategoryCategory;
       'api::order.order': ApiOrderOrder;
       'api::payment.payment': ApiPaymentPayment;

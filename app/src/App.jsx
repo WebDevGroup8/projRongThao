@@ -52,6 +52,17 @@ function App() {
             }
           />
 
+          <Route
+            path="/products"
+            element={
+              <>
+                <NavigationBar />
+                <Container>
+                  <SeeAllItem />
+                </Container>
+              </>
+            }
+          />
           <Route path="/login" element={<SignIn />} />
 
           <Route
@@ -88,6 +99,7 @@ function App() {
               </ProtectedCustomerRoute>
             }
           />
+
           <Route
             path="/products"
             element={
