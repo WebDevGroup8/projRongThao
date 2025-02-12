@@ -56,18 +56,38 @@ const useAuthStore = create((set) => ({
     }
   },
 
-  removeFromCart: (productId) => {
+  removeFromCart: async (productId) => {
     set((state) => ({
       cart: state.cart.filter((item) => item.id !== productId),
     }));
+    try {
+      await ax.put(`users/${useAuthStore.getState().user.id}`, {
+        cart: useAuthStore.getState().cart,
+      });
+    } catch (e) {
+      console.log(e);
+    }
   },
 
-  updateCartItem: (productId, quantity) => {
+  updateCartItem: async (productId, change) => {
     set((state) => ({
       cart: state.cart.map((item) =>
-        item.id === productId ? { ...item, quantity } : item,
+        item.id === productId
+          ? { ...item, quantity: item.quantity + change }
+          : item,
       ),
     }));
+
+    try {
+      // Get the updated cart AFTER the state change
+      const updatedCart = useAuthStore.getState().cart;
+
+      await ax.put(`users/${useAuthStore.getState().user.id}`, {
+        cart: updatedCart, // Use the latest cart state
+      });
+    } catch (e) {
+      console.log(e);
+    }
   },
 
   clearCart: () => set({ cart: [] }),
