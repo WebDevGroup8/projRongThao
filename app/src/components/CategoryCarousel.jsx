@@ -9,8 +9,8 @@ export default function CategoryCarousel(props) {
     containScroll: "trimSnaps",
   });
 
-  const scrollPrevRef = useRef(null)
-  const scrollNextRef = useRef(null)
+  const scrollPrevRef = useRef(null);
+  const scrollNextRef = useRef(null);
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -34,10 +34,7 @@ export default function CategoryCarousel(props) {
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex flex-row gap-4">
           {props.categories.map((category, index) => (
-            <div
-              key={index}
-              className="flex flex-row"
-            >
+            <div key={index} className="flex flex-row">
               <ClickableCard
                 imageUrl={category.imageUrl}
                 title={category.title}
@@ -51,14 +48,14 @@ export default function CategoryCarousel(props) {
       {/* Navigation Buttons */}
       <button
         ref={scrollPrevRef}
-        className="absolute left-0 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 shadow-md md:hidden"
+        className="absolute top-1/2 left-0 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 shadow-md md:hidden"
         onClick={() => emblaApi?.scrollPrev()}
       >
         <ChevronLeft className="h-4 w-4" />
       </button>
       <button
         ref={scrollNextRef}
-        className="absolute right-0 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 shadow-md md:hidden"
+        className="absolute top-1/2 right-0 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 shadow-md md:hidden"
         onClick={() => emblaApi?.scrollNext()}
       >
         <ChevronRight className="h-4 w-4" />

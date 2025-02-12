@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router";
-import { useAuth } from "./useAuth";
 import { useEffect } from "react";
 import Loading from "../components/Loading";
+import useAuthStore from "../store";
 
 export const ProtectedAdminRoute = ({ children }) => {
-  const { isLoginPending, user } = useAuth();
+  const { isLoginPending, user } = useAuthStore;
   const navigate = useNavigate();
   useEffect(() => {
     if (!isLoginPending && !user) {
@@ -16,9 +16,9 @@ export const ProtectedAdminRoute = ({ children }) => {
       <Loading />
     ) : (
       <>
-        <div className="container mt-20 text-center ">
-          <p className="text-4xl font-bold mb-5">You must Login as Admin!</p>
-          <a href="/customer/homepage" className=" text-xl underline">
+        <div className="container mt-20 text-center">
+          <p className="mb-5 text-4xl font-bold">You must Login as Admin!</p>
+          <a href="/" className="text-xl underline">
             Go Back
           </a>
         </div>
@@ -26,7 +26,7 @@ export const ProtectedAdminRoute = ({ children }) => {
     );
   }
   return (
-    <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
       {children}
     </div>
   );

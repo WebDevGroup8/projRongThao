@@ -4,6 +4,7 @@ import ax from "../conf/ax";
 import { ProductCard } from "../components/ProductCard";
 import { SideBar } from "../components/SideBar";
 import SearchBar from "../components/SearchBar";
+import Loading from "../components/Loading";
 
 export const SeeAllItem = () => {
   const [categories, setCategories] = useState([]);
@@ -12,6 +13,7 @@ export const SeeAllItem = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 10000]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchCategories = async () => {
     try {
@@ -34,10 +36,16 @@ export const SeeAllItem = () => {
   };
 
   useEffect(() => {
-    fetchCategories();
-    fetchProducts();
+    try {
+      setIsLoading(true);
+      fetchCategories();
+      fetchProducts();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
-
   const filteredProducts = products
     .filter((product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -59,7 +67,9 @@ export const SeeAllItem = () => {
         : true,
     );
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className="flex min-h-screen bg-gray-50">
       <div className="hidden w-2/12 flex-shrink-0 lg:flex">
         <SideBar

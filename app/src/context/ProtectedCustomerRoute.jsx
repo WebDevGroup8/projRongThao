@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router";
-import { useAuth } from "./useAuth";
 import { useEffect } from "react";
 import Loading from "../components/Loading";
-import NavigationBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import Container from "../components/Container";
+import NavigationBar from "../components/NavigationBar";
+import useAuthStore from "../store";
+import ScrollToTop from "../components/ScrollToTop";
 
 export const ProtectedCustomerRoute = ({ children }) => {
-  const { isLoginPending, user } = useAuth();
+  const { isLoginPending, user } = useAuthStore();
   const navigate = useNavigate();
   useEffect(() => {
     if (!isLoginPending && !user) {
@@ -29,6 +31,7 @@ export const ProtectedCustomerRoute = ({ children }) => {
   }
   return (
     <div>
+      <ScrollToTop />
       <NavigationBar />
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center">
         {children}

@@ -5,3 +5,7 @@
     --color-primary-light: #214857;
     --color-primary-dark: #213555;
   }
+
+body {
+  background-color: #f9fafb;
+}

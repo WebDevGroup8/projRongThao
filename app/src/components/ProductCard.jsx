@@ -23,7 +23,7 @@ export const ProductCard = (props) => {
   };
 
   const handleDetail = () => {
-    navigate(`/customer/itemdetail/${props.id}`);
+    navigate(`/product/${props.id}`);
   };
 
   return (
@@ -48,7 +48,7 @@ export const ProductCard = (props) => {
           </p>
         </div>
         <div className="flex flex-wrap">
-          {props.categories.map((category) => (
+          {props.categories?.map((category) => (
             <div
               key={category.title}
               className={`mr-2 rounded-full bg-gray-200 px-1 py-0.5 text-xs font-medium text-gray-700 lg:px-2 lg:py-1 ${
