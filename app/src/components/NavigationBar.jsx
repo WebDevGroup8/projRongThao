@@ -1,5 +1,6 @@
 import {
   HelpCircle,
+  History,
   House,
   LogInIcon,
   LogOut,
@@ -22,6 +23,18 @@ const UserDetails = React.memo(({ user, logout }) => {
       <a className="text-normal self-center whitespace-nowrap text-white">|</a>
       <p className="text-base">Login as : {user.username}</p>
       <a className="text-normal self-center whitespace-nowrap text-white">|</a>
+      <button
+        type="button"
+        className="flex flex-row items-center gap-1"
+        onClick={() => navigate("/order")}
+      >
+        <History size={16} color="white" />
+        <a href="/order" className="cursor-pointer hover:underline">
+          Your Order
+        </a>
+      </button>
+      <a className="text-normal self-center whitespace-nowrap text-white">|</a>
+
       <button
         href="/#"
         onClick={logout}
@@ -62,9 +75,9 @@ export default function NavigationBar() {
         </div>
         <button onClick={() => navigate("/cart")} className="relative">
           <ShoppingCart size={24} color="white" />
-          {cart.length > 0 && (
+          {cart.reduce((total, item) => total + item.quantity, 0) > 0 && (
             <span className="absolute -top-1 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-              {cart.length}
+              {cart.reduce((total, item) => total + item.quantity, 0)}
             </span>
           )}
         </button>
@@ -163,13 +176,13 @@ export default function NavigationBar() {
 
         <button
           type="button"
-          className="relative hidden cursor-pointer rounded-xl hover:bg-blue-800 lg:flex"
+          className="relative hidden cursor-pointer rounded-xl lg:flex"
           onClick={() => navigate("/cart")}
         >
           <ShoppingCart size={24} color="white" />
-          {cart.length > 0 && (
+          {cart.reduce((total, item) => total + item.quantity, 0) > 0 && (
             <span className="absolute -top-1 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
-              {cart.length}
+              {cart.reduce((total, item) => total + item.quantity, 0)}
             </span>
           )}
         </button>
