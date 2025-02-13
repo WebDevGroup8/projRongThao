@@ -6,7 +6,7 @@ import useAuthStore from "../store";
 import Loading from "../components/Loading";
 import conf from "../conf/mainapi";
 export default function ShoppingCart() {
-  const { cart, updateCartItem, removeFromCart } = useAuthStore();
+  const { cart, updateCartItem, removeFromCart, clearCart } = useAuthStore();
   const [cartItems, setCartItems] = useState(cart);
   const [isLoading, setIsLoading] = useState(false);
   const [subtotal, setSubtotal] = useState(0);
@@ -49,7 +49,7 @@ export default function ShoppingCart() {
       if (!sessionId) {
         throw new Error("Stripe session ID not received.");
       }
-
+      await clearCart();
       await stripe.redirectToCheckout({ sessionId });
     } catch (error) {
       console.error("Payment Error:", error);
