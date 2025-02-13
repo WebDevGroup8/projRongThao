@@ -70,8 +70,8 @@ export const SeeAllItem = () => {
   return isLoading ? (
     <Loading />
   ) : (
-    <div className="flex min-h-screen bg-gray-50">
-      <div className="hidden w-2/12 flex-shrink-0 lg:flex">
+    <div className="flex min-h-screen min-w-fit bg-gray-50">
+      <div className="hidden w-fit flex-shrink-0 lg:flex">
         <SideBar
           categories={categories}
           selectedCategories={selectedCategories}
