@@ -44,75 +44,77 @@ export const GroupViewCard = (props) => {
   };
   return (
     <div>
-      {orderItems?.map((item) => (
-        <div
-          key={item.id}
-          className="mt-5 flex w-full flex-col rounded-lg border border-gray-300 bg-white px-5 pt-2 pb-10 shadow-sm transition-shadow lg:px-10 lg:pb-10"
-        >
-          <div className="flex h-full flex-col lg:flex-row lg:pt-5 lg:pb-10">
-            <div className="relative">
-              <div>
-                <div className="text-2xl whitespace-nowrap lg:text-4xl">
-                  Order{" "}
-                  <span className="text-xl lg:text-2xl">
-                    #{item.documentId}
-                  </span>
+      {orderItems
+        ?.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+        .map((item, index) => (
+          <div
+            key={item.id}
+            className="mt-5 flex w-full flex-col rounded-lg border border-gray-300 bg-white px-5 pt-2 pb-10 shadow-sm transition-shadow lg:px-10 lg:pb-10"
+          >
+            <div className="flex h-full flex-col lg:flex-row lg:pt-5 lg:pb-10">
+              <div className="relative">
+                <div>
+                  <div className="text-2xl whitespace-nowrap lg:text-4xl">
+                    <p>Order #{orderItems.length - index}</p>
+                    <span className="text-xl lg:text-2xl">
+                      (ref: {item.documentId})
+                    </span>
+                  </div>
+                  <div className="text-xs whitespace-nowrap lg:pt-2 lg:text-sm">
+                    {dayjs(item.createdAt).format(
+                      "[Date ]DD MMMM YYYY [Time ]HH:mm a",
+                    )}
+                  </div>
+                  <div
+                    className={`mt-3 h-7 w-30 rounded-2xl border-2 ${status[item?.orderStatus]} text-center`}
+                  >
+                    {item?.orderStatus}
+                  </div>
                 </div>
-                <div className="text-xs whitespace-nowrap lg:pt-2 lg:text-sm">
-                  {dayjs(item.createdAt).format(
-                    "[Date ]DD MMMM YYYY [Time ]HH:mm a",
+              </div>
+
+              <div className="relative mt-4 flex h-full w-full flex-col items-center justify-center lg:justify-center">
+                <div className="flex h-5 w-60 items-center justify-center lg:w-120">
+                  {item.orderStatus === "Shipped" && (
+                    <hr className="w-full rounded-2xl border-5 border-blue-700 transition-normal" />
+                  )}
+
+                  {item.orderStatus === "Completed" ? (
+                    <hr className="w-full rounded-2xl border-5 border-blue-700 transition-normal" />
+                  ) : (
+                    <hr className="w-full rounded-2xl border-5 border-gray-200" />
                   )}
                 </div>
-                <div
-                  className={`mt-3 h-7 w-30 rounded-2xl border-2 ${status[item?.orderStatus]} text-center`}
-                >
-                  {item?.orderStatus}
+
+                <div className="absolute top-1 flex w-60 flex-row items-center justify-between lg:w-120">
+                  <div className="flex h-3 w-3 items-center justify-center rounded-full bg-black">
+                    {item.orderStatus === "Paid" && <TruckIcon />}
+                  </div>
+                  <div className="flex h-3 w-3 items-center justify-center rounded-full bg-black">
+                    {item.orderStatus === "Shipped" && <TruckIcon />}
+                  </div>
+                  <div className="flex h-3 w-3 items-center justify-center rounded-full bg-black">
+                    {item.orderStatus === "Completed" && <TruckIcon />}
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div className="relative mt-4 flex h-full w-full flex-col items-center justify-center lg:justify-center">
-              <div className="flex h-5 w-60 items-center justify-center lg:w-120">
-                {item.orderStatus === "Shipped" && (
-                  <hr className="w-full rounded-2xl border-5 border-blue-700 transition-normal" />
-                )}
-
-                {item.orderStatus === "Completed" ? (
-                  <hr className="w-full rounded-2xl border-5 border-blue-700 transition-normal" />
+                {item.orderStatus === "Canceled" ? (
+                  <div className="text-l font-semibold text-red-500 underline">
+                    Canceled
+                  </div>
                 ) : (
-                  <hr className="w-full rounded-2xl border-5 border-gray-200" />
+                  <div className="mt-2 flex w-68 flex-row justify-between text-xs lg:w-128">
+                    <div className="text-xs">Shipped</div>
+                    <div className="text-xs">Out for Delivery</div>
+                    <div className="text-xs">Delivery</div>
+                  </div>
                 )}
               </div>
-
-              <div className="absolute top-1 flex w-60 flex-row items-center justify-between lg:w-120">
-                <div className="flex h-3 w-3 items-center justify-center rounded-full bg-black">
-                  {item.orderStatus === "Paid" && <TruckIcon />}
-                </div>
-                <div className="flex h-3 w-3 items-center justify-center rounded-full bg-black">
-                  {item.orderStatus === "Shipped" && <TruckIcon />}
-                </div>
-                <div className="flex h-3 w-3 items-center justify-center rounded-full bg-black">
-                  {item.orderStatus === "Completed" && <TruckIcon />}
-                </div>
-              </div>
-
-              {item.orderStatus === "Canceled" ? (
-                <div className="text-l font-semibold text-red-500 underline">
-                  Canceled
-                </div>
-              ) : (
-                <div className="mt-2 flex w-68 flex-row justify-between text-xs lg:w-128">
-                  <div className="text-xs">Shipped</div>
-                  <div className="text-xs">Out for Delivery</div>
-                  <div className="text-xs">Delivery</div>
-                </div>
-              )}
             </div>
-          </div>
 
-          <ViewOrderCard item={item.order_product} />
-        </div>
-      ))}
+            <ViewOrderCard item={item.order_product} />
+          </div>
+        ))}
     </div>
   );
 };
