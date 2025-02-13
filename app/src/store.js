@@ -90,7 +90,16 @@ const useAuthStore = create((set) => ({
     }
   },
 
-  clearCart: () => set({ cart: [] }),
+  clearCart: async () => {
+    set({ cart: [] });
+    try {
+      await ax.put(`users/${useAuthStore.getState().user.id}`, {
+        cart: [], // reset
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  },
   updateJwt: (jwt) => {
     set((state) => {
       if (state.jwt !== jwt) {

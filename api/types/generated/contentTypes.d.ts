@@ -421,7 +421,7 @@ export interface ApiOrderOrder extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     order_product: Schema.Attribute.JSON;
     orderStatus: Schema.Attribute.Enumeration<
-      ['Pending', 'Completed', 'Shipped', 'Canceled']
+      ['Pending', 'Paid', 'Abandoned', 'Shipped', 'Completed', 'Canceled']
     >;
     owner: Schema.Attribute.Relation<
       'manyToOne',
