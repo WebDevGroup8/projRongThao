@@ -28,17 +28,17 @@ export default {
     }
     switch (event.type) {
       case "checkout.session.completed":
-        console.log("⚠️ User abandoned checkout.");
-        await updateOrderStatus(event.data.object.id, "paid");
+        console.log("✅ User completed checkout.");
+        await updateOrderStatus(event.data.object.id, "Paid");
         break;
       case "checkout.session.expired":
         console.log("⚠️ User abandoned checkout.");
-        await updateOrderStatus(event.data.object.id, "abandoned");
+        await updateOrderStatus(event.data.object.id, "Abandoned");
         break;
 
       case "payment_intent.canceled":
         console.log("❌ Payment was canceled.");
-        await updateOrderStatus(event.data.object.id, "canceled");
+        await updateOrderStatus(event.data.object.id, "Canceled");
         break;
 
       default:
@@ -54,10 +54,10 @@ async function updateOrderStatus(orderId: string, status: string) {
   try {
     await strapi.db.query("api::order.order").update({
       where: {
-        stripeId: orderId, // The condition to find the record
+        stripeId: orderId,
       },
       data: {
-        orderStatus: status, // The attributes you want to update
+        orderStatus: status,
       },
     });
     console.log(`✅ Order ${orderId} status updated to: ${status}`);

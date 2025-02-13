@@ -22,8 +22,10 @@
       "type": "enumeration",
       "enum": [
         "Pending",
-        "Completed",
+        "Paid",
+        "Abandoned",
         "Shipped",
+        "Completed",
         "Canceled"
       ]
     },
