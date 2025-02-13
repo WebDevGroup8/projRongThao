@@ -193,13 +193,12 @@ export default function ViewOrder() {
   const [active, setActive] = useState("To Ship");
 
   return (
-    <div className="p-10">
-      <div className="relative flex w-full flex-col">
-        <div className="mb-1 text-2xl font-semibold lg:mb-3 lg:text-5xl">
+    <div className="w-full px-10">
+      <div className="relative flex w-full flex-col justify-between">
+        <div className="my-5 text-2xl font-semibold lg:my-10 lg:mb-3 lg:text-5xl">
           Your Order
         </div>
-
-        <div className>
+        <div>
           <hr className="absolute right-0 -bottom-2 left-0 border-2 border-blue-900" />
         </div>
       </div>
