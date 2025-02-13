@@ -3,8 +3,8 @@ import { Mail, Truck, Ruler, HelpCircle, Github } from "lucide-react";
 
 function Footer() {
   return (
-    <div className="bg-primary mt-20 px-4 py-8 text-gray-300 md:px-12 lg:px-24">
-      <div className="grid w-full grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
+    <div className="bg-primary mt-20 flex flex-col items-center px-4 py-8 text-gray-300 md:px-12 lg:w-full">
+      <div className="grid w-full grid-cols-1 gap-10 md:grid-cols-2 lg:max-w-screen-xl lg:grid-cols-3">
         <div>
           <h2 className="mb-4 text-lg font-semibold text-white">About Us</h2>
           <p className="text-sm leading-relaxed text-gray-400">
