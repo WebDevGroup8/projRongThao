@@ -15,6 +15,7 @@ import useAuthStore from "./store";
 import { useEffect } from "react";
 import NavigationBar from "./components/NavigationBar";
 import Container from "./components/Container";
+import Footer from "./components/Footer";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
@@ -46,6 +47,7 @@ function App() {
               <>
                 <NavigationBar />
                 <HomePage />
+                <Footer />
               </>
             }
           />
@@ -58,6 +60,7 @@ function App() {
                 <Container>
                   <SeeAllItem />
                 </Container>
+                <Footer />
               </>
             }
           />
@@ -98,17 +101,6 @@ function App() {
             }
           />
 
-          <Route
-            path="/products"
-            element={
-              <>
-                <NavigationBar />
-                <Container>
-                  <SeeAllItem />
-                </Container>
-              </>
-            }
-          />
           {/* TODO: remove this route and change to some order view with handle payment status */}
           <Route
             path="/payment"
