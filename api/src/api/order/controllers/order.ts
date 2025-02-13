@@ -69,6 +69,7 @@ export default factories.createCoreController(
           line_items: lineItems,
           mode: "payment",
           // TODOs: Update url for handle payment result
+          expires_at: Math.floor(Date.now() / 1000) + 1800, // 30 minutes (1800 seconds)
           success_url: `${process.env.STAGE == "production" ? process.env.DEPLOY_URL : process.env.CLIENT_URL}/payment?success=true`,
           cancel_url: `${process.env.STAGE == "production" ? process.env.DEPLOY_URL : process.env.CLIENT_URL}/payment?success=false`,
           shipping_address_collection: { allowed_countries: ["TH"] },
