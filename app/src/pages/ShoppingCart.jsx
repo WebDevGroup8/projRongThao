@@ -6,7 +6,8 @@ import useAuthStore from "../store";
 import Loading from "../components/Loading";
 import conf from "../conf/mainapi";
 export default function ShoppingCart() {
-  const { cart, updateCartItem, removeFromCart, clearCart } = useAuthStore();
+  const { user, cart, updateCartItem, removeFromCart, clearCart } =
+    useAuthStore();
   const [cartItems, setCartItems] = useState(cart);
   const [isLoading, setIsLoading] = useState(false);
   const [subtotal, setSubtotal] = useState(0);
@@ -37,6 +38,7 @@ export default function ShoppingCart() {
     try {
       const stripe = await stripePromise;
       const response = await ax.post("/orders", {
+        userId: user.id,
         order_product: cartItems,
         amount_shipping: shipping,
         // TODO: remove hard code

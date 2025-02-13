@@ -27,7 +27,8 @@ export default factories.createCoreController(
   "api::order.order",
   ({ strapi }) => ({
     async create(ctx) {
-      const { order_product, amount_shipping, discount } = ctx.request.body;
+      const { userId, order_product, amount_shipping, discount } =
+        ctx.request.body;
 
       if (!order_product || !Array.isArray(order_product)) {
         ctx.response.status = 400;
@@ -92,7 +93,12 @@ export default factories.createCoreController(
           ],
         });
         await strapi.service("api::order.order").create({
-          data: { order_product, stripeId: session.id, orderStatus: "Pending" },
+          data: {
+            order_product,
+            stripeId: session.id,
+            orderStatus: "Pending",
+            owner: userId,
+          },
         });
 
         return { stripeSession: session };
