@@ -6,7 +6,7 @@ import ax from "../conf/ax";
 import { EditableProductCard } from "../components/EditableProductCard";
 import { motion, AnimatePresence } from "framer-motion";
 import Loading from "../components/Loading";
-import { SideBar } from "../components/SideBar";
+import { SideBarForManageProduct } from "../components/SideBarForManageProduct";
 
 export default function ManageProduct() {
     const [products, setProducts] = useState([]);
@@ -84,9 +84,9 @@ export default function ManageProduct() {
             </div>
 
             {/* Grid แสดงสินค้า */}
-            <div className="flex flex-row ">
+            <div className="flex flex-row gap-5">
                 <div className="flex w-fit flex-shrink-0 ">
-                    <SideBar
+                    <SideBarForManageProduct
                         categories={categories}
                         selectedCategories={selectedCategories}
                         setSelectedCategories={setSelectedCategories}
