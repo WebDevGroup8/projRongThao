@@ -4,7 +4,7 @@ import Loading from "../components/Loading";
 import useAuthStore from "../store";
 
 export const ProtectedAdminRoute = ({ children }) => {
-  const { isLoginPending, user } = useAuthStore;
+  const { isLoginPending, user } = useAuthStore();
   const navigate = useNavigate();
   useEffect(() => {
     if (!isLoginPending && !user) {
