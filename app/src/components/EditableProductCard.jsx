@@ -6,8 +6,6 @@ import conf from "../conf/mainapi";
 export const EditableProductCard = (props) => {
   const [animate, setAnimate] = useState(false);
 
-  const navigate = useNavigate();
-
   const image = props.image[0].url;
 
   const categoryColors = {
@@ -22,13 +20,8 @@ export const EditableProductCard = (props) => {
     heel: "bg-teal-100 text-teal-800 border-teal-400",
   };
 
-  const handleDetail = () => {
-    navigate(`/product/${props.id}`);
-  };
-
   return (
     <div
-      onClick={handleDetail}
       onMouseEnter={() => setAnimate(true)}
       onMouseLeave={() => setAnimate(false)}
       className="flex min-h-65 flex-col justify-between overflow-hidden rounded-md border-2 border-gray-200 bg-white px-4 py-1 pb-4 transition-shadow hover:shadow-xl lg:min-h-90"
