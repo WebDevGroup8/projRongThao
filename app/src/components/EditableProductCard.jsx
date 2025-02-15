@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { Star, MapPin } from "lucide-react";
 import conf from "../conf/mainapi";
+import { Pencil, Trash2 } from "lucide-react"
 
 export const EditableProductCard = (props) => {
   const [animate, setAnimate] = useState(false);
@@ -69,6 +70,17 @@ export const EditableProductCard = (props) => {
           {/* {props.soldCount}  */}
           2.51k Solds
         </span>
+      </div>
+      <div className="flex flex-row justify-between mt-4">
+        <button className="h-8 px-4 text-primary rounded-md flex items-center justify-center space-x-2 hover:bg-gray-200 transition duration-200 ease-in-out">
+          <Pencil className="h-4 w-4" />
+          <span>Edit</span>
+        </button>
+
+        <button className="h-8 px-4 text-red-700 rounded-md flex items-center justify-center space-x-2 hover:bg-gray-200 transition duration-200 ease-in-out">
+          <Trash2 className="h-4 w-4" />
+          <span>Delete</span>
+        </button>
       </div>
     </div>
   );
