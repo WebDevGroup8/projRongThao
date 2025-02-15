@@ -16,7 +16,7 @@ import { useEffect } from "react";
 import NavigationBar from "./components/NavigationBar";
 import Container from "./components/Container";
 import Footer from "./components/Footer";
-import { ManageProduct } from "./pages/ManageProduct";
+import ManageProduct from "./pages/ManageProduct";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
@@ -125,9 +125,9 @@ function App() {
           <Route
             path="/admin/manageproduct"
             element={
-              //<ProtectedAdminRoute>
-              <ManageProduct />
-              //</ProtectedAdminRoute>
+              <ProtectedAdminRoute>
+                <ManageProduct />
+              </ProtectedAdminRoute>
             }
           />
 
