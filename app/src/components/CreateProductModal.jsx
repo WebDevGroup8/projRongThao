@@ -25,7 +25,16 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
         e.preventDefault();
 
         const formData = new FormData();
-        formData.append("files.image", productData.image);
+
+        // ถ้ามีหลายรูป
+        if (Array.isArray(productData.image)) {
+            productData.image.forEach((file) => {
+                formData.append("files.image", file); // เพิ่มรูปหลายรูป
+            });
+        } else {
+            formData.append("files.image", productData.image); // กรณีรูปเดียว
+        }
+
         formData.append("data", JSON.stringify({
             name: productData.name,
             description: productData.description,
@@ -36,12 +45,14 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
         }));
 
         try {
-            await ax.post("/products", formData);
+            const response = await ax.post("/products", formData, {
+                headers: { "Content-Type": "multipart/form-data" }
+            });
+
+            console.log("✅ Product Created:", response.data);
             alert("Product Created Successfully!");
-            onClose();
-            fetchProducts(); // รีเฟรชรายการสินค้า
         } catch (error) {
-            console.error("Error creating product:", error);
+            console.error("❌ Error creating product:", error.response?.data);
         }
     };
 
