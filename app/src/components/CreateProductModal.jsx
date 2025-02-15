@@ -48,7 +48,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+        <div className="fixed inset-0 bg-black/80 flex justify-center items-center">
             <div className="bg-white p-6 rounded-lg shadow-lg w-96">
                 <h2 className="text-xl font-semibold mb-4">Create New Product</h2>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">

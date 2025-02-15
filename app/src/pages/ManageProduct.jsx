@@ -7,6 +7,8 @@ import { EditableProductCard } from "../components/EditableProductCard";
 import { motion, AnimatePresence } from "framer-motion";
 import Loading from "../components/Loading";
 import { SideBarForManageProduct } from "../components/SideBarForManageProduct";
+import CreateProductModal from "../components/CreateProductModal";
+
 
 export default function ManageProduct() {
     const [products, setProducts] = useState([]);
@@ -16,6 +18,9 @@ export default function ManageProduct() {
     const [selectedSizes, setSelectedSizes] = useState([]);
     const [priceRange, setPriceRange] = useState([0, 10000]);
     const [isLoading, setIsLoading] = useState(true);
+
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
 
     const fetchCategories = async () => {
         try {
@@ -78,6 +83,7 @@ export default function ManageProduct() {
                 <div className="flex gap-2">
                     <button
                         type="button"
+                        onClick={() => setIsCreateModalOpen(true)} // เปิด CreateModal
                         className="text-white bg-primary hover:bg-primary-light font-semibold rounded-lg text-sm w-full px-5 py-2.5 text-center mt-5  "
                     >+ Create new</button>
                 </div>
@@ -125,6 +131,12 @@ export default function ManageProduct() {
                     </AnimatePresence>
                 </div>
             </div>
+            {/* Render Modal */}
+            <CreateProductModal
+                isOpen={isCreateModalOpen}
+                onClose={() => setIsCreateModalOpen(false)}
+                fetchProducts={fetchProducts}
+            />
         </div>
     );
 };
