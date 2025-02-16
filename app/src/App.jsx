@@ -2,7 +2,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import SignIn from "./pages/SignIn";
 import { HomePage } from "./pages/HomePage";
-import { DashBoard } from "./pages/DashBoard";
+import DashBoard from "./pages/DashBoard";
 import ShoppingCart from "./pages/ShoppingCart";
 import ItemDetail from "./pages/ItemDetail";
 import { SeeAllItem } from "./pages/SeeAllItem";
@@ -52,14 +52,7 @@ function App() {
 
           <Route path="/login" element={<SignIn />} />
 
-          <Route
-            path="/admin/dashboard"
-            element={
-              <ProtectedAdminRoute>
-                <DashBoard />
-              </ProtectedAdminRoute>
-            }
-          />
+          <Route path="/admin/DashBoard" element={<DashBoard />} />
 
           <Route
             path="/product/:id"
