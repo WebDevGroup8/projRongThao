@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import NavigationBar from "./components/NavigationBar";
 import Container from "./components/Container";
 import Footer from "./components/Footer";
+import ManageProduct from "./pages/ManageProduct";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
@@ -110,6 +111,7 @@ function App() {
               </ProtectedCustomerRoute>
             }
           />
+
           <Route path="/test" element={<Test />} />
           <Route
             path="*"
@@ -119,6 +121,16 @@ function App() {
               </a>
             }
           />
+
+          <Route
+            path="/admin/manageproduct"
+            element={
+              <ProtectedAdminRoute>
+                <ManageProduct />
+              </ProtectedAdminRoute>
+            }
+          />
+
         </Routes>
       </div>
     )
