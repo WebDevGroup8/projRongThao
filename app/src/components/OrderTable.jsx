@@ -51,6 +51,7 @@ const OrderTable = (props) => {
             : order,
         ),
       );
+      fetchProducts();
     } catch (error) {
       console.error("Error updating status:", error);
     }
