@@ -30,7 +30,6 @@ const OrderTable = (props) => {
     try {
       const res = await ax.get(`/orders?populate=*`);
       setOrder(res.data.data);
-      console.log(res.data.data);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
