@@ -9,21 +9,22 @@ export default {
       ctx.status = 200;
       ctx.body = coupons;
     } catch (e) {
-      console.log("Create Promotion Coupon ", e);
+      console.log("Unable to query all promotions with", e);
       ctx.status = 500;
-      ctx.body = { error: `Create Promotion Coupon ${e}` };
+      ctx.body = { error: `Unable to query all promotions with ${e}` };
     }
   },
   async queryOnePromotion(ctx: Context) {
-    const { id } = ctx.request.body;
+    const { id } = ctx.params;
+    console.log("id for findOne", id);
     try {
-      const coupon = await stripe.coupons.retrieve(id);
+      const coupon = await stripe.coupons.retrieve(String(id));
       ctx.status = 200;
       ctx.body = coupon;
     } catch (e) {
-      console.log("Create Promotion Coupon ", e);
+      console.log(`Unable to query ${id} promotions with`, e);
       ctx.status = 500;
-      ctx.body = { error: `Create Promotion Coupon ${e}` };
+      ctx.body = { error: `Unable to query ${id} promotions with ${e}` };
     }
   },
   async createPromotion(ctx: Context) {
@@ -37,15 +38,16 @@ export default {
       ctx.status = 200;
       ctx.body = coupon;
     } catch (e) {
-      console.log("Create Promotion Coupon ", e);
+      console.log("Unable to create coupon with ", e);
       ctx.status = 500;
-      ctx.body = { error: `Create Promotion Coupon ${e}` };
+      ctx.body = { error: `Unable to create coupon with ${e}` };
     }
   },
   async updatePromotion(ctx: Context) {
-    const { id, order_id } = ctx.request.body;
+    const { id } = ctx.params;
+    const { order_id } = ctx.request.body;
     try {
-      const coupon = await stripe.coupons.update(id, {
+      const coupon = await stripe.coupons.update(String(id), {
         metadata: {
           order_id: order_id,
         },
@@ -53,21 +55,21 @@ export default {
       ctx.status = 200;
       ctx.body = coupon;
     } catch (e) {
-      console.log("Create Promotion Coupon ", e);
+      console.log(`Unable to update ${id} coupon with `, e);
       ctx.status = 500;
-      ctx.body = { error: `Create Promotion Coupon ${e}` };
+      ctx.body = { error: `Unable to update ${id} coupon with ${e}` };
     }
   },
   async deletePromotion(ctx: Context) {
-    const { id } = ctx.request.body;
+    const { id } = ctx.params;
     try {
-      const deleted = await stripe.coupons.del(id);
+      const deleted = await stripe.coupons.del(String(id));
       ctx.status = 200;
       ctx.body = deleted;
     } catch (e) {
-      console.log("Create Promotion Coupon ", e);
+      console.log(`Unable to delete ${id} coupon with `, e);
       ctx.status = 500;
-      ctx.body = { error: `Create Promotion Coupon ${e}` };
+      ctx.body = { error: `Unable to update ${id} coupon wiith ${e}` };
     }
   },
 };
