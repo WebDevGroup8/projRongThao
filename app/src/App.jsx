@@ -115,7 +115,7 @@ function App() {
           />
 
           <Route
-            path="/admin/manageproduct"
+            path="/admin/product"
             element={
               <ProtectedAdminRoute>
                 <ManageProduct />
