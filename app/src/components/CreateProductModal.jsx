@@ -6,51 +6,80 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
         name: "",
         description: "",
         price: "",
-        size: [],
-        color: [],
+        size: "",
+        color: "",
         stock: "",
-        image: null,
     });
 
+    const [images, setImages] = useState([]); // เก็บไฟล์รูป
+    const [previewUrls, setPreviewUrls] = useState([]); // เก็บ URL สำหรับแสดงรูป
+
+    // อัปเดตค่าฟอร์ม
     const handleChange = (e) => {
         const { name, value } = e.target;
         setProductData({ ...productData, [name]: value });
     };
 
+    // เมื่อผู้ใช้เลือกไฟล์รูป
     const handleImageChange = (e) => {
-        setProductData({ ...productData, image: e.target.files[0] });
+        const files = Array.from(e.target.files); // แปลง FileList เป็น Array
+        setImages(files);
+
+        // สร้าง URL สำหรับ preview รูป
+        const newPreviewUrls = files.map((file) => URL.createObjectURL(file));
+        setPreviewUrls(newPreviewUrls);
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    // อัปโหลดรูปไปยัง Strapi
+    const uploadImages = async () => {
+        if (images.length === 0) return [];
 
         const formData = new FormData();
-
-        // ถ้ามีหลายรูป
-        if (Array.isArray(productData.image)) {
-            productData.image.forEach((file) => {
-                formData.append("files.image", file); // เพิ่มรูปหลายรูป
-            });
-        } else {
-            formData.append("files.image", productData.image); // กรณีรูปเดียว
-        }
-
-        formData.append("data", JSON.stringify({
-            name: productData.name,
-            description: productData.description,
-            price: Number(productData.price),
-            size: productData.size.split(","),
-            color: productData.color.split(","),
-            stock: Number(productData.stock),
-        }));
+        images.forEach((file) => formData.append("files", file));
 
         try {
-            const response = await ax.post("/products", formData, {
+            const response = await ax.post("/upload", formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             });
 
+            return response.data.map((file) => file.id); // ดึง id ของรูปที่อัปโหลดสำเร็จ
+        } catch (error) {
+            console.error("❌ Error uploading images:", error);
+            return [];
+        }
+    };
+
+    // ส่งข้อมูลสินค้า
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // อัปโหลดรูปก่อน
+        const uploadedImageIds = await uploadImages();
+
+        // ถ้าอัปโหลดไม่สำเร็จให้หยุด
+        if (uploadedImageIds.length === 0) {
+            alert("❌ Upload failed. Please try again.");
+            return;
+        }
+
+        // สร้างสินค้าโดยแนบ ID ของรูป
+        try {
+            const response = await ax.post("/products", {
+                data: {
+                    name: productData.name,
+                    description: productData.description,
+                    price: Number(productData.price),
+                    size: productData.size.split(","),
+                    color: productData.color.split(","),
+                    stock: Number(productData.stock),
+                    image: uploadedImageIds, // ส่ง ID ของรูป
+                },
+            });
+
             console.log("✅ Product Created:", response.data);
-            alert("Product Created Successfully!");
+            alert("🎉 Product Created Successfully!");
+            fetchProducts(); // โหลดรายการสินค้าใหม่
+            onClose();
         } catch (error) {
             console.error("❌ Error creating product:", error.response?.data);
         }
@@ -69,9 +98,18 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
                     <input type="text" name="size" placeholder="Sizes (comma separated)" value={productData.size} onChange={handleChange} required className="border p-2 rounded" />
                     <input type="text" name="color" placeholder="Colors (comma separated)" value={productData.color} onChange={handleChange} required className="border p-2 rounded" />
                     <input type="number" name="stock" placeholder="Stock" value={productData.stock} onChange={handleChange} required className="border p-2 rounded" />
-                    <input type="file" accept="image/*" onChange={handleImageChange} required className="border p-2 rounded" />
 
-                    <div className="flex justify-between">
+                    {/* อัปโหลดรูป */}
+                    <input type="file" multiple accept="image/*" onChange={handleImageChange} className="border p-2 rounded" />
+
+                    {/* แสดงตัวอย่างรูป */}
+                    <div className="flex gap-2 mt-2">
+                        {previewUrls.map((url, index) => (
+                            <img key={index} src={url} alt={`preview-${index}`} className="w-16 h-16 object-cover rounded border" />
+                        ))}
+                    </div>
+
+                    <div className="flex justify-between mt-4">
                         <button type="button" onClick={onClose} className="bg-red-500 text-white px-4 py-2 rounded">Cancel</button>
                         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Create</button>
                     </div>
