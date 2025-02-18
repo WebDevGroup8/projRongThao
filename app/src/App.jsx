@@ -43,6 +43,8 @@ function App() {
     !isLoginPending && (
       <div className="h-full w-full">
         <Routes>
+          {/* Public Route */}
+          <Route path="/login" element={<SignIn />} />
           <Route
             path="/"
             element={
@@ -53,7 +55,6 @@ function App() {
               </>
             }
           />
-
           <Route
             path="/products"
             element={
@@ -66,10 +67,8 @@ function App() {
               </>
             }
           />
-          <Route path="/login" element={<SignIn />} />
 
-          <Route path="/admin/DashBoard" element={<DashBoard />} />
-
+          {/* Customer Route */}
           <Route
             path="/product/:id"
             element={
@@ -96,16 +95,6 @@ function App() {
             }
           />
 
-          {/* TODO: remove this route and change to some order view with handle payment status */}
-          <Route
-            path="/payment"
-            element={
-              <ProtectedCustomerRoute>
-                <Payment />
-              </ProtectedCustomerRoute>
-            }
-          />
-
           <Route path="/test" element={<Test />} />
           <Route
             path="*"
@@ -116,8 +105,18 @@ function App() {
             }
           />
 
+          {/* Admin Route */}
           <Route
-            path="/admin/manageproduct"
+            path="/admin/dashboard"
+            element={
+              <ProtectedAdminRoute>
+                <DashBoard />
+              </ProtectedAdminRoute>
+            }
+          />
+
+          <Route
+            path="/admin/product"
             element={
               <ProtectedAdminRoute>
                 <ManageProduct />
@@ -126,7 +125,7 @@ function App() {
           />
 
           <Route
-            path="/admin/orders"
+            path="/admin/order"
             element={
               <ProtectedAdminRoute>
                 <OrderManagement />
