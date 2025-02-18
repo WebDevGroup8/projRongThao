@@ -29,7 +29,7 @@ export const SideBarForManageProduct = ({
   };
 
   return (
-    <div className="mx-2 h-fit w-full rounded-md border border-gray-200 bg-white p-4 shadow-md ">
+    <div className=" h-fit w-full rounded-md border border-gray-200 bg-white p-4 shadow-md ">
       <div className="text-md pb-2 font-medium text-gray-900">Categories</div>
       <div className="flex flex-wrap gap-5 ">
         {categories.map((category) => (

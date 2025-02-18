@@ -101,7 +101,7 @@ export default function ManageProduct() {
             </div>
             {/* Grid แสดงสินค้า */}
             <div className="flex flex-row gap-5">
-                <div className="grid w-full grid-cols-2 gap-5 px-3 md:grid-cols-3 lg:grid-cols-4 lg:px-1">
+                <div className="grid w-full grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4 ">
                     <AnimatePresence>
                         {filteredProducts.map((product) => (
                             <motion.div
