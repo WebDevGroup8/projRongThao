@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 export const StatCard = () => {
   const day = ["7 days", "30 days", "90 days"];
   const bestSell = [
-    { product: "product1", amount: 99 },
+    { product: "product1", amount: 9009 },
     { product: "product3", amount: 99 },
     { product: "product5", amount: 99 },
     { product: "product10", amount: 99 },
@@ -21,7 +21,7 @@ export const StatCard = () => {
   return (
     <div>
       <div className="flex flex-row gap-5">
-        <div className="flex w-fit flex-col justify-start gap-4 rounded-lg border-2 border-gray-400 p-4 shadow-xl">
+        <div className="flex w-100 flex-col justify-start gap-4 rounded-lg border-2 border-gray-400 p-4 shadow-sm">
           <div className="flex flex-row items-center justify-between gap-5">
             <div>
               <p className="text-xs font-semibold text-gray-500">
@@ -31,7 +31,7 @@ export const StatCard = () => {
             <div className="relative">
               <button
                 onClick={() => setOpenDaysRevenue(!openDaysRevenue)}
-                className="inline-flex items-center gap-2 rounded-lg border-1 border-gray-400 px-2 text-center text-xs font-light text-black focus:outline-none"
+                className="inline-flex w-22 items-center gap-2 rounded-lg border-1 border-gray-400 px-2 text-center text-xs font-light text-black focus:outline-none"
                 type="button"
               >
                 {daysRevenue}
@@ -74,7 +74,7 @@ export const StatCard = () => {
             </div>
           </div>
         </div>
-        <div className="flex w-fit flex-col justify-start gap-4 rounded-lg border-2 border-gray-400 p-4 shadow-xl">
+        <div className="flex w-100 flex-col justify-start gap-4 rounded-lg border-2 border-gray-400 p-4 shadow-sm">
           <div className="flex flex-row items-center justify-between gap-5">
             <div>
               <p className="text-xs font-semibold text-gray-500">
@@ -84,7 +84,7 @@ export const StatCard = () => {
             <div className="relative">
               <button
                 onClick={() => setOpenDaysOrder(!openDaysOrder)}
-                className="inline-flex items-center gap-2 rounded-lg border-1 border-gray-400 px-2 text-center text-xs font-light text-black focus:outline-none"
+                className="inline-flex w-22 items-center gap-2 rounded-lg border-1 border-gray-400 px-2 text-center text-xs font-light text-black focus:outline-none"
                 type="button"
               >
                 {daysOrder}
@@ -117,10 +117,10 @@ export const StatCard = () => {
             </div>
           </div>
           <div className="-mt-3 font-semibold text-gray-600">
-            <p className="text-xl">45</p>
+            <p className="text-3xl">45</p>
           </div>
         </div>
-        <div className="flex w-fit flex-col justify-start gap-4 rounded-lg border-2 border-gray-400 p-4 shadow-xl">
+        <div className="flex w-100 flex-col justify-start gap-4 rounded-lg border-2 border-gray-400 p-4 shadow-sm">
           <div className="mb-2 flex flex-row items-center justify-between gap-5">
             <div>
               <p className="text-xs font-semibold text-gray-500">
@@ -134,7 +134,7 @@ export const StatCard = () => {
           {bestSell.slice(0, 3).map((item, index) => (
             <div
               key={index}
-              className="-mt-3 flex flex-row items-center justify-between font-semibold text-gray-600"
+              className="-mt-3 flex w-50 flex-row items-center justify-between font-semibold text-gray-600"
             >
               <p className="text-xs font-thin">{item.product}</p>
               <p className="text-xs font-thin">{item.amount}</p>
@@ -201,6 +201,9 @@ export const Chart = () => {
                 NAME
               </th>
               <th scope="col" class="px-6 py-3">
+                EMAIL
+              </th>
+              <th scope="col" class="px-6 py-3">
                 ADDRESS
               </th>
               <th scope="col" class="px-6 py-3">
@@ -230,6 +233,7 @@ export const Chart = () => {
                   {item.documentId}
                 </th>
                 <td class="px-6 py-4">{item.owner?.username}</td>
+                <td class="px-6 py-4">{item.owner?.email}</td>
                 <td class="px-6 py-4">{item.address}</td>
                 <td class="px-6 py-4">
                   {dayjs(item.createdAt).format("DD MMM YYYY")}
