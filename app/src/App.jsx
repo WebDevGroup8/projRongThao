@@ -42,6 +42,8 @@ function App() {
     !isLoginPending && (
       <div className="h-full w-full">
         <Routes>
+          {/* Public Route */}
+          <Route path="/login" element={<SignIn />} />
           <Route
             path="/"
             element={
@@ -52,7 +54,6 @@ function App() {
               </>
             }
           />
-
           <Route
             path="/products"
             element={
@@ -65,10 +66,8 @@ function App() {
               </>
             }
           />
-          <Route path="/login" element={<SignIn />} />
 
-          <Route path="/admin/DashBoard" element={<DashBoard />} />
-
+          {/* Customer Route */}
           <Route
             path="/product/:id"
             element={
@@ -102,6 +101,16 @@ function App() {
               <a className="hover:underline" href="/">
                 Go Back
               </a>
+            }
+          />
+
+          {/* Admin Route */}
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedAdminRoute>
+                <DashBoard />
+              </ProtectedAdminRoute>
             }
           />
 

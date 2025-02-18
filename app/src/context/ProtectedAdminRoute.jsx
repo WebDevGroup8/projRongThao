@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import Loading from "../components/Loading";
 import useAuthStore from "../store";
+import AdminSidebar from "../components/AdminSidebar";
 
 export const ProtectedAdminRoute = ({ children }) => {
   const { isLoginPending, user } = useAuthStore();
@@ -26,8 +27,13 @@ export const ProtectedAdminRoute = ({ children }) => {
     );
   }
   return (
-    <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
-      {children}
+    <div className="flex w-full flex-row">
+      {/* Admin Sidebar */}
+      <AdminSidebar />
+      {/* Content */}
+      <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
+        {children}
+      </div>
     </div>
   );
 };
