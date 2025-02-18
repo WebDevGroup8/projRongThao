@@ -4,6 +4,7 @@ import { ChartNoAxesCombined, ChevronDown, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import ax from "../conf/ax";
 import dayjs from "dayjs";
+import OrderTable from "../components/OrderTable";
 
 export const StatCard = () => {
   const day = ["7 days", "30 days", "90 days"];
@@ -263,7 +264,7 @@ export default function DashBoard() {
   return (
     <div className="mx-10 mt-5 w-full">
       <StatCard />
-      <Chart />
+      <OrderTable />
     </div>
   );
 }
