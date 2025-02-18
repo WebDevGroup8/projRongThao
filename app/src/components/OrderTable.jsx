@@ -21,6 +21,8 @@ const OrderTable = (props) => {
     "Canceled",
   ];
 
+  //TODO: print Shipping Label
+
   const [order, setOrder] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -39,12 +41,14 @@ const OrderTable = (props) => {
     ),
   );
 
-  const updateStatus = async (orderId, newStatus) => {
+  const updateStatus = async (order, newStatus) => {
     try {
-      await ax.put(`/orders/${orderId}`, { orderStatus: newStatus });
-      setOrders((prevOrders) =>
+      await ax.put(`/orders/${order}`, { data: { orderStatus: newStatus } });
+      setOrder((prevOrders) =>
         prevOrders.map((order) =>
-          order.id === orderId ? { ...order, orderStatus: newStatus } : order,
+          order.documentId === order
+            ? { ...order, orderStatus: newStatus }
+            : order,
         ),
       );
     } catch (error) {
@@ -110,16 +114,13 @@ const OrderTable = (props) => {
                   ))}
                 </td>
                 <td className="py-4 pe-6">
-                  <div
-                    className={`h-7 w-30 rounded-2xl border-2 ${status[item?.orderStatus]} ${props.hiddenView} text-center`}
-                  >
-                    {item.orderStatus}
-                  </div>
-                  <div className={`${props.hiddenEdit}`}>
+                  {props.configView ? (
                     <select
-                      className={`h-7 w-32 rounded-2xl border-2 px-2 ${status[item.orderStatus]}`}
+                      className={`h-7 w-32 rounded-2xl border-2 ${status[item.orderStatus]} text-center`}
                       value={item.orderStatus}
-                      onChange={(e) => updateStatus(item.id, e.target.value)}
+                      onChange={(e) =>
+                        updateStatus(item.documentId, e.target.value)
+                      }
                     >
                       {statusOptions.map((status) => (
                         <option key={status} value={status}>
@@ -127,7 +128,13 @@ const OrderTable = (props) => {
                         </option>
                       ))}
                     </select>
-                  </div>
+                  ) : (
+                    <div
+                      className={`h-7 w-30 rounded-2xl border-2 ${status[item?.orderStatus]} text-center`}
+                    >
+                      {item.orderStatus}
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}

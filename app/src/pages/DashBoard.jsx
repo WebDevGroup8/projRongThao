@@ -156,8 +156,8 @@ export default function DashBoard() {
   return (
     <div className="mx-10 mt-5 w-full">
       <StatCard />
-      <OrderTable hiddenView={"hidden"} />
-      <OrderTable hiddenEdit={"hidden"} />
+      <OrderTable />
+      <OrderTable configView={true} />
     </div>
   );
 }
