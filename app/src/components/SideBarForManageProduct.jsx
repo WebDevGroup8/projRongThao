@@ -29,9 +29,9 @@ export const SideBarForManageProduct = ({
   };
 
   return (
-    <div className="mx-2 h-fit w-auto rounded-md border border-gray-200 bg-white p-4 shadow-md lg:w-48">
+    <div className="mx-2 h-fit w-full rounded-md border border-gray-200 bg-white p-4 shadow-md ">
       <div className="text-md pb-2 font-medium text-gray-900">Categories</div>
-      <div className="grid grid-cols-3 gap-2 lg:grid-cols-1">
+      <div className="flex flex-wrap gap-5 ">
         {categories.map((category) => (
           <label key={category.id} className="flex items-center gap-2">
             <input
@@ -45,7 +45,7 @@ export const SideBarForManageProduct = ({
         ))}
       </div>
 
-      <div className="py-6">
+      <div className="py-3">
         <div className="text-md pb-2 font-medium text-gray-900">Prices</div>
         <Range
           step={100}
@@ -56,7 +56,7 @@ export const SideBarForManageProduct = ({
           renderTrack={({ props: trackProps, children }) => (
             <div
               {...trackProps}
-              className="relative h-2 touch-none rounded-full bg-gray-200"
+              className="relative h-2 mx-2 touch-none rounded-full bg-gray-200"
             >
               <div
                 className="absolute h-2 rounded-full bg-gradient-to-r from-sky-500 to-indigo-500"
@@ -86,7 +86,7 @@ export const SideBarForManageProduct = ({
       </div>
 
       <div className="text-md pb-2 font-medium text-gray-900">Sizes</div>
-      <div className="grid grid-cols-3 gap-2 lg:grid-cols-1">
+      <div className="flex flex-wrap gap-5">
         {sizes.map((size, index) => (
           <label key={index} className="flex items-center gap-2">
             <input
