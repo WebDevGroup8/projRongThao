@@ -2,7 +2,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import SignIn from "./pages/SignIn";
 import { HomePage } from "./pages/HomePage";
-import { DashBoard } from "./pages/DashBoard";
+import DashBoard from "./pages/DashBoard";
 import ShoppingCart from "./pages/ShoppingCart";
 import ItemDetail from "./pages/ItemDetail";
 import { SeeAllItem } from "./pages/SeeAllItem";
@@ -42,6 +42,8 @@ function App() {
     !isLoginPending && (
       <div className="h-full w-full">
         <Routes>
+          {/* Public Route */}
+          <Route path="/login" element={<SignIn />} />
           <Route
             path="/"
             element={
@@ -52,7 +54,6 @@ function App() {
               </>
             }
           />
-
           <Route
             path="/products"
             element={
@@ -65,17 +66,8 @@ function App() {
               </>
             }
           />
-          <Route path="/login" element={<SignIn />} />
 
-          <Route
-            path="/admin/dashboard"
-            element={
-              <ProtectedAdminRoute>
-                <DashBoard />
-              </ProtectedAdminRoute>
-            }
-          />
-
+          {/* Customer Route */}
           <Route
             path="/product/:id"
             element={
@@ -102,16 +94,6 @@ function App() {
             }
           />
 
-          {/* TODO: remove this route and change to some order view with handle payment status */}
-          <Route
-            path="/payment"
-            element={
-              <ProtectedCustomerRoute>
-                <Payment />
-              </ProtectedCustomerRoute>
-            }
-          />
-
           <Route path="/test" element={<Test />} />
           <Route
             path="*"
@@ -119,6 +101,16 @@ function App() {
               <a className="hover:underline" href="/">
                 Go Back
               </a>
+            }
+          />
+
+          {/* Admin Route */}
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedAdminRoute>
+                <DashBoard />
+              </ProtectedAdminRoute>
             }
           />
 
@@ -130,7 +122,6 @@ function App() {
               </ProtectedAdminRoute>
             }
           />
-
         </Routes>
       </div>
     )
