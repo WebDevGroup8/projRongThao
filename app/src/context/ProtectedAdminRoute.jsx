@@ -31,9 +31,7 @@ export const ProtectedAdminRoute = ({ children }) => {
       {/* Admin Sidebar */}
       <AdminSidebar />
       {/* Content */}
-      <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
-        {children}
-      </div>
+      {children}
     </div>
   );
 };
