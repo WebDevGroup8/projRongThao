@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import useAuthStore from "../store";
 
 export default function AdminSidebar() {
-  const { logout } = useAuthStore;
+  const { logout } = useAuthStore();
   const navigate = useNavigate();
   return (
     <div className="bg-primary flex w-1/8 flex-col">
@@ -51,7 +51,10 @@ export default function AdminSidebar() {
         </button>
       </div>
       <div className="mt-20 flex justify-center">
-        <button className="flex flex-row items-center justify-between gap-4 rounded-md bg-red-400 px-6 py-2 text-white">
+        <button
+          onClick={() => logout()}
+          className="flex cursor-pointer flex-row items-center justify-between gap-4 rounded-md bg-red-400 px-6 py-2 text-white"
+        >
           <LogOut size={20} /> Logout
         </button>
       </div>
