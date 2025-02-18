@@ -95,16 +95,6 @@ function App() {
             }
           />
 
-          {/* TODO: remove this route and change to some order view with handle payment status */}
-          <Route
-            path="/payment"
-            element={
-              <ProtectedCustomerRoute>
-                <Payment />
-              </ProtectedCustomerRoute>
-            }
-          />
-
           <Route path="/test" element={<Test />} />
           <Route
             path="*"
@@ -123,7 +113,6 @@ function App() {
               </ProtectedAdminRoute>
             }
           />
-
         </Routes>
       </div>
     )
