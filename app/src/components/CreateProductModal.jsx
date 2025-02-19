@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React, { useState, useEffect } from "react";
 import ax from "../conf/ax"
 import { X, Upload, ImageIcon } from "lucide-react"
 
@@ -14,6 +14,29 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
 
     const [images, setImages] = useState([])
     const [previewUrls, setPreviewUrls] = useState([])
+    const [categories, setCategories] = useState([]); // เก็บ Category จาก Strapi
+    const [selectedCategories, setSelectedCategories] = useState([]); // เก็บหมวดหมู่ที่เลือก
+
+    // 📌 ดึง Categories จาก Strapi เมื่อเปิด Modal
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await ax.get("/categories"); // ดึงหมวดหมู่ทั้งหมด
+                setCategories(response.data.data); // เก็บ Categories
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            }
+        };
+        fetchCategories();
+    }, []);
+    // 📌 ฟังก์ชันเลือก/ยกเลิกเลือกหมวดหมู่
+    const handleCategorySelect = (id) => {
+        if (selectedCategories.includes(id)) {
+            setSelectedCategories(selectedCategories.filter((catId) => catId !== id)); // เอาออก
+        } else {
+            setSelectedCategories([...selectedCategories, id]); // เพิ่มเข้าไป
+        }
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -67,6 +90,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
                     color: productData.color.split(","),
                     stock: Number(productData.stock),
                     image: uploadedImageIds,
+                    categories: selectedCategories, // ส่ง Category ที่เลือก
                 },
             })
 
@@ -144,7 +168,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
                                 value={productData.name}
                                 onChange={handleChange}
                                 required
-                                className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary focus:border-primary"
                             />
                         </div>
                         <div>
@@ -154,7 +178,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
                                 value={productData.description}
                                 onChange={handleChange}
                                 required
-                                className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary focus:border-primary"
                             />
                         </div>
                         <div>
@@ -165,7 +189,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
                                 value={productData.price}
                                 onChange={handleChange}
                                 required
-                                className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary focus:border-primary"
                             />
                         </div>
                         <div className="grid grid-cols-2 gap-4">
@@ -178,7 +202,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
                                     onChange={handleChange}
                                     required
                                     placeholder="e.g. XX, YY, ZZ"
-                                    className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary focus:border-primary"
                                 />
                             </div>
                             <div>
@@ -190,7 +214,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
                                     onChange={handleChange}
                                     required
                                     placeholder="e.g. Red, Blue"
-                                    className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary focus:border-primary"
                                 />
                             </div>
                         </div>
@@ -202,12 +226,28 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
                                 value={productData.stock}
                                 onChange={handleChange}
                                 required
-                                className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary focus:border-primary"
                             />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Categories</label>
+                            <div className=" rounded-md mt-1 p-2 h-20 overflow-y-scroll shadow-sm">
+                                {categories.map((category) => (
+                                    <div key={category.id} className="flex items-center gap-2 focus:ring-primary focus:border-primary">
+                                        <input
+                                            type="checkbox"
+                                            id={`category-${category.id}`}
+                                            checked={selectedCategories.includes(category.id)}
+                                            onChange={() => handleCategorySelect(category.id)}
+                                        />
+                                        <label htmlFor={`category-${category.id}`}>{category.title}</label>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
-                    <div className="col-span-full flex justify-end mt-6">
+                    <div className="col-span-full flex justify-end">
                         <button type="submit" className="px-6 py-2 bg-primary text-white rounded-md shadow hover:bg-primary-light">
                             Create
                         </button>
