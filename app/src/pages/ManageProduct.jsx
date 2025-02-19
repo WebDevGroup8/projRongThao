@@ -74,7 +74,7 @@ export default function ManageProduct() {
         );
 
     return (
-        <div className="flex flex-col w-screen h-screen py-10 px-20 ">
+        <div className="flex flex-col w-screen h-full py-10 px-20 ">
             <div className="flex flex-row items-center justify-between ">
                 <h1 className="text-2xl font-semibold">Manage Product</h1>
             </div>
