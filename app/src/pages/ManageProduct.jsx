@@ -74,7 +74,7 @@ export default function ManageProduct() {
         );
 
     return (
-        <div className="flex flex-col w-screen h-screen ">
+        <div className="flex flex-col w-screen h-screen py-10 px-20 ">
             <div className="flex flex-row items-center justify-between ">
                 <h1 className="text-2xl font-semibold">Manage Product</h1>
             </div>
@@ -88,21 +88,20 @@ export default function ManageProduct() {
                     >+ Create new</button>
                 </div>
             </div>
-
+            <div className="flex w-full flex-shrink-0 pb-5">
+                <SideBarForManageProduct
+                    categories={categories}
+                    selectedCategories={selectedCategories}
+                    setSelectedCategories={setSelectedCategories}
+                    priceRange={priceRange}
+                    setPriceRange={setPriceRange}
+                    selectedSizes={selectedSizes}
+                    setSelectedSizes={setSelectedSizes}
+                />
+            </div>
             {/* Grid แสดงสินค้า */}
             <div className="flex flex-row gap-5">
-                <div className="flex w-fit flex-shrink-0 ">
-                    <SideBarForManageProduct
-                        categories={categories}
-                        selectedCategories={selectedCategories}
-                        setSelectedCategories={setSelectedCategories}
-                        priceRange={priceRange}
-                        setPriceRange={setPriceRange}
-                        selectedSizes={selectedSizes}
-                        setSelectedSizes={setSelectedSizes}
-                    />
-                </div>
-                <div className="grid w-full grid-cols-2 gap-5 px-3 md:grid-cols-3 lg:grid-cols-4 lg:px-1">
+                <div className="grid w-full grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4 ">
                     <AnimatePresence>
                         {filteredProducts.map((product) => (
                             <motion.div
