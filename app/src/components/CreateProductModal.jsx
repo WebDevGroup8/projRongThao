@@ -141,10 +141,10 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
 
                         {/* Preview Images */}
                         {previewUrls.length > 0 && (
-                            <div className="grid grid-cols-3 gap-2">
+                            <div className="flex flex-wrap gap-2 max-h-103 justify-start overflow-y-auto">
                                 {previewUrls.map((url, index) => (
-                                    <div key={index} className="relative group">
-                                        <img src={url} alt={`preview-${index}`} className="w-full h-32 object-cover rounded-md" />
+                                    <div key={index} className="relative group w-fit h-fit">
+                                        <img src={url} alt={`preview-${index}`} className="w-40 h-40 object-cover rounded-md" />
                                         <button
                                             type="button"
                                             className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"
