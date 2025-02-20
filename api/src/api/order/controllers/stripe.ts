@@ -26,12 +26,12 @@ export default {
     }
 
     let address = "";
-    if (event.type === "checkout.session.completed" && event.data.object.shipping_details) {
-      address = formatAddress(event.data.object.shipping_details);
-    }
-
+    
     switch (event.type) {
       case "checkout.session.completed":
+        if (event.data.object.shipping_details) {
+          address = formatAddress(event.data.object.shipping_details);
+        }
         console.log("✅ User completed checkout.");
         await updateOrderStatus(event.data.object.id, "Paid", address);
         break;
