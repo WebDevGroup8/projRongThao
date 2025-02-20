@@ -3,7 +3,7 @@ import OrderTable from "../components/OrderTable";
 
 const OrderManagement = () => {
   return (
-    <div>
+    <div className="px-10">
       <OrderTable configView={true} />
     </div>
   );

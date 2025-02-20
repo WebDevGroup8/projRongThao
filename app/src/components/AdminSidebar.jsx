@@ -13,7 +13,7 @@ export default function AdminSidebar() {
   const { logout } = useAuthStore();
   const navigate = useNavigate();
   return (
-    <div className="bg-primary flex w-1/8 flex-col">
+    <div className="bg-primary flex h-full min-h-screen w-full flex-col">
       <div className="block w-full cursor-pointer pt-8 text-center">
         <p className="text-base text-white">Dashboard</p>
         <p className="cursor-pointer self-center text-2xl font-semibold whitespace-nowrap text-white italic">
