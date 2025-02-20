@@ -18,6 +18,7 @@ import Container from "./components/Container";
 import Footer from "./components/Footer";
 import ManageProduct from "./pages/ManageProduct";
 import OrderManagement from "./pages/OrderManagement";
+import Promotion from "./components/admin/Promotion";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
@@ -129,6 +130,15 @@ function App() {
             element={
               <ProtectedAdminRoute>
                 <OrderManagement />
+              </ProtectedAdminRoute>
+            }
+          />
+
+          <Route
+            path="/admin/promotion"
+            element={
+              <ProtectedAdminRoute>
+                <Promotion />
               </ProtectedAdminRoute>
             }
           />
