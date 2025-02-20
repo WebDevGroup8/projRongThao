@@ -20,7 +20,7 @@ export const StatCard = () => {
   const [openDaysOrder, setOpenDaysOrder] = useState(false);
 
   return (
-    <div>
+    <div className="w-full">
       <div className="flex flex-row gap-5">
         <div className="flex w-100 flex-col justify-start gap-4 rounded-lg border-2 border-gray-400 p-4 shadow-sm">
           <div className="flex flex-row items-center justify-between gap-5">
@@ -262,7 +262,7 @@ export const Chart = () => {
 
 export default function DashBoard() {
   return (
-    <div className="mx-10 mt-5 w-full">
+    <div className="mt-5 w-full px-10">
       <StatCard />
       <OrderTable />
     </div>

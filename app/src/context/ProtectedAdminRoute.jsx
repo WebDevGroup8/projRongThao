@@ -29,9 +29,11 @@ export const ProtectedAdminRoute = ({ children }) => {
   return (
     <div className="flex w-full flex-row">
       {/* Admin Sidebar */}
-      <AdminSidebar />
+      <div className="w-1/8">
+        <AdminSidebar />
+      </div>
       {/* Content */}
-      {children}
+      <div className="w-7/8">{children}</div>
     </div>
   );
 };
