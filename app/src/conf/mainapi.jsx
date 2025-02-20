@@ -10,6 +10,8 @@ const conf = {
   jwtSessionStorageKey: "auth.jwt", // ชื่อ key สำหรับเก็บ JWT ใน session storage
   jwtRoleEndpoint: "users/me?populate=role", // API สำหรับดึง Role ของผู้ใช้
   jwtUserEndpoint: "/users/me", // API สำหรับดึงข้อมูล User ปัจจุบัน
+
+  productCreateEndpoint: `/products`,
 };
 
 export default conf; // ส่งออก default
