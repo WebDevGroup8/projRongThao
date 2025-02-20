@@ -124,6 +124,8 @@ export default function ManageProduct() {
                                     soldCount={product.soldCount}
                                     reviews={product.reviews}
                                     rating={product.rating}
+                                    fetchProducts={fetchProducts} //ส่งฟังก์ชัน fetchProducts เข้าไป ปลายทางให้ deletemodal ใช้
+                                    documentId={product.documentId}//ใช้สำหรับลบ
                                 />
                             </motion.div>
                         ))}
