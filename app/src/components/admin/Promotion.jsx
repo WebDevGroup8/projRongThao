@@ -2,10 +2,33 @@ import { useEffect, useState } from "react";
 import ax from "../../conf/ax";
 import Loading from "../Loading";
 import { Pencil, Plus, Trash } from "lucide-react";
+import CreateCouponModal from "./CreateCouponModal";
 
 export default function Promotion() {
   const [isLoading, setIsLoading] = useState(false);
   const [coupons, setCoupons] = useState([]);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+  const handleCreateCoupon = async (formData) => {
+    try {
+      setIsLoading(true);
+      const response = await ax.post("/stripe/promotion", formData);
+
+      console.log("Coupon created successfully:", response.data);
+      alert("Coupon created successfully!"); // Replace with toast notification if needed
+
+      setIsCreateModalOpen(false); // Close the modal after successful submission
+      fetchPromotion();
+    } catch (error) {
+      console.error(
+        "Error creating coupon:",
+        error.response?.data || error.message,
+      );
+      alert("Failed to create coupon. Please try again."); // Replace with toast notification if needed
+    } finally {
+      setIsLoading(false);
+    }
+  };
   const fetchPromotion = async () => {
     try {
       setIsLoading(true);
@@ -30,7 +53,10 @@ export default function Promotion() {
       <div className="px-10 pt-10">
         <div className="flex flex-row justify-between">
           <p className="text-2xl font-semibold">Coupon List</p>
-          <button className="flex w-fit cursor-pointer flex-row gap-2 rounded-md bg-blue-500 px-4 py-2 text-white">
+          <button
+            onClick={() => setIsCreateModalOpen(true)}
+            className="flex w-fit cursor-pointer flex-row gap-2 rounded-md bg-blue-500 px-4 py-2 text-white"
+          >
             <Plus size={24} /> Add new coupon
           </button>
         </div>
@@ -105,6 +131,11 @@ export default function Promotion() {
           </table>
         </div>
       </div>
+      <CreateCouponModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        handleCreateCoupon={handleCreateCoupon}
+      />
     </>
   );
 }
