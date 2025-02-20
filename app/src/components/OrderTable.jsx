@@ -76,14 +76,12 @@ const OrderTable = (props) => {
       </div>
       <div className="flex flex-row justify-between py-2">
         <SearchBar onSearch={(term) => setSearchTerm(term)} />
-        {props.configView ? (
+        {props.configView && (
           <StatusFilter
             selectedStatus={selectedStatus}
             setSelectedStatus={setSelectedStatus}
             statusOptions={statusOptions}
           />
-        ) : (
-          <></>
         )}
       </div>
 
