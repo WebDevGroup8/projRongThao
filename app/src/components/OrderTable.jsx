@@ -3,6 +3,8 @@ import ax from "../conf/ax";
 import dayjs from "dayjs";
 import SearchBar from "./SearchBar";
 import StatusFilter from "./StatusFilter";
+import { Printer } from "lucide-react";
+import PrintShipLabel from "./PrintShipLabel";
 
 const OrderTable = (props) => {
   const status = {
@@ -110,6 +112,13 @@ const OrderTable = (props) => {
               >
                 STATUS
               </th>
+              {props.configView ? (
+                <th scope="col" class="px-6 py-3">
+                  PRINT
+                </th>
+              ) : (
+                <></>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -154,6 +163,13 @@ const OrderTable = (props) => {
                     </div>
                   )}
                 </td>
+                {props.configView ? (
+                  <td className="px-5 text-center">
+                    <PrintShipLabel order={item} />
+                  </td>
+                ) : (
+                  <></>
+                )}
               </tr>
             ))}
           </tbody>
