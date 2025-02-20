@@ -15,39 +15,44 @@ const OrderTable = (props) => {
   };
   const statusOptions = [
     "Pending",
-    "Paid",
     "Abandoned",
-    "Completed",
+    "Paid",
     "Shipped",
+    "Completed",
     "Canceled",
   ];
 
   //TODO: print Shipping Label
 
-  const [order, setOrder] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState([]);
 
   const fetchProducts = async () => {
     try {
       const res = await ax.get(`/orders?populate=*`);
-      setOrder(res.data.data);
+      setOrders(res.data.data);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
   };
-  const filteredOrder = order?.filter(
-    (order) =>
-      order.documentId.includes(searchTerm.toLowerCase()) ||
-      order.orderStatus.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.order_product.some((product) =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()),
-      ),
-  );
+  const filteredOrder = orders
+    ?.filter(
+      (order) =>
+        (selectedStatus.length === 0 ||
+          selectedStatus.includes(order.orderStatus.trim())) &&
+        (order.documentId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.orderStatus?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.order_product?.some((product) =>
+            product.name?.toLowerCase().includes(searchTerm.toLowerCase()),
+          )),
+    )
+    .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
   const updateStatus = async (order, newStatus) => {
     try {
       await ax.put(`/orders/${order}`, { data: { orderStatus: newStatus } });
-      setOrder((prevOrders) =>
+      setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order.documentId === order
             ? { ...order, orderStatus: newStatus }
@@ -59,7 +64,7 @@ const OrderTable = (props) => {
       console.error("Error updating status:", error);
     }
   };
-
+  console.log(selectedStatus);
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -70,7 +75,15 @@ const OrderTable = (props) => {
       </div>
       <div className="flex flex-row justify-between py-2">
         <SearchBar onSearch={(term) => setSearchTerm(term)} />
-        <StatusFilter />
+        {props.configView ? (
+          <StatusFilter
+            selectedStatus={selectedStatus}
+            setSelectedStatus={setSelectedStatus}
+            statusOptions={statusOptions}
+          />
+        ) : (
+          <></>
+        )}
       </div>
 
       <div class="relative overflow-x-auto">
