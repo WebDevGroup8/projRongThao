@@ -64,7 +64,6 @@ const OrderTable = (props) => {
       console.error("Error updating status:", error);
     }
   };
-  console.log(selectedStatus);
   useEffect(() => {
     fetchProducts();
   }, []);
