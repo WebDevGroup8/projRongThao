@@ -112,12 +112,10 @@ const OrderTable = (props) => {
               >
                 STATUS
               </th>
-              {props.configView ? (
+              {props.configView && (
                 <th scope="col" class="px-6 py-3">
                   PRINT
                 </th>
-              ) : (
-                <></>
               )}
             </tr>
           </thead>
@@ -163,12 +161,10 @@ const OrderTable = (props) => {
                     </div>
                   )}
                 </td>
-                {props.configView ? (
+                {props.configView && (
                   <td className="px-5 text-center">
                     <PrintShipLabel order={item} />
                   </td>
-                ) : (
-                  <></>
                 )}
               </tr>
             ))}
