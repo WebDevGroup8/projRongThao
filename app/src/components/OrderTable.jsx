@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ax from "../conf/ax";
 import dayjs from "dayjs";
 import SearchBar from "./SearchBar";
+import StatusFilter from "./StatusFilter";
 
 const OrderTable = (props) => {
   const status = {
@@ -34,10 +35,13 @@ const OrderTable = (props) => {
       console.error("Error fetching products:", error);
     }
   };
-  const filteredOrder = order?.filter((order) =>
-    order.order_product.some((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()),
-    ),
+  const filteredOrder = order?.filter(
+    (order) =>
+      order.documentId.includes(searchTerm.toLowerCase()) ||
+      order.orderStatus.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.order_product.some((product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()),
+      ),
   );
 
   const updateStatus = async (order, newStatus) => {
@@ -64,9 +68,11 @@ const OrderTable = (props) => {
       <div className="text-lg font-semibold">
         <p>Order Status</p>
       </div>
-      <div className="py-4">
+      <div className="flex flex-row justify-between py-2">
         <SearchBar onSearch={(term) => setSearchTerm(term)} />
+        <StatusFilter />
       </div>
+
       <div class="relative overflow-x-auto">
         <table class="w-full text-left text-sm text-gray-500 shadow-2xl rtl:text-right">
           <thead class="border-1 border-gray-200 bg-gray-50 text-xs text-gray-700 uppercase">
