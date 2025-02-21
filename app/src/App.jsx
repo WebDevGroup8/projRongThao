@@ -18,12 +18,9 @@ import Container from "./components/Container";
 import Footer from "./components/Footer";
 import ManageProduct from "./pages/ManageProduct";
 import OrderManagement from "./pages/OrderManagement";
-<<<<<<< HEAD
 import SignUp from "./pages/SingupPage";
-=======
 import Promotion from "./components/admin/Promotion";
 import Admin from "./components/admin/Admin";
->>>>>>> main
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
