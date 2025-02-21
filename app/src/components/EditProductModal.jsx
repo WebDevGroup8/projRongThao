@@ -12,9 +12,9 @@ export default function EditProductModal({ isOpen, onClose, product, fetchProduc
         color: "",
         stock: "",
     });
-    const [images, setImages] = useState([]);
+    const [images, setImages] = useState([]); // รูปใหม่
     const [previewUrls, setPreviewUrls] = useState([]);
-    const [existingImages, setExistingImages] = useState([]);
+    const [existingImages, setExistingImages] = useState([]); // รูปเก่าจาก Strapi
     const [deletedImages, setDeletedImages] = useState([]);
     const [categories, setCategories] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
@@ -34,7 +34,6 @@ export default function EditProductModal({ isOpen, onClose, product, fetchProduc
             setExistingImages(existing);
             setPreviewUrls(existing.map((img) => `${conf.imageUrlPrefix}${img.url}`));
             setSelectedCategories(product.categories?.map((cat) => cat.id) || []);
-            // รีเซ็ต state อื่นๆ เมื่อเปิด Modal
             setImages([]);
             setDeletedImages([]);
             setIsLoading(false);
@@ -69,13 +68,18 @@ export default function EditProductModal({ isOpen, onClose, product, fetchProduc
     };
 
     const removeImage = (index) => {
-        const removedImage = existingImages[index];
-        if (removedImage) {
+        // ถ้า index น้อยกว่าจำนวน existingImages แปลว่าเป็นรูปเก่า
+        if (index < existingImages.length) {
+            const removedImage = existingImages[index];
             setDeletedImages((prev) => [...prev, removedImage]);
+            setExistingImages((prev) => prev.filter((_, i) => i !== index));
+            setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
+        } else {
+            // ถ้า index มากกว่าหรือเท่ากับ existingImages.length เป็นรูปใหม่
+            const newImageIndex = index - existingImages.length;
+            setImages((prev) => prev.filter((_, i) => i !== newImageIndex));
+            setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
         }
-        setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
-        setImages((prev) => prev.filter((_, i) => i !== index));
-        setExistingImages((prev) => prev.filter((_, i) => i !== index));
     };
 
     const uploadImages = async () => {
@@ -116,9 +120,9 @@ export default function EditProductModal({ isOpen, onClose, product, fetchProduc
         setIsLoading(true);
 
         try {
-            // ลบรูปภาพที่ถูกลบออกจาก Strapi
+            console.log("Before save - images:", images, "deletedImages:", deletedImages, "existingImages:", existingImages);
+
             if (deletedImages.length > 0) {
-                console.log("Images to delete:", deletedImages);
                 await Promise.all(
                     deletedImages.map(async (img) => {
                         try {
@@ -126,7 +130,6 @@ export default function EditProductModal({ isOpen, onClose, product, fetchProduc
                             console.log(`Successfully deleted image ${img.id}`);
                         } catch (err) {
                             console.error(`Failed to delete image ${img.id}:`, err.response?.data || err);
-                            // ไม่หยุด flow ถ้าลบไม่สำเร็จ (อาจถูกลบไปแล้ว)
                         }
                     })
                 );
@@ -155,7 +158,7 @@ export default function EditProductModal({ isOpen, onClose, product, fetchProduc
             console.log("✅ Product Updated:", response.data);
             alert("🎉 Product Updated Successfully!");
             await fetchProducts();
-            resetState(); // รีเซ็ต state หลังบันทึกสำเร็จ
+            resetState();
             onClose();
         } catch (error) {
             console.error("❌ Error updating product:", error.response?.data || error);
