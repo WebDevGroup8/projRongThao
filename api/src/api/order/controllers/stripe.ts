@@ -27,7 +27,10 @@ export default {
 
     let address = "";
     let total_price = 0;
-    
+    const { metadata } = event.data.object as any
+    const OrderedProduct = JSON.parse(metadata.orderedProduct)
+    console.log(OrderedProduct)
+
     switch (event.type) {
       case "checkout.session.completed":
         if (event.data.object.shipping_details) {
@@ -36,7 +39,10 @@ export default {
         if (event.data.object.amount_total) {
           total_price = event.data.object.amount_total / 100;
         }
-        console.log("✅ User completed checkout.");
+        await Promise.all(
+          OrderedProduct.map(({ documentId, quantity }) => updateProductStock(documentId, quantity))
+        );
+                console.log("✅ User completed checkout.");
         await updateOrderStatus(event.data.object.id, "Paid", address,total_price);
         break;
       case "checkout.session.expired":
@@ -65,6 +71,35 @@ async function updateOrderStatus(orderId: string, status: string, address: strin
     console.log(`✅ Order ${orderId} status updated to: ${status}`);
   } catch (error) {
     console.error("❌ Error updating order status:", error);
+  }
+}
+
+async function updateProductStock(documentId: string, quantity: number) {
+  try {
+    // ค้นหาข้อมูลสินค้าเดิมก่อน
+    const product = await strapi.db.query("api::product.product").findOne({
+      where: { documentId }
+    });
+
+    if (!product) {
+      console.log(`❌ Product with documentId ${documentId} not found.`);
+      return null;
+    }
+
+    // อัปเดต stock และ soldCount โดยอ้างอิงจากค่าปัจจุบัน
+    const updatedProduct = await strapi.db.query("api::product.product").update({
+      where: { documentId },
+      data: {
+        stock: product.stock - quantity, 
+        soldCount: product.soldCount + quantity
+      }
+    });
+
+    console.log("✅ Product updated successfully:", updatedProduct);
+    return updatedProduct;
+  } catch (error) {
+    console.error("❌ Error updating product stock:", error);
+    throw error;
   }
 }
 
