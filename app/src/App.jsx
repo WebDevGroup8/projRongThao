@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import SignIn from "./pages/SignIn";
 import { HomePage } from "./pages/HomePage";
 import DashBoard from "./pages/DashBoard";
@@ -18,10 +18,16 @@ import Container from "./components/Container";
 import Footer from "./components/Footer";
 import ManageProduct from "./pages/ManageProduct";
 import OrderManagement from "./pages/OrderManagement";
+<<<<<<< HEAD
 import SignUp from "./pages/SingupPage";
+=======
+import Promotion from "./components/admin/Promotion";
+import Admin from "./components/admin/Admin";
+>>>>>>> main
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
+  const navigate = useNavigate();
   useEffect(() => {
     const autoLoginHandler = async () => {
       setIsLoginPending(true);
@@ -109,6 +115,14 @@ function App() {
 
           {/* Admin Route */}
           <Route
+            path="/admin"
+            element={
+              <ProtectedAdminRoute>
+                <Admin />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
             path="/admin/dashboard"
             element={
               <ProtectedAdminRoute>
@@ -131,6 +145,15 @@ function App() {
             element={
               <ProtectedAdminRoute>
                 <OrderManagement />
+              </ProtectedAdminRoute>
+            }
+          />
+
+          <Route
+            path="/admin/promotion"
+            element={
+              <ProtectedAdminRoute>
+                <Promotion />
               </ProtectedAdminRoute>
             }
           />
