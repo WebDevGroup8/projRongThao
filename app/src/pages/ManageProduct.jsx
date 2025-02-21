@@ -86,7 +86,7 @@ export default function ManageProduct() {
     );
 
   return (
-    <div className="flex h-full w-screen flex-col px-20 py-10">
+    <div className="flex h-full flex-col px-10 py-10">
       <div className="flex flex-row items-center justify-between">
         <h1 className="text-2xl font-semibold">Manage Product</h1>
       </div>
@@ -140,74 +140,6 @@ export default function ManageProduct() {
                   rating={product.rating}
                   fetchProducts={fetchProducts} //ส่งฟังก์ชัน fetchProducts เข้าไป ปลายทางให้ deletemodal ใช้
                   documentId={product.documentId} //ใช้สำหรับลบ
-                />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
-      </div>
-      {/* Render Modal */}
-      <CreateProductModal
-        isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-        fetchProducts={fetchProducts}
-      />
-    </div>
-  );
-
-  return (
-    <div className="flex h-full flex-col px-10 py-10">
-      <div className="flex flex-row items-center justify-between">
-        <h1 className="text-2xl font-semibold">Manage Product</h1>
-      </div>
-      <div className="mb-8 flex items-center justify-between">
-        <SearchBar onSearch={(term) => setSearchTerm(term)} />
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={() => setIsCreateModalOpen(true)} // เปิด CreateModal
-            className="bg-primary hover:bg-primary-light mt-5 w-full rounded-lg px-5 py-2.5 text-center text-sm font-semibold text-white"
-          >
-            + Create new
-          </button>
-        </div>
-      </div>
-      <div className="flex w-full flex-shrink-0 pb-5">
-        <SideBarForManageProduct
-          categories={categories}
-          selectedCategories={selectedCategories}
-          setSelectedCategories={setSelectedCategories}
-          priceRange={priceRange}
-          setPriceRange={setPriceRange}
-          selectedSizes={selectedSizes}
-          setSelectedSizes={setSelectedSizes}
-        />
-      </div>
-      {/* Grid แสดงสินค้า */}
-      <div className="flex flex-row gap-5">
-        <div className="grid w-full grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
-          <AnimatePresence>
-            {filteredProducts.map((product) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, y: 50 }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
-              >
-                <EditableProductCard
-                  id={product.id}
-                  image={product.image}
-                  name={product.name}
-                  description={product.description}
-                  price={product.price}
-                  stock={product.stock}
-                  size={product.size}
-                  color={product.color}
-                  categories={product.categories}
-                  soldCount={product.soldCount}
-                  reviews={product.reviews}
-                  rating={product.rating}
                 />
               </motion.div>
             ))}
