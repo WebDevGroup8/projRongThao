@@ -3,11 +3,13 @@ import { Link, useNavigate } from "react-router";
 import { Star, MapPin } from "lucide-react";
 import conf from "../conf/mainapi";
 import { Pencil, Trash2 } from "lucide-react"
+import DeleteProductModal from "./DeleteProductModal";
 
 export const EditableProductCard = (props) => {
   const [animate, setAnimate] = useState(false);
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
 
-  const image = props.image[0].url;
+  const image = props.image?.[0]?.url || "/placeholder.png"; // ถ้าไม่มีรูปใช้ placeholder
 
   const categoryColors = {
     limited: "bg-yellow-100 text-yellow-800 border-yellow-400",
@@ -77,11 +79,20 @@ export const EditableProductCard = (props) => {
           <span>Edit</span>
         </button>
 
-        <button className="h-8 px-4 text-red-700 rounded-md flex items-center justify-center space-x-2 hover:bg-gray-200 transition duration-200 ease-in-out">
+        <button
+          onClick={() => setDeleteModalOpen(true)}
+          className="h-8 px-4 text-red-700 rounded-md flex items-center justify-center space-x-2 hover:bg-gray-200 transition duration-200 ease-in-out">
           <Trash2 className="h-4 w-4" />
           <span>Delete</span>
         </button>
       </div>
+      {/* Delete Modal */}
+      <DeleteProductModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        product={props}
+        fetchProducts={props.fetchProducts} // ให้เรียก API ใหม่หลังลบ
+      />
     </div>
   );
 };

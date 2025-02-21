@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import ax from "../conf/ax";
 import dayjs from "dayjs";
 import SearchBar from "./SearchBar";
+import StatusFilter from "./StatusFilter";
+import { Printer } from "lucide-react";
+import PrintShipLabel from "./PrintShipLabel";
 
 const OrderTable = (props) => {
   const status = {
@@ -14,36 +17,44 @@ const OrderTable = (props) => {
   };
   const statusOptions = [
     "Pending",
-    "Paid",
     "Abandoned",
-    "Completed",
+    "Paid",
     "Shipped",
+    "Completed",
     "Canceled",
   ];
 
   //TODO: print Shipping Label
 
-  const [order, setOrder] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState([]);
 
   const fetchProducts = async () => {
     try {
       const res = await ax.get(`/orders?populate=*`);
-      setOrder(res.data.data);
+      setOrders(res.data.data);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
   };
-  const filteredOrder = order?.filter((order) =>
-    order.order_product.some((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()),
-    ),
-  );
+  const filteredOrder = orders
+    ?.filter(
+      (order) =>
+        (selectedStatus.length === 0 ||
+          selectedStatus.includes(order.orderStatus.trim())) &&
+        (order.documentId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.orderStatus?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.order_product?.some((product) =>
+            product.name?.toLowerCase().includes(searchTerm.toLowerCase()),
+          )),
+    )
+    .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
   const updateStatus = async (order, newStatus) => {
     try {
       await ax.put(`/orders/${order}`, { data: { orderStatus: newStatus } });
-      setOrder((prevOrders) =>
+      setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order.documentId === order
             ? { ...order, orderStatus: newStatus }
@@ -55,7 +66,6 @@ const OrderTable = (props) => {
       console.error("Error updating status:", error);
     }
   };
-
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -64,9 +74,17 @@ const OrderTable = (props) => {
       <div className="text-lg font-semibold">
         <p>Order Status</p>
       </div>
-      <div className="py-4">
+      <div className="flex flex-row justify-between py-2">
         <SearchBar onSearch={(term) => setSearchTerm(term)} />
+        {props.configView && (
+          <StatusFilter
+            selectedStatus={selectedStatus}
+            setSelectedStatus={setSelectedStatus}
+            statusOptions={statusOptions}
+          />
+        )}
       </div>
+
       <div class="relative overflow-x-auto">
         <table class="w-full text-left text-sm text-gray-500 shadow-2xl rtl:text-right">
           <thead class="border-1 border-gray-200 bg-gray-50 text-xs text-gray-700 uppercase">
@@ -92,6 +110,11 @@ const OrderTable = (props) => {
               >
                 STATUS
               </th>
+              {props.configView && (
+                <th scope="col" class="px-6 py-3">
+                  PRINT
+                </th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -136,6 +159,11 @@ const OrderTable = (props) => {
                     </div>
                   )}
                 </td>
+                {props.configView && (
+                  <td className="px-5 text-center">
+                    <PrintShipLabel order={item} />
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
