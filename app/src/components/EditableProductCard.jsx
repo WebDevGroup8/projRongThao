@@ -4,7 +4,7 @@ import { Star, MapPin } from "lucide-react";
 import conf from "../conf/mainapi";
 import { Pencil, Trash2 } from "lucide-react"
 import DeleteProductModal from "./DeleteProductModal";
-import EditProductModal from "./DeleteProductModal";
+import EditProductModal from "./EditProductModal";
 
 export const EditableProductCard = (props) => {
   const [animate, setAnimate] = useState(false);
@@ -101,7 +101,8 @@ export const EditableProductCard = (props) => {
       <EditProductModal
         isOpen={isEditModalOpen}
         onClose={() => setEditModalOpen(false)}
-        fetchProducts={fetchProducts}
+        product={props}
+        fetchProducts={props.fetchProducts}
       />
     </div>
   );
