@@ -27,9 +27,8 @@ export default {
 
     let address = "";
     let total_price = 0;
-    const { metadata } = event.data.object as any
+    const { metadata } = event.data.object as Stripe.PaymentIntent | Stripe.Charge;
     const OrderedProduct = JSON.parse(metadata.orderedProduct)
-    console.log(OrderedProduct)
 
     switch (event.type) {
       case "checkout.session.completed":
@@ -95,7 +94,6 @@ async function updateProductStock(documentId: string, quantity: number) {
       }
     });
 
-    console.log("✅ Product updated successfully:", updatedProduct);
     return updatedProduct;
   } catch (error) {
     console.error("❌ Error updating product stock:", error);
