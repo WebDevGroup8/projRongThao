@@ -18,6 +18,7 @@ import Container from "./components/Container";
 import Footer from "./components/Footer";
 import ManageProduct from "./pages/ManageProduct";
 import OrderManagement from "./pages/OrderManagement";
+import SignUp from "./pages/SingupPage";
 import Promotion from "./components/admin/Promotion";
 import Admin from "./components/admin/Admin";
 
@@ -48,6 +49,7 @@ function App() {
         <Routes>
           {/* Public Route */}
           <Route path="/login" element={<SignIn />} />
+          <Route path="/register" element={<SignUp />} />
           <Route
             path="/"
             element={
