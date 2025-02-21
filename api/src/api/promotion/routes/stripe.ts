@@ -30,7 +30,7 @@ export default {
     {
       // Update Coupon
       method: "POST",
-      path: "/stripe/promotion",
+      path: "/stripe/promotion/:id",
       handler: "stripe.updatePromotion",
       config: {
         policies: [],

@@ -31,6 +31,7 @@ export default {
     const { name, duration, percent_off } = ctx.request.body;
     try {
       const coupon = await stripe.coupons.create({
+        id: name,
         name: name,
         duration: duration,
         percent_off: percent_off,
@@ -45,12 +46,15 @@ export default {
   },
   async updatePromotion(ctx: Context) {
     const { id } = ctx.params;
-    const { order_id } = ctx.request.body;
+    // INFO: Stripe not providing update exists coupon so we delete then create
+    const { name, duration, percent_off } = ctx.request.body;
     try {
-      const coupon = await stripe.coupons.update(String(id), {
-        metadata: {
-          order_id: order_id,
-        },
+      await stripe.coupons.del(String(id));
+      const coupon = await stripe.coupons.create({
+        id: name,
+        name: name,
+        duration: duration,
+        percent_off: percent_off,
       });
       ctx.status = 200;
       ctx.body = coupon;

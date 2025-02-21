@@ -3,11 +3,14 @@ import ax from "../../conf/ax";
 import Loading from "../Loading";
 import { Pencil, Plus, Trash } from "lucide-react";
 import CreateCouponModal from "./CreateCouponModal";
+import UpdateCouponModal from "./UpdateCouponModal";
 
 export default function Promotion() {
   const [isLoading, setIsLoading] = useState(false);
   const [coupons, setCoupons] = useState([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [selectedCoupon, setSelectedCoupon] = useState(null);
 
   const handleCreateCoupon = async (formData) => {
     try {
@@ -29,6 +32,49 @@ export default function Promotion() {
       setIsLoading(false);
     }
   };
+
+  const handleUpdateCoupon = async (id, formData) => {
+    try {
+      setIsLoading(true);
+      const response = await ax.post(`/stripe/promotion/${id}`, formData);
+
+      console.log("Coupon updated successfully:", response.data);
+      alert("Coupon updated successfully!"); // Replace with toast notification if needed
+
+      fetchPromotion(); // Refresh the list
+    } catch (error) {
+      console.error(
+        "Error updating coupon:",
+        error.response?.data || error.message,
+      );
+      alert("Failed to update coupon. Please try again."); // Replace with toast notification if needed
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeleteCoupon = async (id) => {
+    if (!confirm("Are you sure you want to delete this coupon?")) return;
+
+    try {
+      setIsLoading(true);
+      await ax.delete(`/stripe/promotion/${id}`);
+
+      console.log("Coupon deleted successfully.");
+      alert("Coupon deleted successfully!"); // Replace with toast notification if needed
+
+      fetchPromotion(); // Refresh the list
+    } catch (error) {
+      console.error(
+        "Error deleting coupon:",
+        error.response?.data || error.message,
+      );
+      alert("Failed to delete coupon. Please try again."); // Replace with toast notification if needed
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const fetchPromotion = async () => {
     try {
       setIsLoading(true);
@@ -118,10 +164,22 @@ export default function Promotion() {
 
                   {/* Action buttons */}
                   <td className="flex items-center justify-center gap-2 py-4 text-white">
-                    <button className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-blue-500 p-2">
+                    <button
+                      className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-blue-500 p-2"
+                      onClick={() => {
+                        setSelectedCoupon(coupon);
+                        setIsUpdateModalOpen(true);
+                      }}
+                    >
                       <Pencil size={16} />
                     </button>
-                    <button className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-red-500 p-2">
+
+                    <button
+                      onClick={() => {
+                        handleDeleteCoupon(coupon.id);
+                      }}
+                      className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-red-500 p-2"
+                    >
                       <Trash size={16} />
                     </button>
                   </td>
@@ -135,6 +193,12 @@ export default function Promotion() {
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
         handleCreateCoupon={handleCreateCoupon}
+      />
+      <UpdateCouponModal
+        isOpen={isUpdateModalOpen}
+        onClose={() => setIsUpdateModalOpen(false)}
+        handleUpdateCoupon={handleUpdateCoupon}
+        coupon={selectedCoupon}
       />
     </>
   );
