@@ -26,22 +26,26 @@ export default {
     }
 
     let address = "";
+    let total_price = 0;
     
     switch (event.type) {
       case "checkout.session.completed":
         if (event.data.object.shipping_details) {
           address = formatAddress(event.data.object.shipping_details);
         }
+        if (event.data.object.amount_total) {
+          total_price = event.data.object.amount_total / 100;
+        }
         console.log("✅ User completed checkout.");
-        await updateOrderStatus(event.data.object.id, "Paid", address);
+        await updateOrderStatus(event.data.object.id, "Paid", address,total_price);
         break;
       case "checkout.session.expired":
         console.log("⚠️ User abandoned checkout.");
-        await updateOrderStatus(event.data.object.id, "Abandoned", "");
+        await updateOrderStatus(event.data.object.id, "Abandoned", "",total_price);
         break;
       case "payment_intent.canceled":
         console.log("❌ Payment was canceled.");
-        await updateOrderStatus(event.data.object.id, "Canceled", "");
+        await updateOrderStatus(event.data.object.id, "Canceled", "",total_price);
         break;
       default:
         console.log(`ℹ️ Unhandled event: ${event.type}`);
@@ -52,11 +56,11 @@ export default {
   },
 };
 
-async function updateOrderStatus(orderId: string, status: string, address: string) {
+async function updateOrderStatus(orderId: string, status: string, address: string , total_price: number) {
   try {
     await strapi.db.query("api::order.order").update({
       where: { stripeId: orderId },
-      data: { orderStatus: status, address },
+      data: { orderStatus: status, address, total_price },
     });
     console.log(`✅ Order ${orderId} status updated to: ${status}`);
   } catch (error) {
