@@ -3,7 +3,7 @@ import ax from "../conf/ax";
 import dayjs from "dayjs";
 import SearchBar from "./SearchBar";
 import StatusFilter from "./StatusFilter";
-import { Printer } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import PrintShipLabel from "./PrintShipLabel";
 
 const OrderTable = (props) => {
@@ -66,6 +66,16 @@ const OrderTable = (props) => {
       console.error("Error updating status:", error);
     }
   };
+
+  const deleteOrder = async (id) => {
+    try {
+      await ax.delete(`/orders/${id}`);
+      fetchProducts();
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -110,6 +120,11 @@ const OrderTable = (props) => {
               >
                 STATUS
               </th>
+              {props.configView && (
+                <th scope="col" class="px-6 py-3">
+                  DELETE
+                </th>
+              )}
               {props.configView && (
                 <th scope="col" class="px-6 py-3">
                   PRINT
@@ -159,6 +174,15 @@ const OrderTable = (props) => {
                     </div>
                   )}
                 </td>
+                {props.configView && (
+                  <td className="px-5 text-center">
+                    <Trash2
+                      size={40}
+                      onClick={() => deleteOrder(item.documentId)}
+                      className="cursor-pointer rounded-lg p-2 text-red-500 transition-all duration-200 hover:bg-red-100 hover:text-red-700"
+                    />
+                  </td>
+                )}
                 {props.configView && (
                   <td className="px-5 text-center">
                     <PrintShipLabel order={item} />
