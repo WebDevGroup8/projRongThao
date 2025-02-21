@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import ax from "../conf/ax";
 import { X, Upload, ImageIcon } from "lucide-react";
+import conf from "../conf/mainapi";
 
-export default function EditProductModal({ isOpen, onClose, fetchProducts, productId }) {
+export default function EditProductModal({ isOpen, onClose, product, fetchProducts }) {
     const [productData, setProductData] = useState({
         name: "",
         description: "",
@@ -11,127 +12,156 @@ export default function EditProductModal({ isOpen, onClose, fetchProducts, produ
         color: "",
         stock: "",
     });
+    const [images, setImages] = useState([]);
+    const [previewUrls, setPreviewUrls] = useState([]);
+    const [existingImages, setExistingImages] = useState([]);
+    const [deletedImages, setDeletedImages] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const [existingImages, setExistingImages] = useState([]); // รูปภาพเดิม
-    const [newImages, setNewImages] = useState([]); // รูปใหม่ที่อัปโหลด
-    const [previewUrls, setPreviewUrls] = useState([]); // Preview ของรูปใหม่
-    const [categories, setCategories] = useState([]); // หมวดหมู่ทั้งหมด
-    const [selectedCategories, setSelectedCategories] = useState([]); // หมวดหมู่ที่เลือก
-
-    // 📌 ดึงข้อมูลสินค้าเมื่อเปิด Modal
     useEffect(() => {
-        if (!productId) return;
+        if (isOpen && product) {
+            setProductData({
+                name: product.name || "",
+                description: product.description || "",
+                price: product.price || "",
+                size: product.size?.join(", ") || "",
+                color: product.color?.join(", ") || "",
+                stock: product.stock || "",
+            });
+            const existing = product.image || [];
+            setExistingImages(existing);
+            setPreviewUrls(existing.map((img) => `${conf.imageUrlPrefix}${img.url}`));
+            setSelectedCategories(product.categories?.map((cat) => cat.id) || []);
+            // รีเซ็ต state อื่นๆ เมื่อเปิด Modal
+            setImages([]);
+            setDeletedImages([]);
+            setIsLoading(false);
 
-        const fetchProduct = async () => {
-            try {
-                const response = await ax.get(`/products/${productId}`);
-                const product = response.data.data;
+            const fetchCategories = async () => {
+                try {
+                    const response = await ax.get("/categories");
+                    setCategories(response.data.data);
+                } catch (error) {
+                    console.error("Error fetching categories:", error);
+                }
+            };
+            fetchCategories();
+        }
+    }, [isOpen, product]);
 
-                setProductData({
-                    name: product.name,
-                    description: product.description,
-                    price: product.price,
-                    size: product.size.join(","), // Convert array -> string
-                    color: product.color.join(","),
-                    stock: product.stock,
-                });
-
-                setExistingImages(product.image || []);
-                setSelectedCategories(product.categories?.map(cat => cat.id) || []);
-            } catch (error) {
-                console.error("Error fetching product:", error);
-            }
-        };
-
-        fetchProduct();
-    }, [productId]);
-
-    // 📌 ดึง Categories
-    useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const response = await ax.get("/categories");
-                setCategories(response.data.data);
-            } catch (error) {
-                console.error("Error fetching categories:", error);
-            }
-        };
-        fetchCategories();
-    }, []);
-
-    // 📌 อัปเดตค่าในฟอร์ม
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setProductData({ ...productData, [name]: value });
-    };
-
-    // 📌 จัดการหมวดหมู่
     const handleCategorySelect = (id) => {
         setSelectedCategories((prev) =>
             prev.includes(id) ? prev.filter((catId) => catId !== id) : [...prev, id]
         );
     };
 
-    // 📌 เพิ่มรูปใหม่
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setProductData({ ...productData, [name]: value });
+    };
+
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
-        setNewImages([...newImages, ...files]);
-        setPreviewUrls([...previewUrls, ...files.map((file) => URL.createObjectURL(file))]);
+        setImages((prev) => [...prev, ...files]);
+        setPreviewUrls((prev) => [...prev, ...files.map((file) => URL.createObjectURL(file))]);
     };
 
-    // 📌 ลบรูปที่อัปโหลดใหม่
-    const removeNewImage = (index) => {
-        setPreviewUrls(previewUrls.filter((_, i) => i !== index));
-        setNewImages(newImages.filter((_, i) => i !== index));
+    const removeImage = (index) => {
+        const removedImage = existingImages[index];
+        if (removedImage) {
+            setDeletedImages((prev) => [...prev, removedImage]);
+        }
+        setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
+        setImages((prev) => prev.filter((_, i) => i !== index));
+        setExistingImages((prev) => prev.filter((_, i) => i !== index));
     };
 
-    // 📌 ลบรูปที่มีอยู่
-    const removeExistingImage = (imageId) => {
-        setExistingImages(existingImages.filter((img) => img.id !== imageId));
-    };
-
-    // 📌 อัปโหลดรูปใหม่
     const uploadImages = async () => {
-        if (newImages.length === 0) return [];
-
+        if (images.length === 0) {
+            return existingImages.map((img) => img.id);
+        }
         const formData = new FormData();
-        newImages.forEach((file) => formData.append("files", file));
-
+        images.forEach((file) => formData.append("files", file));
         try {
             const response = await ax.post("/upload", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
-            return response.data.map((file) => file.id);
+            return [...existingImages.map((img) => img.id), ...response.data.map((file) => file.id)];
         } catch (error) {
             console.error("❌ Error uploading images:", error);
-            return [];
+            throw error;
         }
     };
 
-    // 📌 อัปเดตสินค้า
+    const resetState = () => {
+        setImages([]);
+        setPreviewUrls([]);
+        setExistingImages([]);
+        setDeletedImages([]);
+        setProductData({
+            name: "",
+            description: "",
+            price: "",
+            size: "",
+            color: "",
+            stock: "",
+        });
+        setSelectedCategories([]);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const uploadedImageIds = await uploadImages();
+        setIsLoading(true);
 
         try {
-            await ax.put(`/products/${productId}`, {
+            // ลบรูปภาพที่ถูกลบออกจาก Strapi
+            if (deletedImages.length > 0) {
+                console.log("Images to delete:", deletedImages);
+                await Promise.all(
+                    deletedImages.map(async (img) => {
+                        try {
+                            await ax.delete(`/upload/files/${img.id}`);
+                            console.log(`Successfully deleted image ${img.id}`);
+                        } catch (err) {
+                            console.error(`Failed to delete image ${img.id}:`, err.response?.data || err);
+                            // ไม่หยุด flow ถ้าลบไม่สำเร็จ (อาจถูกลบไปแล้ว)
+                        }
+                    })
+                );
+            }
+
+            const uploadedImageIds = await uploadImages();
+
+            if (uploadedImageIds.length === 0 && images.length > 0) {
+                alert("❌ Image upload failed. Please try again.");
+                setIsLoading(false);
+                return;
+            }
+
+            const response = await ax.put(`/products/${product.documentId}`, {
                 data: {
                     ...productData,
                     price: Number(productData.price),
-                    size: productData.size.split(","),
-                    color: productData.color.split(","),
+                    size: productData.size.split(",").map((s) => s.trim()),
+                    color: productData.color.split(",").map((c) => c.trim()),
                     stock: Number(productData.stock),
-                    image: [...existingImages.map((img) => img.id), ...uploadedImageIds],
+                    image: uploadedImageIds,
                     categories: selectedCategories,
                 },
             });
 
-            alert("✅ Product Updated Successfully!");
-            fetchProducts();
+            console.log("✅ Product Updated:", response.data);
+            alert("🎉 Product Updated Successfully!");
+            await fetchProducts();
+            resetState(); // รีเซ็ต state หลังบันทึกสำเร็จ
             onClose();
         } catch (error) {
-            console.error("❌ Error updating product:", error);
+            console.error("❌ Error updating product:", error.response?.data || error);
+            alert("❌ Failed to update product: " + (error.response?.data?.message || "Unknown error"));
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -146,47 +176,39 @@ export default function EditProductModal({ isOpen, onClose, fetchProducts, produ
                         <X className="h-6 w-6" />
                     </button>
                 </div>
-
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                    {/* Image Section */}
+                    {/* Image Upload Section */}
                     <div className="space-y-4">
                         <label className="block text-sm font-medium text-gray-700">Product Images</label>
-
-                        {/* Existing Images */}
-                        <div className="flex flex-wrap gap-2">
-                            {existingImages.map((img) => (
-                                <div key={img.id} className="relative group w-fit h-fit">
-                                    <img src={img.url} alt="Existing" className="w-40 h-40 object-cover rounded-md" />
-                                    <button
-                                        type="button"
-                                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"
-                                        onClick={() => removeExistingImage(img.id)}
-                                    >
-                                        <X className="h-4 w-4" />
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* New Image Upload */}
                         <div
                             className="border-2 border-dashed border-gray-300 p-6 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 transition relative"
                             onClick={() => document.getElementById("images").click()}
                         >
                             {previewUrls.length === 0 && <ImageIcon className="h-16 w-16 text-gray-400" />}
-                            <input id="images" type="file" multiple accept="image/*" onChange={handleImageChange} className="hidden" />
+                            <input
+                                id="images"
+                                type="file"
+                                multiple
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                className="hidden"
+                            />
+                            <button
+                                type="button"
+                                className="absolute bottom-2 right-2 bg-primary text-white p-2 rounded-full shadow-md hover:bg-primary-light transition"
+                            >
+                                <Upload className="h-4 w-4" />
+                            </button>
                         </div>
-
-                        {/* Preview New Images */}
                         {previewUrls.length > 0 && (
-                            <div className="flex flex-wrap gap-2">
+                            <div className="flex flex-wrap gap-2 max-h-103 justify-start overflow-y-auto">
                                 {previewUrls.map((url, index) => (
                                     <div key={index} className="relative group w-fit h-fit">
-                                        <img src={url} alt="New" className="w-40 h-40 object-cover rounded-md" />
+                                        <img src={url} alt={`preview-${index}`} className="w-40 h-40 object-cover rounded-md" />
                                         <button
                                             type="button"
                                             className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition"
-                                            onClick={() => removeNewImage(index)}
+                                            onClick={() => removeImage(index)}
                                         >
                                             <X className="h-4 w-4" />
                                         </button>
@@ -195,15 +217,104 @@ export default function EditProductModal({ isOpen, onClose, fetchProducts, produ
                             </div>
                         )}
                     </div>
-
                     {/* Product Information */}
                     <div className="space-y-4">
-                        <input name="name" value={productData.name} onChange={handleChange} required className="w-full p-2 border rounded-md" />
-                        <textarea name="description" value={productData.description} onChange={handleChange} required className="w-full p-2 border rounded-md" />
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Product Name</label>
+                            <input
+                                name="name"
+                                type="text"
+                                value={productData.name}
+                                onChange={handleChange}
+                                required
+                                className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary focus:border-primary"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Description</label>
+                            <textarea
+                                name="description"
+                                value={productData.description}
+                                onChange={handleChange}
+                                required
+                                className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary focus:border-primary"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Price</label>
+                            <input
+                                name="price"
+                                type="number"
+                                value={productData.price}
+                                onChange={handleChange}
+                                required
+                                className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary focus:border-primary"
+                            />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">Sizes</label>
+                                <input
+                                    name="size"
+                                    type="text"
+                                    value={productData.size}
+                                    onChange={handleChange}
+                                    required
+                                    placeholder="e.g. S, M, L"
+                                    className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary focus:border-primary"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">Colors</label>
+                                <input
+                                    name="color"
+                                    type="text"
+                                    value={productData.color}
+                                    onChange={handleChange}
+                                    required
+                                    placeholder="e.g. Red, Blue"
+                                    className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary focus:border-primary"
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Stock</label>
+                            <input
+                                name="stock"
+                                type="number"
+                                value={productData.stock}
+                                onChange={handleChange}
+                                required
+                                className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary focus:border-primary"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Categories</label>
+                            <div className="rounded-md mt-1 p-2 h-20 overflow-y-scroll shadow-sm">
+                                {categories.map((category) => (
+                                    <div key={category.id} className="flex items-center gap-2">
+                                        <input
+                                            type="checkbox"
+                                            id={`category-${category.id}`}
+                                            checked={selectedCategories.includes(category.id)}
+                                            onChange={() => handleCategorySelect(category.id)}
+                                        />
+                                        <label htmlFor={`category-${category.id}`}>
+                                            {category.title || "Unnamed"}
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
-
                     <div className="col-span-full flex justify-end">
-                        <button type="submit" className="px-6 py-2 bg-primary text-white rounded-md shadow">Save Changes</button>
+                        <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="px-6 py-2 bg-primary text-white rounded-md shadow hover:bg-primary-light disabled:bg-gray-400"
+                        >
+                            {isLoading ? "Saving..." : "Save"}
+                        </button>
                     </div>
                 </form>
             </div>

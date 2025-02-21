@@ -76,7 +76,11 @@ export const EditableProductCard = (props) => {
         </span>
       </div>
       <div
-        onClick={() => setEditModalOpen(true)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setEditModalOpen(true); // ปิด EditModal ถ้ามันเปิดอยู่
+          setDeleteModalOpen(false);
+        }}
         className="flex flex-row justify-between mt-4">
         <button className="h-8 px-4 text-primary rounded-md flex items-center justify-center space-x-2 hover:bg-gray-200 transition duration-200 ease-in-out">
           <Pencil className="h-4 w-4" />
@@ -84,7 +88,11 @@ export const EditableProductCard = (props) => {
         </button>
 
         <button
-          onClick={() => setDeleteModalOpen(true)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setEditModalOpen(false); // ปิด EditModal ถ้ามันเปิดอยู่
+            setDeleteModalOpen(true);
+          }}
           className="h-8 px-4 text-red-700 rounded-md flex items-center justify-center space-x-2 hover:bg-gray-200 transition duration-200 ease-in-out">
           <Trash2 className="h-4 w-4" />
           <span>Delete</span>
