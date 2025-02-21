@@ -8,7 +8,7 @@ const StatusFilter = ({ statusOptions, selectedStatus, setSelectedStatus }) => {
   };
 
   return (
-    <div className="rounded-md border border-gray-300 bg-white px-4 py-2 shadow-md focus:ring-2 focus:ring-gray-300 focus:outline-none">
+    <div className="mt-5 rounded-md border border-gray-300 bg-white px-4 py-2 shadow-md focus:ring-2 focus:ring-gray-300 focus:outline-none">
       <div className="flex flex-row gap-2">
         {statusOptions.map((status, index) => (
           <label key={index} className="flex cursor-pointer items-center gap-2">
