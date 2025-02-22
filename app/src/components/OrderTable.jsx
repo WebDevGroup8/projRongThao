@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import SearchBar from "./SearchBar";
 import StatusFilter from "./StatusFilter";
 import { Printer, Underline } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import PrintShipLabel from "./PrintShipLabel";
 
 const OrderTable = (props) => {
@@ -108,6 +109,14 @@ const OrderTable = (props) => {
     });
     setCustomerStats(stats);
   }, [user]);
+  const deleteOrder = async (id) => {
+    try {
+      await ax.delete(`/orders/${id}`);
+      fetchProducts();
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
+  };
 
   useEffect(() => {
     fetchProducts();
@@ -140,44 +149,49 @@ const OrderTable = (props) => {
       )}
       {switchTable ? (
         <div>
-          <div className="mb-3 flex flex-row justify-between py-2">
+          <div className="flex flex-row justify-between py-2">
             <SearchBar onSearch={(term) => setSearchTerm(term)} />
-            <StatusFilter
-              selectedStatus={selectedStatus}
-              setSelectedStatus={setSelectedStatus}
-              statusOptions={statusOptions}
-            />
+            {props.configView && (
+              <StatusFilter
+                selectedStatus={selectedStatus}
+                setSelectedStatus={setSelectedStatus}
+                statusOptions={statusOptions}
+              />
+            )}
           </div>
-          <div className="relative overflow-x-auto">
-            <table className="w-full text-left text-sm text-gray-500 shadow-2xl rtl:text-right">
-              <thead className="border-1 border-gray-200 bg-gray-50 text-xs text-gray-700 uppercase">
+
+          <div class="relative overflow-x-auto">
+            <table class="w-full text-left text-sm text-gray-500 shadow-2xl rtl:text-right">
+              <thead class="border-1 border-gray-200 bg-gray-50 text-xs text-gray-700 uppercase">
                 <tr>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" class="px-6 py-3">
                     ID
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" class="px-6 py-3">
                     NAME
                   </th>
-                  <th scope="col" className="px-6 py-3">
-                    EMAIL
-                  </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" class="px-6 py-3">
                     ADDRESS
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" class="px-6 py-3">
                     DATE
                   </th>
-                  <th scope="col" className="py-3 ps-6">
+                  <th scope="col" class="py-3 ps-6">
                     PRODUCT
                   </th>
                   <th
                     scope="col"
-                    className="felx items-center justify-center py-3 pe-6"
+                    class="felx items-center justify-center py-3 pe-6"
                   >
                     STATUS
                   </th>
                   {props.configView && (
-                    <th scope="col" className="px-6 py-3">
+                    <th scope="col" class="px-6 py-3">
+                      DELETE
+                    </th>
+                  )}
+                  {props.configView && (
+                    <th scope="col" class="px-6 py-3">
                       PRINT
                     </th>
                   )}
@@ -185,22 +199,21 @@ const OrderTable = (props) => {
               </thead>
               <tbody>
                 {filteredOrder?.map((item, index) => (
-                  <tr key={index} className="border-b border-gray-200 bg-white">
+                  <tr key={index} class="border-b border-gray-200 bg-white">
                     <th
                       scope="row"
-                      className="px-4 py-4 font-medium whitespace-nowrap text-gray-900"
+                      class="px-4 py-4 font-medium whitespace-nowrap text-gray-900"
                     >
                       {item.documentId}
                     </th>
-                    <td className="px-6 py-4">{item.owner?.username}</td>
-                    <td className="px-6 py-4">{item.owner?.email}</td>
-                    <td className="px-6 py-4">{item.address}</td>
-                    <td className="px-6 py-4">
+                    <td class="px-6 py-4">{item.owner?.username}</td>
+                    <td class="px-6 py-4">{item.address}</td>
+                    <td class="px-6 py-4">
                       {dayjs(item.createdAt).format("DD MMM YYYY")}
                     </td>
-                    <td className="py-4 ps-6">
-                      {item?.order_product?.map((product, index) => (
-                        <div key={index}>{product?.name}</div>
+                    <td class="py-4 ps-6">
+                      {item?.order_product?.map((item, index) => (
+                        <div key={index}>{item?.name}</div>
                       ))}
                     </td>
                     <td className="py-4 pe-6">
@@ -226,6 +239,15 @@ const OrderTable = (props) => {
                         </div>
                       )}
                     </td>
+                    {props.configView && (
+                      <td className="px-5 text-center">
+                        <Trash2
+                          size={40}
+                          onClick={() => deleteOrder(item.documentId)}
+                          className="cursor-pointer rounded-lg p-2 text-red-500 transition-all duration-200 hover:bg-red-100 hover:text-red-700"
+                        />
+                      </td>
+                    )}
                     {props.configView && (
                       <td className="px-5 text-center">
                         <PrintShipLabel order={item} />

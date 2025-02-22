@@ -60,7 +60,14 @@ export const ExampleImg = ({ img }) => {
   );
 };
 
-export const Detail = ({ country, solds, price, disCountPrice, shoeName }) => {
+export const Detail = ({
+  country,
+  solds,
+  price,
+  disCountPrice,
+  shoeName,
+  stock,
+}) => {
   return (
     <div className="mt-12 flex flex-col lg:mt-0 lg:gap-2">
       <div className="lg:mb-7">
@@ -75,13 +82,18 @@ export const Detail = ({ country, solds, price, disCountPrice, shoeName }) => {
       </div>
       {/* Location & Sold Info */}
       <div className="flex flex-row gap-9">
-        <div className="flex flex-row gap-2">
-          <MapPinned />
-          <p>{country}</p>
+        <div className="flex flex-row gap-15">
+          <div className="flex flex-row gap-2">
+            <MapPinned />
+            <p>{country}</p>
+          </div>
+          <p>
+            {solds} {solds <= 0 ? "Sold" : "Solds"}
+          </p>
+          <p>
+            Total {stock} product{stock !== 1 ? "s" : ""} available.
+          </p>
         </div>
-        <p>
-          {solds} {solds <= 0 ? "sold" : "solds"}
-        </p>
       </div>
     </div>
   );
@@ -195,6 +207,7 @@ export default function ItemDetail() {
               country="Thailand"
               solds={product.soldCount}
               price="1000"
+              stock={product.stock}
               disCountPrice={product.price}
               shoeName={product.name}
             />
