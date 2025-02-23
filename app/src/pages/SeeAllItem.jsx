@@ -5,6 +5,7 @@ import { ProductCard } from "../components/ProductCard";
 import { SideBar } from "../components/SideBar";
 import SearchBar from "../components/SearchBar";
 import Loading from "../components/Loading";
+import fetchProducts from "../context/FetchProduct";
 
 export const SeeAllItem = () => {
   const [categories, setCategories] = useState([]);
@@ -24,22 +25,11 @@ export const SeeAllItem = () => {
     }
   };
 
-  const fetchProducts = async () => {
-    try {
-      const res = await ax.get(
-        `/products?populate=image&populate=categories&populate=reviews`,
-      );
-      setProducts(res.data.data);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    }
-  };
-
   useEffect(() => {
     try {
       setIsLoading(true);
       fetchCategories();
-      fetchProducts();
+      fetchProducts(setProducts);
     } catch (e) {
       console.log(e);
     } finally {
