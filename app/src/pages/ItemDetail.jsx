@@ -164,7 +164,7 @@ export default function ItemDetail() {
   const { id } = useParams();
   const { cart, addToCart } = useAuthStore();
   const isItemInCart = cart.find((item) => item.id === Number(id));
-  const { jwt } = useAuthStore();
+  const { user } = useAuthStore();
   const fetchProduct = async () => {
     try {
       setIsLoading(true);
@@ -292,7 +292,7 @@ export default function ItemDetail() {
             </div>
 
             <div className="flex w-full flex-col gap-5">
-              {!jwt ? (
+              {!user ? (
                 <button
                   onClick={() => navigate("/login")}
                   className="w-full cursor-pointer rounded-md border border-blue-950 px-4 py-2 text-center text-xl text-blue-950"
