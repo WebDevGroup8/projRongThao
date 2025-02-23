@@ -6,6 +6,9 @@ import {
   Minus,
   Plus,
 } from "lucide-react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import React, { useEffect, useState } from "react";
 import ax from "../conf/ax";
 import { useParams } from "react-router-dom";
@@ -60,7 +63,14 @@ export const ExampleImg = ({ img }) => {
   );
 };
 
-export const Detail = ({ country, solds, price, disCountPrice, shoeName }) => {
+export const Detail = ({
+  country,
+  solds,
+  price,
+  disCountPrice,
+  shoeName,
+  stock,
+}) => {
   return (
     <div className="mt-12 flex flex-col lg:mt-0 lg:gap-2">
       <div className="lg:mb-7">
@@ -75,13 +85,18 @@ export const Detail = ({ country, solds, price, disCountPrice, shoeName }) => {
       </div>
       {/* Location & Sold Info */}
       <div className="flex flex-row gap-9">
-        <div className="flex flex-row gap-2">
-          <MapPinned />
-          <p>{country}</p>
+        <div className="flex flex-row gap-15">
+          <div className="flex flex-row gap-2">
+            <MapPinned />
+            <p>{country}</p>
+          </div>
+          <p>
+            {solds} {solds <= 0 ? "Sold" : "Solds"}
+          </p>
+          <p>
+            Total {stock} product{stock !== 1 ? "s" : ""} available.
+          </p>
         </div>
-        <p>
-          {solds} {solds <= 0 ? "sold" : "solds"}
-        </p>
       </div>
     </div>
   );
@@ -168,7 +183,11 @@ export default function ItemDetail() {
   const handleAddToCart = async () => {
     try {
       await addToCart({ id: product.id });
-      console.log(cart);
+      toast.success("Item added to cart!", {
+        position: "top-right",
+        autoClose: 3000,
+        className: "mt-20",
+      });
     } catch (e) {
       console.log(e);
     }
@@ -195,6 +214,7 @@ export default function ItemDetail() {
               country="Thailand"
               solds={product.soldCount}
               price="1000"
+              stock={product.stock}
               disCountPrice={product.price}
               shoeName={product.name}
             />
@@ -274,6 +294,10 @@ export default function ItemDetail() {
               {isItemInCart ? (
                 <button className="w-full cursor-pointer rounded-md border border-blue-950 px-4 py-2 text-center text-xl text-blue-950">
                   <p className="hover:underline">ITEM ALREADY IN CART</p>
+                </button>
+              ) : product.stock === 0 ? (
+                <button className="w-full cursor-pointer rounded-md border border-blue-950 px-4 py-2 text-center text-xl text-blue-950">
+                  <p className="hover:underline">OUT OF STOCK </p>
                 </button>
               ) : (
                 <button

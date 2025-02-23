@@ -30,6 +30,11 @@ export default factories.createCoreController(
       const { userId, order_product, amount_shipping, discount } =
         ctx.request.body;
 
+      const orderedProduct = order_product.map((product)=>({
+        documentId: product.documentId,
+        quantity: product.quantity
+      }))
+
       if (!order_product || !Array.isArray(order_product)) {
         ctx.response.status = 400;
         return { error: "Invalid order_product format" };
@@ -91,6 +96,7 @@ export default factories.createCoreController(
               coupon: discount, // Use the coupon ID from Stripe Dashboard
             },
           ],
+          metadata: {orderedProduct:JSON.stringify(orderedProduct)}
         });
         await strapi.service("api::order.order").create({
           data: {

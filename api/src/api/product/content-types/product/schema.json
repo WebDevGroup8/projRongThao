@@ -63,6 +63,9 @@
       "default": 1,
       "required": true,
       "min": 1
+    },
+    "promotion": {
+      "type": "json"
     }
   }
 }

@@ -4,7 +4,7 @@ import StatusFilter from "../components/StatusFilter";
 
 const OrderManagement = () => {
   return (
-    <div className="flex h-full w-screen flex-col px-10">
+    <div className="flex h-full flex-col px-10">
       <div>
         <OrderTable configView={true} />
       </div>

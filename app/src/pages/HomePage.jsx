@@ -6,6 +6,7 @@ import { ProductCard } from "../components/ProductCard";
 import React, { useEffect, useState } from "react";
 import ax from "../conf/ax";
 import Container from "../components/Container.jsx";
+import fetchProducts from "../context/FetchProduct.js";
 
 const categories = [
   {
@@ -79,19 +80,8 @@ const promotionsP = [
 export const HomePage = () => {
   const [products, setProducts] = useState([]);
 
-  const fetchProducts = async () => {
-    try {
-      const res = await ax.get(
-        `/products?populate=image&populate=categories&populate=reviews`,
-      );
-      setProducts(res.data.data);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchProducts();
+    fetchProducts(setProducts);
   }, []);
   return (
     <div className="gap flex w-full flex-col lg:gap-10">

@@ -17,7 +17,7 @@ export const ProtectedAdminRoute = ({ children }) => {
       <Loading />
     ) : (
       <>
-        <div className="container mt-20 text-center">
+        <div className="mt-20 w-full text-center">
           <p className="mb-5 text-4xl font-bold">You must Login as Admin!</p>
           <a href="/" className="text-xl underline">
             Go Back
@@ -29,9 +29,11 @@ export const ProtectedAdminRoute = ({ children }) => {
   return (
     <div className="flex w-full flex-row">
       {/* Admin Sidebar */}
-      <AdminSidebar />
+      <div className="w-[250px]">
+        <AdminSidebar />
+      </div>
       {/* Content */}
-      {children}
+      <div className="w-full">{children}</div>
     </div>
   );
 };
