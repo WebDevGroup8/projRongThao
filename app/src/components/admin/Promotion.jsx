@@ -119,6 +119,8 @@ export default function Promotion() {
       // Execute all requests in parallel
       await Promise.all(updateRequests);
 
+      setSelectedPromotionGroup(null);
+
       setIsCreatePromotionModalOpen(false);
       fetchProducts();
       alert("All promotions updated successfully!");
