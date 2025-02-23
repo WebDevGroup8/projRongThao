@@ -186,6 +186,7 @@ export default function ItemDetail() {
       toast.success("Item added to cart!", {
         position: "top-right",
         autoClose: 3000,
+        className: "mt-20",
       });
     } catch (e) {
       console.log(e);
@@ -293,6 +294,10 @@ export default function ItemDetail() {
               {isItemInCart ? (
                 <button className="w-full cursor-pointer rounded-md border border-blue-950 px-4 py-2 text-center text-xl text-blue-950">
                   <p className="hover:underline">ITEM ALREADY IN CART</p>
+                </button>
+              ) : product.stock === 0 ? (
+                <button className="w-full cursor-pointer rounded-md border border-blue-950 px-4 py-2 text-center text-xl text-blue-950">
+                  <p className="hover:underline">OUT OF STOCK </p>
                 </button>
               ) : (
                 <button
