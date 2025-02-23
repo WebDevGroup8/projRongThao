@@ -7,6 +7,7 @@ import CouponSection from "./CouponSection";
 import PromotionSection from "./PromotionSection";
 import CreatePromotionModal from "./CreatePromotionModal";
 import UpdatePromotionModal from "./UpdatePromotionModal";
+import { toast } from "react-toastify";
 
 export default function Promotion() {
   const [isLoading, setIsLoading] = useState(true);
@@ -30,7 +31,7 @@ export default function Promotion() {
       const response = await ax.post("/stripe/promotion", formData);
 
       console.log("Coupon created successfully:", response.data);
-      alert("Coupon created successfully!"); // Replace with toast notification if needed
+      toast.success("Coupon created successfully!"); // Replace with toast notification if needed
 
       setIsCreateModalCouponOpen(false); // Close the modal after successful submission
       fetchCoupon();
@@ -39,7 +40,7 @@ export default function Promotion() {
         "Error creating coupon:",
         error.response?.data || error.message,
       );
-      alert("Failed to create coupon. Please try again."); // Replace with toast notification if needed
+      toast.error("Failed to create coupon. Please try again."); // Replace with toast notification if needed
     } finally {
       setIsLoading(false);
     }
@@ -51,7 +52,7 @@ export default function Promotion() {
       const response = await ax.post(`/stripe/promotion/${id}`, formData);
 
       console.log("Coupon updated successfully:", response.data);
-      alert("Coupon updated successfully!"); // Replace with toast notification if needed
+      toast.success("Coupon updated successfully!"); // Replace with toast notification if needed
 
       fetchCoupon(); // Refresh the list
     } catch (error) {
@@ -59,7 +60,7 @@ export default function Promotion() {
         "Error updating coupon:",
         error.response?.data || error.message,
       );
-      alert("Failed to update coupon. Please try again."); // Replace with toast notification if needed
+      toast.error("Failed to update coupon. Please try again."); // Replace with toast notification if needed
     } finally {
       setIsLoading(false);
     }
@@ -73,7 +74,7 @@ export default function Promotion() {
       await ax.delete(`/stripe/promotion/${id}`);
 
       console.log("Coupon deleted successfully.");
-      alert("Coupon deleted successfully!"); // Replace with toast notification if needed
+      toast.success("Coupon deleted successfully!"); // Replace with toast notification if needed
 
       fetchCoupon(); // Refresh the list
     } catch (error) {
@@ -81,7 +82,7 @@ export default function Promotion() {
         "Error deleting coupon:",
         error.response?.data || error.message,
       );
-      alert("Failed to delete coupon. Please try again."); // Replace with toast notification if needed
+      toast.error("Failed to delete coupon. Please try again."); // Replace with toast notification if needed
     } finally {
       setIsLoading(false);
     }
@@ -123,11 +124,11 @@ export default function Promotion() {
 
       setIsCreatePromotionModalOpen(false);
       fetchProducts();
-      alert("All promotions updated successfully!");
+      toast.success("All promotions updated successfully!");
       console.log("All promotions updated successfully!");
     } catch (error) {
       console.error("Error updating promotions:", error);
-      alert("Failed to update promotions. Please try again.");
+      toast.error("Failed to update promotions. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -160,11 +161,11 @@ export default function Promotion() {
 
       setIsCreatePromotionModalOpen(false);
       fetchProducts();
-      alert("All promotions updated successfully!");
+      toast.success("All promotions updated successfully!");
       console.log("All promotions updated successfully!");
     } catch (error) {
       console.error("Error updating promotions:", error);
-      alert("Failed to update promotions. Please try again.");
+      toast.error("Failed to update promotions. Please try again.");
     } finally {
       setIsLoading(false);
     }
