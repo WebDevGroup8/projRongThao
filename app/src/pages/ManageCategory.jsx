@@ -5,7 +5,7 @@ import ax from "../conf/ax";
 import { EditableProductCard } from "../components/EditableProductCard";
 import { motion, AnimatePresence } from "framer-motion";
 import Loading from "../components/Loading";
-import { SideBarForManageProduct } from "../components/SideBarForManageProduct";
+import { FilterBarForManageCategory } from "../components/FilterBarForManageCategory";
 import CreateProductModal from "../components/CreateProductModal";
 
 
@@ -88,7 +88,7 @@ export default function ManageCategory() {
                 </div>
             </div>
             <div className="flex w-full flex-shrink-0 pb-5">
-                <SideBarForManageProduct
+                <FilterBarForManageCategory
                     categories={categories}
                     selectedCategories={selectedCategories}
                     setSelectedCategories={setSelectedCategories}

@@ -1,7 +1,7 @@
 import React from "react";
 import { Range } from "react-range";
 
-export const SideBarForManageProduct = ({
+export const FilterBarForManageProduct = ({
   categories,
   priceRange,
   setPriceRange,
