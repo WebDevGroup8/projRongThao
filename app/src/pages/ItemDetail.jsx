@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import React, { useEffect, useState } from "react";
 import ax from "../conf/ax";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import conf from "../conf/mainapi";
 import Loading from "../components/Loading";
 import useAuthStore from "../store";
@@ -203,10 +203,11 @@ export default function ItemDetail() {
   const [product, setProduct] = useState(null);
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const navigate = useNavigate();
   const { id } = useParams();
   const { cart, addToCart } = useAuthStore();
   const isItemInCart = cart.find((item) => item.id === Number(id));
+  const { user } = useAuthStore();
   const fetchProduct = async () => {
     try {
       setIsLoading(true);
@@ -334,13 +335,20 @@ export default function ItemDetail() {
             </div>
 
             <div className="flex w-full flex-col gap-5">
-              {isItemInCart ? (
+              {!user ? (
+                <button
+                  onClick={() => navigate("/login")}
+                  className="w-full cursor-pointer rounded-md border border-blue-950 px-4 py-2 text-center text-xl text-blue-950"
+                >
+                  <p className="hover:underline">PLEASE LOGIN TO ADD TO CART</p>
+                </button>
+              ) : isItemInCart ? (
                 <button className="w-full cursor-pointer rounded-md border border-blue-950 px-4 py-2 text-center text-xl text-blue-950">
                   <p className="hover:underline">ITEM ALREADY IN CART</p>
                 </button>
               ) : product.stock === 0 ? (
                 <button className="w-full cursor-pointer rounded-md border border-blue-950 px-4 py-2 text-center text-xl text-blue-950">
-                  <p className="hover:underline">OUT OF STOCK </p>
+                  <p className="hover:underline">OUT OF STOCK</p>
                 </button>
               ) : (
                 <button
@@ -350,6 +358,7 @@ export default function ItemDetail() {
                   <p className="hover:underline">ADD TO CART</p>
                 </button>
               )}
+
               <button className="w-full cursor-pointer rounded-md bg-black px-4 py-2 text-center text-xl text-white">
                 <p className="hover:underline">BUY IT NOW</p>
               </button>

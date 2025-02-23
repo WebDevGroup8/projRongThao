@@ -178,7 +178,7 @@ const useAuthStore = create((set) => ({
 
   logout: (navigate) => {
     Cookies.remove("user");
-    set({ user: null, jwt: null });
+    set({ user: null, jwt: null, cart: [] });
     navigate("/", { replace: true });
   },
 }));
