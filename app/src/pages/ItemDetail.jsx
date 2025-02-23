@@ -64,10 +64,39 @@ export const Detail = ({
   country,
   solds,
   price,
-  disCountPrice,
   shoeName,
   stock,
+  promotion,
 }) => {
+  const [refinePrice, setRefinePrice] = useState(0);
+  const [isPromotion, setIsPromotion] = useState(false);
+  const now = new Date();
+  const isPromotionValid = () => {
+    if (promotion.name) {
+      const startDate = new Date(promotion.start);
+      const endDate = new Date(promotion.end);
+
+      return now >= startDate && now <= endDate;
+    }
+    return false;
+  };
+
+  const promotionPrice = () => {
+    if (isPromotionValid()) {
+      setIsPromotion(true);
+      if (promotion.discountType === "percentage") {
+        return (price * (1 - promotion.percentage / 100)).toFixed(2);
+      } else {
+        return promotion.promotionPrice;
+      }
+    } else {
+      return price;
+    }
+  };
+
+  useEffect(() => {
+    setRefinePrice(promotionPrice);
+  }, []);
   return (
     <div className="mt-12 flex flex-col lg:mt-0 lg:gap-2">
       <div className="lg:mb-7">
@@ -77,8 +106,22 @@ export const Detail = ({
       </div>
       {/* Price & Discount */}
       <div className="flex flex-row gap-3 lg:py-0">
-        <p className="text-3xl font-bold text-blue-950">{disCountPrice}฿</p>
-        <p className="font-thin line-through">{price ? price + "฿" : ""}</p>
+        <p className="text-3xl font-bold text-blue-950">{refinePrice} ฿</p>
+        <p className="font-thin line-through">
+          {isPromotion ? price + "฿" : ""}
+        </p>
+        {isPromotion && promotion.discountType === "percentage" ? (
+          <div className="me-3 h-fit w-fit rounded-md border-red-400 bg-red-100 px-1 py-0.5 text-xs font-semibold text-red-800 lg:px-2 lg:py-1">
+            {promotion.percentage} %
+          </div>
+        ) : (
+          isPromotion &&
+          promotion.discountType === "fixed" && (
+            <div className="me-3 h-fit w-fit rounded-md border-red-400 bg-red-100 px-1 py-0.5 text-xs font-semibold text-red-800 lg:px-2 lg:py-1">
+              on sale
+            </div>
+          )
+        )}
       </div>
       {/* Location & Sold Info */}
       <div className="flex flex-row gap-9">
@@ -206,10 +249,10 @@ export default function ItemDetail() {
             <Detail
               country="Thailand"
               solds={product.soldCount}
-              price="1000"
+              price={product.price}
               stock={product.stock}
-              disCountPrice={product.price}
               shoeName={product.name}
+              promotion={product.promotion ? product.promotion : {}}
             />
           }
           <Tag text={product.categories.map((category) => category.title)} />
