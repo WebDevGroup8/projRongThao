@@ -6,6 +6,9 @@ import {
   Minus,
   Plus,
 } from "lucide-react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import React, { useEffect, useState } from "react";
 import ax from "../conf/ax";
 import { useParams } from "react-router-dom";
@@ -180,7 +183,10 @@ export default function ItemDetail() {
   const handleAddToCart = async () => {
     try {
       await addToCart({ id: product.id });
-      console.log(cart);
+      toast.success("Item added to cart!", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     } catch (e) {
       console.log(e);
     }

@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 export default function UpdatePromotionModal({
   isOpen,
@@ -73,7 +74,7 @@ export default function UpdatePromotionModal({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.name.trim()) {
-      alert("Promotion name is required.");
+      toast.warning("Promotion name is required.");
       return;
     }
     handleUpdatePromotion(formData);

@@ -21,6 +21,7 @@ import OrderManagement from "./pages/OrderManagement";
 import SignUp from "./pages/SingupPage";
 import Promotion from "./components/admin/Promotion";
 import Admin from "./components/admin/Admin";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
@@ -46,6 +47,7 @@ function App() {
   return (
     !isLoginPending && (
       <div className="h-full w-full">
+        <ToastContainer />
         <Routes>
           {/* Public Route */}
           <Route path="/login" element={<SignIn />} />
