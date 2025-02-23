@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import React, { useEffect, useState } from "react";
 import ax from "../conf/ax";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import conf from "../conf/mainapi";
 import Loading from "../components/Loading";
 import useAuthStore from "../store";
@@ -67,10 +67,39 @@ export const Detail = ({
   country,
   solds,
   price,
-  disCountPrice,
   shoeName,
   stock,
+  promotion,
 }) => {
+  const [refinePrice, setRefinePrice] = useState(0);
+  const [isPromotion, setIsPromotion] = useState(false);
+  const now = new Date();
+  const isPromotionValid = () => {
+    if (promotion.name) {
+      const startDate = new Date(promotion.start);
+      const endDate = new Date(promotion.end);
+
+      return now >= startDate && now <= endDate;
+    }
+    return false;
+  };
+
+  const promotionPrice = () => {
+    if (isPromotionValid()) {
+      setIsPromotion(true);
+      if (promotion.discountType === "percentage") {
+        return (price * (1 - promotion.percentage / 100)).toFixed(2);
+      } else {
+        return promotion.promotionPrice;
+      }
+    } else {
+      return price;
+    }
+  };
+
+  useEffect(() => {
+    setRefinePrice(promotionPrice);
+  }, []);
   return (
     <div className="mt-12 flex flex-col lg:mt-0 lg:gap-2">
       <div className="lg:mb-7">
@@ -80,8 +109,22 @@ export const Detail = ({
       </div>
       {/* Price & Discount */}
       <div className="flex flex-row gap-3 lg:py-0">
-        <p className="text-3xl font-bold text-blue-950">{disCountPrice}฿</p>
-        <p className="font-thin line-through">{price ? price + "฿" : ""}</p>
+        <p className="text-3xl font-bold text-blue-950">{refinePrice} ฿</p>
+        <p className="font-thin line-through">
+          {isPromotion ? price + "฿" : ""}
+        </p>
+        {isPromotion && promotion.discountType === "percentage" ? (
+          <div className="me-3 h-fit w-fit rounded-md border-red-400 bg-red-100 px-1 py-0.5 text-xs font-semibold text-red-800 lg:px-2 lg:py-1">
+            {promotion.percentage} %
+          </div>
+        ) : (
+          isPromotion &&
+          promotion.discountType === "fixed" && (
+            <div className="me-3 h-fit w-fit rounded-md border-red-400 bg-red-100 px-1 py-0.5 text-xs font-semibold text-red-800 lg:px-2 lg:py-1">
+              on sale
+            </div>
+          )
+        )}
       </div>
       {/* Location & Sold Info */}
       <div className="flex flex-row gap-9">
@@ -160,10 +203,11 @@ export default function ItemDetail() {
   const [product, setProduct] = useState(null);
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const navigate = useNavigate();
   const { id } = useParams();
   const { cart, addToCart } = useAuthStore();
   const isItemInCart = cart.find((item) => item.id === Number(id));
+  const { user } = useAuthStore();
   const fetchProduct = async () => {
     try {
       setIsLoading(true);
@@ -213,10 +257,10 @@ export default function ItemDetail() {
             <Detail
               country="Thailand"
               solds={product.soldCount}
-              price="1000"
+              price={product.price}
               stock={product.stock}
-              disCountPrice={product.price}
               shoeName={product.name}
+              promotion={product.promotion ? product.promotion : {}}
             />
           }
           <Tag text={product.categories.map((category) => category.title)} />
@@ -291,13 +335,20 @@ export default function ItemDetail() {
             </div>
 
             <div className="flex w-full flex-col gap-5">
-              {isItemInCart ? (
+              {!user ? (
+                <button
+                  onClick={() => navigate("/login")}
+                  className="w-full cursor-pointer rounded-md border border-blue-950 px-4 py-2 text-center text-xl text-blue-950"
+                >
+                  <p className="hover:underline">PLEASE LOGIN TO ADD TO CART</p>
+                </button>
+              ) : isItemInCart ? (
                 <button className="w-full cursor-pointer rounded-md border border-blue-950 px-4 py-2 text-center text-xl text-blue-950">
                   <p className="hover:underline">ITEM ALREADY IN CART</p>
                 </button>
               ) : product.stock === 0 ? (
                 <button className="w-full cursor-pointer rounded-md border border-blue-950 px-4 py-2 text-center text-xl text-blue-950">
-                  <p className="hover:underline">OUT OF STOCK </p>
+                  <p className="hover:underline">OUT OF STOCK</p>
                 </button>
               ) : (
                 <button
@@ -307,6 +358,7 @@ export default function ItemDetail() {
                   <p className="hover:underline">ADD TO CART</p>
                 </button>
               )}
+
               <button className="w-full cursor-pointer rounded-md bg-black px-4 py-2 text-center text-xl text-white">
                 <p className="hover:underline">BUY IT NOW</p>
               </button>
