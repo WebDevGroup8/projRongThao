@@ -63,8 +63,11 @@ const ManageCategory = () => {
                 <table className="w-full text-sm text-gray-500 shadow-2xl">
                     <thead className="border border-gray-200 bg-gray-50 text-xs text-gray-700 uppercase">
                         <tr>
-                            <th scope="col" className="w-8/10 px-6 py-3 text-left">
+                            <th scope="col" className="w-2/10 px-6 py-3 text-left">
                                 NAME
+                            </th>
+                            <th scope="col" className="w-6/10 px-6 py-3 text-left">
+                                DESCRIPTION
                             </th>
                             <th scope="col" className="w-1/10 px-6 py-3 text-center">
                                 EDIT
@@ -79,6 +82,9 @@ const ManageCategory = () => {
                             filteredCategories.map((category) => (
                                 <tr key={category.id} className="border-b border-gray-200 bg-white">
                                     <td className="px-6 py-4 text-base font-medium text-gray-900">
+                                        {category.title}
+                                    </td>
+                                    <td className="px-6 py-4 text-base font-light text-gray-900">
                                         {category.title}
                                     </td>
                                     <td className="flex px-6 py-4 justify-center">
