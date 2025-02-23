@@ -156,7 +156,7 @@ export default function DashBoard() {
   return (
     <div className="mt-5 w-full px-10">
       <StatCard />
-      <OrderTable />
+      <OrderTable configView={false} />
     </div>
   );
 }
