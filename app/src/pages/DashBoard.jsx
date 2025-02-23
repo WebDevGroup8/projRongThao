@@ -1,24 +1,68 @@
 // DashBoard.jsx
 
-import { ChartNoAxesCombined, ChevronDown, Search } from "lucide-react";
+import { ChartNoAxesCombined } from "lucide-react";
 import { useEffect, useState } from "react";
 import ax from "../conf/ax";
-import dayjs from "dayjs";
 import OrderTable from "../components/OrderTable";
 
 export const StatCard = () => {
-  const day = ["7 days", "30 days", "90 days"];
-  const bestSell = [
-    { product: "product1", amount: 9009 },
-    { product: "product3", amount: 99 },
-    { product: "product5", amount: 99 },
-    { product: "product10", amount: 99 },
-  ];
-  const [daysRevenue, setDaysRevenue] = useState(day[0]);
-  const [daysOrder, setDaysOrder] = useState(day[0]);
-  const [openDaysRevenue, setOpenDaysRevenue] = useState(false);
-  const [openDaysOrder, setOpenDaysOrder] = useState(false);
+  const [user, setUser] = useState([]);
 
+  const [totalPurchasedItems, setTotalPurchasedItems] = useState(0);
+  const [bestSellers, setBestSellers] = useState([]);
+  const fetchUser = async () => {
+    try {
+      const res = await ax.get(
+        `/users?populate[role][filters][id]=3&populate=order_histories`,
+      );
+      setUser(res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  // Calculate total purchased items when user data changes
+  useEffect(() => {
+    const total = user.reduce((grandTotal, customer) => {
+      // Count items for this customer across all their orders
+      const customerItems =
+        customer.order_histories?.reduce((customerTotal, order) => {
+          return customerTotal + (order.order_product?.length || 0);
+        }, 0) || 0;
+
+      return grandTotal + customerItems;
+    }, 0);
+
+    setTotalPurchasedItems(total);
+  }, [user]);
+
+  useEffect(() => {
+    // Step 1: Create an object to count items
+    const itemCounts = {};
+
+    user.forEach((customer) => {
+      customer.order_histories?.forEach((order) => {
+        order.order_product?.forEach((item) => {
+          // Assuming item has a name or id property to identify it
+          const itemName = item.name;
+          itemCounts[itemName] = (itemCounts[itemName] || 0) + 1;
+        });
+      });
+    });
+
+    // Step 2: Convert to array and sort
+    const sortedBestSellers = Object.entries(itemCounts)
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count); // Descending order
+
+    setBestSellers(sortedBestSellers);
+  }, [user]);
+
+  // Fetch users on component mount
+  useEffect(() => {
+    fetchUser();
+  }, []);
   return (
     <div className="w-full">
       <div className="flex w-full flex-row gap-5">
@@ -28,40 +72,6 @@ export const StatCard = () => {
               <p className="text-xs font-semibold text-gray-500">
                 Total Revenue
               </p>
-            </div>
-            <div className="relative">
-              <button
-                onClick={() => setOpenDaysRevenue(!openDaysRevenue)}
-                className="inline-flex w-22 items-center gap-2 rounded-lg border-1 border-gray-400 px-2 text-center text-xs font-light text-black focus:outline-none"
-                type="button"
-              >
-                {daysRevenue}
-
-                <div className="ms-auto">
-                  <ChevronDown className="size-5 stroke-1" />
-                </div>
-              </button>
-              {openDaysRevenue && (
-                <div className="absolute top-full mt-1 w-fit divide-y divide-gray-100 rounded-lg bg-white shadow-sm">
-                  <ul className="py-2 text-xs text-gray-700">
-                    {day.map((item, index) => (
-                      <li key={index}>
-                        <a
-                          className="block px-4 py-2 hover:bg-gray-100"
-                          onClick={() => {
-                            return (
-                              setDaysRevenue(item),
-                              setOpenDaysRevenue(!openDaysRevenue)
-                            );
-                          }}
-                        >
-                          {item}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </div>
           </div>
           <div className="flex w-fit flex-row items-center justify-center gap-4">
@@ -75,50 +85,16 @@ export const StatCard = () => {
             </div>
           </div>
         </div>
-        <div className="flex w-full flex-col justify-start gap-4 rounded-lg border-2 border-gray-400 p-4 shadow-sm">
+        <div className="flex w-fit flex-row items-center justify-center gap-2 rounded-lg border-2 border-gray-400 p-4 shadow-sm">
           <div className="flex flex-row items-center justify-between gap-5">
             <div>
-              <p className="text-xs font-semibold text-gray-500">
-                Daily Orders
+              <p className="text-3xl font-semibold whitespace-nowrap text-gray-600">
+                All time item sell :
               </p>
             </div>
-            <div className="relative">
-              <button
-                onClick={() => setOpenDaysOrder(!openDaysOrder)}
-                className="inline-flex w-22 items-center gap-2 rounded-lg border-1 border-gray-400 px-2 text-center text-xs font-light text-black focus:outline-none"
-                type="button"
-              >
-                {daysOrder}
-
-                <div className="ms-auto">
-                  <ChevronDown className="size-5 stroke-1" />
-                </div>
-              </button>
-              {openDaysOrder && (
-                <div className="absolute top-full mt-1 w-fit divide-y divide-gray-100 rounded-lg bg-white shadow-sm">
-                  <ul className="py-2 text-xs text-gray-700">
-                    {day.map((item, index) => (
-                      <li key={index}>
-                        <a
-                          className="block px-4 py-2 hover:bg-gray-100"
-                          onClick={() => {
-                            return (
-                              setDaysOrder(item),
-                              setOpenDaysOrder(!openDaysOrder)
-                            );
-                          }}
-                        >
-                          {item}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
           </div>
-          <div className="-mt-3 font-semibold text-gray-600">
-            <p className="text-3xl">45</p>
+          <div className="text-3xl font-thin whitespace-nowrap text-gray-600">
+            {totalPurchasedItems || 0}
           </div>
         </div>
         <div className="flex w-full flex-col justify-start gap-4 rounded-lg border-2 border-gray-400 p-4 shadow-sm">
@@ -128,24 +104,20 @@ export const StatCard = () => {
                 Best Selling
               </p>
             </div>
-            <div>
-              <p className="text-xs font-light">(235 total)</p>
-            </div>
           </div>
-          {bestSell.slice(0, 3).map((item, index) => (
+          {bestSellers.slice(0, 3).map((item, index) => (
             <div
               key={index}
-              className="-mt-3 flex w-50 flex-row items-center justify-between font-semibold text-gray-600"
+              className="-mt-3 flex w-full flex-row items-center justify-between font-semibold whitespace-nowrap text-gray-600"
             >
-              <p className="text-xs font-thin">{item.product}</p>
-              <p className="text-xs font-thin">{item.amount}</p>
+              <div>
+                <p className="text-xs font-thin">{item.name}</p>
+              </div>
+              <div>
+                <p className="text-xs font-thin">{item.count}</p>
+              </div>
             </div>
           ))}
-          <div className="flex items-end justify-end">
-            <button className="flex w-fit rounded-lg bg-blue-900 px-2 py-1 text-xs text-white hover:underline">
-              view all
-            </button>
-          </div>
         </div>
       </div>
     </div>
