@@ -13,11 +13,12 @@ export default function PromotionSection({
   const groupedPromotions = useMemo(() => {
     const grouped = {};
     promotionedProduct.forEach((product) => {
+      console.log(promotionedProduct);
       const { name, price, promotion } = product;
       const promotionStart = new Date(promotion.start);
       const promotionEnd = new Date(promotion.end);
 
-      let promotionPrice = price;
+      let promotionPrice = promotion.promotionPrice;
       if (promotion.discountType === "percentage") {
         promotionPrice = price - (price * promotion.percentage) / 100;
       }
@@ -39,11 +40,13 @@ export default function PromotionSection({
       }
       grouped[promotion.name].products.push({
         id: product.id,
+        documentId: product.documentId,
         name,
         price,
         promotionPrice,
         start: promotion.start,
         end: promotion.end,
+        promotion: promotion,
         status,
       });
     });
@@ -109,7 +112,14 @@ export default function PromotionSection({
                         </button>
                         <button
                           className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-md bg-red-500 p-2"
-                          onClick={() => handleDeletePromotion(promotionName)}
+                          onClick={() => {
+                            setSelectedPromotionGroup(
+                              groupedPromotions[promotionName],
+                            );
+                            handleDeletePromotion(
+                              groupedPromotions[promotionName],
+                            );
+                          }}
                         >
                           <Trash size={16} />
                         </button>
@@ -125,9 +135,9 @@ export default function PromotionSection({
                     <td className="px-4 py-4 font-medium whitespace-nowrap text-gray-900">
                       {product.name}
                     </td>
-                    <td className="px-4 py-4">${product.price.toFixed(2)}</td>
+                    <td className="px-4 py-4">{product.price.toFixed(2)}</td>
                     <td className="px-4 py-4">
-                      ${product.promotionPrice.toFixed(2)}
+                      {product.promotionPrice.toFixed(2)}
                     </td>
                     <td className="px-4 py-4">{product.start}</td>
                     <td className="px-4 py-4">{product.end}</td>

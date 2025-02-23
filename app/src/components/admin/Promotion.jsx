@@ -22,6 +22,7 @@ export default function Promotion() {
     useState(false);
   const [isUpdatePromotionModalOpen, setIsUpdatePromotionModalOpen] =
     useState(false);
+  const [selectedPromotionGroup, setSelectedPromotionGroup] = useState(null);
 
   const handleCreateCoupon = async (formData) => {
     try {
@@ -118,6 +119,44 @@ export default function Promotion() {
       // Execute all requests in parallel
       await Promise.all(updateRequests);
 
+      setIsCreatePromotionModalOpen(false);
+      fetchProducts();
+      alert("All promotions updated successfully!");
+      console.log("All promotions updated successfully!");
+    } catch (error) {
+      console.error("Error updating promotions:", error);
+      alert("Failed to update promotions. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  // The Functional is the same so we can do like this
+  const handleUpdatePromotion = (formData) => {
+    handleCreatePromotion(formData);
+    setIsUpdatePromotionModalOpen(false);
+  };
+  const handleDeletePromotion = async (deletedPromotioGroup) => {
+    console.log(deletedPromotioGroup);
+    try {
+      setIsLoading(true);
+
+      // Create an array of update requests
+      const deleteRequest = deletedPromotioGroup.products.map(
+        async (product) => {
+          const documentId = product.documentId;
+
+          // Strapi API Endpoint
+          const apiUrl = `/products/${documentId}`;
+
+          // Erase all promotion
+          await ax.put(apiUrl, { data: { promotion: {} } });
+        },
+      );
+
+      // Execute all requests in parallel
+      await Promise.all(deleteRequest);
+
+      setIsCreatePromotionModalOpen(false);
       fetchProducts();
       alert("All promotions updated successfully!");
       console.log("All promotions updated successfully!");
@@ -147,8 +186,11 @@ export default function Promotion() {
         `/products?populate=image&populate=categories&populate=reviews`,
       );
       setProducts(res.data.data);
+      // discountType to track
       setPromotionedProduct(
-        res.data.data.filter((product) => product.promotion),
+        res.data.data.filter(
+          (product) => product.promotion && product.promotion.discountType,
+        ),
       );
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -176,6 +218,8 @@ export default function Promotion() {
           <PromotionSection
             setIsCreatePromotionModalOpen={setIsCreatePromotionModalOpen}
             setIsUpdatePromotionModalOpen={setIsUpdatePromotionModalOpen}
+            setSelectedPromotionGroup={setSelectedPromotionGroup}
+            handleDeletePromotion={handleDeletePromotion}
             promotionedProduct={promotionedProduct}
           />
         </div>
@@ -200,6 +244,8 @@ export default function Promotion() {
       <UpdatePromotionModal
         isOpen={isUpdatePromotionModalOpen}
         onClose={() => setIsUpdatePromotionModalOpen(false)}
+        selectedPromotionGroup={selectedPromotionGroup}
+        handleUpdatePromotion={handleUpdatePromotion}
       />
     </>
   );
