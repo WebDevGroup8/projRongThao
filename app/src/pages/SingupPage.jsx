@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import loginImage from "../assets/loginpage_img.png"; // ใช้ relative path
 
 import ax from "../conf/ax";
+import { toast } from "react-toastify";
 
 export default function SignUp() {
   const [password, setPassword] = useState("");
@@ -36,7 +37,7 @@ export default function SignUp() {
     try {
       setIsLoading(true);
       await ax.post("/users", formData);
-      alert("Created Successfully!");
+      toast.success("Created Successfully!");
       navigate("/login");
       // console.log("User Created:", response.data);
     } catch (error) {
