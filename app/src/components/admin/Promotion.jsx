@@ -21,6 +21,7 @@ export default function Promotion() {
     useState(false);
   const [isUpdatePromotionModalOpen, setIsUpdatePromotionModalOpen] =
     useState(false);
+
   const handleCreateCoupon = async (formData) => {
     try {
       setIsLoading(true);
@@ -79,6 +80,48 @@ export default function Promotion() {
         error.response?.data || error.message,
       );
       alert("Failed to delete coupon. Please try again."); // Replace with toast notification if needed
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCreatePromotion = async (formData) => {
+    try {
+      setIsLoading(true);
+      console.log("Promotion Data:", formData);
+
+      // Create an array of update requests
+      const updateRequests = formData.selectedProducts.map(async (product) => {
+        const documentId = product.documentId;
+        const promotion = product.promotion;
+
+        // Strapi API Endpoint
+        const apiUrl = `/products/${documentId}`;
+
+        // Update request payload
+        const payload = {
+          promotion: {
+            name: formData.name,
+            start: formData.start,
+            end: formData.end,
+            discountType: promotion.discountType,
+            percentage: promotion.percentage,
+            promotionPrice: promotion.promotionPrice,
+          },
+        };
+
+        // Return the Axios request promise
+        await ax.put(apiUrl, { data: payload });
+      });
+
+      // Execute all requests in parallel
+      await Promise.all(updateRequests);
+
+      alert("All promotions updated successfully!");
+      console.log("All promotions updated successfully!");
+    } catch (error) {
+      console.error("Error updating promotions:", error);
+      alert("Failed to update promotions. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -147,6 +190,7 @@ export default function Promotion() {
       <CreatePromotionModal
         isOpen={isCreatePromotionModalOpen}
         onClose={() => setIsCreatePromotionModalOpen(false)}
+        handleCreatePromotion={handleCreatePromotion}
         products={products}
       />
       <UpdatePromotionModal

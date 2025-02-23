@@ -2,7 +2,12 @@ import { X } from "lucide-react";
 import { useState } from "react";
 import conf from "../../conf/mainapi";
 
-export default function CreatePromotionModal({ isOpen, onClose, products }) {
+export default function CreatePromotionModal({
+  isOpen,
+  onClose,
+  products,
+  handleCreatePromotion,
+}) {
   if (!isOpen) return null;
 
   const [formData, setFormData] = useState({
@@ -29,9 +34,11 @@ export default function CreatePromotionModal({ isOpen, onClose, products }) {
             ...prevState.selectedProducts,
             {
               ...product,
-              discountType: "percentage",
-              percentage: "",
-              promotionPrice: "",
+              promotion: {
+                discountType: "percentage",
+                percentage: "",
+                promotionPrice: "",
+              },
             },
           ],
         };
@@ -45,13 +52,27 @@ export default function CreatePromotionModal({ isOpen, onClose, products }) {
     setFormData((prevState) => {
       const updatedProducts = prevState.selectedProducts.map((product) => {
         if (product.id === productId) {
-          let newValue = Math.max(0, Number(value));
+          let newValue = value;
 
           // Prevent percentage from going above 100
           if (field === "percentage") {
-            newValue = Math.min(Math.max(0, Number(value)), 100); // Ensures value is between 0-100
+            newValue = Math.min(Math.max(0, Number(value)), 100);
+          } else if (field === "promotionPrice") {
+            newValue = Math.max(0, Number(value));
           }
-          return { ...product, [field]: newValue };
+
+          // Ensure promotion object is always defined
+          const updatedPromotion = {
+            discountType: product.promotion.discountType || "percentage",
+            percentage: product.promotion.percentage || 0,
+            promotionPrice: product.promotion.promotionPrice || 0,
+            [field]: newValue, // Update only the changed field
+          };
+
+          return {
+            ...product,
+            promotion: updatedPromotion, // Ensure promotion is always defined
+          };
         }
         return product;
       });
@@ -62,7 +83,7 @@ export default function CreatePromotionModal({ isOpen, onClose, products }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    handleCreatePromotion(formData);
   };
 
   return (
@@ -201,7 +222,7 @@ export default function CreatePromotionModal({ isOpen, onClose, products }) {
                         </td>
                         <td className="border border-gray-300 px-2 py-2">
                           <select
-                            value={product.discountType}
+                            value={product.promotion.discountType}
                             onChange={(e) =>
                               handleProductChange(
                                 product.id,
@@ -219,14 +240,14 @@ export default function CreatePromotionModal({ isOpen, onClose, products }) {
                           <input
                             type="number"
                             value={
-                              product.discountType === "percentage"
-                                ? product.percentage
-                                : product.promotionPrice
+                              product.promotion.discountType === "percentage"
+                                ? product.promotion.percentage
+                                : product.promotion.promotionPrice
                             }
                             onChange={(e) =>
                               handleProductChange(
                                 product.id,
-                                product.discountType === "percentage"
+                                product.promotion.discountType === "percentage"
                                   ? "percentage"
                                   : "promotionPrice",
                                 e.target.value,
@@ -237,12 +258,12 @@ export default function CreatePromotionModal({ isOpen, onClose, products }) {
                           />
                         </td>
                         <td className="w-30 border border-gray-300 px-2 py-2 text-center">
-                          {product.discountType === "percentage"
+                          {product.promotion.discountType === "percentage"
                             ? (
                                 product.price *
-                                (1 - product.percentage / 100)
+                                (1 - product.promotion.percentage / 100)
                               ).toFixed(2)
-                            : product.promotionPrice}
+                            : product.promotion.promotionPrice}
                         </td>
                       </tr>
                     ))}
