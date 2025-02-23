@@ -15,7 +15,7 @@ export const TruckIcon = () => {
 
 export const GroupViewCard = (props) => {
   const [orderItems, setOrderItems] = useState([]);
-  const [expanded, setExpanded] = useState(false);
+  const [expandedId, setExpandedId] = useState(null);
 
   const fetchProducts = async () => {
     try {
@@ -31,10 +31,6 @@ export const GroupViewCard = (props) => {
     fetchProducts();
   }, []);
 
-  const isPendingOrCanceled = ["Pending", "Abandoned", "Canceled"].includes(
-    orderItems?.orderStatus,
-  );
-
   const status = {
     Pending: "bg-yellow-100 text-yellow-800 border-yellow-400",
     Paid: "bg-green-100 text-green-800 border-green-400",
@@ -43,9 +39,11 @@ export const GroupViewCard = (props) => {
     Shipped: "bg-blue-100 text-blue-800 border-blue-400",
     Canceled: "bg-red-100 text-red-800 border-red-400",
   };
-  const toggleExpanded = () => {
-    setExpanded(!expanded);
+
+  const toggleExpanded = (id) => {
+    setExpandedId(expandedId === id ? null : id);
   };
+
   return (
     <div>
       {orderItems
@@ -115,12 +113,16 @@ export const GroupViewCard = (props) => {
                 )}
               </div>
             </div>
-            {expanded && <ViewOrderCard item={item.order_product} />}
+
+            {expandedId === item.id && (
+              <ViewOrderCard item={item.order_product} />
+            )}
+
             <button
-              onClick={() => toggleExpanded()}
+              onClick={() => toggleExpanded(item.id)}
               className="mx-auto mt-4 flex w-1/5 justify-center rounded border border-blue-500 bg-transparent from-purple-600 to-blue-500 px-4 py-2 font-semibold text-blue-700 hover:border-transparent hover:bg-gradient-to-r hover:text-white"
             >
-              Expand
+              {expandedId === item.id ? "Collapse" : "Expand"}
             </button>
           </div>
         ))}
