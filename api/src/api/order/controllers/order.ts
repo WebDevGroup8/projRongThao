@@ -30,16 +30,17 @@ export default factories.createCoreController(
       const { userId, order_product, amount_shipping, discount } =
         ctx.request.body;
 
-      const orderedProduct = order_product.map((product)=>({
+      const orderedProduct = order_product.map((product) => ({
         documentId: product.documentId,
-        quantity: product.quantity
-      }))
+        quantity: product.quantity,
+      }));
 
       if (!order_product || !Array.isArray(order_product)) {
         ctx.response.status = 400;
         return { error: "Invalid order_product format" };
       }
 
+      const now = new Date();
       const lineItems = await Promise.all(
         order_product.map(async (product: OrderProduct) => {
           const item: ItemData = await strapi
@@ -56,6 +57,30 @@ export default factories.createCoreController(
 
           const image = `${process.env.SELF_URL}${item.image[0].url}`;
 
+          const isPromotionValid = (product) => {
+            if (product.promotion.name) {
+              const startDate = new Date(product.promotion.start);
+              const endDate = new Date(product.promotion.end);
+
+              return now >= startDate && now <= endDate;
+            }
+            return false;
+          };
+
+          const promotionPrice = (product) => {
+            if (isPromotionValid(product)) {
+              if (product.promotion.discountType === "percentage") {
+                return (
+                  product.price *
+                  (1 - product.promotion.percentage / 100)
+                ).toFixed(2);
+              } else {
+                return product.promotion.promotionPrice;
+              }
+            } else {
+              return product.price;
+            }
+          };
           return {
             price_data: {
               currency: "THB",
@@ -63,41 +88,51 @@ export default factories.createCoreController(
                 name: item.name,
                 images: [image],
               },
-              unit_amount: item.price * 100,
+              unit_amount: promotionPrice(item) * 100,
             },
             quantity: product.quantity,
           };
         })
       );
-
-      try {
-        const session = await stripe.checkout.sessions.create({
-          line_items: lineItems,
-          mode: "payment",
-          // TODOs: Update url for handle payment result
-          expires_at: Math.floor(Date.now() / 1000) + 1800, // 30 minutes (1800 seconds)
-          success_url: `${process.env.STAGE == "production" ? process.env.DEPLOY_URL : process.env.CLIENT_URL}/order?success=true`,
-          cancel_url: `${process.env.STAGE == "production" ? process.env.DEPLOY_URL : process.env.CLIENT_URL}/order?success=false`,
-          shipping_address_collection: { allowed_countries: ["TH"] },
-          shipping_options: [
-            {
-              shipping_rate_data: {
-                display_name: "Standard Shipping",
-                type: "fixed_amount",
-                fixed_amount: {
-                  amount: amount_shipping * 100, // Convert to cents
-                  currency: "thb",
-                },
+      const stripePayload = {
+        line_items: lineItems,
+        mode: "payment",
+        // TODOs: Update url for handle payment result
+        expires_at: Math.floor(Date.now() / 1000) + 1800, // 30 minutes (1800 seconds)
+        success_url: `${process.env.STAGE == "production" ? process.env.DEPLOY_URL : process.env.CLIENT_URL}/order?success=true`,
+        cancel_url: `${process.env.STAGE == "production" ? process.env.DEPLOY_URL : process.env.CLIENT_URL}/order?success=false`,
+        shipping_address_collection: { allowed_countries: ["TH"] },
+        shipping_options: [
+          {
+            shipping_rate_data: {
+              display_name: "Standard Shipping",
+              type: "fixed_amount",
+              fixed_amount: {
+                amount: amount_shipping * 100, // Convert to cents
+                currency: "thb",
               },
             },
-          ],
-          discounts: [
-            {
-              coupon: discount, // Use the coupon ID from Stripe Dashboard
-            },
-          ],
-          metadata: {orderedProduct:JSON.stringify(orderedProduct)}
-        });
+          },
+        ],
+        metadata: { orderedProduct: JSON.stringify(orderedProduct) },
+      };
+
+      try {
+        let session;
+        if (discount !== "") {
+          session = await stripe.checkout.sessions.create({
+            ...stripePayload,
+            discounts: [
+              {
+                coupon: discount, // Use the coupon ID from Stripe Dashboard
+              },
+            ],
+          });
+        } else {
+          session = await stripe.checkout.sessions.create({
+            ...stripePayload,
+          });
+        }
         await strapi.service("api::order.order").create({
           data: {
             order_product,
@@ -109,6 +144,10 @@ export default factories.createCoreController(
 
         return { stripeSession: session };
       } catch (error) {
+        if (error.param === "discounts[0][coupon]") {
+          ctx.response.status = 400;
+          return { error: { type: "coupon", message: "Invalid Coupon" } };
+        }
         console.error("Stripe Error:", error);
         ctx.response.status = 500;
         return { error: "Internal Server Error" };

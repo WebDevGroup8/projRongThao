@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { Star, MapPin } from "lucide-react";
 import conf from "../conf/mainapi";
 
 export const ProductCard = (props) => {
   const [animate, setAnimate] = useState(false);
+  const [refinePrice, setRefinePrice] = useState(0);
+  const [isPromotion, setIsPromotion] = useState(false);
 
   const navigate = useNavigate();
 
@@ -26,6 +28,36 @@ export const ProductCard = (props) => {
     navigate(`/product/${props.id}`);
   };
 
+  const now = new Date();
+  const isPromotionValid = () => {
+    if (props.promotion.name) {
+      const startDate = new Date(props.promotion.start);
+      const endDate = new Date(props.promotion.end);
+
+      return now >= startDate && now <= endDate;
+    }
+    return false;
+  };
+
+  const promotionPrice = () => {
+    if (isPromotionValid()) {
+      setIsPromotion(true);
+      if (props.promotion.discountType === "percentage") {
+        return (props.price * (1 - props.promotion.percentage / 100)).toFixed(
+          2,
+        );
+      } else {
+        return props.promotion.promotionPrice;
+      }
+    } else {
+      return props.price;
+    }
+  };
+
+  useEffect(() => {
+    setRefinePrice(promotionPrice);
+  }, []);
+
   return (
     <div
       onClick={handleDetail}
@@ -37,22 +69,43 @@ export const ProductCard = (props) => {
         <img
           src={`${conf.imageUrlPrefix}${image}`}
           alt={props.name}
-          className={`h-[100px] w-full transform rounded-sm object-cover transition-transform duration-500 lg:h-[200px] ${animate ? "hover:scale-115" : ""
-            }`}
+          className={`h-[100px] w-full transform rounded-sm object-cover transition-transform duration-500 lg:h-[200px] ${
+            animate ? "hover:scale-115" : ""
+          }`}
         />
         <div className="mt-3">
           <h3 className="lg:text-md mb-2 text-sm">{props.name}</h3>
-          <p className="lg:text-md mb-2 text-sm font-bold text-[#213555]">
-            ฿{props.price}
-          </p>
+          {/* Price & Discount */}
+          <div className="mb-2 flex flex-row gap-3 lg:py-0">
+            <p className="text-sm font-bold text-blue-950 md:text-base">
+              {refinePrice} ฿
+            </p>
+            <p className="text-xs font-thin line-through md:text-sm">
+              {isPromotion ? props.price + "฿" : ""}
+            </p>
+          </div>
         </div>
         <div className="flex flex-wrap">
+          {isPromotion && props.promotion.discountType === "percentage" ? (
+            <div className="me-3 h-fit w-fit rounded-md border-red-400 bg-red-100 px-1 py-0.5 text-xs font-semibold text-red-800 lg:px-2 lg:py-1">
+              {props.promotion.percentage} %
+            </div>
+          ) : (
+            isPromotion &&
+            props.promotion.discountType === "fixed" && (
+              <div className="me-3 h-fit w-fit rounded-md border-red-400 bg-red-100 px-1 py-0.5 text-xs font-semibold text-red-800 lg:px-2 lg:py-1">
+                on sale
+              </div>
+            )
+          )}
+
           {props.categories?.map((category) => (
             <div
               key={category.title}
-              className={`mr-2 rounded-full bg-gray-200 px-1 py-0.5 text-xs font-medium text-gray-700 lg:px-2 lg:py-1 ${categoryColors[category.title.toLowerCase()] ||
+              className={`mr-2 rounded-md bg-gray-200 px-1 py-0.5 text-xs font-medium text-gray-700 lg:px-2 lg:py-1 ${
+                categoryColors[category.title.toLowerCase()] ||
                 "border-gray-400 bg-gray-100 text-gray-800"
-                }`}
+              }`}
             >
               {category.title}
             </div>
