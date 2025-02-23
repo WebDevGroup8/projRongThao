@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { CircleCheck } from "lucide-react";
-import { Truck } from "lucide-react";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Truck, ChevronDown } from "lucide-react";
 import ax from "../conf/ax";
 import dayjs from "dayjs";
 import conf from "../conf/mainapi";
@@ -15,6 +15,7 @@ export const TruckIcon = () => {
 
 export const GroupViewCard = (props) => {
   const [orderItems, setOrderItems] = useState([]);
+  const [expanded, setExpanded] = useState(false);
 
   const fetchProducts = async () => {
     try {
@@ -41,6 +42,9 @@ export const GroupViewCard = (props) => {
     Completed: "bg-gray-100 text-gray-800 border-gray-400",
     Shipped: "bg-blue-100 text-blue-800 border-blue-400",
     Canceled: "bg-red-100 text-red-800 border-red-400",
+  };
+  const toggleExpanded = () => {
+    setExpanded(!expanded);
   };
   return (
     <div>
@@ -111,8 +115,13 @@ export const GroupViewCard = (props) => {
                 )}
               </div>
             </div>
-
-            <ViewOrderCard item={item.order_product} />
+            {expanded && <ViewOrderCard item={item.order_product} />}
+            <button
+              onClick={() => toggleExpanded()}
+              className="mx-auto mt-4 flex w-1/5 justify-center rounded border border-blue-500 bg-transparent from-purple-600 to-blue-500 px-4 py-2 font-semibold text-blue-700 hover:border-transparent hover:bg-gradient-to-r hover:text-white"
+            >
+              Expand
+            </button>
           </div>
         ))}
     </div>
