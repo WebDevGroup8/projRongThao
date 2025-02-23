@@ -88,7 +88,7 @@ const ManageCategory = () => {
                                             className="cursor-pointer rounded-lg p-1 text-primary transition-all duration-200 hover:bg-gray-200 hover:text-primary-light"
                                         />
                                     </td>
-                                    <td className="ps-10 py-4 justify-center">
+                                    <td className="ps-12 py-4 justify-center">
                                         <Trash2
                                             size={27} // ปรับขนาด Icon
                                             onClick={() => handleDelete(category)}
