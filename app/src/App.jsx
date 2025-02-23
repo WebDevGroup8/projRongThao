@@ -79,9 +79,13 @@ function App() {
           <Route
             path="/product/:id"
             element={
-              <ProtectedCustomerRoute>
-                <ItemDetail />
-              </ProtectedCustomerRoute>
+              <>
+                <NavigationBar />
+                <Container>
+                  <ItemDetail />
+                </Container>
+                <Footer />
+              </>
             }
           />
 
