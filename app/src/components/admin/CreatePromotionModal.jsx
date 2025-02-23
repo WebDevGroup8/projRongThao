@@ -155,20 +155,22 @@ export default function CreatePromotionModal({
               </button>
               {dropdownOpen && (
                 <ul className="absolute z-10 mt-1 max-h-48 w-full overflow-auto rounded-lg border bg-white shadow-lg">
-                  {products.map((product) => (
-                    <li
-                      key={product.id}
-                      className="flex cursor-pointer items-center p-2 hover:bg-gray-200"
-                      onClick={() => handleProductSelection(product)}
-                    >
-                      <img
-                        src={`${conf.imageUrlPrefix}${product.image[0].formats.thumbnail.url}`}
-                        alt={product.name}
-                        className="mr-2 h-6 w-6"
-                      />
-                      {product.name}
-                    </li>
-                  ))}
+                  {products
+                    .filter((product) => !product.promotion)
+                    .map((product) => (
+                      <li
+                        key={product.id}
+                        className="flex cursor-pointer items-center p-2 hover:bg-gray-200"
+                        onClick={() => handleProductSelection(product)}
+                      >
+                        <img
+                          src={`${conf.imageUrlPrefix}${product.image[0].formats.thumbnail.url}`}
+                          alt={product.name}
+                          className="mr-2 h-6 w-6"
+                        />
+                        {product.name}
+                      </li>
+                    ))}
                 </ul>
               )}
             </div>

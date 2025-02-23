@@ -17,6 +17,7 @@ export default function Promotion() {
   const [selectedCoupon, setSelectedCoupon] = useState(null);
   // Promotion State
   const [products, setProducts] = useState([]);
+  const [promotionedProduct, setPromotionedProduct] = useState([]);
   const [isCreatePromotionModalOpen, setIsCreatePromotionModalOpen] =
     useState(false);
   const [isUpdatePromotionModalOpen, setIsUpdatePromotionModalOpen] =
@@ -117,6 +118,7 @@ export default function Promotion() {
       // Execute all requests in parallel
       await Promise.all(updateRequests);
 
+      fetchProducts();
       alert("All promotions updated successfully!");
       console.log("All promotions updated successfully!");
     } catch (error) {
@@ -132,7 +134,6 @@ export default function Promotion() {
       setIsLoading(true);
       const response = await ax.get(`/stripe/promotions`);
       setCoupons(response.data.data);
-      console.log(response.data.data);
     } catch (e) {
       console.log(e);
     } finally {
@@ -146,7 +147,9 @@ export default function Promotion() {
         `/products?populate=image&populate=categories&populate=reviews`,
       );
       setProducts(res.data.data);
-      console.log(res.data.data);
+      setPromotionedProduct(
+        res.data.data.filter((product) => product.promotion),
+      );
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -173,6 +176,7 @@ export default function Promotion() {
           <PromotionSection
             setIsCreatePromotionModalOpen={setIsCreatePromotionModalOpen}
             setIsUpdatePromotionModalOpen={setIsUpdatePromotionModalOpen}
+            promotionedProduct={promotionedProduct}
           />
         </div>
       </div>
