@@ -17,6 +17,7 @@ import NavigationBar from "./components/NavigationBar";
 import Container from "./components/Container";
 import Footer from "./components/Footer";
 import ManageProduct from "./pages/ManageProduct";
+import ManageCategory from "./pages/ManageCategory";
 import OrderManagement from "./pages/OrderManagement";
 
 function App() {
@@ -120,6 +121,15 @@ function App() {
             element={
               <ProtectedAdminRoute>
                 <ManageProduct />
+              </ProtectedAdminRoute>
+            }
+          />
+
+          <Route
+            path="/admin/category"
+            element={
+              <ProtectedAdminRoute>
+                <ManageCategory />
               </ProtectedAdminRoute>
             }
           />
