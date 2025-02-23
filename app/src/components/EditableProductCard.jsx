@@ -27,9 +27,9 @@ export const EditableProductCard = (props) => {
     heel: "bg-teal-100 text-teal-800 border-teal-400",
   };
 
+  const now = new Date();
   const isPromotionValid = () => {
     if (props.promotion.name) {
-      const now = new Date();
       const startDate = new Date(props.promotion.start);
       const endDate = new Date(props.promotion.end);
 

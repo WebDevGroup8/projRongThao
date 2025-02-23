@@ -28,9 +28,9 @@ export const ProductCard = (props) => {
     navigate(`/product/${props.id}`);
   };
 
+  const now = new Date();
   const isPromotionValid = () => {
     if (props.promotion.name) {
-      const now = new Date();
       const startDate = new Date(props.promotion.start);
       const endDate = new Date(props.promotion.end);
 

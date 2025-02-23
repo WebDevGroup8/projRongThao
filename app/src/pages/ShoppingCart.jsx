@@ -16,6 +16,11 @@ export default function ShoppingCart() {
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState(subtotal);
 
+  const [promoCode, setPromoCode] = useState("");
+
+  const handlePromoChange = (e) => {
+    setPromoCode(e.target.value);
+  };
   const updateQuantity = (id, change) => {
     setCartItems((items) =>
       items.map((item) =>
@@ -37,15 +42,17 @@ export default function ShoppingCart() {
   const handlePayment = async () => {
     try {
       const stripe = await stripePromise;
+      console.log(cartItems);
+      // return;
       const response = await ax.post("/orders", {
         userId: user.id,
         order_product: cartItems,
         amount_shipping: shipping,
-        // TODO: remove hard code
-        discount: "promo_10percent",
+
+        discount: promoCode,
       });
 
-      // Correct way to extract session ID
+      // Extract session ID
       const sessionId = response.data?.stripeSession?.id;
 
       if (!sessionId) {
@@ -54,6 +61,10 @@ export default function ShoppingCart() {
       await clearCart();
       await stripe.redirectToCheckout({ sessionId });
     } catch (error) {
+      if (error.response.data?.error?.type === "coupon") {
+        // TODO: implement toast
+        alert("Invalid Coupon Code");
+      }
       console.error("Payment Error:", error);
     }
   };
@@ -74,8 +85,34 @@ export default function ShoppingCart() {
 
       const responses = await Promise.all(productRequests);
       // Extracting the data from responses
+      const now = new Date();
+      const isPromotionValid = (product) => {
+        if (product.promotion.name) {
+          const startDate = new Date(product.promotion.start);
+          const endDate = new Date(product.promotion.end);
+
+          return now >= startDate && now <= endDate;
+        }
+        return false;
+      };
+
+      const promotionPrice = (product) => {
+        if (isPromotionValid(product)) {
+          if (product.promotion.discountType === "percentage") {
+            return (
+              product.price *
+              (1 - product.promotion.percentage / 100)
+            ).toFixed(2);
+          } else {
+            return product.promotion.promotionPrice;
+          }
+        } else {
+          return product.price;
+        }
+      };
       const products = responses.map((response) => ({
         ...response.data[0],
+        price: promotionPrice(response.data[0]),
         quantity: response.quantity,
       }));
       setCartItems(products);
@@ -86,9 +123,9 @@ export default function ShoppingCart() {
       );
       setSubtotal(newSubtotal);
       if (cartItems?.length !== 0) {
-        // TODO: remove hard code
+        // TODO: remove hard code shipping
         const newShipping = 150;
-        const newDiscountPercentage = 10;
+        const newDiscountPercentage = 0;
         const newDiscount = newSubtotal * (newDiscountPercentage / 100);
         const newTotal = newSubtotal + newShipping - newDiscount;
         setShipping(newShipping);
@@ -228,10 +265,10 @@ export default function ShoppingCart() {
                 </div>
                 <div className="flex justify-between">
                   {/* TODO: Implement Discount sync with stripe api */}
-                  <span>Discount</span>
-                  <span className="font-semibold text-green-600">
+                  {/* <span>Discount</span> */}
+                  {/* <span className="font-semibold text-green-600">
                     {discountPercentage} %
-                  </span>
+                  </span> */}
                 </div>
                 <div className="border-t pt-3">
                   <div className="flex justify-between">
@@ -245,6 +282,8 @@ export default function ShoppingCart() {
                   type="text"
                   className="w-full rounded-md border border-gray-300 px-4 py-2"
                   placeholder="Promo code"
+                  value={promoCode}
+                  onChange={handlePromoChange}
                 />
                 <button
                   onClick={handlePayment}
