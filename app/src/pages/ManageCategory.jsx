@@ -61,15 +61,6 @@ export default function ManageCategory() {
                     selectedCategories.includes(category.title),
                 )
                 : true,
-        )
-        .filter(
-            (product) =>
-                product.price >= priceRange[0] && product.price <= priceRange[1],
-        )
-        .filter((product) =>
-            selectedSizes.length > 0
-                ? product.size.some((size) => selectedSizes.includes(size))
-                : true,
         );
 
     return (
@@ -92,10 +83,6 @@ export default function ManageCategory() {
                     categories={categories}
                     selectedCategories={selectedCategories}
                     setSelectedCategories={setSelectedCategories}
-                    priceRange={priceRange}
-                    setPriceRange={setPriceRange}
-                    selectedSizes={selectedSizes}
-                    setSelectedSizes={setSelectedSizes}
                 />
             </div>
             {/* Grid แสดงสินค้า */}
