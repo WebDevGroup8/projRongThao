@@ -4,10 +4,12 @@ import { Star, MapPin } from "lucide-react";
 import conf from "../conf/mainapi";
 import { Pencil, Trash2 } from "lucide-react"
 import DeleteProductModal from "./DeleteProductModal";
+import EditProductModal from "./EditProductModal";
 
 export const EditableProductCard = (props) => {
   const [animate, setAnimate] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
 
   const image = props.image?.[0]?.url || "/placeholder.png"; // ถ้าไม่มีรูปใช้ placeholder
 
@@ -73,14 +75,24 @@ export const EditableProductCard = (props) => {
           2.51k Solds
         </span>
       </div>
-      <div className="flex flex-row justify-between mt-4">
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          setEditModalOpen(true); // ปิด EditModal ถ้ามันเปิดอยู่
+          setDeleteModalOpen(false);
+        }}
+        className="flex flex-row justify-between mt-4">
         <button className="h-8 px-4 text-primary rounded-md flex items-center justify-center space-x-2 hover:bg-gray-200 transition duration-200 ease-in-out">
           <Pencil className="h-4 w-4" />
           <span>Edit</span>
         </button>
 
         <button
-          onClick={() => setDeleteModalOpen(true)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setEditModalOpen(false); // ปิด EditModal ถ้ามันเปิดอยู่
+            setDeleteModalOpen(true);
+          }}
           className="h-8 px-4 text-red-700 rounded-md flex items-center justify-center space-x-2 hover:bg-gray-200 transition duration-200 ease-in-out">
           <Trash2 className="h-4 w-4" />
           <span>Delete</span>
@@ -92,6 +104,13 @@ export const EditableProductCard = (props) => {
         onClose={() => setDeleteModalOpen(false)}
         product={props}
         fetchProducts={props.fetchProducts} // ให้เรียก API ใหม่หลังลบ
+      />
+      {/* Edit Modal */}
+      <EditProductModal
+        isOpen={isEditModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        product={props}
+        fetchProducts={props.fetchProducts}
       />
     </div>
   );
