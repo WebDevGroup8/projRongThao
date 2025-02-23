@@ -17,7 +17,7 @@ export const ProtectedAdminRoute = ({ children }) => {
       <Loading />
     ) : (
       <>
-        <div className="container mt-20 text-center">
+        <div className="mt-20 w-full text-center">
           <p className="mb-5 text-4xl font-bold">You must Login as Admin!</p>
           <a href="/" className="text-xl underline">
             Go Back

@@ -16,9 +16,9 @@ export default function Promotion() {
   const [isUpdateCouponModalOpen, setIsUpdateCouponModalOpen] = useState(false);
   const [selectedCoupon, setSelectedCoupon] = useState(null);
   // Promotion State
+  const [products, setProducts] = useState([]);
   const [isCreatePromotionModalOpen, setIsCreatePromotionModalOpen] =
     useState(false);
-
   const [isUpdatePromotionModalOpen, setIsUpdatePromotionModalOpen] =
     useState(false);
   const handleCreateCoupon = async (formData) => {
@@ -97,8 +97,21 @@ export default function Promotion() {
     }
   };
 
+  const fetchProducts = async () => {
+    try {
+      const res = await ax.get(
+        `/products?populate=image&populate=categories&populate=reviews`,
+      );
+      setProducts(res.data.data);
+      console.log(res.data.data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
   useEffect(() => {
     fetchCoupon();
+    fetchProducts();
   }, []);
 
   return isLoading ? (
@@ -134,8 +147,8 @@ export default function Promotion() {
       <CreatePromotionModal
         isOpen={isCreatePromotionModalOpen}
         onClose={() => setIsCreatePromotionModalOpen(false)}
+        products={products}
       />
-
       <UpdatePromotionModal
         isOpen={isUpdatePromotionModalOpen}
         onClose={() => setIsUpdatePromotionModalOpen(false)}
