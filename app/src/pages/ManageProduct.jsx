@@ -78,7 +78,7 @@ export default function ManageProduct() {
             <div className="flex flex-row items-center justify-between ">
                 <h1 className="text-2xl font-semibold">Manage Product</h1>
             </div>
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-4">
                 <SearchBar onSearch={(term) => setSearchTerm(term)} />
                 <div className="flex gap-2">
                     <button

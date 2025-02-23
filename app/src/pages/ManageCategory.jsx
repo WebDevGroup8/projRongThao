@@ -75,9 +75,9 @@ export default function ManageCategory() {
     return (
         <div className="flex flex-col w-screen h-full py-10 px-20 ">
             <div className="flex flex-row items-center justify-between ">
-                <h1 className="text-2xl font-semibold">Manage Product</h1>
+                <h1 className="text-2xl font-semibold">Manage Category</h1>
             </div>
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-4">
                 <SearchBar onSearch={(term) => setSearchTerm(term)} />
                 <div className="flex gap-2">
                     <button
