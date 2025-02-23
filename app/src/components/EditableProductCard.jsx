@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { Star, MapPin } from "lucide-react";
 import conf from "../conf/mainapi";
-import { Pencil, Trash2 } from "lucide-react"
+import { Pencil, Trash2 } from "lucide-react";
 import DeleteProductModal from "./DeleteProductModal";
 import EditProductModal from "./EditProductModal";
 
@@ -10,6 +10,8 @@ export const EditableProductCard = (props) => {
   const [animate, setAnimate] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const [refinePrice, setRefinePrice] = useState(0);
+  const [isPromotion, setIsPromotion] = useState(false);
 
   const image = props.image?.[0]?.url || "/placeholder.png"; // ถ้าไม่มีรูปใช้ placeholder
 
@@ -25,6 +27,35 @@ export const EditableProductCard = (props) => {
     heel: "bg-teal-100 text-teal-800 border-teal-400",
   };
 
+  const isPromotionValid = () => {
+    if (props.promotion.name) {
+      const now = new Date();
+      const startDate = new Date(props.promotion.start);
+      const endDate = new Date(props.promotion.end);
+
+      return now >= startDate && now <= endDate;
+    }
+    return false;
+  };
+
+  const promotionPrice = () => {
+    if (isPromotionValid()) {
+      setIsPromotion(true);
+      if (props.promotion.discountType === "percentage") {
+        return (props.price * (1 - props.promotion.percentage / 100)).toFixed(
+          2,
+        );
+      } else {
+        return props.promotion.promotionPrice;
+      }
+    } else {
+      return props.price;
+    }
+  };
+
+  useEffect(() => {
+    setRefinePrice(promotionPrice);
+  }, []);
   return (
     <div
       onMouseEnter={() => setAnimate(true)}
@@ -35,22 +66,43 @@ export const EditableProductCard = (props) => {
         <img
           src={`${conf.imageUrlPrefix}${image}`}
           alt={props.name}
-          className={`h-[100px] w-full transform rounded-sm object-cover transition-transform duration-500 lg:h-[200px] ${animate ? "hover:scale-115" : ""
-            }`}
+          className={`h-[100px] w-full transform rounded-sm object-cover transition-transform duration-500 lg:h-[200px] ${
+            animate ? "hover:scale-115" : ""
+          }`}
         />
         <div className="mt-3">
           <h3 className="lg:text-md mb-2 text-sm">{props.name}</h3>
-          <p className="lg:text-md mb-2 text-sm font-bold text-[#213555]">
-            ฿{props.price}
-          </p>
+          {/* Price & Discount */}
+          <div className="mb-2 flex flex-row gap-3 lg:py-0">
+            <p className="text-sm font-bold text-blue-950 md:text-base">
+              {refinePrice} ฿
+            </p>
+            <p className="text-xs font-thin line-through md:text-sm">
+              {isPromotion ? props.price + "฿" : ""}
+            </p>
+          </div>
         </div>
         <div className="flex flex-wrap">
+          {isPromotion && props.promotion.discountType === "percentage" ? (
+            <div className="me-3 h-fit w-fit rounded-md border-red-400 bg-red-100 px-1 py-0.5 text-xs font-semibold text-red-800 lg:px-2 lg:py-1">
+              {props.promotion.percentage} %
+            </div>
+          ) : (
+            isPromotion &&
+            props.promotion.discountType === "fixed" && (
+              <div className="me-3 h-fit w-fit rounded-md border-red-400 bg-red-100 px-1 py-0.5 text-xs font-semibold text-red-800 lg:px-2 lg:py-1">
+                on sale
+              </div>
+            )
+          )}
+
           {props.categories?.map((category) => (
             <div
               key={category.title}
-              className={`mr-2 rounded-full bg-gray-200 px-1 py-0.5 text-xs font-medium text-gray-700 lg:px-2 lg:py-1 ${categoryColors[category.title.toLowerCase()] ||
+              className={`mr-2 rounded-md bg-gray-200 px-1 py-0.5 text-xs font-medium text-gray-700 lg:px-2 lg:py-1 ${
+                categoryColors[category.title.toLowerCase()] ||
                 "border-gray-400 bg-gray-100 text-gray-800"
-                }`}
+              }`}
             >
               {category.title}
             </div>
@@ -81,8 +133,9 @@ export const EditableProductCard = (props) => {
           setEditModalOpen(true); // ปิด EditModal ถ้ามันเปิดอยู่
           setDeleteModalOpen(false);
         }}
-        className="flex flex-row justify-between mt-4">
-        <button className="h-8 px-4 text-primary rounded-md flex items-center justify-center space-x-2 hover:bg-gray-200 transition duration-200 ease-in-out">
+        className="mt-4 flex flex-row justify-between"
+      >
+        <button className="text-primary flex h-8 items-center justify-center space-x-2 rounded-md px-4 transition duration-200 ease-in-out hover:bg-gray-200">
           <Pencil className="h-4 w-4" />
           <span>Edit</span>
         </button>
@@ -93,7 +146,8 @@ export const EditableProductCard = (props) => {
             setEditModalOpen(false); // ปิด EditModal ถ้ามันเปิดอยู่
             setDeleteModalOpen(true);
           }}
-          className="h-8 px-4 text-red-700 rounded-md flex items-center justify-center space-x-2 hover:bg-gray-200 transition duration-200 ease-in-out">
+          className="flex h-8 items-center justify-center space-x-2 rounded-md px-4 text-red-700 transition duration-200 ease-in-out hover:bg-gray-200"
+        >
           <Trash2 className="h-4 w-4" />
           <span>Delete</span>
         </button>

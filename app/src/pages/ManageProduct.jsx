@@ -64,15 +64,27 @@ export default function ManageProduct() {
     }
   }, []);
 
+  const now = new Date();
   const filteredProducts = products
     .filter((product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase()),
     )
     .filter((product) =>
       selectedCategories.length > 0
-        ? product.categories?.some((category) =>
-            selectedCategories.includes(category.title),
-          )
+        ? selectedCategories.every((selected) => {
+            if (selected === "on sale") {
+              const startDate = new Date(product.promotion?.start);
+              const endDate = new Date(product.promotion?.end);
+              const hasValidDiscount = product.promotion?.discountType;
+              const isWithinDateRange = now >= startDate && now <= endDate;
+
+              return hasValidDiscount && isWithinDateRange;
+            }
+
+            return product.categories?.some(
+              (category) => category.title === selected,
+            );
+          })
         : true,
     )
     .filter(
@@ -140,6 +152,7 @@ export default function ManageProduct() {
                   rating={product.rating}
                   fetchProducts={fetchProducts} //ส่งฟังก์ชัน fetchProducts เข้าไป ปลายทางให้ deletemodal ใช้
                   documentId={product.documentId} //ใช้สำหรับลบ
+                  promotion={product.promotion ? product.promotion : {}}
                 />
               </motion.div>
             ))}
