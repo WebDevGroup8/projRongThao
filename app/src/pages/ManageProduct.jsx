@@ -103,7 +103,7 @@ export default function ManageProduct() {
         </div>
       </div>
       <div className="flex w-full flex-shrink-0 pb-5">
-        <SideBarForManageProduct
+        <FilterBarForManageProduct
           categories={categories}
           selectedCategories={selectedCategories}
           setSelectedCategories={setSelectedCategories}
