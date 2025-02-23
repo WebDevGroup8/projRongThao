@@ -16,19 +16,36 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
     const [previewUrls, setPreviewUrls] = useState([])
     const [categories, setCategories] = useState([]); // เก็บ Category จาก Strapi
     const [selectedCategories, setSelectedCategories] = useState([]); // เก็บหมวดหมู่ที่เลือก
+    const [isLoading, setIsLoading] = useState(false);
 
     // 📌 ดึง Categories จาก Strapi เมื่อเปิด Modal
     useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const response = await ax.get("/categories"); // ดึงหมวดหมู่ทั้งหมด
-                setCategories(response.data.data); // เก็บ Categories
-            } catch (error) {
-                console.error("Error fetching categories:", error);
-            }
-        };
-        fetchCategories();
-    }, []);
+        if (isOpen) { // เพิ่มเงื่อนไข isOpen
+            const fetchCategories = async () => {
+                try {
+                    const response = await ax.get("/categories");
+                    setCategories(response.data.data);
+                } catch (error) {
+                    console.error("Error fetching categories:", error);
+                }
+            };
+            fetchCategories();
+            // เพิ่มการรีเซ็ต state
+            setProductData({
+                name: "",
+                description: "",
+                price: "",
+                size: "",
+                color: "",
+                stock: "",
+            });
+            setImages([]);
+            setPreviewUrls([]);
+            setSelectedCategories([]);
+            setIsLoading(false);
+        }
+    }, [isOpen]); // เปลี่ยน dependency จาก [] เป็น [isOpen]
+
     // 📌 ฟังก์ชันเลือก/ยกเลิกเลือกหมวดหมู่
     const handleCategorySelect = (id) => {
         if (selectedCategories.includes(id)) {
@@ -71,37 +88,55 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
         }
     }
 
+    const resetState = () => { // เพิ่มฟังก์ชันนี้
+        setProductData({
+            name: "",
+            description: "",
+            price: "",
+            size: "",
+            color: "",
+            stock: "",
+        });
+        setImages([]);
+        setPreviewUrls([]);
+        setSelectedCategories([]);
+    };
+
     const handleSubmit = async (e) => {
-        e.preventDefault()
-
-        const uploadedImageIds = await uploadImages()
-
-        if (uploadedImageIds.length === 0) {
-            alert("❌ Upload failed. Please try again.")
-            return
-        }
+        e.preventDefault();
+        if (isLoading) return; // เพิ่มเพื่อป้องกันการ submit ซ้ำ
+        setIsLoading(true); // เพิ่มเพื่อตั้งสถานะ loading
 
         try {
+            const uploadedImageIds = await uploadImages();
+            if (uploadedImageIds.length === 0 && images.length > 0) { // ปรับเงื่อนไขให้ชัดเจน
+                alert("❌ Upload failed. Please try again.");
+                setIsLoading(false);
+                return;
+            }
             const response = await ax.post("/products", {
                 data: {
                     ...productData,
                     price: Number(productData.price),
-                    size: productData.size.split(","),
-                    color: productData.color.split(","),
+                    size: productData.size.split(",").map((s) => s.trim()), // ปรับให้ trim ช่องว่าง
+                    color: productData.color.split(",").map((c) => c.trim()),
                     stock: Number(productData.stock),
                     image: uploadedImageIds,
-                    categories: selectedCategories, // ส่ง Category ที่เลือก
+                    categories: selectedCategories,
                 },
-            })
-
-            console.log("✅ Product Created:", response.data)
-            alert("🎉 Product Created Successfully!")
-            fetchProducts()
-            onClose()
+            });
+            console.log("✅ Product Created:", response.data);
+            alert("🎉 Product Created Successfully!");
+            await fetchProducts();
+            resetState(); // เพิ่มเพื่อรีเซ็ต state
+            onClose();
         } catch (error) {
-            console.error("❌ Error creating product:", error.response?.data)
+            console.error("❌ Error creating product:", error.response?.data);
+            alert("❌ Failed to create product: " + (error.response?.data?.message || "Unknown error")); // ปรับข้อความ alert
+        } finally {
+            setIsLoading(false); // เพิ่มเพื่อรีเซ็ตสถานะ loading
         }
-    }
+    };
 
     if (!isOpen) return null
 
@@ -248,8 +283,12 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
                     </div>
 
                     <div className="col-span-full flex justify-end">
-                        <button type="submit" className="px-6 py-2 bg-primary text-white rounded-md shadow hover:bg-primary-light">
-                            Create
+                        <button
+                            type="submit"
+                            disabled={isLoading} // เพิ่มเพื่อ disable ปุ่ม khi loading
+                            className="px-6 py-2 bg-primary text-white rounded-md shadow hover:bg-primary-light disabled:bg-gray-400"
+                        >
+                            {isLoading ? "Creating..." : "Create"} {/* ปรับข้อความตามสถานะ */}
                         </button>
                     </div>
                 </form>
