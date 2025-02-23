@@ -68,7 +68,24 @@ export default function ShoppingCart() {
       console.error("Payment Error:", error);
     }
   };
-
+  const calculateSummary = () => {
+    const newSubtotal = cartItems.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0,
+    );
+    setSubtotal(newSubtotal);
+    if (cartItems?.length !== 0) {
+      // TODO: remove hard code shipping
+      const newShipping = 150;
+      const newDiscountPercentage = 0;
+      const newDiscount = newSubtotal * (newDiscountPercentage / 100);
+      const newTotal = newSubtotal + newShipping - newDiscount;
+      setShipping(newShipping);
+      setDiscountPercentage(newDiscountPercentage);
+      setDiscount(newDiscount);
+      setTotal(newTotal);
+    }
+  };
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
@@ -116,23 +133,7 @@ export default function ShoppingCart() {
         quantity: response.quantity,
       }));
       setCartItems(products);
-
-      const newSubtotal = products.reduce(
-        (sum, item) => sum + item.price * item.quantity,
-        0,
-      );
-      setSubtotal(newSubtotal);
-      if (cartItems?.length !== 0) {
-        // TODO: remove hard code shipping
-        const newShipping = 150;
-        const newDiscountPercentage = 0;
-        const newDiscount = newSubtotal * (newDiscountPercentage / 100);
-        const newTotal = newSubtotal + newShipping - newDiscount;
-        setShipping(newShipping);
-        setDiscountPercentage(newDiscountPercentage);
-        setDiscount(newDiscount);
-        setTotal(newTotal);
-      }
+      calculateSummary();
     } catch (error) {
       console.error("Error fetching products:", error);
     } finally {
@@ -143,6 +144,10 @@ export default function ShoppingCart() {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    calculateSummary();
+  }, [cartItems]);
 
   return isLoading ? (
     <Loading />
@@ -224,7 +229,10 @@ export default function ShoppingCart() {
                     </div>
                     <div className="text-right">
                       <p className="font-semibold">
-                        {Number(item.price) * Number(item.quantity)} THB
+                        {(Number(item.price) * Number(item.quantity)).toFixed(
+                          2,
+                        )}{" "}
+                        THB
                       </p>
                     </div>
                     <button
