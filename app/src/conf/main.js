@@ -7,7 +7,7 @@ const apiUrlPrefix =
  * Config Name
  */
 export const conf = {
-  apiUrlPrefix: `${apiUrlPrefix}/api`,
+  apiUrlPrefix: `${apiUrlPrefix}/endpoint`,
   imageUrlPrefix: apiUrlPrefix,
   jwtSessionStorageKey: "auth.jwt",
   userCookieName: "user",
@@ -26,7 +26,7 @@ export const conf = {
  *  query - for multiple items
  *
  */
-export const api = {
+export const endpoint = {
   auth: {
     login: "/auth/local",
     register: "/users",

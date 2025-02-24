@@ -13,7 +13,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import Loading from "@layout/Loading";
 import ax from "@/conf/ax";
-import { path, conf, api } from "@/conf/main";
+import { path, conf, endpoint } from "@/conf/main";
 import { toast } from "react-toastify";
 import useAuthStore from "@/store/store";
 
@@ -214,7 +214,7 @@ export default function ItemDetail() {
     try {
       setIsLoading(true);
 
-      const response = await ax.get(api.public.product.get(id));
+      const response = await ax.get(endpoint.public.product.get(id));
       setProduct(response.data.data[0]);
       setImages(response.data.data[0].image);
     } catch (error) {

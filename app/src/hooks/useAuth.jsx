@@ -13,7 +13,7 @@ import {
 
 import LoginSuccess from "@layout/LoginSuccess";
 import ModalBase from "@components/layout/ModalBase";
-import { conf, api, path } from "@/conf/main";
+import { conf, endpoint, path } from "@/conf/main";
 import { useCookie } from "@/hooks/useCookie";
 import { useNavigate } from "react-router";
 
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
       setIsLoginPending(true);
       if (jwt) {
         updateJwt(jwt.jwt);
-        const response = await ax.get(api.auth.jwtUserWithRole);
+        const response = await ax.get(endpoint.auth.jwtUserWithRole);
         const userData = response.data;
         const role = userData.role.name;
         setUser({ ...userData, role: role });
@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }) => {
   const login = useCallback(
     async (formData) => {
       try {
-        const response = await ax.post(api.auth.login, {
+        const response = await ax.post(endpoint.auth.login, {
           identifier: formData.identifier,
           password: formData.password,
         });
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) => {
 
         updateJwt(jwt);
 
-        const roleResponse = await ax.get(api.auth.jwtUserWithRole);
+        const roleResponse = await ax.get(endpoint.auth.jwtUserWithRole);
         const role = roleResponse.data.role.name;
         console.log(roleResponse);
 
