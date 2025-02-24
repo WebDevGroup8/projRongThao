@@ -164,33 +164,42 @@ export const Tag = ({ text }) => {
 };
 
 export const Description = ({ description }) => {
-  const [isOpenDescription, setIsOpenDescription] = useState(true);
+  const [isOpenDescription, setIsOpenDescription] = useState(
+    description ? true : false,
+  );
+
   return (
     <div className="relative flex flex-col justify-center gap-2 text-center">
       <hr className="bg-primarydark my-0 border-1"></hr>
+
       <button
         type="button"
         onClick={() => setIsOpenDescription(!isOpenDescription)}
+        className="flex w-full flex-row items-center justify-center gap-2 hover:text-blue-600"
       >
-        <div className="flex w-full flex-row hover:text-blue-600">
-          <div className="w-full justify-center hover:underline">
-            Description
-          </div>
-          {!isOpenDescription && <Plus />}
-          {isOpenDescription && <Minus />}
-        </div>
+        <span className="hover:underline">Description</span>
+        {isOpenDescription ? <Minus /> : <Plus />}
       </button>
-      {isOpenDescription && <hr className="bg-primarydark my-0 border-1"></hr>}
 
       {isOpenDescription && (
-        <div className="flex w-fit flex-wrap px-6 text-left text-sm">
-          {description.split("\n").map((line, index) => (
-            <p key={index} className="mb-2">
-              {line}
-            </p>
-          ))}
-        </div>
+        <>
+          <hr className="bg-primarydark my-0 border-1"></hr>
+          <div className="flex w-fit flex-wrap px-6 text-left text-sm">
+            {description ? (
+              description.split("\n").map((line, index) =>
+                line.trim() ? (
+                  <p key={index} className="mb-2">
+                    {line}
+                  </p>
+                ) : null,
+              )
+            ) : (
+              <p className="text-gray-700">No description.</p>
+            )}
+          </div>
+        </>
       )}
+
       <hr className="bg-primarydark my-0 border-1"></hr>
     </div>
   );
@@ -364,20 +373,7 @@ export default function ItemDetail() {
               </button>
             </div>
 
-            <Description
-              description="Unisex Scholl Sprinter Plus – Comfort Meets Style
-✔ Breathable Design – Made with a lightweight mesh upper for maximum airflow, keeping your feet cool and dry all day.
-
-✔ All-Day Comfort – Features a cushioned insole and shock-absorbing midsole to reduce strain on your feet and joints.
-
-✔ Slip-Resistant Grip – The durable rubber outsole provides excellent traction on various surfaces, ensuring stability and safety.
-
-✔ Versatile & Stylish – A sleek, modern design that pairs effortlessly with any casual or sporty outfit.
-
-✔ Perfect for Any Activity – Whether you're walking, running errands, or hitting the gym, the Sprinter Plus offers the ideal blend of comfort, durability, and support.
-
-"
-            />
+            <Description description={product.description} />
           </div>
         </div>
       </div>
