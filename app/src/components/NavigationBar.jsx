@@ -14,6 +14,8 @@ import {
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import useAuthStore from "../store";
+import { ReactSearchAutocomplete } from "react-search-autocomplete";
+import "../CustomSearch.css"; // Add this import line
 
 const UserDetails = React.memo(({ user, logout }) => {
   if (!user) return null;
@@ -60,6 +62,63 @@ export default function NavigationBar() {
   const handleHome = () => {
     navigate(`/`);
   };
+
+  // Search Section
+  const items = [
+    {
+      id: 0,
+      name: "Cobol",
+    },
+    {
+      id: 1,
+      name: "JavaScript",
+    },
+    {
+      id: 2,
+      name: "Basic",
+    },
+    {
+      id: 3,
+      name: "PHP",
+    },
+    {
+      id: 4,
+      name: "Java",
+    },
+  ];
+
+  const handleOnSearch = (string, results) => {
+    // onSearch will have as the first callback parameter
+    // the string searched and for the second the results.
+    console.log(string, results);
+  };
+
+  const handleOnHover = (result) => {
+    // the item hovered
+    console.log(result);
+  };
+
+  const handleOnSelect = (item) => {
+    // the item selected
+    console.log(item);
+  };
+
+  const handleOnFocus = () => {
+    console.log("Focused");
+  };
+  const formatResult = (item) => {
+    return (
+      <>
+        <span style={{ display: "block", textAlign: "left" }}>
+          id: {item.id}
+        </span>
+        <span style={{ display: "block", textAlign: "left" }}>
+          name: {item.name}
+        </span>
+      </>
+    );
+  };
+  // End Search Section
 
   const { user, logout, cart } = useAuthStore();
   return (
@@ -159,14 +218,32 @@ export default function NavigationBar() {
         </div>
         <div className="w-full">
           <div className="relative w-full">
-            <input
+            {/* <input
               type="search"
               id="default-search"
               className="block w-full border border-gray-300 bg-gray-50 p-1 ps-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
               placeholder="SEARCH"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-            />
+            /> */}
+            <div className="search">
+              <div className="wrapper">
+                <ReactSearchAutocomplete
+                  items={items}
+                  onSearch={handleOnSearch}
+                  onHover={handleOnHover}
+                  onSelect={handleOnSelect}
+                  onFocus={handleOnFocus}
+                  autoFocus
+                  formatResult={formatResult}
+                  // styling={{
+                  //   borderRadius: "none",
+                  //   height: "30px",
+                  //   iconColor: "white",
+                  // }}
+                />
+              </div>
+            </div>
             <button
               type="button"
               className="bg-primary absolute end-1 top-1/2 w-fit -translate-y-1/2 px-4 py-1.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none"
