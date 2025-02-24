@@ -1,5 +1,6 @@
 import React from "react";
 import { Mail, ShoppingCart, Search, Package, Info } from "lucide-react";
+import { path } from "@/conf/main";
 
 export default function Helps() {
   return (
@@ -66,7 +67,10 @@ export default function Helps() {
         </h2>
         <p className="text-gray-700">
           If you need help selecting the right size, visit our{" "}
-          <a className="text-purple-500 hover:underline" href="/size">
+          <a
+            className="text-purple-500 hover:underline"
+            href={path.public.size}
+          >
             Size Guide
           </a>{" "}
           page to find measurements and fitting tips.
@@ -80,7 +84,10 @@ export default function Helps() {
         <p className="text-gray-700">
           For details on delivery times, shipping costs, and our return policy,
           check out our{" "}
-          <a className="text-red-500 hover:underline" href="/shipping">
+          <a
+            className="text-red-500 hover:underline"
+            href={path.public.shipping}
+          >
             Shipping & Return
           </a>{" "}
           page.

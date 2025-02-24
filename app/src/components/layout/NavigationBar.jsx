@@ -152,7 +152,10 @@ export default function NavigationBar() {
               }}
             >
               <HelpCircle size={16} />
-              <a href="/helps" className="cursor-pointer hover:underline">
+              <a
+                href={path.public.helps}
+                className="cursor-pointer hover:underline"
+              >
                 Helps
               </a>
             </button>

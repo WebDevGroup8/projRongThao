@@ -4,7 +4,7 @@ import React from "react";
 import { path } from "@/conf/main";
 
 function Footer() {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <div className="bg-primary mt-20 flex flex-col items-center px-4 py-8 text-gray-300 md:px-12 lg:w-full">
       <div className="grid w-full grid-cols-1 gap-10 md:grid-cols-2 lg:max-w-screen-xl lg:grid-cols-3">
@@ -25,7 +25,7 @@ function Footer() {
           <ul className="space-y-4 text-sm">
             <li
               onClick={() => {
-                Navigate(path.public.shipping);
+                navigate(path.public.shipping);
               }}
               className="flex items-center gap-3 transition-all duration-300 hover:scale-105"
             >
@@ -34,7 +34,7 @@ function Footer() {
             </li>
             <li
               onClick={() => {
-                Navigate(path.public.size);
+                navigate(path.public.size);
               }}
               className="flex items-center gap-3 transition-all duration-300 hover:scale-105"
             >
@@ -43,7 +43,7 @@ function Footer() {
             </li>
             <li
               onClick={() => {
-                Navigate(path.public.helps);
+                navigate(path.public.helps);
               }}
               className="flex items-center gap-3 transition-all duration-300 hover:scale-105"
             >
