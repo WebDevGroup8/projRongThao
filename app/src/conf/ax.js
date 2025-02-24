@@ -1,5 +1,5 @@
 import axios from "axios";
-import conf from "./main";
+import { conf } from "@/conf/main";
 
 export const axData = {
   jwt: null,
