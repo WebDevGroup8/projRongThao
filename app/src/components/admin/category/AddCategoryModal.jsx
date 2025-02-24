@@ -16,7 +16,7 @@ export default function AddCategoryModal({ isOpen, onClose, fetchCategories }) {
     setIsLoading(true);
 
     try {
-      await ax.post(endpoint.admin.category.cre, {
+      await ax.post(endpoint.admin.category.create(), {
         data: {
           title,
           detail,

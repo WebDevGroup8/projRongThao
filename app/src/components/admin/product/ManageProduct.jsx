@@ -8,6 +8,7 @@ import { EditableProductCard } from "@admin/product/EditableProductCard";
 import { FilterBarForManageProduct } from "@admin/product/FilterBarForManageProduct";
 import SearchBar from "@public/discovery/SearchBar";
 import ax from "@/conf/ax";
+import { endpoint } from "@/conf/main";
 
 export default function ManageProduct() {
   const [products, setProducts] = useState([]);
@@ -22,7 +23,7 @@ export default function ManageProduct() {
 
   const fetchCategories = async () => {
     try {
-      const res = await ax.get(`/categories`);
+      const res = await ax.get(endpoint.admin.category.query());
       setCategories(res.data.data);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -31,9 +32,7 @@ export default function ManageProduct() {
 
   const fetchProducts = async () => {
     try {
-      const res = await ax.get(
-        `/products?populate=image&populate=categories&populate=reviews`,
-      );
+      const res = await ax.get(endpoint.admin.product.query());
       setProducts(res.data.data);
     } catch (error) {
       console.error("Error fetching products:", error);
