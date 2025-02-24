@@ -6,11 +6,15 @@ import { SideBar } from "../components/SideBar";
 import SearchBar from "../components/SearchBar";
 import Loading from "../components/Loading";
 import fetchProducts from "../context/FetchProduct";
+import { useSearchParams } from "react-router-dom";
 
 export const SeeAllItem = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [searchParams] = useSearchParams();
+
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 10000]);
@@ -27,6 +31,7 @@ export const SeeAllItem = () => {
 
   useEffect(() => {
     try {
+      setSearchTerm(searchParams.get("search") || "");
       setIsLoading(true);
       fetchCategories();
       fetchProducts(setProducts);
@@ -35,7 +40,7 @@ export const SeeAllItem = () => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [searchParams]);
   const now = new Date();
   const filteredProducts = products
     .filter((product) =>
@@ -99,7 +104,10 @@ export const SeeAllItem = () => {
           />
         </div>
         <div className="mb-4 flex w-full flex-col items-center justify-between px-3 sm:flex-row lg:px-1">
-          <SearchBar onSearch={(term) => setSearchTerm(term)} />
+          <SearchBar
+            searchTerm={searchTerm}
+            onSearch={(term) => setSearchTerm(term)}
+          />
         </div>
 
         {/* Grid แสดงสินค้า */}

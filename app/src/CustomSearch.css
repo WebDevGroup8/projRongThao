@@ -1,15 +1,3 @@
-@import "tailwindcss";
-
-@theme {
-  --color-primary: #213555;
-  --color-primary-light: #214857;
-  --color-primary-dark: #213555;
-}
-
-body {
-  background-color: #f9fafb;
-}
-
 .search .wrapper {
   width: 100% !important;
   border-radius: 4px !important;
@@ -31,7 +19,6 @@ body {
 }
 
 .search .wrapper:first-child svg {
-  display: none;
   color: #6b7280 !important; /* gray-500 */
   margin-left: 12px !important;
   width: 16px !important;
