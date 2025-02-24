@@ -5,6 +5,7 @@ import {
   LayoutList,
   LogOut,
   ReceiptText,
+  Boxes,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../store";
@@ -41,6 +42,13 @@ export default function AdminSidebar() {
         >
           <LayoutList />
           Product
+        </button>
+        <button
+          className="flex cursor-pointer flex-row gap-2 hover:underline"
+          onClick={() => navigate("/admin/category")}
+        >
+          <Boxes />
+          Category
         </button>
         <button
           className="flex cursor-pointer flex-row gap-2 hover:underline"

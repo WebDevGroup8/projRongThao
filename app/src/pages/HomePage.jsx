@@ -11,32 +11,32 @@ import fetchProducts from "../context/FetchProduct.js";
 const categories = [
   {
     imageUrl:
-      "https://schollshoesthailand.com/cdn/shop/files/2_0bdac0de-c147-4fe2-a3e3-9da5fc918957.png?v=1726229426&width=400",
-    title: "Best Sellers",
+      "https://www.sportpodium.com/cdn/shop/collections/19FW_FP_Shoes-Womens_PLP_IWallpaper-Tile_DT-Rev-01_10212019_tcm274-416491_65c23005-b9bb-422b-8b95-a82809b0d290.jpg?v=1622964858",
+    title: "New Arrival",
     navigateTo: "/",
   },
   {
     imageUrl:
-      "https://schollshoesthailand.com/cdn/shop/files/2_0bdac0de-c147-4fe2-a3e3-9da5fc918957.png?v=1726229426&width=400",
-    title: "Best Sellers",
+      "https://www.blessthisstuff.com/imagens/listagem/2011/grande/grande_img_2011_nike_mag.jpg",
+    title: "Limited",
     navigateTo: "/",
   },
   {
     imageUrl:
-      "https://schollshoesthailand.com/cdn/shop/files/2_0bdac0de-c147-4fe2-a3e3-9da5fc918957.png?v=1726229426&width=400",
-    title: "Best Sellers",
+      "https://s.alicdn.com/@sc04/kf/H25dc07b105f54dca881858a05046426dK.jpg_720x720q50.jpg",
+    title: "Sport",
     navigateTo: "/",
   },
   {
     imageUrl:
-      "https://schollshoesthailand.com/cdn/shop/files/2_0bdac0de-c147-4fe2-a3e3-9da5fc918957.png?v=1726229426&width=400",
-    title: "Best Sellers",
+      "https://nothingnew.com/cdn/shop/products/HighTop-White-Thumbanil-2_1024x1024.jpg?v=1652119826",
+    title: "High Top",
     navigateTo: "/",
   },
   {
     imageUrl:
-      "https://schollshoesthailand.com/cdn/shop/files/2_0bdac0de-c147-4fe2-a3e3-9da5fc918957.png?v=1726229426&width=400",
-    title: "Best Sellers",
+      "https://fashionista.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNTA1MDg3MjU0NTM3ODk0/shop-platform-sneakers.jpg",
+    title: "Dlatform",
     navigateTo: "/",
   },
 ];
@@ -44,17 +44,17 @@ const categories = [
 const promotionsL = [
   {
     image:
-      "https://png.pngtree.com/template/20220330/ourmid/pngtree-new-shoes-promotion-in-simple-winter-2018-image_908218.jpg",
+      "https://schollshoesthailand.com/cdn/shop/files/4_771dbfba-a682-44f7-8a47-fa83243d704e.webp?v=1736229937&width=2000",
     alt: "Buy More Save More",
   },
   {
     image:
-      "https://png.pngtree.com/template/20220331/ourlarge/pngtree-new-sports-shoes-promotion-rotation-banner-image_909903.jpg",
+      "https://schollshoesthailand.com/cdn/shop/files/6_0ff2e531-684c-4521-a9ec-2306fbe7dfc1.webp?v=1736229936&width=2000",
     alt: "New Arrivals - Shop Now",
   },
   {
     image:
-      "https://png.pngtree.com/template/20220330/ourmid/pngtree-national-day-sports-shoes-promotion-rotation-banner-image_907554.jpg",
+      "https://schollshoesthailand.com/cdn/shop/files/Sonic_horizontal.png?v=1737033666&width=1800",
     alt: "Free Shipping on Orders Over $50",
   },
 ];
@@ -62,17 +62,17 @@ const promotionsL = [
 const promotionsP = [
   {
     image:
-      "https://schollshoesthailand.com/cdn/shop/files/Sonic.png?v=1737033689&width=600",
+      "https://schollshoesthailand.com/cdn/shop/files/4_2e499946-a346-45cf-a78c-9b1ea39554e4.webp?v=1736230585&width=600",
     alt: "Buy More Save More",
   },
   {
     image:
-      "https://schollshoesthailand.com/cdn/shop/files/4_2e499946-a346-45cf-a78c-9b1ea39554e4.webp?v=1736230585&width=600",
+      "https://schollshoesthailand.com/cdn/shop/files/6_3a303838-8938-4cdd-8dfa-a762974ca9c5.webp?v=1736230584&width=600",
     alt: "New Arrivals - Shop Now",
   },
   {
     image:
-      "https://schollshoesthailand.com/cdn/shop/files/6_3a303838-8938-4cdd-8dfa-a762974ca9c5.webp?v=1736230584&width=600",
+      "https://schollshoesthailand.com/cdn/shop/files/Sonic.png?v=1737033689&width=600",
     alt: "Free Shipping on Orders Over $50",
   },
 ];

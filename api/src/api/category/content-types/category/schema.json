@@ -21,6 +21,9 @@
       "relation": "manyToMany",
       "target": "api::product.product",
       "mappedBy": "categories"
+    },
+    "detail": {
+      "type": "text"
     }
   }
 }

@@ -6,7 +6,7 @@ import ax from "../conf/ax";
 import { EditableProductCard } from "../components/EditableProductCard";
 import { motion, AnimatePresence } from "framer-motion";
 import Loading from "../components/Loading";
-import { SideBarForManageProduct } from "../components/SideBarForManageProduct";
+import { FilterBarForManageProduct } from "../components/FilterBarForManageProduct";
 import CreateProductModal from "../components/CreateProductModal";
 
 export default function ManageProduct() {
@@ -72,19 +72,19 @@ export default function ManageProduct() {
     .filter((product) =>
       selectedCategories.length > 0
         ? selectedCategories.every((selected) => {
-            if (selected === "on sale") {
-              const startDate = new Date(product.promotion?.start);
-              const endDate = new Date(product.promotion?.end);
-              const hasValidDiscount = product.promotion?.discountType;
-              const isWithinDateRange = now >= startDate && now <= endDate;
+          if (selected === "on sale") {
+            const startDate = new Date(product.promotion?.start);
+            const endDate = new Date(product.promotion?.end);
+            const hasValidDiscount = product.promotion?.discountType;
+            const isWithinDateRange = now >= startDate && now <= endDate;
 
-              return hasValidDiscount && isWithinDateRange;
-            }
+            return hasValidDiscount && isWithinDateRange;
+          }
 
-            return product.categories?.some(
-              (category) => category.title === selected,
-            );
-          })
+          return product.categories?.some(
+            (category) => category.title === selected,
+          );
+        })
         : true,
     )
     .filter(
@@ -115,7 +115,7 @@ export default function ManageProduct() {
         </div>
       </div>
       <div className="flex w-full flex-shrink-0 pb-5">
-        <SideBarForManageProduct
+        <FilterBarForManageProduct
           categories={categories}
           selectedCategories={selectedCategories}
           setSelectedCategories={setSelectedCategories}
