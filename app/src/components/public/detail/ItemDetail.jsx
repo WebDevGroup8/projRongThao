@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   ChevronDown,
   ChevronLeft,
@@ -6,15 +7,14 @@ import {
   Minus,
   Plus,
 } from "lucide-react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import React, { useEffect, useState } from "react";
-import ax from "../conf/ax";
+import ax from "@/conf/ax";
 import { useNavigate, useParams } from "react-router-dom";
-import conf from "../conf/mainapi";
-import Loading from "../components/Loading";
-import useAuthStore from "../store";
+import { conf } from "@/conf/main";
+import Loading from "@layout/Loading";
+import useAuthStore from "@/store/store";
 
 export const ExampleImg = ({ img }) => {
   const [key, setKey] = useState(0);

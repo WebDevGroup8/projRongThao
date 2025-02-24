@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router";
-import { Star, MapPin } from "lucide-react";
-import conf from "../../../conf/main";
+import { useNavigate } from "react-router";
+import { Star } from "lucide-react";
+import { conf } from "@/conf/main";
 
-export const ProductCard = (props) => {
+export default function ProductCard(props) {
   const [animate, setAnimate] = useState(false);
   const [refinePrice, setRefinePrice] = useState(0);
   const [isPromotion, setIsPromotion] = useState(false);
@@ -132,4 +132,4 @@ export const ProductCard = (props) => {
       </div>
     </div>
   );
-};
+}

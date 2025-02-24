@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import loginImage from "../assets/loginpage_img.png"; // ใช้ relative path
-
-import ax from "../../../conf/ax";
 import { toast } from "react-toastify";
+
+import loginImage from "@assets/img/loginpage_img.png";
+import ax from "@/conf/ax";
 
 export default function SignUp() {
   const [password, setPassword] = useState("");

@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect } from "react";
-//import Image from "next/image"
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 

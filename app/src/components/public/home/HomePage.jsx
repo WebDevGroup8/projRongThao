@@ -1,12 +1,10 @@
-// HomePage.jsx
-import PromotionCarousel from "./PromotionCarousel.jsx";
-import ClickableCard from "./ClickableCard.jsx";
-import CategoryCarousel from "./CategoryCarousel.jsx";
-import { ProductCard } from "../discovery/ProductCard.jsx";
-import React, { useEffect, useState } from "react";
-import ax from "../../../conf/ax.js";
-import Container from "../../layout/Container.jsx";
-import fetchProducts from "../../../utils/FetchProduct.js";
+import { useEffect, useState } from "react";
+import PromotionCarousel from "@public/home/PromotionCarousel";
+import ClickableCard from "@public/home/ClickableCard";
+import CategoryCarousel from "@public/home/CategoryCarousel";
+import ProductCard from "@public/discovery/ProductCard";
+import Container from "@layout/Container";
+import fetchProducts from "@/utils/FetchProduct";
 
 const categories = [
   {

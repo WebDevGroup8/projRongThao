@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import loginImage from "../assets/loginpage_img.png"; // ใช้ relative path
-import useAuthStore from "../../../store/store";
+import loginImage from "@assets/img/loginpage_img.png";
+import useAuthStore from "@/store/store";
 
 export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
   const [identifier, setidentifier] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
-  const [showCreateAccount, setShowCreateAccount] = useState(false);
   const { user, login, errMsg } = useAuthStore();
 
   const navigate = useNavigate();

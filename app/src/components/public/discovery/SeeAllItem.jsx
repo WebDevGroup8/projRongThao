@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import ax from "../../../conf/ax";
-import { ProductCard } from "./ProductCard";
-import { SideBar } from "./SideBar";
-import SearchBar from "./SearchBar";
-import Loading from "../../layout/Loading";
-import fetchProducts from "../../../utils/FetchProduct";
 import { useSearchParams } from "react-router-dom";
+import ax from "@/conf/ax";
+import ProductCard from "@public/discovery/ProductCard";
+import SideBar from "@public/discovery/SideBar";
+import SearchBar from "@public/discovery/SearchBar";
+import Loading from "@layout/Loading";
+import fetchProducts from "@/utils/FetchProduct";
 
 export default function SeeAllItem() {
   const [searchTerm, setSearchTerm] = useState("");

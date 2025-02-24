@@ -4,12 +4,12 @@ const apiUrlPrefix =
     : import.meta.env.VITE_API_URL;
 
 const conf = {
-  apiUrlPrefix: `${apiUrlPrefix}/api`, // Prefix ของ API (local หรือ production)
+  apiUrlPrefix: `${apiUrlPrefix}/api`,
   imageUrlPrefix: apiUrlPrefix,
-  loginEndpoint: "/auth/local", // 🔥 จุดสำคัญ! Endpoint สำหรับ login
-  jwtSessionStorageKey: "auth.jwt", // ชื่อ key สำหรับเก็บ JWT ใน session storage
-  jwtRoleEndpoint: "users/me?populate=role", // API สำหรับดึง Role ของผู้ใช้
-  jwtUserEndpoint: "/users/me", // API สำหรับดึงข้อมูล User ปัจจุบัน
+  loginEndpoint: "/auth/local",
+  jwtSessionStorageKey: "auth.jwt",
+  jwtRoleEndpoint: "users/me?populate=role",
+  jwtUserEndpoint: "/users/me",
 
   productCreateEndpoint: `/products`,
 };
@@ -36,4 +36,4 @@ const path = {
   otherwise: `*`,
 };
 
-export default { conf, path }; // ส่งออก default
+export default { conf, path };

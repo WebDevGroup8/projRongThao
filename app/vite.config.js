@@ -22,7 +22,7 @@ export default defineConfig({
       "@admin": path.resolve(__dirname, "./src/components/admin"),
 
       // Assets
-      "@asset": path.resolve(__dirname, "./src/assets"),
+      "@assets": path.resolve(__dirname, "./src/assets"),
     },
   },
 });

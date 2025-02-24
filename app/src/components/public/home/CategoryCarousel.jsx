@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import ClickableCard from "./ClickableCard";
+import ClickableCard from "@public/home/ClickableCard";
 
 export default function CategoryCarousel(props) {
   const [emblaRef, emblaApi] = useEmblaCarousel({

@@ -1,7 +1,7 @@
 import React from "react";
 import { Range } from "react-range";
 
-export const SideBar = ({
+export default function SideBar({
   categories,
   priceRange,
   setPriceRange,
@@ -9,7 +9,7 @@ export const SideBar = ({
   setSelectedCategories,
   selectedSizes,
   setSelectedSizes,
-}) => {
+}) {
   const sizes = [34, 36, 38, 40, 42, 44, 46];
 
   const toggleCategory = (categoryTitle) => {
@@ -101,4 +101,4 @@ export const SideBar = ({
       </div>
     </div>
   );
-};
+}

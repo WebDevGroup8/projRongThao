@@ -8,7 +8,7 @@
       "@public/*":["./src/components/public/*"],
       "@customer/*":["./src/components/customer/*"],
       "@admin/*":["./src/components/admin/*"],
-      "@assets": ["./src/assets/*"],
+      "@assets/*": ["./src/assets/*"],
     }
   }
 }
