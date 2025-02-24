@@ -323,7 +323,9 @@ const OrderTable = (props) => {
                           {customerStats[item.documentId]?.itemCount || 0}
                         </td>
                         <td className="px-3 py-4">
-                          {customerStats[item.documentId]?.totalCost || 0}
+                          {customerStats[item.documentId]?.totalCost.toFixed(
+                            2,
+                          ) || 0}
                         </td>
                       </tr>
                     ),
