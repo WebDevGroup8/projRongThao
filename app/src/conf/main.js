@@ -14,4 +14,26 @@ const conf = {
   productCreateEndpoint: `/products`,
 };
 
-export default conf; // ส่งออก default
+const path = {
+  public: {
+    home: `/`,
+    discovery: `/discovery`,
+    detail: `/product`,
+    login: `/login`,
+    register: `/register`,
+  },
+  customer: {
+    cart: `/cart`,
+    order: `/order`,
+  },
+  admin: {
+    default: `/admin`,
+    dashboard: `/admin/dashboard`,
+    product: `/admin/product`,
+    category: `/admin/category`,
+    promotion: `/admin/promotion`,
+  },
+  otherwise: `*`,
+};
+
+export default { conf, path }; // ส่งออก default

@@ -7,7 +7,7 @@ import useAuthStore from "../store/store";
 import ScrollToTop from "../components/ScrollToTop";
 import Footer from "../components/Footer";
 
-export const ProtectedCustomerRoute = ({ children }) => {
+export default function ProtectedCustomerRoute({ children }) {
   const { isLoginPending, user } = useAuthStore();
   const navigate = useNavigate();
   useEffect(() => {
@@ -37,4 +37,4 @@ export const ProtectedCustomerRoute = ({ children }) => {
       <Footer />
     </div>
   );
-};
+}

@@ -4,7 +4,7 @@ import Loading from "./Loading";
 import useAuthStore from "../../store/store";
 import AdminSidebar from "../components/AdminSidebar";
 
-export const ProtectedAdminRoute = ({ children }) => {
+export default function ProtectedAdminRoute({ children }) {
   const { isLoginPending, user } = useAuthStore();
   const navigate = useNavigate();
   useEffect(() => {
@@ -36,4 +36,4 @@ export const ProtectedAdminRoute = ({ children }) => {
       <div className="w-full">{children}</div>
     </div>
   );
-};
+}

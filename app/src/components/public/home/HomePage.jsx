@@ -4,7 +4,7 @@ import ClickableCard from "./ClickableCard.jsx";
 import CategoryCarousel from "./CategoryCarousel.jsx";
 import { ProductCard } from "../discovery/ProductCard.jsx";
 import React, { useEffect, useState } from "react";
-import ax from "../../../conf/ax.jsx";
+import ax from "../../../conf/ax.js";
 import Container from "../../layout/Container.jsx";
 import fetchProducts from "../../../utils/FetchProduct.js";
 
@@ -77,7 +77,7 @@ const promotionsP = [
   },
 ];
 
-export const HomePage = () => {
+export default function HomePage() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -139,4 +139,4 @@ export const HomePage = () => {
       </Container>
     </div>
   );
-};
+}

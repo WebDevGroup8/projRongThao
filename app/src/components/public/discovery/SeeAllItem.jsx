@@ -8,7 +8,7 @@ import Loading from "../../layout/Loading";
 import fetchProducts from "../../../utils/FetchProduct";
 import { useSearchParams } from "react-router-dom";
 
-export const SeeAllItem = () => {
+export default function SeeAllItem() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const [searchParams] = useSearchParams();
@@ -143,4 +143,4 @@ export const SeeAllItem = () => {
       </div>
     </div>
   );
-};
+}

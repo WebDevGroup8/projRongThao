@@ -1,27 +1,35 @@
 import "./App.css";
-import { Routes, Route, useNavigate } from "react-router-dom";
-import SignIn from "./components/public/login/SignIn";
-import { HomePage } from "./components/public/home/HomePage";
-import Dashboard from "@/components/admin/dashboard/Dashboard.jsx";
-import ShoppingCart from "./pages/ShoppingCart";
-import ItemDetail from "./pages/ItemDetail";
-import { SeeAllItem } from "./components/public/discovery/SeeAllItem";
-import Test from "./components/Test";
-import ViewOrder from "./components/customer/order/ViewOrder";
-import { ProtectedCustomerRoute } from "./context/ProtectedCustomerRoute";
-import { ProtectedAdminRoute } from "./components/layout/ProtectedAdminRoute";
-import useAuthStore from "./store/store";
-import { useEffect } from "react";
-import NavigationBar from "./components/layout/NavigationBar";
-import Container from "./components/layout/Container";
-import Footer from "./components/layout/Footer";
-import ManageProduct from "./components/admin/product/ManageProduct";
-import ManageCategory from "./components/admin/category/ManageCategory";
-import OrderManagement from "./components/admin/order/OrderManagement";
-import SignUp from "./components/public/register/SingupPage";
-import Promotion from "./components/admin/Promotion";
-import Admin from "./components/admin/Admin";
+import { path } from "@/conf/main.js";
+import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import useAuthStore from "@/store/store";
+import { useEffect } from "react";
+
+// Public Routes
+import HomePage from "@public/home/HomePage";
+import SeeAllItem from "@public/discovery/SeeAllItem";
+import ItemDetail from "@public/detail/ItemDetail";
+import SignIn from "@public/login/SignIn";
+import SignUp from "@public/register/SingupPage";
+
+// Customer Routes
+import ShoppingCart from "@customer/cart/ShoppingCart";
+import ViewOrder from "@customer/order/ViewOrder";
+
+// Admin Routes
+import Admin from "@admin/Admin";
+import Dashboard from "@admin/dashboard/Dashboard";
+import OrderManagement from "@admin/order/OrderManagement";
+import ManageProduct from "@admin/product/ManageProduct";
+import ManageCategory from "@admin/category/ManageCategory";
+import Promotion from "@admin/promotion/Promotion";
+
+// Layout Components
+import ProtectedCustomerRoute from "@layout/ProtectedCustomerRoute";
+import ProtectedAdminRoute from "@layout/ProtectedAdminRoute";
+import NavigationBar from "@layout/NavigationBar";
+import Container from "@layout/Container";
+import Footer from "@layout/Footer";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
@@ -49,8 +57,6 @@ function App() {
         <ToastContainer />
         <Routes>
           {/* Public Route */}
-          <Route path="/login" element={<SignIn />} />
-          <Route path="/register" element={<SignUp />} />
           <Route
             path="/"
             element={
@@ -61,8 +67,10 @@ function App() {
               </>
             }
           />
+          <Route path={path.public.login} element={<SignIn />} />
+          <Route path={path.public.register} element={<SignUp />} />
           <Route
-            path="/products"
+            path={path.public.discovery}
             element={
               <>
                 <NavigationBar />
@@ -74,9 +82,8 @@ function App() {
             }
           />
 
-          {/* Customer Route */}
           <Route
-            path="/product/:id"
+            path={`${path.public.detail}/:id`}
             element={
               <>
                 <NavigationBar />
@@ -88,8 +95,9 @@ function App() {
             }
           />
 
+          {/* Customer Route */}
           <Route
-            path="/cart"
+            path={path.customer.cart}
             element={
               <ProtectedCustomerRoute>
                 <ShoppingCart />
@@ -97,7 +105,7 @@ function App() {
             }
           />
           <Route
-            path="/order"
+            path={path.customer.order}
             element={
               <ProtectedCustomerRoute>
                 <ViewOrder />
@@ -105,19 +113,9 @@ function App() {
             }
           />
 
-          <Route path="/test" element={<Test />} />
-          <Route
-            path="*"
-            element={
-              <a className="hover:underline" href="/">
-                Go Back
-              </a>
-            }
-          />
-
           {/* Admin Route */}
           <Route
-            path="/admin"
+            path={path.admin.defualt}
             element={
               <ProtectedAdminRoute>
                 <Admin />
@@ -125,7 +123,7 @@ function App() {
             }
           />
           <Route
-            path="/admin/dashboard"
+            path={path.admin.dashboard}
             element={
               <ProtectedAdminRoute>
                 <Dashboard />
@@ -134,7 +132,15 @@ function App() {
           />
 
           <Route
-            path="/admin/product"
+            path={path.admin.order}
+            element={
+              <ProtectedAdminRoute>
+                <OrderManagement />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path={path.admin.product}
             element={
               <ProtectedAdminRoute>
                 <ManageProduct />
@@ -143,7 +149,7 @@ function App() {
           />
 
           <Route
-            path="/admin/category"
+            path={path.admin.category}
             element={
               <ProtectedAdminRoute>
                 <ManageCategory />
@@ -152,20 +158,21 @@ function App() {
           />
 
           <Route
-            path="/admin/order"
-            element={
-              <ProtectedAdminRoute>
-                <OrderManagement />
-              </ProtectedAdminRoute>
-            }
-          />
-
-          <Route
-            path="/admin/promotion"
+            path={path.admin.promotion}
             element={
               <ProtectedAdminRoute>
                 <Promotion />
               </ProtectedAdminRoute>
+            }
+          />
+
+          {/* Otherwise route */}
+          <Route
+            path={path.otherwise}
+            element={
+              <a className="hover:underline" href="/">
+                Go Back
+              </a>
             }
           />
         </Routes>
