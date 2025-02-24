@@ -112,7 +112,7 @@ function App() {
           />
 
           <Route
-            path={path.public.Helps}
+            path={path.public.helps}
             element={
               <>
                 <NavigationBar />

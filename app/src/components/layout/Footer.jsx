@@ -1,6 +1,7 @@
 import { Github, HelpCircle, Ruler, Truck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import React from "react";
+import { path } from "@/conf/main";
 
 function Footer() {
   const Navigate = useNavigate();
@@ -24,7 +25,7 @@ function Footer() {
           <ul className="space-y-4 text-sm">
             <li
               onClick={() => {
-                Navigate("/shipping");
+                Navigate(path.public.shipping);
               }}
               className="flex items-center gap-3 transition-all duration-300 hover:scale-105"
             >
@@ -33,7 +34,7 @@ function Footer() {
             </li>
             <li
               onClick={() => {
-                Navigate("/size");
+                Navigate(path.public.size);
               }}
               className="flex items-center gap-3 transition-all duration-300 hover:scale-105"
             >
@@ -42,7 +43,7 @@ function Footer() {
             </li>
             <li
               onClick={() => {
-                Navigate("/Helps");
+                Navigate(path.public.helps);
               }}
               className="flex items-center gap-3 transition-all duration-300 hover:scale-105"
             >

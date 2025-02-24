@@ -22,10 +22,8 @@ export const path = {
     login: `/login`,
     register: `/register`,
     size: `/size`,
-    Helps: `/helps`,
+    helps: `/helps`,
     shipping: `/shipping`,
-    // TODO: discuss on this path
-    help: `/help`,
   },
   customer: {
     cart: `/cart`,
