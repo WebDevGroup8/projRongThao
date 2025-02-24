@@ -10,7 +10,7 @@ import HomePage from "@public/home/HomePage";
 import SeeAllItem from "@public/discovery/SeeAllItem";
 import ItemDetail from "@public/detail/ItemDetail";
 import SignIn from "@public/login/SignIn";
-import SignUp from "@public/register/SingupPage";
+import SignUp from "@public/register/Singup";
 
 // Customer Routes
 import ShoppingCart from "@customer/cart/ShoppingCart";

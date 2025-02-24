@@ -52,7 +52,7 @@ const useAuthStore = create((set) => ({
     });
     try {
       await ax.put(
-        endpoint.customer.cart.updateCart(useAuthStore.getState().user.id),
+        endpoint.customer.cart.update(useAuthStore.getState().user.id),
         {
           cart: useAuthStore.getState().cart,
         },
@@ -68,7 +68,7 @@ const useAuthStore = create((set) => ({
     }));
     try {
       await ax.put(
-        endpoint.customer.cart.updateCart(useAuthStore.getState().user.id),
+        endpoint.customer.cart.update(useAuthStore.getState().user.id),
         {
           cart: useAuthStore.getState().cart,
         },
@@ -92,7 +92,7 @@ const useAuthStore = create((set) => ({
       const updatedCart = useAuthStore.getState().cart;
 
       await ax.put(
-        endpoint.customer.cart.updateCart(useAuthStore.getState().user.id),
+        endpoint.customer.cart.update(useAuthStore.getState().user.id),
         {
           cart: updatedCart, // Use the latest cart state
         },
@@ -106,7 +106,7 @@ const useAuthStore = create((set) => ({
     set({ cart: [] });
     try {
       await ax.put(
-        endpoint.customer.cart.updateCart(useAuthStore.getState().user.id),
+        endpoint.customer.cart.update(useAuthStore.getState().user.id),
         {
           cart: [], // reset
         },

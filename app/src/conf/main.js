@@ -20,17 +20,33 @@ export const conf = {
 
 /**
  * Endpoint
+ *
+ * lable:
+ *    get - for single item
+ *  query - for multiple items
+ *
  */
 export const endpoint = {
   auth: {
     login: "/auth/local",
+    register: "/users",
     jwtUser: "/users/me",
     jwtUserWithRole: "users/me?populate=role",
   },
-  public: {},
+  public: {
+    product: {
+      get: (id) =>
+        `/products?populate=image&populate=categories&filters[id]=${id}`,
+      query: () =>
+        `/products?populate=image&populate=categories&populate=reviews&filters[stock][$gt]=0`,
+    },
+    category: {
+      query: () => `/categories`,
+    },
+  },
   customer: {
     cart: {
-      updateCart: (id) => `users/${id}`,
+      update: (id) => `users/${id}`,
     },
   },
   admin: {

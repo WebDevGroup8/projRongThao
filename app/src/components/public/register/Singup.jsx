@@ -3,7 +3,7 @@ import loginImage from "@assets/img/loginpage_img.png";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { conf, path } from "@/conf/main";
+import { conf, path, endpoint } from "@/conf/main";
 
 export default function SignUp() {
   const [password, setPassword] = useState("");
@@ -36,7 +36,7 @@ export default function SignUp() {
 
     try {
       setIsLoading(true);
-      await ax.post("/users", formData);
+      await ax.post(endpoint.auth.register, formData);
       toast.success("Created Successfully!");
       navigate(path.public.login);
       // console.log("User Created:", response.data);
