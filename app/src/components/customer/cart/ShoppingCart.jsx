@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import Loading from "@/components/layout/Loading";
 import ax from "@/conf/ax";
-import { endpoint, conf } from "@/conf/main";
+import { api, conf } from "@/conf/main";
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "react-toastify";
 import useAuthStore from "@/store/store";
@@ -58,7 +58,7 @@ export default function ShoppingCart() {
       const stripe = await stripePromise;
       console.log(cartItems);
       // return;
-      const response = await ax.post(endpoint.customer.order.create(), {
+      const response = await ax.post(api.customer.order.create(), {
         userId: user.id,
         order_product: cartItems,
         amount_shipping: shipping,

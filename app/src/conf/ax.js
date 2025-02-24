@@ -1,5 +1,5 @@
 import axios from "axios";
-import { conf, endpoint } from "@/conf/main";
+import { conf, api } from "@/conf/main";
 
 export const axData = {
   jwt: null,
@@ -13,7 +13,7 @@ const ax = axios.create({
 ax.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    if (axData.jwt && config.url !== endpoint.auth.login) {
+    if (axData.jwt && config.url !== api.auth.login) {
       config.headers["Authorization"] = `Bearer ${axData.jwt}`;
     }
     return config;

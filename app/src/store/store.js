@@ -1,7 +1,7 @@
 import ax, { axData } from "../conf/ax";
 
 import Cookies from "js-cookie";
-import { conf, endpoint, path } from "@/conf/main";
+import { conf, api, path } from "@/conf/main";
 import { create } from "zustand";
 
 const useAuthStore = create((set) => ({
@@ -51,12 +51,9 @@ const useAuthStore = create((set) => ({
       return { cart: updatedCart };
     });
     try {
-      await ax.put(
-        endpoint.customer.cart.update(useAuthStore.getState().user.id),
-        {
-          cart: useAuthStore.getState().cart,
-        },
-      );
+      await ax.put(api.customer.cart.update(useAuthStore.getState().user.id), {
+        cart: useAuthStore.getState().cart,
+      });
     } catch (e) {
       console.log(e);
     }
@@ -67,12 +64,9 @@ const useAuthStore = create((set) => ({
       cart: state.cart.filter((item) => item.id !== productId),
     }));
     try {
-      await ax.put(
-        endpoint.customer.cart.update(useAuthStore.getState().user.id),
-        {
-          cart: useAuthStore.getState().cart,
-        },
-      );
+      await ax.put(api.customer.cart.update(useAuthStore.getState().user.id), {
+        cart: useAuthStore.getState().cart,
+      });
     } catch (e) {
       console.log(e);
     }
@@ -91,12 +85,9 @@ const useAuthStore = create((set) => ({
       // Get the updated cart AFTER the state change
       const updatedCart = useAuthStore.getState().cart;
 
-      await ax.put(
-        endpoint.customer.cart.update(useAuthStore.getState().user.id),
-        {
-          cart: updatedCart, // Use the latest cart state
-        },
-      );
+      await ax.put(api.customer.cart.update(useAuthStore.getState().user.id), {
+        cart: updatedCart, // Use the latest cart state
+      });
     } catch (e) {
       console.log(e);
     }
@@ -105,12 +96,9 @@ const useAuthStore = create((set) => ({
   clearCart: async () => {
     set({ cart: [] });
     try {
-      await ax.put(
-        endpoint.customer.cart.update(useAuthStore.getState().user.id),
-        {
-          cart: [], // reset
-        },
-      );
+      await ax.put(api.customer.cart.update(useAuthStore.getState().user.id), {
+        cart: [], // reset
+      });
     } catch (e) {
       console.log(e);
     }
@@ -133,7 +121,7 @@ const useAuthStore = create((set) => ({
         : null;
       if (jwt) {
         axData.jwt = jwt;
-        const response = await ax.get(endpoint.auth.jwtUserWithRole);
+        const response = await ax.get(api.auth.jwtUserWithRole);
         const userData = response.data;
         set({
           user: { ...userData, role: userData.role.name },
@@ -149,7 +137,7 @@ const useAuthStore = create((set) => ({
 
   login: async (formData, navigate) => {
     try {
-      const response = await ax.post(endpoint.auth.login, {
+      const response = await ax.post(api.auth.login, {
         identifier: formData.identifier,
         password: formData.password,
       });
@@ -160,7 +148,7 @@ const useAuthStore = create((set) => ({
       useAuthStore.getState().updateJwt(jwt); // Use the store's method to update state
       axData.jwt = jwt; // Assign to Axios global config
 
-      const roleResponse = await ax.get(endpoint.auth.jwtUserWithRole);
+      const roleResponse = await ax.get(api.auth.jwtUserWithRole);
       const role = roleResponse.data.role.name;
 
       const cookieOptions = formData.rememberMe

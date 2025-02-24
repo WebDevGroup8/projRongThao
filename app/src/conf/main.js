@@ -19,14 +19,14 @@ export const conf = {
 };
 
 /**
- * Endpoint
+ * API Endpoint
  *
  * lable:
  *    get - for single item
  *  query - for multiple items
  *
  */
-export const endpoint = {
+export const api = {
   auth: {
     login: "/auth/local",
     register: "/users",
@@ -54,6 +54,9 @@ export const endpoint = {
     },
   },
   admin: {
+    category: {
+      create: () => `/categories`,
+    },
     productCreateEndpoint: `/products`,
   },
 };
