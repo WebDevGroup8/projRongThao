@@ -7,7 +7,7 @@ const apiUrlPrefix =
  * Config Name
  */
 export const conf = {
-  apiUrlPrefix: `${apiUrlPrefix}/endpoint`,
+  apiUrlPrefix: `${apiUrlPrefix}/api`,
   imageUrlPrefix: apiUrlPrefix,
   jwtSessionStorageKey: "auth.jwt",
   userCookieName: "user",
