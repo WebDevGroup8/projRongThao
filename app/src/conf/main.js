@@ -3,17 +3,44 @@ const apiUrlPrefix =
     ? import.meta.env.VITE_API_URL_PROD
     : import.meta.env.VITE_API_URL;
 
+/**
+ * Config Name
+ */
 export const conf = {
   apiUrlPrefix: `${apiUrlPrefix}/api`,
   imageUrlPrefix: apiUrlPrefix,
-  loginEndpoint: "/auth/local",
   jwtSessionStorageKey: "auth.jwt",
-  jwtRoleEndpoint: "users/me?populate=role",
-  jwtUserEndpoint: "/users/me",
-
-  productCreateEndpoint: `/products`,
+  userCookieName: "user",
+  role: {
+    customer: `customer`,
+    customerId: 3,
+    admin: `admin`,
+  },
 };
 
+/**
+ * Endpoint
+ */
+export const endpoint = {
+  auth: {
+    login: "/auth/local",
+    jwtUser: "/users/me",
+    jwtUserWithRole: "users/me?populate=role",
+  },
+  public: {},
+  customer: {
+    cart: {
+      updateCart: (id) => `users/${id}`,
+    },
+  },
+  admin: {
+    productCreateEndpoint: `/products`,
+  },
+};
+
+/**
+ * Path
+ */
 export const path = {
   public: {
     home: `/`,

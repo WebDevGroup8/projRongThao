@@ -1,11 +1,13 @@
 import ax, { axData } from "../conf/ax";
 
 import Cookies from "js-cookie";
-import { conf, path } from "@/conf/main";
+import { conf, endpoint, path } from "@/conf/main";
 import { create } from "zustand";
 
 const useAuthStore = create((set) => ({
-  jwt: Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null,
+  jwt: Cookies.get(conf.userCookieName)
+    ? JSON.parse(Cookies.get(conf.userCookieName))
+    : null,
   user: null,
   cart: [],
   showModal: false,
@@ -13,11 +15,11 @@ const useAuthStore = create((set) => ({
   errMsg: null,
 
   setJwt: (jwt, options = {}) => {
-    Cookies.set("user", JSON.stringify(jwt), options);
+    Cookies.set(conf.userCookieName, JSON.stringify(jwt), options);
     set({ jwt });
   },
   removeJwt: () => {
-    Cookies.remove("user");
+    Cookies.remove(conf.userCookieName);
     set({ jwt: null });
   },
 
@@ -49,9 +51,12 @@ const useAuthStore = create((set) => ({
       return { cart: updatedCart };
     });
     try {
-      await ax.put(`users/${useAuthStore.getState().user.id}`, {
-        cart: useAuthStore.getState().cart,
-      });
+      await ax.put(
+        endpoint.customer.cart.updateCart(useAuthStore.getState().user.id),
+        {
+          cart: useAuthStore.getState().cart,
+        },
+      );
     } catch (e) {
       console.log(e);
     }
@@ -62,9 +67,12 @@ const useAuthStore = create((set) => ({
       cart: state.cart.filter((item) => item.id !== productId),
     }));
     try {
-      await ax.put(`users/${useAuthStore.getState().user.id}`, {
-        cart: useAuthStore.getState().cart,
-      });
+      await ax.put(
+        endpoint.customer.cart.updateCart(useAuthStore.getState().user.id),
+        {
+          cart: useAuthStore.getState().cart,
+        },
+      );
     } catch (e) {
       console.log(e);
     }
@@ -83,9 +91,12 @@ const useAuthStore = create((set) => ({
       // Get the updated cart AFTER the state change
       const updatedCart = useAuthStore.getState().cart;
 
-      await ax.put(`users/${useAuthStore.getState().user.id}`, {
-        cart: updatedCart, // Use the latest cart state
-      });
+      await ax.put(
+        endpoint.customer.cart.updateCart(useAuthStore.getState().user.id),
+        {
+          cart: updatedCart, // Use the latest cart state
+        },
+      );
     } catch (e) {
       console.log(e);
     }
@@ -94,9 +105,12 @@ const useAuthStore = create((set) => ({
   clearCart: async () => {
     set({ cart: [] });
     try {
-      await ax.put(`users/${useAuthStore.getState().user.id}`, {
-        cart: [], // reset
-      });
+      await ax.put(
+        endpoint.customer.cart.updateCart(useAuthStore.getState().user.id),
+        {
+          cart: [], // reset
+        },
+      );
     } catch (e) {
       console.log(e);
     }
@@ -104,7 +118,6 @@ const useAuthStore = create((set) => ({
   updateJwt: (jwt) => {
     set((state) => {
       if (state.jwt !== jwt) {
-        console.log("Updating JWT:", jwt);
         axData.jwt = jwt;
         return { jwt };
       }
@@ -115,10 +128,12 @@ const useAuthStore = create((set) => ({
   autoLogin: async () => {
     set({ isLoginPending: true });
     try {
-      const jwt = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
+      const jwt = Cookies.get(conf.userCookieName)
+        ? JSON.parse(Cookies.get(conf.userCookieName))
+        : null;
       if (jwt) {
         axData.jwt = jwt;
-        const response = await ax.get(conf.jwtRoleEndpoint);
+        const response = await ax.get(endpoint.auth.jwtUserWithRole);
         const userData = response.data;
         set({
           user: { ...userData, role: userData.role.name },
@@ -134,18 +149,18 @@ const useAuthStore = create((set) => ({
 
   login: async (formData, navigate) => {
     try {
-      const response = await ax.post(conf.loginEndpoint, {
+      const response = await ax.post(endpoint.auth.login, {
         identifier: formData.identifier,
         password: formData.password,
       });
 
       const { jwt, user: userData } = response.data;
 
-      Cookies.set("user", JSON.stringify(jwt), { path: "/" });
+      Cookies.set(conf.userCookieName, JSON.stringify(jwt), { path: "/" });
       useAuthStore.getState().updateJwt(jwt); // Use the store's method to update state
       axData.jwt = jwt; // Assign to Axios global config
 
-      const roleResponse = await ax.get(conf.jwtRoleEndpoint);
+      const roleResponse = await ax.get(endpoint.auth.jwtUserWithRole);
       const role = roleResponse.data.role.name;
 
       const cookieOptions = formData.rememberMe
@@ -156,7 +171,7 @@ const useAuthStore = create((set) => ({
         : { path: "/" };
 
       set({ jwt });
-      Cookies.set("user", JSON.stringify(jwt), cookieOptions);
+      Cookies.set(conf.userCookieName, JSON.stringify(jwt), cookieOptions);
       set({
         user: { ...userData, role },
         cart: userData.cart || [],
@@ -164,8 +179,8 @@ const useAuthStore = create((set) => ({
         errMsg: null,
       });
 
-      if (role === "customer") navigate(path.public.home);
-      else if (role === "admin") navigate(path.admin.dashboard);
+      if (role === conf.role.customer) navigate(path.public.home);
+      else if (role === conf.role.admin) navigate(path.admin.dashboard);
     } catch (error) {
       console.log(error);
       set({
@@ -178,7 +193,7 @@ const useAuthStore = create((set) => ({
   },
 
   logout: (navigate) => {
-    Cookies.remove("user");
+    Cookies.remove(conf.userCookieName);
     set({ user: null, jwt: null, cart: [] });
     navigate(path.public.home);
   },

@@ -3,7 +3,7 @@ import loginImage from "@assets/img/loginpage_img.png";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { path } from "@/conf/main";
+import { conf, path } from "@/conf/main";
 
 export default function SignUp() {
   const [password, setPassword] = useState("");
@@ -22,8 +22,8 @@ export default function SignUp() {
       email: email,
       password: password,
       role: {
-        connect: [{ id: 3 }],
-        type: "customer",
+        connect: [{ id: conf.role.customerId }],
+        type: conf.role.customer,
       },
       confirmed: true,
       blocked: false,

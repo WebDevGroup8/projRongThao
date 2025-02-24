@@ -13,15 +13,14 @@ import {
 
 import LoginSuccess from "@layout/LoginSuccess";
 import ModalBase from "@components/layout/ModalBase";
-import { conf } from "@/conf/main";
+import { conf, endpoint, path } from "@/conf/main";
 import { useCookie } from "@/hooks/useCookie";
 import { useNavigate } from "react-router";
-import { path } from "@/conf/main";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [jwt, setJwt, removeJwt] = useCookie("user", null);
+  const [jwt, setJwt, removeJwt] = useCookie(conf.userCookieName, null);
   const [user, setUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [isLoginPending, setIsLoginPending] = useState(true);
@@ -43,7 +42,7 @@ export const AuthProvider = ({ children }) => {
       setIsLoginPending(true);
       if (jwt) {
         updateJwt(jwt.jwt);
-        const response = await ax.get(conf.jwtRoleEndpoint);
+        const response = await ax.get(endpoint.auth.jwtUserWithRole);
         const userData = response.data;
         const role = userData.role.name;
         setUser({ ...userData, role: role });
@@ -63,7 +62,7 @@ export const AuthProvider = ({ children }) => {
   const login = useCallback(
     async (formData) => {
       try {
-        const response = await ax.post(conf.loginEndpoint, {
+        const response = await ax.post(endpoint.auth.login, {
           identifier: formData.identifier,
           password: formData.password,
         });
@@ -72,7 +71,7 @@ export const AuthProvider = ({ children }) => {
 
         updateJwt(jwt);
 
-        const roleResponse = await ax.get(conf.jwtRoleEndpoint);
+        const roleResponse = await ax.get(endpoint.auth.jwtUserWithRole);
         const role = roleResponse.data.role.name;
         console.log(roleResponse);
 
@@ -86,9 +85,9 @@ export const AuthProvider = ({ children }) => {
         setJwt({ jwt }, cookieOptions, formData.rememberMe);
         setUser({ ...userData, role });
         setShowModal(true);
-        if (role === "customer") {
+        if (role === conf.role.customer) {
           navigate(path.public.home);
-        } else if (role === "admin") {
+        } else if (role === conf.role.admin) {
           navigate(path.admin.dashboard);
         }
         setErrMsg(null);
