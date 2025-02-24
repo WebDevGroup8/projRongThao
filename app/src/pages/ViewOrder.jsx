@@ -138,28 +138,33 @@ export const GroupViewCard = () => {
                     <h3 className="mb-3 text-lg font-semibold text-gray-800">
                       Order Summary
                     </h3>
-                    <div className="space-y-3 text-gray-700">
-                      <div className="flex justify-between">
-                        <span>Subtotal</span>
-                        <span className="font-semibold">
-                          {item.total_price ? item.total_price : 0} THB
-                        </span>
+                    {item.total_price ? (
+                      <div className="space-y-3 text-gray-700">
+                        <div className="flex justify-between">
+                          <span>Subtotal</span>
+                          <span className="font-semibold">
+                            {item.total_price ? item.total_price : 0} THB
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Shipping</span>
+                          <span className="font-semibold">150 THB</span>
+                        </div>
+                        <div className="font-semi-bold flex justify-between border-t pt-3 text-lg">
+                          <span>Total</span>
+                          <span>
+                            {item.total_price ? item.total_price + 150 : 150}{" "}
+                            THB
+                          </span>
+                        </div>
+                        <div className="font-semi-bold mt-5 flex justify-between pt-3 text-lg">
+                          <span>Address</span>
+                          <span>{item.address ? item.address : "No Data"}</span>
+                        </div>
                       </div>
-                      <div className="flex justify-between">
-                        <span>Shipping</span>
-                        <span className="font-semibold">150 THB</span>
-                      </div>
-                      <div className="font-semi-bold flex justify-between border-t pt-3 text-lg">
-                        <span>Total</span>
-                        <span>
-                          {item.total_price ? item.total_price + 150 : 150} THB
-                        </span>
-                      </div>
-                      <div className="font-semi-bold flex justify-between border-t pt-3 text-lg">
-                        <span>Address</span>
-                        <span>{item.address}</span>
-                      </div>
-                    </div>
+                    ) : (
+                      "Payment not success"
+                    )}
                   </div>
                 </>
               )}
