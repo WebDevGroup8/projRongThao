@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import StatusFilter from "@public/discovery/StatusFilter";
 import ax from "@/conf/ax";
-import { conf } from "@/conf/main";
+import { endpoint, conf } from "@/conf/main";
 import dayjs from "dayjs";
 
 export const TruckIcon = () => {
@@ -20,7 +20,7 @@ export const GroupViewCard = ({ selectedStatus }) => {
 
   const fetchOrders = async () => {
     try {
-      const res = await ax.get(`/users/me?populate=order_histories`);
+      const res = await ax.get(endpoint.customer.order.query());
       setOrderItems(res.data.order_histories);
       console.log(res.data.order_histories);
     } catch (error) {

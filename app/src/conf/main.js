@@ -45,6 +45,10 @@ export const endpoint = {
     },
   },
   customer: {
+    order: {
+      create: () => `/orders`,
+      query: () => `/users/me?populate=order_histories`,
+    },
     cart: {
       update: (id) => `users/${id}`,
     },
