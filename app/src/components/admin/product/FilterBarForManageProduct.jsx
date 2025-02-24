@@ -1,5 +1,5 @@
-import React from "react";
 import { Range } from "react-range";
+import React from "react";
 
 export const FilterBarForManageProduct = ({
   categories,
@@ -29,9 +29,9 @@ export const FilterBarForManageProduct = ({
   };
 
   return (
-    <div className=" h-fit w-full rounded-md border border-gray-200 bg-white p-4 shadow-md ">
+    <div className="h-fit w-full rounded-md border border-gray-200 bg-white p-4 shadow-md">
       <div className="text-md pb-2 font-medium text-gray-900">Categories</div>
-      <div className="flex flex-wrap gap-5 ">
+      <div className="flex flex-wrap gap-5">
         {categories.map((category) => (
           <label key={category.id} className="flex items-center gap-2">
             <input
@@ -56,7 +56,7 @@ export const FilterBarForManageProduct = ({
           renderTrack={({ props: trackProps, children }) => (
             <div
               {...trackProps}
-              className="relative h-2 mx-2 touch-none rounded-full bg-gray-200"
+              className="relative mx-2 h-2 touch-none rounded-full bg-gray-200"
             >
               <div
                 className="absolute h-2 rounded-full bg-gradient-to-r from-sky-500 to-indigo-500"

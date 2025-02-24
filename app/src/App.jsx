@@ -1,35 +1,37 @@
 import "./App.css";
-import { path } from "@/conf/main.js";
-import { Routes, Route } from "react-router-dom";
+
+import { Route, Routes } from "react-router-dom";
+
+import Admin from "@/components/admin/default/Admin";
+import Container from "@layout/Container";
+import Dashboard from "@admin/dashboard/Dashboard";
+import Footer from "@layout/Footer";
+import HomePage from "@public/home/HomePage";
+import ItemDetail from "@public/detail/ItemDetail";
+import ManageCategory from "@admin/category/ManageCategory";
+import ManageProduct from "@admin/product/ManageProduct";
+import NavigationBar from "@layout/NavigationBar";
+import OrderManagement from "@admin/order/OrderManagement";
+import Promotion from "@admin/promotion/Promotion";
+import ProtectedAdminRoute from "@layout/ProtectedAdminRoute";
+import ProtectedCustomerRoute from "@layout/ProtectedCustomerRoute";
+import SeeAllItem from "@public/discovery/SeeAllItem";
+import ShoppingCart from "@customer/cart/ShoppingCart";
+import SignIn from "@public/login/SignIn";
+import SignUp from "@public/register/SingupPage";
 import { ToastContainer } from "react-toastify";
+import ViewOrder from "@customer/order/ViewOrder";
+import { path } from "@/conf/main.js";
 import useAuthStore from "@/store/store";
 import { useEffect } from "react";
 
 // Public Routes
-import HomePage from "@public/home/HomePage";
-import SeeAllItem from "@public/discovery/SeeAllItem";
-import ItemDetail from "@public/detail/ItemDetail";
-import SignIn from "@public/login/SignIn";
-import SignUp from "@public/register/SingupPage";
 
 // Customer Routes
-import ShoppingCart from "@customer/cart/ShoppingCart";
-import ViewOrder from "@customer/order/ViewOrder";
 
 // Admin Routes
-import Admin from "@admin/Admin";
-import Dashboard from "@admin/dashboard/Dashboard";
-import OrderManagement from "@admin/order/OrderManagement";
-import ManageProduct from "@admin/product/ManageProduct";
-import ManageCategory from "@admin/category/ManageCategory";
-import Promotion from "@admin/promotion/Promotion";
 
 // Layout Components
-import ProtectedCustomerRoute from "@layout/ProtectedCustomerRoute";
-import ProtectedAdminRoute from "@layout/ProtectedAdminRoute";
-import NavigationBar from "@layout/NavigationBar";
-import Container from "@layout/Container";
-import Footer from "@layout/Footer";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();

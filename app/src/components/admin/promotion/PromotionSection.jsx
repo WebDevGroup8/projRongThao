@@ -1,4 +1,4 @@
-import { Plus, Pencil, Trash } from "lucide-react";
+import { Pencil, Plus, Trash } from "lucide-react";
 import React, { useMemo } from "react";
 
 export default function PromotionSection({

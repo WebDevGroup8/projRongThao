@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import ax from "@/conf/ax";
+import React, { useEffect, useState } from "react";
+
 import { X } from "lucide-react";
+import ax from "@/conf/ax";
 import { toast } from "react-toastify";
 
 export default function EditCategoryModal({

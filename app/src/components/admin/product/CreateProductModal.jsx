@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { ImageIcon, Upload, X } from "lucide-react";
+import React, { useEffect, useState } from "react";
+
 import ax from "@/conf/ax";
-import { X, Upload, ImageIcon } from "lucide-react";
 import { toast } from "react-toastify";
 
 export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {

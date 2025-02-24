@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
+
 import { X } from "lucide-react";
-import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 export default function UpdatePromotionModal({

@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
-import ax from "@/conf/ax";
-import SearchBar from "@public/discovery/SearchBar";
-import { Trash2, Pencil } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
+import React, { useEffect, useState } from "react";
+
 import AddCategoryModal from "@admin/category/AddCategoryModal";
-import EditCategoryModal from "@admin/category/EditCategoryModal";
 import DeleteCategoryModal from "@admin/category/DeleteCategoryModal";
+import EditCategoryModal from "@admin/category/EditCategoryModal";
+import SearchBar from "@public/discovery/SearchBar";
+import ax from "@/conf/ax";
 
 const ManageCategory = () => {
   const [categories, setCategories] = useState([]);

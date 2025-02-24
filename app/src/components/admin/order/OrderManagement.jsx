@@ -1,5 +1,5 @@
-import React from "react";
 import OrderTable from "@admin/order/OrderTable";
+import React from "react";
 
 const OrderManagement = () => {
   return (

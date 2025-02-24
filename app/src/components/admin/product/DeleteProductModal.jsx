@@ -1,6 +1,6 @@
 import React from "react";
-import ax from "@/conf/ax";
 import { X } from "lucide-react";
+import ax from "@/conf/ax";
 import { toast } from "react-toastify";
 
 export default function DeleteProductModal({

@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
-import { useState } from "react";
 import { conf } from "@/conf/main";
+import { useState } from "react";
 
 export default function CreatePromotionModal({
   isOpen,

@@ -1,11 +1,13 @@
 //import { Button } from "@/components/ui/button"
+
+import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
+
+import CreateProductModal from "@admin/product/CreateProductModal";
+import { EditableProductCard } from "@admin/product/EditableProductCard";
+import { FilterBarForManageProduct } from "@admin/product/FilterBarForManageProduct";
 import SearchBar from "@public/discovery/SearchBar";
 import ax from "@conf/ax";
-import { EditableProductCard } from "@admin/product/EditableProductCard";
-import { motion, AnimatePresence } from "framer-motion";
-import { FilterBarForManageProduct } from "@admin/product/FilterBarForManageProduct";
-import CreateProductModal from "@admin/product/CreateProductModal";
 
 export default function ManageProduct() {
   const [products, setProducts] = useState([]);

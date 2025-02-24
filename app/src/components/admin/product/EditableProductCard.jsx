@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Star } from "lucide-react";
-import { conf } from "@/conf/main";
 import { Pencil, Trash2 } from "lucide-react";
+import React, { useEffect, useState } from "react";
+
 import DeleteProductModal from "@admin/product/DeleteProductModal";
 import EditProductModal from "@admin/product/EditProductModal";
+import { Star } from "lucide-react";
+import { conf } from "@/conf/main";
 
 export const EditableProductCard = (props) => {
   const [animate, setAnimate] = useState(false);

@@ -1,4 +1,5 @@
 import { Pencil, Plus, Trash } from "lucide-react";
+
 export default function CouponSection({
   coupons,
   setIsCreateModalCouponOpen,

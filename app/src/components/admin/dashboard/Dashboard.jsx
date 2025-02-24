@@ -1,9 +1,10 @@
 // DashBoard.jsx
 
-import { ChartNoAxesCombined } from "lucide-react";
 import { useEffect, useState } from "react";
-import ax from "@/conf/ax";
+
+import { ChartNoAxesCombined } from "lucide-react";
 import OrderTable from "@admin/order/OrderTable";
+import ax from "@/conf/ax";
 
 export const StatCard = () => {
   const [user, setUser] = useState([]);
