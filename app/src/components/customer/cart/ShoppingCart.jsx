@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import ax from "../conf/ax";
-import useAuthStore from "../store";
-import Loading from "../components/Loading";
-import conf from "../conf/mainapi";
 import { toast } from "react-toastify";
+import { loadStripe } from "@stripe/stripe-js";
+import useAuthStore from "@/store/store";
+import Loading from "@/components/layout/Loading";
+import { conf } from "@/conf/main";
+import ax from "@/conf/ax";
 
 export default function ShoppingCart() {
   const { user, cart, updateCartItem, removeFromCart, clearCart } =
