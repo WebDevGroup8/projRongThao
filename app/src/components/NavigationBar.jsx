@@ -50,6 +50,7 @@ const UserDetails = React.memo(({ user, logout }) => {
 
 export default function NavigationBar() {
   const [showMenuBar, setShowMenuBar] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   const handleAllItem = () => {
@@ -163,11 +164,13 @@ export default function NavigationBar() {
               id="default-search"
               className="block w-full border border-gray-300 bg-gray-50 p-1 ps-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
               placeholder="SEARCH"
-              required
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
             <button
               type="button"
               className="bg-primary absolute end-1 top-1/2 w-fit -translate-y-1/2 px-4 py-1.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none"
+              onClick={() => navigate(`/products?search=${searchTerm}`)}
             >
               <Search size={12} color="white" />
             </button>
