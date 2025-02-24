@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@components/*":["./src/components/*"],
+      "@layout/*":["./src/components/layout/*"],
+      "@public/*":["./src/components/public/*"],
+      "@customer/*":["./src/components/customer/*"],
+      "@admin/*":["./src/components/admin/*"],
+      "@assets/*": ["./src/assets/*"],
+    }
+  }
+}
