@@ -6,7 +6,7 @@ import ProductCard from "@public/discovery/ProductCard";
 import SearchBar from "@public/discovery/SearchBar";
 import SideBar from "@public/discovery/SideBar";
 import ax from "@/conf/ax";
-import fetchProducts from "@/utils/fetchProduct";
+import fetchProducts from "@/utils/FetchProduct";
 import { useSearchParams } from "react-router-dom";
 import { endpoint } from "@/conf/main";
 
