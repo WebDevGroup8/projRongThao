@@ -9,14 +9,12 @@ import {
   Search,
   Settings,
   ShoppingCart,
-  UserPlus,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import useAuthStore from "../../store/store";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
-import "../CustomSearch.css"; // Add this import line
-import fetchProducts from "../../utils/FetchProduct";
+import useAuthStore from "@/store/store";
+import fetchProducts from "@/utils/FetchProduct";
 
 const UserDetails = React.memo(({ user, logout }) => {
   if (!user) return null;

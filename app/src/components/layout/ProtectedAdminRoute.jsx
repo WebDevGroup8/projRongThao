@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
-import Loading from "./Loading";
-import useAuthStore from "../../store/store";
-import AdminSidebar from "../components/AdminSidebar";
+import Loading from "@layout/Loading";
+import useAuthStore from "@/store/store";
+import AdminSidebar from "@admin/AdminSidebar";
 
 export default function ProtectedAdminRoute({ children }) {
   const { isLoginPending, user } = useAuthStore();
