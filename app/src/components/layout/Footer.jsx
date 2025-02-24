@@ -1,8 +1,10 @@
-import { Github, HelpCircle, Mail, Ruler, Truck } from "lucide-react";
-
+import { Github, HelpCircle, Ruler, Truck } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import React from "react";
+import { conf, path } from "@/conf/main";
 
 function Footer() {
+  const navigate = useNavigate();
   return (
     <div className="bg-primary mt-20 flex flex-col items-center px-4 py-8 text-gray-300 md:px-12 lg:w-full">
       <div className="grid w-full grid-cols-1 gap-10 md:grid-cols-2 lg:max-w-screen-xl lg:grid-cols-3">
@@ -21,21 +23,32 @@ function Footer() {
             Customer Service
           </h2>
           <ul className="space-y-4 text-sm">
-            <li className="flex items-center gap-3 transition-all duration-300 hover:scale-105">
-              <Mail className="h-5 w-5 text-blue-400" />
-              Contact Us
-            </li>
-            <li className="flex items-center gap-3 transition-all duration-300 hover:scale-105">
+            <li
+              onClick={() => {
+                navigate(path.public.shipping);
+              }}
+              className="flex items-center gap-3 transition-all duration-300 hover:scale-105"
+            >
               <Truck className="h-5 w-5 text-green-400" />
               Shipping & Returns
             </li>
-            <li className="flex items-center gap-3 transition-all duration-300 hover:scale-105">
+            <li
+              onClick={() => {
+                navigate(path.public.size);
+              }}
+              className="flex items-center gap-3 transition-all duration-300 hover:scale-105"
+            >
               <Ruler className="h-5 w-5 text-yellow-400" />
               Size Guide
             </li>
-            <li className="flex items-center gap-3 transition-all duration-300 hover:scale-105">
+            <li
+              onClick={() => {
+                navigate(path.public.helps);
+              }}
+              className="flex items-center gap-3 transition-all duration-300 hover:scale-105"
+            >
               <HelpCircle className="h-5 w-5 text-red-400" />
-              FAQs
+              Helps
             </li>
           </ul>
         </div>
@@ -44,7 +57,7 @@ function Footer() {
           <h2 className="mb-4 text-lg font-semibold text-white">Follow Us</h2>
           <div className="flex space-x-4 text-sm">
             <a
-              href="https://github.com/WebDevGroup8/projRongThao"
+              href={conf.githubUrl}
               className="flex items-center gap-3 text-gray-400 transition-all duration-300 hover:scale-105 hover:text-white"
             >
               <Github className="h-6 w-6 text-white" />
