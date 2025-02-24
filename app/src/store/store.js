@@ -1,7 +1,7 @@
 import ax, { axData } from "../conf/ax";
 
 import Cookies from "js-cookie";
-import conf from "../conf/main";
+import { conf } from "@/conf/main";
 import { create } from "zustand";
 
 const useAuthStore = create((set) => ({

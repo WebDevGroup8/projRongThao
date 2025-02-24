@@ -7,7 +7,7 @@ import CreateProductModal from "@admin/product/CreateProductModal";
 import { EditableProductCard } from "@admin/product/EditableProductCard";
 import { FilterBarForManageProduct } from "@admin/product/FilterBarForManageProduct";
 import SearchBar from "@public/discovery/SearchBar";
-import ax from "@conf/ax";
+import ax from "@/conf/ax";
 
 export default function ManageProduct() {
   const [products, setProducts] = useState([]);

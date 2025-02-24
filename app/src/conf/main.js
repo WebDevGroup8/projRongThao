@@ -3,7 +3,7 @@ const apiUrlPrefix =
     ? import.meta.env.VITE_API_URL_PROD
     : import.meta.env.VITE_API_URL;
 
-const conf = {
+export const conf = {
   apiUrlPrefix: `${apiUrlPrefix}/api`,
   imageUrlPrefix: apiUrlPrefix,
   loginEndpoint: "/auth/local",
@@ -14,7 +14,7 @@ const conf = {
   productCreateEndpoint: `/products`,
 };
 
-const path = {
+export const path = {
   public: {
     home: `/`,
     discovery: `/discovery`,
@@ -36,4 +36,4 @@ const path = {
   otherwise: `*`,
 };
 
-export default { conf, path };
+export default conf;

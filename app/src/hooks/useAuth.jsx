@@ -11,10 +11,10 @@ import {
   useState,
 } from "react";
 
-import LoginSuccess from "../components/layout/LoginSuccess";
-import ModalBase from "../components/layout/ModalBase";
-import conf from "../conf/main";
-import { useCookie } from "./useCookie";
+import LoginSuccess from "@layout/LoginSuccess";
+import ModalBase from "@components/layout/ModalBase";
+import { conf } from "@/conf/main";
+import { useCookie } from "@/hooks/useCookie";
 import { useNavigate } from "react-router";
 
 const AuthContext = createContext();
