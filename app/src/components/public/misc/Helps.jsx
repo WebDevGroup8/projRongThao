@@ -6,7 +6,7 @@ export default function Helps() {
   return (
     <div className="mx-auto max-w-4xl space-y-6 rounded-xl bg-gray-50 p-6">
       <h1 className="text-center text-3xl font-bold text-gray-800">
-        Help & Information
+        Helps & Information
       </h1>
 
       <section className="rounded-lg border-l-4 border-blue-500 bg-white p-4 shadow-md">

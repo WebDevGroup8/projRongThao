@@ -69,7 +69,7 @@ export default function SizeGuide() {
       <p className="mt-3 text-gray-700">
         Not the right size? Don't worry! Return your items for free within 30
         days. Check out our
-        <a className="text-blue-600" href="/shipping">
+        <a className="text-blue-600" href={path.public.shipping}>
           {" "}
           shipping and return policy{" "}
         </a>

@@ -4,6 +4,7 @@ const apiUrlPrefix =
     : import.meta.env.VITE_API_URL;
 
 export const conf = {
+  githubUrl: "https://github.com/WebDevGroup8/projRongThao",
   apiUrlPrefix: `${apiUrlPrefix}/api`,
   imageUrlPrefix: apiUrlPrefix,
   loginEndpoint: "/auth/local",

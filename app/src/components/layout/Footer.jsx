@@ -1,7 +1,7 @@
 import { Github, HelpCircle, Ruler, Truck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import React from "react";
-import { path } from "@/conf/main";
+import { conf, path } from "@/conf/main";
 
 function Footer() {
   const navigate = useNavigate();
@@ -57,7 +57,7 @@ function Footer() {
           <h2 className="mb-4 text-lg font-semibold text-white">Follow Us</h2>
           <div className="flex space-x-4 text-sm">
             <a
-              href="https://github.com/WebDevGroup8/projRongThao"
+              href={conf.githubUrl}
               className="flex items-center gap-3 text-gray-400 transition-all duration-300 hover:scale-105 hover:text-white"
             >
               <Github className="h-6 w-6 text-white" />

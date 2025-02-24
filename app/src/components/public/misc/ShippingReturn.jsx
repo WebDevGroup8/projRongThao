@@ -1,5 +1,6 @@
 import React from "react";
 import { Truck, RefreshCw, Info } from "lucide-react";
+import { conf } from "@/conf/main";
 
 export default function ShippingReturn() {
   return (
@@ -70,10 +71,7 @@ export default function ShippingReturn() {
       <div className="borderp-4 mt-6 rounded-lg text-center text-gray-600">
         <p>
           And don’t forget, we’re always here for you! Feel free to{" "}
-          <a
-            href="https://github.com/WebDevGroup8/projRongThao"
-            className="text-blue-500"
-          >
+          <a href={conf.githubUrl} className="text-blue-500">
             contact us
           </a>{" "}
           anytime.
