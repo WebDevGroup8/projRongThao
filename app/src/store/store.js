@@ -1,7 +1,8 @@
-import { create } from "zustand";
+import ax, { axData } from "../conf/ax";
+
 import Cookies from "js-cookie";
 import conf from "../conf/main";
-import ax, { axData } from "../conf/ax";
+import { create } from "zustand";
 
 const useAuthStore = create((set) => ({
   jwt: Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null,

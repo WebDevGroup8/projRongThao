@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import PromotionCarousel from "@public/home/PromotionCarousel";
-import ClickableCard from "@public/home/ClickableCard";
+
 import CategoryCarousel from "@public/home/CategoryCarousel";
-import ProductCard from "@public/discovery/ProductCard";
+import ClickableCard from "@public/home/ClickableCard";
 import Container from "@layout/Container";
+import ProductCard from "@public/discovery/ProductCard";
+import PromotionCarousel from "@public/home/PromotionCarousel";
 import fetchProducts from "@/utils/FetchProduct";
 
 const categories = [

@@ -1,13 +1,14 @@
 import {
+  Boxes,
   CirclePercentIcon,
   Gauge,
   LayoutList,
   LogOut,
   ReceiptText,
-  Boxes,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+
 import useAuthStore from "@/store/store";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminSidebar() {
   const { logout } = useAuthStore();

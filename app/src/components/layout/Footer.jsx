@@ -1,5 +1,6 @@
+import { Github, HelpCircle, Mail, Ruler, Truck } from "lucide-react";
+
 import React from "react";
-import { Mail, Truck, Ruler, HelpCircle, Github } from "lucide-react";
 
 function Footer() {
   return (

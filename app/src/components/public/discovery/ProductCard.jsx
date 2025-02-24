@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+
 import { Star } from "lucide-react";
 import { conf } from "@/conf/main";
+import { useNavigate } from "react-router";
 
 export default function ProductCard(props) {
   const [animate, setAnimate] = useState(false);

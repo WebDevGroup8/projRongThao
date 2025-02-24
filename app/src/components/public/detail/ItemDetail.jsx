@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
+
 import {
   ChevronDown,
   ChevronLeft,
@@ -7,13 +8,13 @@ import {
   Minus,
   Plus,
 } from "lucide-react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
-import ax from "@/conf/ax";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { conf } from "@/conf/main";
+
 import Loading from "@layout/Loading";
+import ax from "@/conf/ax";
+import { conf } from "@/conf/main";
+import { toast } from "react-toastify";
 import useAuthStore from "@/store/store";
 
 export const ExampleImg = ({ img }) => {

@@ -1,11 +1,11 @@
-import { useNavigate } from "react-router";
-import { useEffect } from "react";
-import Loading from "@layout/Loading";
 import Container from "@layout/Container";
-import NavigationBar from "@layout/NavigationBar";
-import useAuthStore from "@/store/store";
-import ScrollToTop from "@layout/ScrollToTop";
 import Footer from "@layout/Footer";
+import Loading from "@layout/Loading";
+import NavigationBar from "@layout/NavigationBar";
+import ScrollToTop from "@layout/ScrollToTop";
+import useAuthStore from "@/store/store";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 export default function ProtectedCustomerRoute({ children }) {
   const { isLoginPending, user } = useAuthStore();

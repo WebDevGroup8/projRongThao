@@ -1,4 +1,4 @@
-import ax from "../conf/ax";
+import ax from "@/conf/ax";
 
 const fetchProducts = async (setProducts) => {
   try {

@@ -1,5 +1,5 @@
-import React from "react";
 import { Range } from "react-range";
+import React from "react";
 
 export default function SideBar({
   categories,

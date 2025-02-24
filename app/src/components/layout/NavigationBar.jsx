@@ -11,10 +11,11 @@ import {
   ShoppingCart,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
-import useAuthStore from "@/store/store";
 import fetchProducts from "@/utils/FetchProduct";
+import useAuthStore from "@/store/store";
+import { useNavigate } from "react-router";
 
 const UserDetails = React.memo(({ user, logout }) => {
   if (!user) return null;

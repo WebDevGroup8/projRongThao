@@ -1,5 +1,7 @@
 // useAuth.js
 // This file will be not used anymore we migrate to use zustand as state control
+
+import ax, { axData } from "../conf/ax";
 import {
   createContext,
   useCallback,
@@ -8,12 +10,12 @@ import {
   useMemo,
   useState,
 } from "react";
-import { useNavigate } from "react-router";
-import { useCookie } from "./useCookie";
-import conf from "../conf/main";
-import ax, { axData } from "../conf/ax";
-import ModalBase from "../components/layout/ModalBase";
+
 import LoginSuccess from "../components/layout/LoginSuccess";
+import ModalBase from "../components/layout/ModalBase";
+import conf from "../conf/main";
+import { useCookie } from "./useCookie";
+import { useNavigate } from "react-router";
 
 const AuthContext = createContext();
 

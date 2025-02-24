@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
-import { Truck, ChevronDown } from "lucide-react";
-import ax from "@/conf/ax";
-import dayjs from "dayjs";
-import { conf } from "@/conf/main";
+import { ChevronDown, Truck } from "lucide-react";
+import { useEffect, useState } from "react";
+
 import StatusFilter from "@public/discovery/StatusFilter";
+import ax from "@/conf/ax";
+import { conf } from "@/conf/main";
+import dayjs from "dayjs";
 
 export const TruckIcon = () => {
   return (
