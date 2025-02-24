@@ -94,7 +94,7 @@ const OrderTable = (props) => {
         customer.order_histories?.reduce((total, order) => {
           const orderCost =
             order.order_product?.reduce((sum, product) => {
-              return sum + (product?.price || 0); // Ensure price exists, default to 0 if not
+              return sum + (Number(product?.price) || 0); // Ensure price exists, default to 0 if not
             }, 0) || 0;
           return total + orderCost;
         }, 0) || 0;
