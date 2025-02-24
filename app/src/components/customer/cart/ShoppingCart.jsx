@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import Loading from "@/components/layout/Loading";
 import ax from "@/conf/ax";
 import { endpoint, conf } from "@/conf/main";
@@ -17,8 +16,9 @@ export default function ShoppingCart() {
   const [discountPercentage, setDiscountPercentage] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState(subtotal);
-
   const [promoCode, setPromoCode] = useState("");
+
+  console.log(cart);
 
   const handlePromoChange = (e) => {
     setPromoCode(e.target.value);
@@ -100,64 +100,6 @@ export default function ShoppingCart() {
       setTotal(newTotal);
     }
   };
-  const fetchProducts = async () => {
-    try {
-      setIsLoading(true);
-      const productRequests = cartItems.map((item) =>
-        ax
-          .get(
-            `/products?populate=image&populate=categories&filters[id]=${item.id}`,
-          )
-          .then((response) => ({
-            ...response.data,
-            quantity: item.quantity,
-          })),
-      );
-
-      const responses = await Promise.all(productRequests);
-      // Extracting the data from responses
-      const now = new Date();
-      const isPromotionValid = (product) => {
-        if (product.promotion?.name) {
-          const startDate = new Date(product.promotion.start);
-          const endDate = new Date(product.promotion.end);
-
-          return now >= startDate && now <= endDate;
-        }
-        return false;
-      };
-
-      const promotionPrice = (product) => {
-        if (isPromotionValid(product)) {
-          if (product.promotion.discountType === "percentage") {
-            return (
-              product.price *
-              (1 - product.promotion.percentage / 100)
-            ).toFixed(2);
-          } else {
-            return product.promotion.promotionPrice;
-          }
-        } else {
-          return product.price;
-        }
-      };
-      const products = responses.map((response) => ({
-        ...response.data[0],
-        price: promotionPrice(response.data[0]),
-        quantity: response.quantity,
-      }));
-      setCartItems(products);
-      calculateSummary();
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
 
   useEffect(() => {
     calculateSummary();
@@ -193,7 +135,7 @@ export default function ShoppingCart() {
                 >
                   <img
                     src={
-                      `${conf.imageUrlPrefix}${item?.image?.[0]?.url}` ||
+                      `${conf.imageUrlPrefix}${item.image}` ||
                       "/placeholder.svg"
                     }
                     alt={item.name}
