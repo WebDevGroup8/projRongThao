@@ -5,7 +5,7 @@ import ClickableCard from "@public/home/ClickableCard";
 import Container from "@layout/Container";
 import ProductCard from "@public/discovery/ProductCard";
 import PromotionCarousel from "@public/home/PromotionCarousel";
-import fetchProducts from "@/utils/FetchProduct";
+import fetchProducts from "@/utils/fetchProduct";
 
 const categories = [
   {
