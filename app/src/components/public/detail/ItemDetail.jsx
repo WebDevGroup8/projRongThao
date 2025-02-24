@@ -16,6 +16,7 @@ import ax from "@/conf/ax";
 import { conf } from "@/conf/main";
 import { toast } from "react-toastify";
 import useAuthStore from "@/store/store";
+import { path } from "@/conf/main";
 
 export const ExampleImg = ({ img }) => {
   const [key, setKey] = useState(0);
@@ -338,7 +339,7 @@ export default function ItemDetail() {
             <div className="flex w-full flex-col gap-5">
               {!user ? (
                 <button
-                  onClick={() => navigate("/login")}
+                  onClick={() => navigate(path.public.login)}
                   className="w-full cursor-pointer rounded-md border border-blue-950 px-4 py-2 text-center text-xl text-blue-950"
                 >
                   <p className="hover:underline">PLEASE LOGIN TO ADD TO CART</p>

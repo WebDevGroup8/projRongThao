@@ -1,7 +1,7 @@
 import ax, { axData } from "../conf/ax";
 
 import Cookies from "js-cookie";
-import { conf } from "@/conf/main";
+import { conf, path } from "@/conf/main";
 import { create } from "zustand";
 
 const useAuthStore = create((set) => ({
@@ -164,8 +164,8 @@ const useAuthStore = create((set) => ({
         errMsg: null,
       });
 
-      if (role === "customer") navigate("/", { replace: true });
-      else if (role === "admin") navigate("/admin", { replace: true });
+      if (role === "customer") navigate(path.public.home);
+      else if (role === "admin") navigate(path.admin.dashboard);
     } catch (error) {
       console.log(error);
       set({
@@ -180,7 +180,7 @@ const useAuthStore = create((set) => ({
   logout: (navigate) => {
     Cookies.remove("user");
     set({ user: null, jwt: null, cart: [] });
-    navigate("/", { replace: true });
+    navigate(path.public.home);
   },
 }));
 

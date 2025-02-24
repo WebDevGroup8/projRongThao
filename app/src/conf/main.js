@@ -21,14 +21,19 @@ export const path = {
     detail: `/product`,
     login: `/login`,
     register: `/register`,
+    // TODO: discuss on this path
+    help: `/help`,
   },
   customer: {
     cart: `/cart`,
     order: `/order`,
+    // TODO: discuss on this path
+    setting: `/setting`,
   },
   admin: {
     default: `/admin`,
     dashboard: `/admin/dashboard`,
+    order: `/admin/order`,
     product: `/admin/product`,
     category: `/admin/category`,
     promotion: `/admin/promotion`,

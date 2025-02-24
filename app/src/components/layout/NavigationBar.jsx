@@ -16,6 +16,7 @@ import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import fetchProducts from "@/utils/FetchProduct";
 import useAuthStore from "@/store/store";
 import { useNavigate } from "react-router";
+import { path } from "@/conf/main";
 
 const UserDetails = React.memo(({ user, logout }) => {
   if (!user) return null;
@@ -28,10 +29,13 @@ const UserDetails = React.memo(({ user, logout }) => {
       <button
         type="button"
         className="flex flex-row items-center gap-1"
-        onClick={() => navigate("/order")}
+        onClick={() => navigate(path.customer.order)}
       >
         <History size={16} color="white" />
-        <a href="/order" className="cursor-pointer hover:underline">
+        <a
+          href={path.customer.order}
+          className="cursor-pointer hover:underline"
+        >
           Your Order
         </a>
       </button>
@@ -56,26 +60,21 @@ export default function NavigationBar() {
   const [productList, setProductList] = useState([]);
   const navigate = useNavigate();
 
-  const handleAllItem = () => {
-    navigate(`/products`);
-  };
-
-  const handleHome = () => {
-    navigate(`/`);
-  };
-
+  // --- SECTION: Auto Complete Search Function ---
+  // INFO: for react-auto-complete component
+  // INFO: onSearch will have as the first callback parameter
+  // INFO: the string searched and for the second the results.
   const handleOnSearch = (string) => {
-    // onSearch will have as the first callback parameter
-    // the string searched and for the second the results.
     setSearchTerm(string);
   };
 
+  // INFO: Trigger on select item
   const handleOnSelect = (item) => {
-    // the item selected
     setSearchTerm(item.name);
-    navigate(`/products?search=${item.name}`);
+    navigate(`${path.public.discovery}?search=${item.name}`);
   };
 
+  // INFO: formatter for auto complete drop down
   const formatResult = (item) => {
     return (
       <div className="z-50">
@@ -83,7 +82,7 @@ export default function NavigationBar() {
       </div>
     );
   };
-  // End Search Section
+  // --- END SECTION: Auto Complete Search Function ---
 
   const { user, logout, cart } = useAuthStore();
 
@@ -104,7 +103,10 @@ export default function NavigationBar() {
             RONGTHAO
           </span>
         </div>
-        <button onClick={() => navigate("/cart")} className="relative">
+        <button
+          onClick={() => navigate(path.customer.cart)}
+          className="relative"
+        >
           <ShoppingCart size={24} color="white" />
           {cart.reduce((total, item) => total + item.quantity, 0) > 0 && (
             <span className="absolute -top-1 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
@@ -120,7 +122,7 @@ export default function NavigationBar() {
           <p className="flex items-center space-x-3 rtl:space-x-reverse">
             <button
               onClick={() => {
-                handleHome();
+                navigate(path.public.home);
               }}
               type="button"
               className="self-center whitespace-nowrap text-white"
@@ -130,7 +132,7 @@ export default function NavigationBar() {
             <a className="self-center whitespace-nowrap text-white">|</a>
             <button
               onClick={() => {
-                handleAllItem();
+                navigate(path.public.discovery);
               }}
               className="self-center whitespace-nowrap text-white"
             >
@@ -145,7 +147,8 @@ export default function NavigationBar() {
               type="button"
               className="flex flex-row items-center gap-1"
               onClick={() => {
-                navigate("/help");
+                // TODO: discuss on this path
+                navigate(path.public.help);
               }}
             >
               <HelpCircle size={16} />
@@ -161,7 +164,7 @@ export default function NavigationBar() {
                   type="button"
                   className="flex flex-row items-center gap-1"
                   onClick={() => {
-                    navigate("/login");
+                    navigate(path.public.login);
                   }}
                 >
                   <LogInIcon size={16} />
@@ -204,7 +207,9 @@ export default function NavigationBar() {
             <button
               type="button"
               className="bg-primary hover:bg-primary-dark absolute end-1.5 top-1/2 w-fit -translate-y-1/2 cursor-pointer rounded-sm px-4 py-1.5 text-sm font-medium text-white focus:outline-none"
-              onClick={() => navigate(`/products?search=${searchTerm}`)}
+              onClick={() =>
+                navigate(`${path.public.discovery}?search=${searchTerm}`)
+              }
             >
               <Search size={12} color="white" />
             </button>
@@ -214,7 +219,7 @@ export default function NavigationBar() {
         <button
           type="button"
           className="relative hidden cursor-pointer rounded-xl lg:flex"
-          onClick={() => navigate("/cart")}
+          onClick={() => navigate(path.customer.cart)}
         >
           <ShoppingCart size={24} color="white" />
           {cart.reduce((total, item) => total + item.quantity, 0) > 0 && (
@@ -231,7 +236,7 @@ export default function NavigationBar() {
       >
         <div
           onClick={() => {
-            navigate("/");
+            navigate(path.public.home);
             setShowMenuBar(false);
           }}
           className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
@@ -241,7 +246,7 @@ export default function NavigationBar() {
         </div>
         <div
           onClick={() => {
-            navigate("/products");
+            navigate(path.public.discovery);
             setShowMenuBar(false);
           }}
           className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
@@ -253,7 +258,7 @@ export default function NavigationBar() {
           <>
             <div
               onClick={() => {
-                navigate("/order");
+                navigate(path.customer.order);
                 setShowMenuBar(false);
               }}
               className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
@@ -263,7 +268,8 @@ export default function NavigationBar() {
             </div>
             <div
               onClick={() => {
-                navigate("/settings");
+                // TODO: disscuess on this path
+                navigate(path.customer.setting);
                 setShowMenuBar(false);
               }}
               className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"

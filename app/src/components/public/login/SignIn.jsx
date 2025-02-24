@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import loginImage from "@assets/img/loginpage_img.png";
 import useAuthStore from "@/store/store";
 import { useNavigate } from "react-router-dom";
+import { path } from "@/conf/main";
 
 export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,9 +17,9 @@ export default function SignIn() {
   useEffect(() => {
     if (user) {
       if (user.role === "customer") {
-        navigate("/", { replace: true });
+        navigate(path.public.home);
       } else if (user.role === "admin") {
-        navigate("/admin/dashboard", { replace: true });
+        navigate(path.admin.dashboard);
       }
     }
   }, [user, navigate]);
@@ -46,7 +47,7 @@ export default function SignIn() {
           <div className="mx-auto flex h-full w-full flex-col items-center justify-center gap-5 bg-white px-10 py-8 lg:w-2/3 lg:gap-10 lg:px-20">
             <div className="flex flex-col">
               <button
-                onClick={() => navigate("/")}
+                onClick={() => navigate(path.public.home)}
                 className="text-primary self-center text-4xl font-bold whitespace-nowrap italic"
               >
                 RONGTHAO

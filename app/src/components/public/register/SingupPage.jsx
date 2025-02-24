@@ -3,6 +3,7 @@ import loginImage from "@assets/img/loginpage_img.png";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { path } from "@/conf/main";
 
 export default function SignUp() {
   const [password, setPassword] = useState("");
@@ -37,7 +38,7 @@ export default function SignUp() {
       setIsLoading(true);
       await ax.post("/users", formData);
       toast.success("Created Successfully!");
-      navigate("/login");
+      navigate(path.public.login);
       // console.log("User Created:", response.data);
     } catch (error) {
       setErrMsg(
@@ -60,7 +61,7 @@ export default function SignUp() {
           <div className="mx-auto flex h-full w-full flex-col items-center justify-center gap-5 bg-white px-10 py-8 lg:w-2/3 lg:gap-10 lg:px-20">
             <div className="flex flex-col">
               <button
-                onClick={() => navigate("/")}
+                onClick={() => navigate(path.public.home)}
                 className="text-primary self-center text-4xl font-bold whitespace-nowrap italic"
               >
                 RONGTHAO

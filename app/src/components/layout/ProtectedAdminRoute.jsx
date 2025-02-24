@@ -3,13 +3,14 @@ import Loading from "@layout/Loading";
 import useAuthStore from "@/store/store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
+import { path } from "@/conf/main";
 
 export default function ProtectedAdminRoute({ children }) {
   const { isLoginPending, user } = useAuthStore();
   const navigate = useNavigate();
   useEffect(() => {
     if (!isLoginPending && !user) {
-      navigate("/login", { replace: true });
+      navigate(path.public.login);
     }
   }, [user, navigate, isLoginPending]);
   if (!user || user.role !== "admin") {

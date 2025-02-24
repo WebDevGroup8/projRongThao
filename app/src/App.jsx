@@ -115,7 +115,7 @@ function App() {
 
           {/* Admin Route */}
           <Route
-            path={path.admin.defualt}
+            path={path.admin.default}
             element={
               <ProtectedAdminRoute>
                 <Admin />

@@ -16,6 +16,7 @@ import ModalBase from "@components/layout/ModalBase";
 import { conf } from "@/conf/main";
 import { useCookie } from "@/hooks/useCookie";
 import { useNavigate } from "react-router";
+import { path } from "@/conf/main";
 
 const AuthContext = createContext();
 
@@ -86,9 +87,9 @@ export const AuthProvider = ({ children }) => {
         setUser({ ...userData, role });
         setShowModal(true);
         if (role === "customer") {
-          navigate("/customer/homepage", { replace: true });
+          navigate(path.public.home);
         } else if (role === "admin") {
-          navigate("/admin/dashboard", { replace: true });
+          navigate(path.admin.dashboard);
         }
         setErrMsg(null);
       } catch (error) {
@@ -108,7 +109,7 @@ export const AuthProvider = ({ children }) => {
   const logout = useCallback(() => {
     removeJwt();
     setUser();
-    navigate("/", { replace: true });
+    navigate(path.public.home);
   }, [navigate, removeJwt]);
 
   const contextValue = useMemo(

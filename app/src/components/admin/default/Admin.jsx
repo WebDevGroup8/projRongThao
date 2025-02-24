@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-
+import { path } from "@/conf/main";
 export default function Admin() {
   const navigate = useNavigate();
-  navigate("/admin/dashboard");
+  navigate(path.admin.dashboard);
   return;
 }

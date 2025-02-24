@@ -9,7 +9,7 @@ import {
 
 import useAuthStore from "@/store/store";
 import { useNavigate } from "react-router-dom";
-
+import { path } from "@/conf/main";
 export default function AdminSidebar() {
   const { logout } = useAuthStore();
   const navigate = useNavigate();
@@ -24,35 +24,35 @@ export default function AdminSidebar() {
       <div className="mt-20 flex flex-col gap-8 pl-6 text-center text-white">
         <button
           className="flex cursor-pointer flex-row gap-2 hover:underline"
-          onClick={() => navigate("/admin/dashboard")}
+          onClick={() => navigate(path.admin.dashboard)}
         >
           <Gauge />
           Dashboard
         </button>
         <button
           className="flex cursor-pointer flex-row gap-2 hover:underline"
-          onClick={() => navigate("/admin/order")}
+          onClick={() => navigate(path.admin.order)}
         >
           <ReceiptText />
           Order
         </button>
         <button
           className="flex cursor-pointer flex-row gap-2 hover:underline"
-          onClick={() => navigate("/admin/product")}
+          onClick={() => navigate(path.admin.product)}
         >
           <LayoutList />
           Product
         </button>
         <button
           className="flex cursor-pointer flex-row gap-2 hover:underline"
-          onClick={() => navigate("/admin/category")}
+          onClick={() => navigate(path.admin.category)}
         >
           <Boxes />
           Category
         </button>
         <button
           className="flex cursor-pointer flex-row gap-2 hover:underline"
-          onClick={() => navigate("/admin/promotion")}
+          onClick={() => navigate(path.admin.promotion)}
         >
           <CirclePercentIcon />
           Promotion

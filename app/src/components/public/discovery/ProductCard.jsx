@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Star } from "lucide-react";
 import { conf } from "@/conf/main";
 import { useNavigate } from "react-router";
+import { path } from "@/conf/main";
 
 export default function ProductCard(props) {
   const [animate, setAnimate] = useState(false);
@@ -26,7 +27,7 @@ export default function ProductCard(props) {
   };
 
   const handleDetail = () => {
-    navigate(`/product/${props.id}`);
+    navigate(`${path.public.detail}/${props.id}`);
   };
 
   const now = new Date();
