@@ -152,7 +152,9 @@ export default function NavigationBar() {
               }}
             >
               <HelpCircle size={16} />
-              <a className="cursor-pointer hover:underline">HELP</a>
+              <a href="/helps" className="cursor-pointer hover:underline">
+                Helps
+              </a>
             </button>
             {!user && (
               <>

@@ -30,6 +30,9 @@ import ProtectedAdminRoute from "@layout/ProtectedAdminRoute";
 import NavigationBar from "@layout/NavigationBar";
 import Container from "@layout/Container";
 import Footer from "@layout/Footer";
+import SizeGuide from "./components/public/misc/SizeGuide";
+import Helps from "./components/public/misc/Helps";
+import ShippingReturn from "./components/public/misc/ShippingReturn";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
@@ -89,6 +92,45 @@ function App() {
                 <NavigationBar />
                 <Container>
                   <ItemDetail />
+                </Container>
+                <Footer />
+              </>
+            }
+          />
+
+          <Route
+            path={path.public.size}
+            element={
+              <>
+                <NavigationBar />
+                <Container>
+                  <SizeGuide />
+                </Container>
+                <Footer />
+              </>
+            }
+          />
+
+          <Route
+            path={path.public.Helps}
+            element={
+              <>
+                <NavigationBar />
+                <Container>
+                  <Helps />
+                </Container>
+                <Footer />
+              </>
+            }
+          />
+
+          <Route
+            path={path.public.shipping}
+            element={
+              <>
+                <NavigationBar />
+                <Container>
+                  <ShippingReturn />
                 </Container>
                 <Footer />
               </>
