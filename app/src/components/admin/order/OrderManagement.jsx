@@ -1,6 +1,5 @@
 import React from "react";
-import OrderTable from "./OrderTable";
-import StatusFilter from "../../public/discovery/StatusFilter";
+import OrderTable from "@admin/order/OrderTable";
 
 const OrderManagement = () => {
   return (

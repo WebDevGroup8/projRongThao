@@ -2,8 +2,8 @@
 
 import { ChartNoAxesCombined } from "lucide-react";
 import { useEffect, useState } from "react";
-import ax from "@/conf/ax.jsx";
-import OrderTable from "../order/OrderTable";
+import ax from "@/conf/ax";
+import OrderTable from "@admin/order/OrderTable";
 
 export const StatCard = () => {
   const [user, setUser] = useState([]);

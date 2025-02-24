@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import ax from "../../../conf/ax";
 import dayjs from "dayjs";
-import SearchBar from "../../public/discovery/SearchBar";
-import StatusFilter from "../../public/discovery/StatusFilter";
-import { Printer, Underline } from "lucide-react";
+import ax from "@/conf/ax";
+import SearchBar from "@public/discovery/SearchBar";
+import StatusFilter from "@public/discovery/StatusFilter";
 import { Trash2 } from "lucide-react";
-import PrintShipLabel from "./PrintShipLabel";
+import PrintShipLabel from "@admin/order/PrintShipLabel";
 
 const OrderTable = (props) => {
   const status = {

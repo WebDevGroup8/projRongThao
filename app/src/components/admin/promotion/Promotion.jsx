@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import ax from "../../conf/ax";
-import Loading from "../Loading";
-import CreateCouponModal from "./CreateCouponModal";
-import UpdateCouponModal from "./UpdateCouponModal";
-import CouponSection from "./CouponSection";
-import PromotionSection from "./PromotionSection";
-import CreatePromotionModal from "./CreatePromotionModal";
-import UpdatePromotionModal from "./UpdatePromotionModal";
+import ax from "@/conf/ax";
+import Loading from "@layout/Loading";
+import CreateCouponModal from "@admin/promotion/CreateCouponModal";
+import UpdateCouponModal from "@admin/promotion/UpdateCouponModal";
+import CouponSection from "@admin/promotion/CouponSection";
+import PromotionSection from "@admin/promotion/PromotionSection";
+import CreatePromotionModal from "@admin/promotion/CreatePromotionModal";
+import UpdatePromotionModal from "@admin/promotion/UpdatePromotionModal";
 import { toast } from "react-toastify";
 
 export default function Promotion() {

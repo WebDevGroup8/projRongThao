@@ -17,7 +17,7 @@ import ShoppingCart from "@customer/cart/ShoppingCart";
 import ViewOrder from "@customer/order/ViewOrder";
 
 // Admin Routes
-import Admin from "@admin/default/Admin";
+import Admin from "@admin/Admin";
 import Dashboard from "@admin/dashboard/Dashboard";
 import OrderManagement from "@admin/order/OrderManagement";
 import ManageProduct from "@admin/product/ManageProduct";

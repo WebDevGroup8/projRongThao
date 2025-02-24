@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import ax from "../../../conf/ax";
 import { X, Upload, ImageIcon } from "lucide-react";
-import conf from "../../../conf/main";
+import ax from "@/conf/ax";
+import { conf } from "@/conf/main";
 import { toast } from "react-toastify";
 
 export default function EditProductModal({

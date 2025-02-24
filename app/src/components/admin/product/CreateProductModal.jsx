@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ax from "../../../conf/ax";
+import ax from "@/conf/ax";
 import { X, Upload, ImageIcon } from "lucide-react";
 import { toast } from "react-toastify";
 

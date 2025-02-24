@@ -1,13 +1,11 @@
 //import { Button } from "@/components/ui/button"
 import React, { useEffect, useState } from "react";
-import { Search } from "lucide-react";
-import SearchBar from "../../public/discovery/SearchBar";
-import ax from "../../../conf/ax";
-import { EditableProductCard } from "./EditableProductCard";
+import SearchBar from "@public/discovery/SearchBar";
+import ax from "@conf/ax";
+import { EditableProductCard } from "@admin/product/EditableProductCard";
 import { motion, AnimatePresence } from "framer-motion";
-import Loading from "../../layout/Loading";
-import { FilterBarForManageProduct } from "./FilterBarForManageProduct";
-import CreateProductModal from "./CreateProductModal";
+import { FilterBarForManageProduct } from "@admin/product/FilterBarForManageProduct";
+import CreateProductModal from "@admin/product/CreateProductModal";
 
 export default function ManageProduct() {
   const [products, setProducts] = useState([]);
