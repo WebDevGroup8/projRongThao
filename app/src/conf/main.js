@@ -35,5 +35,3 @@ export const path = {
   },
   otherwise: `*`,
 };
-
-export default conf;
