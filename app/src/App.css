@@ -31,6 +31,7 @@ body {
 }
 
 .search .wrapper:first-child svg {
+  display: none;
   color: #6b7280 !important; /* gray-500 */
   margin-left: 12px !important;
   width: 16px !important;

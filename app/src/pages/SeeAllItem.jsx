@@ -40,7 +40,7 @@ export const SeeAllItem = () => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [searchParams]);
   const now = new Date();
   const filteredProducts = products
     .filter((product) =>
@@ -91,7 +91,7 @@ export const SeeAllItem = () => {
         />
       </div>
 
-      <div className="mx-auto mt-5 flex w-full max-w-screen-lg flex-col items-center">
+      <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center">
         <div className="w-full flex-shrink-0 lg:hidden">
           <SideBar
             categories={categories}
