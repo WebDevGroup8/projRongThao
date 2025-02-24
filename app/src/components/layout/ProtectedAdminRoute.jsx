@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
-import Loading from "../Loading";
+import Loading from "./Loading";
 import useAuthStore from "../../store/store";
 import AdminSidebar from "../components/AdminSidebar";
 

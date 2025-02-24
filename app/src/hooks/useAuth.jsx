@@ -12,8 +12,8 @@ import { useNavigate } from "react-router";
 import { useCookie } from "./useCookie";
 import conf from "../conf/main";
 import ax, { axData } from "../conf/ax";
-import ModalBase from "../components/ModalBase";
-import LoginSuccess from "../components/LoginSuccess";
+import ModalBase from "../components/layout/ModalBase";
+import LoginSuccess from "../components/layout/LoginSuccess";
 
 const AuthContext = createContext();
 

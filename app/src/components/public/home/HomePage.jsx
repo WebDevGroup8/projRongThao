@@ -5,7 +5,7 @@ import CategoryCarousel from "./CategoryCarousel.jsx";
 import { ProductCard } from "../discovery/ProductCard.jsx";
 import React, { useEffect, useState } from "react";
 import ax from "../../../conf/ax.jsx";
-import Container from "../../Container.jsx";
+import Container from "../../layout/Container.jsx";
 import fetchProducts from "../../../utils/FetchProduct.js";
 
 const categories = [

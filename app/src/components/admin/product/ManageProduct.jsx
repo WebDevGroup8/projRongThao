@@ -5,7 +5,7 @@ import SearchBar from "../../public/discovery/SearchBar";
 import ax from "../../../conf/ax";
 import { EditableProductCard } from "./EditableProductCard";
 import { motion, AnimatePresence } from "framer-motion";
-import Loading from "../../Loading";
+import Loading from "../../layout/Loading";
 import { FilterBarForManageProduct } from "./FilterBarForManageProduct";
 import CreateProductModal from "./CreateProductModal";
 

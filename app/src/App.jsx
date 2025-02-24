@@ -9,12 +9,12 @@ import { SeeAllItem } from "./components/public/discovery/SeeAllItem";
 import Test from "./components/Test";
 import ViewOrder from "./components/customer/order/ViewOrder";
 import { ProtectedCustomerRoute } from "./context/ProtectedCustomerRoute";
-import { ProtectedAdminRoute } from "./components/admin/ProtectedAdminRoute";
+import { ProtectedAdminRoute } from "./components/layout/ProtectedAdminRoute";
 import useAuthStore from "./store/store";
 import { useEffect } from "react";
-import NavigationBar from "./components/NavigationBar";
-import Container from "./components/Container";
-import Footer from "./components/Footer";
+import NavigationBar from "./components/layout/NavigationBar";
+import Container from "./components/layout/Container";
+import Footer from "./components/layout/Footer";
 import ManageProduct from "./components/admin/product/ManageProduct";
 import ManageCategory from "./components/admin/category/ManageCategory";
 import OrderManagement from "./components/admin/order/OrderManagement";
@@ -25,18 +25,17 @@ import { ToastContainer } from "react-toastify";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
-  const navigate = useNavigate();
+  const autoLoginHandler = async () => {
+    setIsLoginPending(true);
+    try {
+      await autoLogin();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoginPending(false);
+    }
+  };
   useEffect(() => {
-    const autoLoginHandler = async () => {
-      setIsLoginPending(true);
-      try {
-        await autoLogin();
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setIsLoginPending(false);
-      }
-    };
     if (jwt) {
       autoLoginHandler();
     } else {

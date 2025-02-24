@@ -4,7 +4,7 @@ import ax from "../../../conf/ax";
 import { ProductCard } from "./ProductCard";
 import { SideBar } from "./SideBar";
 import SearchBar from "./SearchBar";
-import Loading from "../../Loading";
+import Loading from "../../layout/Loading";
 import fetchProducts from "../../../utils/FetchProduct";
 import { useSearchParams } from "react-router-dom";
 
