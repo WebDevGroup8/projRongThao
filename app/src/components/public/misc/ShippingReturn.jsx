@@ -3,12 +3,12 @@ import { Truck, RefreshCw, Info } from "lucide-react";
 
 export default function ShippingReturn() {
   return (
-    <div className="mx-auto max-w-4xl rounded-lg border p-10 text-gray-700 shadow-lg">
+    <div className="mx-auto max-w-4xl rounded-lg p-10 text-gray-700">
       <h1 className="mb-6 flex items-center justify-center gap-2 text-center text-3xl font-bold">
         <Truck className="text-blue-500" /> Shipping & Return
       </h1>
 
-      <section className="mb-8 rounded-lg border p-4">
+      <section className="mb-8 rounded-lg p-4">
         <h2 className="mb-2 flex items-center gap-2 text-xl font-semibold">
           <Truck className="text-green-500" /> Shipping Options
         </h2>
@@ -28,7 +28,7 @@ export default function ShippingReturn() {
         </p>
       </section>
 
-      <section className="mb-8 rounded-lg border p-4">
+      <section className="mb-8 rounded-lg p-4">
         <h2 className="mb-2 flex items-center gap-2 text-xl font-semibold">
           <Info className="text-yellow-500" /> Additional Shipping Information
         </h2>
@@ -48,7 +48,7 @@ export default function ShippingReturn() {
         </ul>
       </section>
 
-      <section className="mb-8 rounded-lg border p-4">
+      <section className="mb-8 rounded-lg p-4">
         <h2 className="mb-2 flex items-center gap-2 text-xl font-semibold">
           <RefreshCw className="text-red-500" /> Return Policy
         </h2>

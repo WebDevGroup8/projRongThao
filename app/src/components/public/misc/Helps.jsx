@@ -3,7 +3,7 @@ import { Mail, ShoppingCart, Search, Package, Info } from "lucide-react";
 
 export default function Helps() {
   return (
-    <div className="mx-auto max-w-4xl space-y-6 rounded-xl bg-gray-50 p-6 shadow-lg">
+    <div className="mx-auto max-w-4xl space-y-6 rounded-xl bg-gray-50 p-6">
       <h1 className="text-center text-3xl font-bold text-gray-800">
         Help & Information
       </h1>
