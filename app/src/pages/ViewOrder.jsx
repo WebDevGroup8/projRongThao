@@ -3,6 +3,7 @@ import { Truck, ChevronDown } from "lucide-react";
 import ax from "../conf/ax";
 import dayjs from "dayjs";
 import conf from "../conf/mainapi";
+import StatusFilter from "../components/StatusFilter";
 
 export const TruckIcon = () => {
   return (
@@ -12,22 +13,28 @@ export const TruckIcon = () => {
   );
 };
 
-export const GroupViewCard = () => {
+export const GroupViewCard = ({ selectedStatus }) => {
   const [orderItems, setOrderItems] = useState([]);
   const [expandedIds, setExpandedIds] = useState({});
 
-  const fetchProducts = async () => {
+  const fetchOrders = async () => {
     try {
       const res = await ax.get(`/users/me?populate=order_histories`);
       setOrderItems(res.data.order_histories);
       console.log(res.data.order_histories);
     } catch (error) {
-      console.error("Error fetching products:", error);
+      console.error("Error fetching OrderItems:", error);
     }
   };
 
+  const filteredOrderItems = orderItems?.filter(
+    (order) =>
+      selectedStatus.length === 0 ||
+      selectedStatus.includes(order.orderStatus.trim()),
+  );
+
   useEffect(() => {
-    fetchProducts();
+    fetchOrders();
   }, []);
 
   const statusClasses = {
@@ -48,7 +55,7 @@ export const GroupViewCard = () => {
 
   return (
     <div className="space-y-5">
-      {orderItems
+      {filteredOrderItems
         ?.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
         .map((item, index) => (
           <div
@@ -109,7 +116,7 @@ export const GroupViewCard = () => {
                 </div>
               </div>
               <div className="flex flex-row justify-between">
-                <div className="w-30">
+                <div className="w-25">
                   <div
                     className={`mt-3 inline-block rounded-2xl border-2 px-3 py-1 text-sm ${statusClasses[item?.orderStatus]}`}
                   >
@@ -126,7 +133,7 @@ export const GroupViewCard = () => {
                     className={`mt-1 h-6 w-6 text-black transition-transform duration-300 ${expandedIds[item.id] ? "rotate-180" : "rotate-0"}`}
                   />
                 </button>
-                <div className="w-30"></div>
+                <div className="w-25"></div>
               </div>
             </div>
 
@@ -248,18 +255,42 @@ export const ViewOrderCard = ({ item }) => {
 
 export default function ViewOrder() {
   const [active, setActive] = useState("To Ship");
+  const [selectedStatus, setSelectedStatus] = useState([]);
+
+  const statusOptions = [
+    "Pending",
+    "Abandoned",
+    "Paid",
+    "Shipped",
+    "Completed",
+    "Canceled",
+  ];
 
   return (
     <div className="w-full px-10">
       <div className="relative flex w-full flex-col justify-between">
-        <div className="my-5 text-2xl font-semibold lg:my-10 lg:mb-3 lg:text-4xl">
-          Your Order
+        <div className="flex flex-col justify-between lg:flex-row">
+          <div className="mt-2 text-2xl font-semibold lg:my-10 lg:mb-3 lg:text-4xl">
+            Your Order
+          </div>
+          <div className="mb-2 h-fit lg:mt-5 lg:mb-3">
+            <StatusFilter
+              selectedStatus={selectedStatus}
+              setSelectedStatus={setSelectedStatus}
+              statusOptions={statusOptions}
+            />
+          </div>
         </div>
+
         <div>
           <hr className="absolute right-0 -bottom-2 left-0 border-2 border-blue-900" />
         </div>
       </div>
-      {active === "To Ship" ? <GroupViewCard /> : <div>safjas</div>}
+      {active === "To Ship" ? (
+        <GroupViewCard selectedStatus={selectedStatus} />
+      ) : (
+        <div>safjas</div>
+      )}
     </div>
   );
 }
