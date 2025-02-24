@@ -5,6 +5,8 @@ import ax from "../conf/ax";
 import useAuthStore from "../store";
 import Loading from "../components/Loading";
 import conf from "../conf/mainapi";
+import { toast } from "react-toastify";
+
 export default function ShoppingCart() {
   const { user, cart, updateCartItem, removeFromCart, clearCart } =
     useAuthStore();
@@ -22,14 +24,26 @@ export default function ShoppingCart() {
     setPromoCode(e.target.value);
   };
   const updateQuantity = (id, change) => {
-    setCartItems((items) =>
-      items.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + change) }
-          : item,
-      ),
-    );
-    updateCartItem(id, change);
+    setCartItems((items) => {
+      return items.map((item) => {
+        if (item.id === id) {
+          const newQuantity = item.quantity + change;
+
+          if (newQuantity > item.stock) {
+            toast.error(`Only ${item.stock} items available in stock.`);
+            return item;
+          }
+
+          return { ...item, quantity: Math.max(1, newQuantity) };
+        }
+        return item;
+      });
+    });
+
+    const updatedItem = cartItems.find((item) => item.id === id);
+    if (updatedItem && updatedItem.quantity + change <= updatedItem.stock) {
+      updateCartItem(id, change);
+    }
   };
 
   const removeItem = (id) => {
@@ -104,7 +118,7 @@ export default function ShoppingCart() {
       // Extracting the data from responses
       const now = new Date();
       const isPromotionValid = (product) => {
-        if (product.promotion.name) {
+        if (product.promotion?.name) {
           const startDate = new Date(product.promotion.start);
           const endDate = new Date(product.promotion.end);
 
