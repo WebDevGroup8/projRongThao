@@ -85,36 +85,35 @@ export const StatCard = () => {
             </div>
           </div>
         </div>
-        <div className="flex w-fit flex-row items-center justify-center gap-2 rounded-lg border-2 border-gray-400 p-4 shadow-sm">
-          <div className="flex flex-row items-center justify-between gap-5">
+        <div className="p- flex w-fit flex-col justify-start gap-4 rounded-lg border-2 border-gray-400 p-4 shadow-sm">
+          <div className="flex flex-col items-start justify-between gap-5">
             <div>
-              <p className="text-3xl font-semibold whitespace-nowrap text-gray-600">
+              <p className="text-2xl font-bold whitespace-nowrap text-gray-600">
                 All time item sell :
               </p>
             </div>
           </div>
-          <div className="text-3xl font-thin whitespace-nowrap text-gray-600">
+          <div className="text-5xl whitespace-nowrap text-gray-600">
             {totalPurchasedItems || 0}
           </div>
         </div>
         <div className="flex w-full flex-col justify-start gap-4 rounded-lg border-2 border-gray-400 p-4 shadow-sm">
           <div className="mb-2 flex flex-row items-center justify-between gap-5">
             <div>
-              <p className="text-xs font-semibold text-gray-500">
-                Best Selling
-              </p>
+              <p className="text-2xl font-bold text-gray-500">Best Selling</p>
             </div>
           </div>
+
           {bestSellers.slice(0, 3).map((item, index) => (
             <div
               key={index}
               className="-mt-3 flex w-full flex-row items-center justify-between font-semibold whitespace-nowrap text-gray-600"
             >
               <div>
-                <p className="text-xs font-thin">{item.name}</p>
+                <p className="">{item.name}</p>
               </div>
               <div>
-                <p className="text-xs font-thin">{item.count}</p>
+                <p className="">{item.count}</p>
               </div>
             </div>
           ))}
