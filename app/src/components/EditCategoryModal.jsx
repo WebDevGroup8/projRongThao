@@ -5,11 +5,13 @@ import { toast } from "react-toastify";
 
 export default function EditCategoryModal({ isOpen, onClose, category, fetchCategories }) {
     const [title, setTitle] = useState("");
+    const [detail, setDetail] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (isOpen && category) {
             setTitle(category.title);
+            setDetail(category.detail);
         }
     }, [isOpen, category]);
 
@@ -20,7 +22,10 @@ export default function EditCategoryModal({ isOpen, onClose, category, fetchCate
 
         try {
             await ax.put(`/categories/${category.documentId}`, {
-                data: { title },
+                data: {
+                    title,
+                    detail,
+                },
             });
             toast.success("🎉 Category Updated Successfully!");
             fetchCategories();
@@ -53,6 +58,15 @@ export default function EditCategoryModal({ isOpen, onClose, category, fetchCate
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             required
+                            className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary focus:border-primary"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea
+                            value={detail}
+                            onChange={(e) => setDetail(e.target.value)}
+                            placeholder="Enter category details"
                             className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary focus:border-primary"
                         />
                     </div>

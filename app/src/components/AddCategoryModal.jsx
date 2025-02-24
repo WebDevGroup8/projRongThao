@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 
 export default function AddCategoryModal({ isOpen, onClose, fetchCategories }) {
     const [title, setTitle] = useState("");
+    const [detail, setDetail] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e) => {
@@ -14,7 +15,10 @@ export default function AddCategoryModal({ isOpen, onClose, fetchCategories }) {
 
         try {
             await ax.post("/categories", {
-                data: { title },
+                data: {
+                    title,
+                    detail,
+                },
             });
             toast.success("🎉 Category Created Successfully!");
             fetchCategories();
@@ -25,6 +29,7 @@ export default function AddCategoryModal({ isOpen, onClose, fetchCategories }) {
         } finally {
             setIsLoading(false);
             setTitle("");
+            setDetail("");
         }
     };
 
@@ -48,6 +53,15 @@ export default function AddCategoryModal({ isOpen, onClose, fetchCategories }) {
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             required
+                            className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary focus:border-primary"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea
+                            value={detail}
+                            onChange={(e) => setDetail(e.target.value)}
+                            placeholder="Enter category details"
                             className="w-full border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary focus:border-primary"
                         />
                     </div>
