@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import ax from "@/conf/ax";
 import { toast } from "react-toastify";
+import { endpoint } from "@/conf/main";
 
 export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
   const [productData, setProductData] = useState({
@@ -26,7 +27,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
       // เพิ่มเงื่อนไข isOpen
       const fetchCategories = async () => {
         try {
-          const response = await ax.get("/categories");
+          const response = await ax.get(endpoint.admin.category.query());
           setCategories(response.data.data);
         } catch (error) {
           console.error("Error fetching categories:", error);
@@ -84,7 +85,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
     images.forEach((file) => formData.append("files", file));
 
     try {
-      const response = await ax.post("/upload", formData, {
+      const response = await ax.post(endpoint.admin.meida.upload(), formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       return response.data.map((file) => file.id);
@@ -122,7 +123,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
         setIsLoading(false);
         return;
       }
-      const response = await ax.post("/products", {
+      const response = await ax.post(endpoint.admin.product.create(), {
         data: {
           ...productData,
           price: Number(productData.price),

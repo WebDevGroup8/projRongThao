@@ -2,6 +2,7 @@ import React from "react";
 import { X } from "lucide-react";
 import ax from "@/conf/ax";
 import { toast } from "react-toastify";
+import { endpoint } from "@/conf/main";
 
 export default function DeleteProductModal({
   isOpen,
@@ -16,11 +17,13 @@ export default function DeleteProductModal({
       //1. ลบรูปภาพทั้งหมดก่อน
       if (product.image.length > 0) {
         await Promise.all(
-          product.image.map((img) => ax.delete(`/upload/files/${img.id}`)),
+          product.image.map((img) =>
+            ax.delete(endpoint.admin.meida.delete(img.id)),
+          ),
         );
       }
       //2. ลบตัวสินค้าหลังจากรูปถูกลบแล้ว
-      await ax.delete(`/products/${product.documentId}`);
+      await ax.delete(endpoint.admin.product.delete(product.documentId));
       toast.success("✅ Product deleted successfully!");
 
       await fetchProducts(); // ✅ รอให้ fetchProducts() เสร็จ ก่อนปิด Modal

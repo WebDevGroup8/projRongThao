@@ -13,10 +13,9 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import Loading from "@layout/Loading";
 import ax from "@/conf/ax";
-import { conf } from "@/conf/main";
+import { path, conf, endpoint } from "@/conf/main";
 import { toast } from "react-toastify";
 import useAuthStore from "@/store/store";
-import { path } from "@/conf/main";
 
 export const ExampleImg = ({ img }) => {
   const [key, setKey] = useState(0);
@@ -205,18 +204,17 @@ export default function ItemDetail() {
   const [product, setProduct] = useState(null);
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
   const { id } = useParams();
-  const { cart, addToCart } = useAuthStore();
+  const { user, cart, addToCart } = useAuthStore();
+
   const isItemInCart = cart.find((item) => item.id === Number(id));
-  const { user } = useAuthStore();
+  const navigate = useNavigate();
+
   const fetchProduct = async () => {
     try {
       setIsLoading(true);
 
-      const response = await ax.get(
-        `/products?populate=image&populate=categories&filters[id]=${id}`,
-      );
+      const response = await ax.get(endpoint.public.product.get(id));
       setProduct(response.data.data[0]);
       setImages(response.data.data[0].image);
     } catch (error) {

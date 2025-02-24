@@ -6,6 +6,7 @@ import DeleteCategoryModal from "@admin/category/DeleteCategoryModal";
 import EditCategoryModal from "@admin/category/EditCategoryModal";
 import SearchBar from "@public/discovery/SearchBar";
 import ax from "@/conf/ax";
+import { endpoint } from "@/conf/main";
 
 const ManageCategory = () => {
   const [categories, setCategories] = useState([]);
@@ -17,7 +18,7 @@ const ManageCategory = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await ax.get("/categories");
+      const response = await ax.get(endpoint.admin.category.query());
       setCategories(response.data.data);
     } catch (error) {
       console.error("Error fetching categories:", error);

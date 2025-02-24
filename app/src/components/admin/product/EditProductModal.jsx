@@ -2,7 +2,7 @@ import { ImageIcon, Upload, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 import ax from "@/conf/ax";
-import { conf } from "@/conf/main";
+import { endpoint, conf } from "@/conf/main";
 import { toast } from "react-toastify";
 
 export default function EditProductModal({
@@ -47,7 +47,7 @@ export default function EditProductModal({
 
       const fetchCategories = async () => {
         try {
-          const response = await ax.get("/categories");
+          const response = await ax.get(endpoint.admin.category.query());
           setCategories(response.data.data);
         } catch (error) {
           console.error("Error fetching categories:", error);
@@ -99,7 +99,7 @@ export default function EditProductModal({
     const formData = new FormData();
     images.forEach((file) => formData.append("files", file));
     try {
-      const response = await ax.post("/upload", formData, {
+      const response = await ax.post(endpoint.admin.meida.upload(), formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       return [
@@ -146,7 +146,7 @@ export default function EditProductModal({
         await Promise.all(
           deletedImages.map(async (img) => {
             try {
-              await ax.delete(`/upload/files/${img.id}`);
+              await ax.delete(endpoint.admin.meida.delete(img.id));
               console.log(`Successfully deleted image ${img.id}`);
             } catch (err) {
               console.error(
@@ -166,17 +166,20 @@ export default function EditProductModal({
         return;
       }
 
-      const response = await ax.put(`/products/${product.documentId}`, {
-        data: {
-          ...productData,
-          price: Number(productData.price),
-          size: productData.size.split(",").map((s) => s.trim()),
-          color: productData.color.split(",").map((c) => c.trim()),
-          stock: Number(productData.stock),
-          image: uploadedImageIds,
-          categories: selectedCategories,
+      const response = await ax.put(
+        endpoint.admin.product.update(product.documentId),
+        {
+          data: {
+            ...productData,
+            price: Number(productData.price),
+            size: productData.size.split(",").map((s) => s.trim()),
+            color: productData.color.split(",").map((c) => c.trim()),
+            stock: Number(productData.stock),
+            image: uploadedImageIds,
+            categories: selectedCategories,
+          },
         },
-      });
+      );
 
       console.log("✅ Product Updated:", response.data);
       toast.success("🎉 Product Updated Successfully!");

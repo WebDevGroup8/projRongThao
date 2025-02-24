@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import loginImage from "@assets/img/loginpage_img.png";
 import useAuthStore from "@/store/store";
 import { useNavigate } from "react-router-dom";
-import { path } from "@/conf/main";
+import { conf, path } from "@/conf/main";
 
 export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,9 +16,9 @@ export default function SignIn() {
 
   useEffect(() => {
     if (user) {
-      if (user.role === "customer") {
+      if (user.role === conf.role.customer) {
         navigate(path.public.home);
-      } else if (user.role === "admin") {
+      } else if (user.role === conf.role.admin) {
         navigate(path.admin.dashboard);
       }
     }

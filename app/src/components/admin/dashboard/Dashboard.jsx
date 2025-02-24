@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { ChartNoAxesCombined } from "lucide-react";
 import OrderTable from "@admin/order/OrderTable";
 import ax from "@/conf/ax";
+import { endpoint } from "@/conf/main";
 
 export const StatCard = () => {
   const [user, setUser] = useState([]);
@@ -13,9 +14,7 @@ export const StatCard = () => {
   const [bestSellers, setBestSellers] = useState([]);
   const fetchUser = async () => {
     try {
-      const res = await ax.get(
-        `/users?populate[role][filters][id]=3&populate=order_histories`,
-      );
+      const res = await ax.get(endpoint.admin.user.customer.query());
       setUser(res.data);
       console.log(res.data);
     } catch (error) {

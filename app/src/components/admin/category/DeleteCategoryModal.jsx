@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { X } from "lucide-react";
 import ax from "@/conf/ax";
 import { toast } from "react-toastify";
+import { endpoint } from "@/conf/main";
 
 export default function DeleteCategoryModal({
   isOpen,
@@ -17,7 +18,7 @@ export default function DeleteCategoryModal({
     setIsLoading(true);
 
     try {
-      await ax.delete(`/categories/${category.documentId}`);
+      await ax.delete(endpoint.admin.category.delete(category.documentId));
       toast.success("✅ Category Deleted Successfully!");
       fetchCategories();
       onClose();

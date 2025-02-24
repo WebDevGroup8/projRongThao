@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { X } from "lucide-react";
 import ax from "@/conf/ax";
 import { toast } from "react-toastify";
+import { endpoint } from "@/conf/main";
 
 export default function AddCategoryModal({ isOpen, onClose, fetchCategories }) {
   const [title, setTitle] = useState("");
@@ -15,7 +16,7 @@ export default function AddCategoryModal({ isOpen, onClose, fetchCategories }) {
     setIsLoading(true);
 
     try {
-      await ax.post("/categories", {
+      await ax.post(endpoint.admin.category.create(), {
         data: {
           title,
           detail,

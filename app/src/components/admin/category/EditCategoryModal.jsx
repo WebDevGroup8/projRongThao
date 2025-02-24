@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import ax from "@/conf/ax";
 import { toast } from "react-toastify";
+import { endpoint } from "@/conf/main";
 
 export default function EditCategoryModal({
   isOpen,
@@ -27,7 +28,7 @@ export default function EditCategoryModal({
     setIsLoading(true);
 
     try {
-      await ax.put(`/categories/${category.documentId}`, {
+      await ax.put(endpoint.admin.category.update(category.documentId), {
         data: {
           title,
           detail,

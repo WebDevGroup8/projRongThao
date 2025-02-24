@@ -6,6 +6,7 @@ import StatusFilter from "@public/discovery/StatusFilter";
 import { Trash2 } from "lucide-react";
 import ax from "@/conf/ax";
 import dayjs from "dayjs";
+import { endpoint } from "@/conf/main";
 
 const OrderTable = (props) => {
   const status = {
@@ -34,9 +35,8 @@ const OrderTable = (props) => {
 
   const fetchUser = async () => {
     try {
-      const res = await ax.get(
-        `/users?populate[role][filters][id]=3&populate=order_histories`,
-      );
+      const res = await ax.get(endpoint.admin.user.customer.query());
+
       setUser(res.data);
       console.log(res.data);
     } catch (error) {
@@ -44,9 +44,9 @@ const OrderTable = (props) => {
     }
   };
 
-  const fetchProducts = async () => {
+  const fetchOrders = async () => {
     try {
-      const res = await ax.get(`/orders?populate=*`);
+      const res = await ax.get(endpoint.admin.order.query());
       setOrders(res.data.data);
       console.log(res.data.data);
     } catch (error) {
@@ -69,7 +69,9 @@ const OrderTable = (props) => {
 
   const updateStatus = async (orderId, newStatus) => {
     try {
-      await ax.put(`/orders/${orderId}`, { data: { orderStatus: newStatus } });
+      await ax.put(endpoint.admin.order.update(orderId), {
+        data: { orderStatus: newStatus },
+      });
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order.documentId === orderId
@@ -77,7 +79,7 @@ const OrderTable = (props) => {
             : order,
         ),
       );
-      fetchProducts();
+      fetchOrders();
     } catch (error) {
       console.error("Error updating status:", error);
     }
@@ -111,15 +113,15 @@ const OrderTable = (props) => {
   }, [user]);
   const deleteOrder = async (id) => {
     try {
-      await ax.delete(`/orders/${id}`);
-      fetchProducts();
+      await ax.delete(endpoint.admin.order.delete(id));
+      fetchOrders();
     } catch (error) {
       console.error("Error updating status:", error);
     }
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchOrders();
     fetchUser();
   }, []);
 

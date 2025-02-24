@@ -1,10 +1,9 @@
 import ax from "@/conf/ax";
-
+import { endpoint } from "@/conf/main";
+// Fetch Products
 const fetchProducts = async (setProducts) => {
   try {
-    const res = await ax.get(
-      `/products?populate=image&populate=categories&populate=reviews&filters[stock][$gt]=0`,
-    );
+    const res = await ax.get(endpoint.public.product.query());
     setProducts(res.data.data);
   } catch (error) {
     console.error("Error fetching products:", error);

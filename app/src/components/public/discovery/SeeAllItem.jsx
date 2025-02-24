@@ -8,6 +8,7 @@ import SideBar from "@public/discovery/SideBar";
 import ax from "@/conf/ax";
 import fetchProducts from "@/utils/FetchProduct";
 import { useSearchParams } from "react-router-dom";
+import { endpoint } from "@/conf/main";
 
 export default function SeeAllItem() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,7 +24,7 @@ export default function SeeAllItem() {
 
   const fetchCategories = async () => {
     try {
-      const res = await ax.get(`/categories`);
+      const res = await ax.get(endpoint.public.category.query());
       setCategories(res.data.data);
     } catch (error) {
       console.error("Error fetching categories:", error);

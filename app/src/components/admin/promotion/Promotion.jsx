@@ -9,6 +9,7 @@ import UpdateCouponModal from "@admin/promotion/UpdateCouponModal";
 import UpdatePromotionModal from "@admin/promotion/UpdatePromotionModal";
 import ax from "@/conf/ax";
 import { toast } from "react-toastify";
+import { endpoint } from "@/conf/main";
 
 export default function Promotion() {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,7 +30,10 @@ export default function Promotion() {
   const handleCreateCoupon = async (formData) => {
     try {
       setIsLoading(true);
-      const response = await ax.post("/stripe/promotion", formData);
+      const response = await ax.post(
+        endpoint.admin.promotion.coupon.create(),
+        formData,
+      );
 
       console.log("Coupon created successfully:", response.data);
       toast.success("Coupon created successfully!"); // Replace with toast notification if needed
@@ -50,7 +54,10 @@ export default function Promotion() {
   const handleUpdateCoupon = async (id, formData) => {
     try {
       setIsLoading(true);
-      const response = await ax.post(`/stripe/promotion/${id}`, formData);
+      const response = await ax.post(
+        endpoint.admin.promotion.coupon.update(id),
+        formData,
+      );
 
       console.log("Coupon updated successfully:", response.data);
       toast.success("Coupon updated successfully!"); // Replace with toast notification if needed
@@ -72,7 +79,7 @@ export default function Promotion() {
 
     try {
       setIsLoading(true);
-      await ax.delete(`/stripe/promotion/${id}`);
+      await ax.delete(endpoint.admin.promotion.coupon.delete(id));
 
       console.log("Coupon deleted successfully.");
       toast.success("Coupon deleted successfully!"); // Replace with toast notification if needed
@@ -99,9 +106,6 @@ export default function Promotion() {
         const documentId = product.documentId;
         const promotion = product.promotion;
 
-        // Strapi API Endpoint
-        const apiUrl = `/products/${documentId}`;
-
         // Update request payload
         const payload = {
           promotion: {
@@ -115,7 +119,9 @@ export default function Promotion() {
         };
 
         // Return the Axios request promise
-        await ax.put(apiUrl, { data: payload });
+        await ax.put(endpoint.admin.promotion.create(documentId), {
+          data: payload,
+        });
       });
 
       // Execute all requests in parallel
@@ -149,11 +155,10 @@ export default function Promotion() {
         async (product) => {
           const documentId = product.documentId;
 
-          // Strapi API Endpoint
-          const apiUrl = `/products/${documentId}`;
-
           // Erase all promotion
-          await ax.put(apiUrl, { data: { promotion: {} } });
+          await ax.put(endpoint.admin.promotion.delete(documentId), {
+            data: { promotion: {} },
+          });
         },
       );
 
@@ -175,7 +180,7 @@ export default function Promotion() {
   const fetchCoupon = async () => {
     try {
       setIsLoading(true);
-      const response = await ax.get(`/stripe/promotions`);
+      const response = await ax.get(endpoint.admin.promotion.coupon.query());
       setCoupons(response.data.data);
     } catch (e) {
       console.log(e);
@@ -186,9 +191,7 @@ export default function Promotion() {
 
   const fetchProducts = async () => {
     try {
-      const res = await ax.get(
-        `/products?populate=image&populate=categories&populate=reviews`,
-      );
+      const res = await ax.get(endpoint.admin.product.query());
       setProducts(res.data.data);
       // discountType to track
       setPromotionedProduct(
