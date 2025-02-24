@@ -1,3 +1,4 @@
+import { path } from "@/conf/main";
 import React from "react";
 
 const sizes = [
