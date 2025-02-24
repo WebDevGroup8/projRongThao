@@ -2,8 +2,8 @@
 
 import { ChartNoAxesCombined } from "lucide-react";
 import { useEffect, useState } from "react";
-import ax from "../conf/ax";
-import OrderTable from "../components/OrderTable";
+import ax from "@/conf/ax.jsx";
+import OrderTable from "../../OrderTable";
 
 export const StatCard = () => {
   const [user, setUser] = useState([]);
@@ -123,7 +123,7 @@ export const StatCard = () => {
   );
 };
 
-export default function DashBoard() {
+export default function Dashboard() {
   return (
     <div className="mt-5 w-full px-10">
       <StatCard />

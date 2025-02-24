@@ -2,12 +2,11 @@ import "./App.css";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import SignIn from "./pages/SignIn";
 import { HomePage } from "./pages/HomePage";
-import DashBoard from "./pages/DashBoard";
+import Dashboard from "@/components/admin/dashboard/Dashboard.jsx";
 import ShoppingCart from "./pages/ShoppingCart";
 import ItemDetail from "./pages/ItemDetail";
 import { SeeAllItem } from "./pages/SeeAllItem";
 import Test from "./components/Test";
-import Payment from "./components/Payment";
 import ViewOrder from "./pages/ViewOrder";
 import { ProtectedCustomerRoute } from "./context/ProtectedCustomerRoute";
 import { ProtectedAdminRoute } from "./context/ProtectedAdminRoute";
@@ -130,7 +129,7 @@ function App() {
             path="/admin/dashboard"
             element={
               <ProtectedAdminRoute>
-                <DashBoard />
+                <Dashboard />
               </ProtectedAdminRoute>
             }
           />
