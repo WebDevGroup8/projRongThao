@@ -165,7 +165,9 @@ export const Tag = ({ text }) => {
 };
 
 export const Description = ({ description }) => {
-  const [isOpenDescription, setIsOpenDescription] = useState(true);
+  const [isOpenDescription, setIsOpenDescription] = useState(
+    description ? true : false,
+  );
 
   return (
     <div className="relative flex flex-col justify-center gap-2 text-center">
