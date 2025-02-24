@@ -94,7 +94,7 @@ const OrderTable = (props) => {
         customer.order_histories?.reduce((total, order) => {
           const orderCost =
             order.order_product?.reduce((sum, product) => {
-              return sum + (product?.price || 0); // Ensure price exists, default to 0 if not
+              return sum + (Number(product?.price) || 0); // Ensure price exists, default to 0 if not
             }, 0) || 0;
           return total + orderCost;
         }, 0) || 0;
@@ -323,7 +323,10 @@ const OrderTable = (props) => {
                           {customerStats[item.documentId]?.itemCount || 0}
                         </td>
                         <td className="px-3 py-4">
-                          {customerStats[item.documentId]?.totalCost || 0}
+                          {(
+                            Number(customerStats[item.documentId]?.totalCost) ||
+                            0
+                          ).toFixed(2)}
                         </td>
                       </tr>
                     ),
