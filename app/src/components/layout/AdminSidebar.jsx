@@ -1,5 +1,4 @@
 import {
-  CirclePercent,
   CirclePercentIcon,
   Gauge,
   LayoutList,
@@ -8,7 +7,7 @@ import {
   Boxes,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import useAuthStore from "../store";
+import useAuthStore from "@/store/store";
 
 export default function AdminSidebar() {
   const { logout } = useAuthStore();
