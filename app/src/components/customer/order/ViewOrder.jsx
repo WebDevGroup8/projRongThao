@@ -21,7 +21,12 @@ export const GroupViewCard = ({ selectedStatus }) => {
   const fetchOrders = async () => {
     try {
       const res = await ax.get(endpoint.customer.order.query());
-      setOrderItems(res.data.order_histories);
+      setOrderItems(
+        res.data.order_histories.map((order, index) => ({
+          number: index + 1,
+          ...order,
+        })),
+      );
       console.log(res.data.order_histories);
     } catch (error) {
       console.error("Error fetching OrderItems:", error);
@@ -58,7 +63,7 @@ export const GroupViewCard = ({ selectedStatus }) => {
     <div className="space-y-5">
       {filteredOrderItems
         ?.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-        .map((item, index) => (
+        .map((item) => (
           <div
             key={item.id}
             className="rounded-lg border border-gray-300 bg-white p-2 shadow-sm transition-shadow lg:p-5"
@@ -67,7 +72,7 @@ export const GroupViewCard = ({ selectedStatus }) => {
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                 <div>
                   <p className="text-2xl font-semibold lg:text-4xl">
-                    Order #{orderItems.length - index}
+                    Order #{item.number}
                   </p>
                   <span className="text-xl lg:text-2xl">
                     (ref: {item.documentId})
