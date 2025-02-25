@@ -92,7 +92,7 @@ export default function NavigationBar() {
   }, []);
 
   return (
-    <div className="bg-primary flex w-full flex-col justify-center">
+    <div className="bg-primary z-20 flex w-full flex-col justify-center">
       {/* Upper Row Section Mobile */}
       <div className="mt-2 flex h-10 w-full flex-row items-center justify-center px-4 md:hidden">
         <button onClick={() => setShowMenuBar(!showMenuBar)}>

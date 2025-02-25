@@ -167,8 +167,8 @@ export const GroupViewCard = ({ selectedStatus }) => {
                           </span>
                         </div>
                         <div className="font-semi-bold mt-5 flex justify-between pt-3 text-lg">
-                          <span>Address: </span>
-                          <span>{item.address ? item.address : "No Data"}</span>
+                          <p>Address: </p>
+                          <p>{item.address ? item.address : "No Data"}</p>
                         </div>
                       </div>
                     ) : (

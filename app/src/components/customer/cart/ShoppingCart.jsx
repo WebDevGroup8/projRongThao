@@ -21,13 +21,22 @@ export default function ShoppingCart() {
   const handlePromoChange = (e) => {
     setPromoCode(e.target.value);
   };
-  const updateQuantity = (id, change) => {
+  const updateQuantity = (id, color, size, change) => {
     setCartItems((items) => {
-      return items.map((item) => {
-        if (item.id === id) {
-          const newQuantity = item.quantity + change;
+      const totalQuantity = items
+        .filter((item) => item.id === id)
+        .reduce((sum, item) => sum + item.quantity, 0);
 
-          if (newQuantity > item.stock) {
+      return items.map((item) => {
+        if (
+          item.id === id &&
+          item.selectedColor === color &&
+          item.selectedSize === size
+        ) {
+          const newQuantity = item.quantity + change;
+          const newTotal = totalQuantity + change;
+
+          if (newTotal > item.stock) {
             toast.error(`Only ${item.stock} items available in stock.`);
             return item;
           }
@@ -38,10 +47,20 @@ export default function ShoppingCart() {
       });
     });
 
-    const updatedItem = cartItems.find((item) => item.id === id);
-    if (updatedItem && updatedItem.quantity + change <= updatedItem.stock) {
-      updateCartItem(id, change);
-    }
+    setCartItems((updatedItems) => {
+      const updatedItem = updatedItems.find(
+        (item) =>
+          item.id === id &&
+          item.selectedColor === color &&
+          item.selectedSize === size,
+      );
+
+      if (updatedItem && updatedItem.quantity + change <= updatedItem.stock) {
+        updateCartItem(id, change);
+      }
+
+      return updatedItems;
+    });
   };
 
   const removeItem = (id, color, size) => {
@@ -221,7 +240,14 @@ export default function ShoppingCart() {
                   <div className="mt-4 flex items-center space-x-15 sm:mt-0">
                     <div className="flex items-center">
                       <button
-                        onClick={() => updateQuantity(item.id, 1)}
+                        onClick={() =>
+                          updateQuantity(
+                            item.id,
+                            item.selectedColor,
+                            item.selectedSize,
+                            1,
+                          )
+                        }
                         className="cursor-pointer rounded p-1 hover:bg-gray-200"
                       >
                         <svg

@@ -249,7 +249,6 @@ export default function ItemDetail() {
       toast.error("Please select size and color before adding to cart!", {
         position: "top-right",
         autoClose: 3000,
-        className: "mt-20",
       });
       return;
     }
@@ -269,8 +268,8 @@ export default function ItemDetail() {
 
       toast.success("Item added to cart!", {
         position: "top-right",
-        autoClose: 3000,
-        className: "mt-20",
+        autoClose: false,
+        className: "top-20",
       });
     } catch (e) {
       console.error("Error adding to cart:", e);
@@ -278,7 +277,6 @@ export default function ItemDetail() {
       toast.error("Failed to add item to cart. Please try again.", {
         position: "top-right",
         autoClose: 3000,
-        className: "mt-20",
       });
     } finally {
       setIsLoading(false);
