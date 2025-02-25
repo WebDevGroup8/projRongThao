@@ -215,7 +215,7 @@ const OrderTable = (props) => {
                     <td className="py-4 ps-6">
                       {item?.order_product?.map((item, index) => (
                         <div key={index}>
-                          {item?.name} ({item.selectedSize}){" "}
+                          {item?.name} (Size: {item.selectedSize}){" "}
                           <strong className="font-semibold">
                             x{item?.quantity}
                           </strong>
