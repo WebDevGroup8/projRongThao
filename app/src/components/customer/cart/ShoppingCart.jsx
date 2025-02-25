@@ -21,18 +21,14 @@ export default function ShoppingCart() {
   const handlePromoChange = (e) => {
     setPromoCode(e.target.value);
   };
-  const updateQuantity = (id, color, size, change) => {
+  const updateQuantity = (id, size, change) => {
     setCartItems((items) => {
       const totalQuantity = items
         .filter((item) => item.id === id)
         .reduce((sum, item) => sum + item.quantity, 0);
 
       return items.map((item) => {
-        if (
-          item.id === id &&
-          item.selectedColor === color &&
-          item.selectedSize === size
-        ) {
+        if (item.id === id && item.selectedSize === size) {
           const newQuantity = item.quantity + change;
           const newTotal = totalQuantity + change;
 
@@ -47,19 +43,14 @@ export default function ShoppingCart() {
       });
     });
 
-    updateCartItem(id, color, size, change);
+    updateCartItem(id, size, change);
   };
 
-  const removeItem = (id, color, size) => {
+  const removeItem = (id, size) => {
     setCartItems((items) =>
-      items.filter(
-        (item) =>
-          item.id !== id ||
-          item.selectedColor !== color ||
-          item.selectedSize !== size,
-      ),
+      items.filter((item) => item.id !== id || item.selectedSize !== size),
     );
-    removeFromCart(id, color, size);
+    removeFromCart(id, size);
   };
 
   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
@@ -115,17 +106,12 @@ export default function ShoppingCart() {
     try {
       setIsLoading(true);
       const productRequests = cartItems.map((item) =>
-        ax
-          .get(
-            `/products?populate=image&populate=categories&filters[id]=${item.id}`,
-          )
-          .then((response) => ({
-            color: item.color,
-            size: item.size,
-            imageUrl: item.image,
-            ...response.data,
-            quantity: item.quantity,
-          })),
+        ax.get(endpoint.public.product.get(item.id)).then((response) => ({
+          size: item.size,
+          imageUrl: item.image,
+          ...response.data,
+          quantity: item.quantity,
+        })),
       );
 
       const responses = await Promise.all(productRequests);
@@ -157,7 +143,6 @@ export default function ShoppingCart() {
       };
       const products = responses.map((response) => ({
         selectedSize: response.size,
-        selectedColor: response.color,
         selectedImage: response.imageUrl,
         ...response.data[0],
         price: promotionPrice(response.data[0]),
@@ -220,20 +205,12 @@ export default function ShoppingCart() {
                     <p className="text-sm text-gray-500">
                       Size: {item.selectedSize}
                     </p>
-                    <p className="text-sm text-gray-500">
-                      Color: {item.selectedColor}
-                    </p>
                   </div>
                   <div className="mt-4 flex items-center space-x-15 sm:mt-0">
                     <div className="flex items-center">
                       <button
                         onClick={() =>
-                          updateQuantity(
-                            item.id,
-                            item.selectedColor,
-                            item.selectedSize,
-                            1,
-                          )
+                          updateQuantity(item.id, item.selectedSize, 1)
                         }
                         className="cursor-pointer rounded p-1 hover:bg-gray-200"
                       >
@@ -253,12 +230,7 @@ export default function ShoppingCart() {
                       <span className="mx-3">{item.quantity}</span>
                       <button
                         onClick={() =>
-                          updateQuantity(
-                            item.id,
-                            item.selectedColor,
-                            item.selectedSize,
-                            -1,
-                          )
+                          updateQuantity(item.id, item.selectedSize, -1)
                         }
                         disabled={item.quantity === 1}
                         className={`cursor-pointer rounded p-1 hover:bg-gray-200 ${
@@ -290,13 +262,7 @@ export default function ShoppingCart() {
                       </p>
                     </div>
                     <button
-                      onClick={() =>
-                        removeItem(
-                          item.id,
-                          item.selectedColor,
-                          item.selectedSize,
-                        )
-                      }
+                      onClick={() => removeItem(item.id, item.selectedSize)}
                       className="cursor-pointer rounded p-1 text-red-400 transition hover:bg-red-500 hover:text-white"
                     >
                       <svg

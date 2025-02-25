@@ -212,9 +212,7 @@ export const ViewOrderCard = ({ item }) => {
                   <div className="w-28 pb-2 font-semibold text-wrap lg:w-full lg:text-base">
                     {item.name}
                   </div>
-                  <div className="font-xs font-thin lg:text-sm">
-                    Color: {item.selectedColor}
-                  </div>
+
                   <div className="font-xs font-thin lg:text-sm">
                     Size: {item.selectedSize}
                   </div>
