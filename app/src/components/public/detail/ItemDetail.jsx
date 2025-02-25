@@ -268,7 +268,7 @@ export default function ItemDetail() {
 
       toast.success("Item added to cart!", {
         position: "top-right",
-        autoClose: false,
+        autoClose: 2000,
         className: "top-20",
       });
     } catch (e) {
@@ -276,7 +276,7 @@ export default function ItemDetail() {
 
       toast.error("Failed to add item to cart. Please try again.", {
         position: "top-right",
-        autoClose: 3000,
+        autoClose: 2000,
       });
     } finally {
       setIsLoading(false);
