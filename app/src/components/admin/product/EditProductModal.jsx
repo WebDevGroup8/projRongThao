@@ -52,10 +52,10 @@ export default function EditProductModal({
         name: product.name || "",
         description: product.description || "",
         price: product.price || "",
-        stock: defaultProductTempalte.stock,
-        // stock: Array.isArray(product?.stock)
-        //   ? product.stock
-        //   : defaultProductTempalte.stock,
+        stock: Array.isArray(product?.stock)
+          ? product.stock
+          : defaultProductTempalte.stock,
+        // stock: defaultProductTempalte.stock,
       });
       const existing = product.image || [];
       setExistingImages(existing);

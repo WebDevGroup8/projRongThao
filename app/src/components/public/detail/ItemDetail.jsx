@@ -304,11 +304,15 @@ export default function ItemDetail() {
                       {product.stock.map((size, index) => (
                         <li key={index}>
                           <a
-                            className="z-50 flex flex-row justify-between px-4 py-2 hover:bg-gray-100"
+                            className={`z-50 flex flex-row justify-between px-4 py-2 hover:bg-gray-100 ${size.stock <= 0 && `bg-gray-300 hover:bg-gray-400`}`}
                             onClick={() => {
-                              setSizeIndex(index);
-                              setSize(size.size);
-                              setIsOpenSize(!IsOpenSize);
+                              if (size.stock > 0) {
+                                setSizeIndex(index);
+                                setSize(size.size);
+                                setIsOpenSize(!IsOpenSize);
+                              } else {
+                                toast.error("Cannot select out of stock size");
+                              }
                             }}
                           >
                             <p className="font-bold">{size.size} </p>
