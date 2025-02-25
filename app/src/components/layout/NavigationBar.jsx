@@ -257,7 +257,7 @@ export default function NavigationBar() {
           className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
         >
           <Search size={18} />
-          See All Product
+          Discovery
         </div>
         {user && (
           <>

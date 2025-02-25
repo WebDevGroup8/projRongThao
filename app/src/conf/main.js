@@ -104,6 +104,13 @@ export const path = {
   public: {
     home: `/`,
     discovery: `/discovery`,
+    discoveryCategory: {
+      new: `?category=new`,
+      limited: `?category=limited`,
+      sport: `?category=sport`,
+      highTop: `?category=high top`,
+      platform: `?category=platform`,
+    },
     detail: `/product`,
     login: `/login`,
     register: `/register`,
