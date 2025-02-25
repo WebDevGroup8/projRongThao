@@ -10,6 +10,7 @@ type OrderProduct = {
   id: string;
   documentId: string;
   quantity: number;
+  selectedSize: string;
 };
 
 type ItemData = {
@@ -85,7 +86,7 @@ export default factories.createCoreController(
             price_data: {
               currency: "THB",
               product_data: {
-                name: item.name,
+                name: `${item.name} (Size: ${product.selectedSize})`,
                 images: [image],
               },
               unit_amount: promotionPrice(item) * 100,
