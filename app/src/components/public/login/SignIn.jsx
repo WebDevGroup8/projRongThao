@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import loginImage from "@assets/img/loginpage_img.png";
 import useAuthStore from "@/store/store";
-import { useNavigate } from "react-router-dom";
+import { replace, useNavigate, useSearchParams } from "react-router-dom";
 import { conf, path } from "@/conf/main";
 
 export default function SignIn() {
@@ -11,13 +11,19 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
   const { user, login, errMsg } = useAuthStore();
+  const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
       if (user.role === conf.role.customer) {
-        navigate(path.public.home);
+        navigate(
+          searchParams.get("previous")
+            ? searchParams.get("previous")
+            : path.public.home,
+          { replace: true },
+        );
       } else if (user.role === conf.role.admin) {
         navigate(path.admin.dashboard);
       }

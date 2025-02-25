@@ -8,7 +8,7 @@ import {
   Plus,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Loading from "@layout/Loading";
 import ax from "@/conf/ax";
 import { path, conf, endpoint } from "@/conf/main";
@@ -203,6 +203,8 @@ export default function ItemDetail() {
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const { user, cart, addToCart } = useAuthStore();
+  const location = useLocation();
+  const { pathname, search } = location;
 
   const isItemInCart = cart.find(
     (item) => item.id === Number(id) && item.sizeIndex === sizeIndex,
@@ -331,7 +333,11 @@ export default function ItemDetail() {
             <div className="flex w-full flex-col gap-5">
               {!user ? (
                 <button
-                  onClick={() => navigate(path.public.login)}
+                  onClick={() =>
+                    navigate(
+                      `${path.public.login}?previous=${pathname}${search}`,
+                    )
+                  }
                   className="w-full cursor-pointer rounded-md border border-blue-950 px-4 py-2 text-center text-xl text-blue-950"
                 >
                   <p className="hover:underline">PLEASE LOGIN TO ADD TO CART</p>

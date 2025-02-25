@@ -2,6 +2,7 @@ import {
   HelpCircle,
   History,
   House,
+  LogIn,
   LogInIcon,
   LogOut,
   Menu,
@@ -15,7 +16,7 @@ import React, { useEffect, useState } from "react";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import fetchProducts from "@/utils/FetchProduct";
 import useAuthStore from "@/store/store";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { path } from "@/conf/main";
 
 const UserDetails = React.memo(({ user, logout }) => {
@@ -58,6 +59,8 @@ export default function NavigationBar() {
   const [showMenuBar, setShowMenuBar] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [productList, setProductList] = useState([]);
+  const location = useLocation();
+  const { pathname, search } = location;
   const navigate = useNavigate();
 
   // --- SECTION: Auto Complete Search Function ---
@@ -147,8 +150,7 @@ export default function NavigationBar() {
               type="button"
               className="flex flex-row items-center gap-1"
               onClick={() => {
-                // TODO: discuss on this path
-                navigate(path.public.help);
+                navigate(path.public.helps);
               }}
             >
               <HelpCircle size={16} />
@@ -169,7 +171,9 @@ export default function NavigationBar() {
                   type="button"
                   className="flex flex-row items-center gap-1"
                   onClick={() => {
-                    navigate(path.public.login);
+                    navigate(
+                      `${path.public.login}?previous=${pathname}${search}`,
+                    );
                   }}
                 >
                   <LogInIcon size={16} />
@@ -257,8 +261,22 @@ export default function NavigationBar() {
           className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
         >
           <Search size={18} />
-          Discovery
+          SEE ALL PRODUCTS
         </div>
+        {!user && (
+          <>
+            <div
+              onClick={() => {
+                navigate(`${path.public.login}?previous=${pathname}${search}`);
+                setShowMenuBar(false);
+              }}
+              className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
+            >
+              <LogIn size={18} />
+              Sign In
+            </div>
+          </>
+        )}
         {user && (
           <>
             <div
