@@ -501,7 +501,6 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     promotion: Schema.Attribute.JSON;
     publishedAt: Schema.Attribute.DateTime;
     rating: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
-    size: Schema.Attribute.JSON;
     soldCount: Schema.Attribute.Integer &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMax<

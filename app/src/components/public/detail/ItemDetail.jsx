@@ -65,14 +65,7 @@ export const ExampleImg = ({ images }) => {
   );
 };
 
-export const Detail = ({
-  country,
-  solds,
-  price,
-  shoeName,
-  stock,
-  promotion,
-}) => {
+export const Detail = ({ country, solds, price, shoeName, promotion }) => {
   const [refinePrice, setRefinePrice] = useState(0);
   const [isPromotion, setIsPromotion] = useState(false);
   const now = new Date();
@@ -137,9 +130,6 @@ export const Detail = ({
           </div>
           <p>
             {solds} {solds <= 0 ? "Sold" : "Solds"}
-          </p>
-          <p>
-            Total {stock} product{stock !== 1 ? "s" : ""} available.
           </p>
         </div>
       </div>
@@ -206,7 +196,8 @@ export const Description = ({ description }) => {
 
 export default function ItemDetail() {
   const [IsOpenSize, setIsOpenSize] = useState(false);
-  const [size, setSize] = useState("Size");
+  const [size, setSize] = useState("Select Size");
+  const [sizeIndex, setSizeIndex] = useState(null);
   const [product, setProduct] = useState(null);
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -214,7 +205,7 @@ export default function ItemDetail() {
   const { user, cart, addToCart } = useAuthStore();
 
   const isItemInCart = cart.find(
-    (item) => item.id === Number(id) && item.size === size,
+    (item) => item.id === Number(id) && item.sizeIndex === sizeIndex,
   );
   const navigate = useNavigate();
 
@@ -225,7 +216,6 @@ export default function ItemDetail() {
       const response = await ax.get(endpoint.public.product.get(id));
       setProduct(response.data.data[0]);
       setImages(response.data.data[0].image);
-      setSize(response.data.data[0].size[0]);
     } catch (error) {
       console.error("Error fetching product:", error);
     } finally {
@@ -250,7 +240,7 @@ export default function ItemDetail() {
         name: product.name,
         price: product.price,
         quantity: 1,
-        size,
+        sizeIndex: sizeIndex,
       });
 
       toast.success("Item added to cart!", {
@@ -288,7 +278,6 @@ export default function ItemDetail() {
               country="Thailand"
               solds={product.soldCount}
               price={product.price}
-              stock={product.stock}
               shoeName={product.name}
               promotion={product.promotion ? product.promotion : {}}
             />
@@ -297,7 +286,7 @@ export default function ItemDetail() {
 
           <div className="flex flex-col gap-10">
             <div className="flex flex-row justify-between gap-12">
-              <div className="relative flex w-full flex-col gap-y-2">
+              <div className="relative z-50 flex w-full flex-col gap-y-2">
                 <p>Size</p>
                 <button
                   onClick={() => setIsOpenSize(!IsOpenSize)}
@@ -312,15 +301,20 @@ export default function ItemDetail() {
                 {IsOpenSize && (
                   <div className="absolute top-full mt-1 w-44 divide-y divide-gray-100 rounded-lg bg-white shadow-sm">
                     <ul className="py-2 text-sm text-gray-700">
-                      {product.size.map((item, index) => (
+                      {product.stock.map((size, index) => (
                         <li key={index}>
                           <a
-                            className="block px-4 py-2 hover:bg-gray-100"
+                            className="z-50 flex flex-row justify-between px-4 py-2 hover:bg-gray-100"
                             onClick={() => {
-                              return setSize(item), setIsOpenSize(!IsOpenSize);
+                              setSizeIndex(index);
+                              setSize(size.size);
+                              setIsOpenSize(!IsOpenSize);
                             }}
                           >
-                            {item}
+                            <p className="font-bold">{size.size} </p>
+                            <span className="font-light text-gray-900">
+                              ({size.stock} in stock)
+                            </span>
                           </a>
                         </li>
                       ))}

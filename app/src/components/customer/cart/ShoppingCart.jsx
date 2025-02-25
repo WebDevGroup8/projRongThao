@@ -21,19 +21,16 @@ export default function ShoppingCart() {
   const handlePromoChange = (e) => {
     setPromoCode(e.target.value);
   };
-  const updateQuantity = (id, size, change) => {
+
+  const updateQuantity = (id, sizeIndex, change) => {
     setCartItems((items) => {
-      const totalQuantity = items
-        .filter((item) => item.id === id)
-        .reduce((sum, item) => sum + item.quantity, 0);
-
       return items.map((item) => {
-        if (item.id === id && item.selectedSize === size) {
+        if (item.id === id && item.sizeIndex === sizeIndex) {
           const newQuantity = item.quantity + change;
-          const newTotal = totalQuantity + change;
-
-          if (newTotal > item.stock) {
-            toast.error(`Only ${item.stock} items available in stock.`);
+          if (newQuantity > item.stock[sizeIndex].stock) {
+            toast.error(
+              `Only ${item.stock[sizeIndex].stock} items available in stock.`,
+            );
             return item;
           }
 
@@ -42,15 +39,22 @@ export default function ShoppingCart() {
         return item;
       });
     });
-
-    updateCartItem(id, size, change);
+    const updatedItem = cartItems.find(
+      (item) => item.id === id && item.sizeIndex === sizeIndex,
+    );
+    if (
+      updatedItem &&
+      updatedItem.quantity + change <= updatedItem.stock[sizeIndex].stock
+    ) {
+      updateCartItem(id, sizeIndex, change);
+    }
   };
 
-  const removeItem = (id, size) => {
+  const removeItem = (id, sizeIndex) => {
     setCartItems((items) =>
-      items.filter((item) => item.id !== id || item.selectedSize !== size),
+      items.filter((item) => item.id !== id || item.sizeIndex !== sizeIndex),
     );
-    removeFromCart(id, size);
+    removeFromCart(id, sizeIndex);
   };
 
   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
@@ -108,7 +112,8 @@ export default function ShoppingCart() {
       const productRequests = cartItems.map((item) =>
         ax.get(endpoint.public.product.get(item.id)).then((response) => {
           return {
-            size: item.size,
+            selectedSize: response.data.data[0].stock[item.sizeIndex].size,
+            sizeIndex: item.sizeIndex,
             imageUrl:
               response.data.data[0].image[0].formats?.thumbnail.url ||
               `/placeholder.png`,
@@ -146,9 +151,10 @@ export default function ShoppingCart() {
         }
       };
       const products = responses.map((response) => ({
-        selectedSize: response.size,
-        thumbnailImage: response.imageUrl,
         ...response.data[0],
+        selectedSize: response.selectedSize,
+        thumbnailImage: response.imageUrl,
+        sizeIndex: response.sizeIndex,
         price: promotionPrice(response.data[0]),
         quantity: response.quantity,
       }));
@@ -215,7 +221,7 @@ export default function ShoppingCart() {
                     <div className="flex items-center">
                       <button
                         onClick={() =>
-                          updateQuantity(item.id, item.selectedSize, 1)
+                          updateQuantity(item.id, item.sizeIndex, 1)
                         }
                         className="cursor-pointer rounded p-1 hover:bg-gray-200"
                       >
@@ -235,7 +241,7 @@ export default function ShoppingCart() {
                       <span className="mx-3">{item.quantity}</span>
                       <button
                         onClick={() =>
-                          updateQuantity(item.id, item.selectedSize, -1)
+                          updateQuantity(item.id, item.sizeIndex, -1)
                         }
                         disabled={item.quantity === 1}
                         className={`cursor-pointer rounded p-1 hover:bg-gray-200 ${
@@ -267,7 +273,7 @@ export default function ShoppingCart() {
                       </p>
                     </div>
                     <button
-                      onClick={() => removeItem(item.id, item.selectedSize)}
+                      onClick={() => removeItem(item.id, item.sizeIndex)}
                       className="cursor-pointer rounded p-1 text-red-400 transition hover:bg-red-500 hover:text-white"
                     >
                       <svg

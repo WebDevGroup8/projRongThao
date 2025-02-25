@@ -34,7 +34,8 @@ const useAuthStore = create((set) => ({
     set((state) => {
       const existingCart = state.cart || [];
       const existingItem = existingCart.find(
-        (item) => item.id === product.id && item.size === product.size,
+        (item) =>
+          item.id === product.id && item.sizeIndex === product.sizeIndex,
       );
 
       let updatedCart;
@@ -64,12 +65,10 @@ const useAuthStore = create((set) => ({
     }
   },
 
-  removeFromCart: async (productId, productSize) => {
-    console.log(useAuthStore.getState().cart);
-
+  removeFromCart: async (productId, productSizeIndex) => {
     set((state) => ({
       cart: state.cart.filter(
-        (item) => item.id !== productId || item.size !== productSize,
+        (item) => item.id !== productId || item.sizeIndex !== productSizeIndex,
       ),
     }));
     try {
@@ -84,10 +83,10 @@ const useAuthStore = create((set) => ({
     }
   },
 
-  updateCartItem: async (productId, size, change) => {
+  updateCartItem: async (productId, sizeIndex, change) => {
     set((state) => ({
       cart: state.cart.map((item) =>
-        item.id === productId && item.size === size
+        item.id === productId && item.sizeIndex === sizeIndex
           ? { ...item, quantity: item.quantity + change }
           : item,
       ),

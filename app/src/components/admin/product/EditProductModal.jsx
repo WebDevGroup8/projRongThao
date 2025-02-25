@@ -1,23 +1,43 @@
-import { ImageIcon, Upload, X } from "lucide-react";
+import { ImageIcon, Plus, Trash, Upload, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 import ax from "@/conf/ax";
 import { endpoint, conf } from "@/conf/main";
 import { toast } from "react-toastify";
-
+const defaultProductTempalte = {
+  name: "",
+  description: "",
+  price: "",
+  stock: [
+    {
+      size: "36",
+      stock: 25,
+    },
+    {
+      size: "38",
+      stock: 25,
+    },
+    {
+      size: "40",
+      stock: 25,
+    },
+    {
+      size: "42",
+      stock: 25,
+    },
+    {
+      size: "44",
+      stock: 25,
+    },
+  ],
+};
 export default function EditProductModal({
   isOpen,
   onClose,
   product,
   fetchProducts,
 }) {
-  const [productData, setProductData] = useState({
-    name: "",
-    description: "",
-    price: "",
-    size: "",
-    stock: "",
-  });
+  const [productData, setProductData] = useState(defaultProductTempalte);
   const [images, setImages] = useState([]); // รูปใหม่
   const [previewUrls, setPreviewUrls] = useState([]);
   const [existingImages, setExistingImages] = useState([]); // รูปเก่าจาก Strapi
@@ -32,8 +52,10 @@ export default function EditProductModal({
         name: product.name || "",
         description: product.description || "",
         price: product.price || "",
-        size: product.size?.join(", ") || "",
-        stock: product.stock || "",
+        stock: defaultProductTempalte.stock,
+        // stock: Array.isArray(product?.stock)
+        //   ? product.stock
+        //   : defaultProductTempalte.stock,
       });
       const existing = product.image || [];
       setExistingImages(existing);
@@ -109,19 +131,38 @@ export default function EditProductModal({
       throw error;
     }
   };
+  // --- SECTION: change stock ---
+  const handleStockChange = (index, field, value) => {
+    const newStock = [...productData.stock];
+    newStock[index][field] =
+      field === "stock" ? Math.max(0, parseInt(value)) || 0 : value;
+    setProductData((prev) => ({
+      ...prev,
+      stock: newStock,
+    }));
+  };
 
+  const addRow = () => {
+    setProductData((prev) => ({
+      ...prev,
+      stock: [...prev.stock, { size: "", stock: 0 }],
+    }));
+  };
+
+  const removeRow = (index) => {
+    const newStock = productData.stock.filter((_, i) => i !== index);
+    setProductData((prev) => ({
+      ...prev,
+      stock: newStock,
+    }));
+  };
+  // --- END SECTION: change stock ---
   const resetState = () => {
     setImages([]);
     setPreviewUrls([]);
     setExistingImages([]);
     setDeletedImages([]);
-    setProductData({
-      name: "",
-      description: "",
-      price: "",
-      size: "",
-      stock: "",
-    });
+    setProductData(defaultProductTempalte);
     setSelectedCategories([]);
   };
 
@@ -169,8 +210,7 @@ export default function EditProductModal({
           data: {
             ...productData,
             price: Number(productData.price),
-            size: productData.size.split(",").map((s) => s.trim()),
-            stock: Number(productData.stock),
+            stock: productData.stock,
             image: uploadedImageIds,
             categories: selectedCategories,
           },
@@ -302,42 +342,16 @@ export default function EditProductModal({
                 className="focus:ring-primary focus:border-primary w-full rounded-md border-gray-300 p-2 shadow-sm"
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Sizes
-                </label>
-                <input
-                  name="size"
-                  type="text"
-                  value={productData.size}
-                  onChange={handleChange}
-                  required
-                  placeholder="e.g. S, M, L"
-                  className="focus:ring-primary focus:border-primary w-full rounded-md border-gray-300 p-2 shadow-sm"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Stock
-              </label>
-              <input
-                name="stock"
-                type="number"
-                value={productData.stock}
-                onChange={handleChange}
-                required
-                className="focus:ring-primary focus:border-primary w-full rounded-md border-gray-300 p-2 shadow-sm"
-              />
-            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Categories
               </label>
-              <div className="mt-1 h-20 overflow-y-scroll rounded-md p-2 shadow-sm">
+              <div className="flex flex-wrap gap-1.5 rounded-md p-3 shadow-sm">
                 {categories.map((category) => (
-                  <div key={category.id} className="flex items-center gap-2">
+                  <div
+                    key={category.id}
+                    className="focus:ring-primary focus:border-primary me-4 flex flex-row items-center gap-1"
+                  >
                     <input
                       type="checkbox"
                       id={`category-${category.id}`}
@@ -345,12 +359,76 @@ export default function EditProductModal({
                       onChange={() => handleCategorySelect(category.id)}
                     />
                     <label htmlFor={`category-${category.id}`}>
-                      {category.title || "Unnamed"}
+                      {category.title}
                     </label>
                   </div>
                 ))}
               </div>
             </div>
+            {/* Size Stock */}
+            <label className="block text-sm font-medium text-gray-700">
+              Stock
+            </label>
+            <div className="h-50 overflow-y-auto">
+              <table className="w-full text-left text-sm text-gray-500 shadow-sm rtl:text-right">
+                <thead className="rounded border-1 border-gray-200 bg-gray-50 text-xs text-gray-700">
+                  <tr>
+                    <th className="border border-gray-200 px-2 py-1.5 text-center">
+                      Size
+                    </th>
+                    <th className="border border-gray-200 px-2 py-1.5 text-center">
+                      Stock
+                    </th>
+                    <th className="border border-gray-200 px-2 py-1.5 text-center"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {productData.stock.map((row, index) => (
+                    <tr
+                      key={index}
+                      className="items-center border-b border-gray-200 bg-white"
+                    >
+                      <td className="border border-gray-200 p-2">
+                        <input
+                          type="text"
+                          value={row.size}
+                          onChange={(e) =>
+                            handleStockChange(index, "size", e.target.value)
+                          }
+                          className="w-full rounded border p-1"
+                        />
+                      </td>
+                      <td className="border border-gray-200 p-2">
+                        <input
+                          type="number"
+                          value={row.stock}
+                          onChange={(e) =>
+                            handleStockChange(index, "stock", e.target.value)
+                          }
+                          className="w-full rounded border p-1"
+                        />
+                      </td>
+                      <td className="items-center border border-gray-200 p-2 text-center">
+                        <button
+                          onClick={() => removeRow(index)}
+                          className="w-fit items-center gap-1 rounded bg-red-500 px-2 py-2 text-center text-white"
+                          disabled={productData.stock.length === 1}
+                        >
+                          <Trash size={16} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <button
+              type="button"
+              onClick={addRow}
+              className="flex w-full items-center justify-center gap-1 rounded-md bg-blue-500 px-1 py-1 text-center font-normal text-white shadow-md"
+            >
+              <Plus size={20} /> Add Size
+            </button>
           </div>
           <div className="col-span-full flex justify-end">
             <button

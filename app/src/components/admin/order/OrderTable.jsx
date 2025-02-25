@@ -161,38 +161,38 @@ const OrderTable = (props) => {
             />
           </div>
 
-          <div class="relative overflow-x-auto">
-            <table class="w-full text-left text-sm text-gray-500 shadow-2xl rtl:text-right">
-              <thead class="border-1 border-gray-200 bg-gray-50 text-xs text-gray-700 uppercase">
+          <div className="relative overflow-x-auto">
+            <table className="w-full text-left text-sm text-gray-500 shadow-2xl rtl:text-right">
+              <thead className="border-1 border-gray-200 bg-gray-50 text-xs text-gray-700 uppercase">
                 <tr>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3">
                     ID
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3">
                     NAME
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3">
                     ADDRESS
                   </th>
-                  <th scope="col" class="px-6 py-3">
+                  <th scope="col" className="px-6 py-3">
                     DATE
                   </th>
-                  <th scope="col" class="py-3 ps-6">
+                  <th scope="col" className="py-3 ps-6">
                     PRODUCT
                   </th>
                   <th
                     scope="col"
-                    class="felx items-center justify-center py-3 pe-6"
+                    className="felx items-center justify-center py-3 pe-6"
                   >
                     STATUS
                   </th>
                   {props.configView && (
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" className="px-6 py-3">
                       DELETE
                     </th>
                   )}
                   {props.configView && (
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" className="px-6 py-3">
                       PRINT
                     </th>
                   )}
@@ -200,19 +200,19 @@ const OrderTable = (props) => {
               </thead>
               <tbody>
                 {filteredOrder?.map((item, index) => (
-                  <tr key={index} class="border-b border-gray-200 bg-white">
+                  <tr key={index} className="border-b border-gray-200 bg-white">
                     <th
                       scope="row"
-                      class="px-4 py-4 font-medium whitespace-nowrap text-gray-900"
+                      className="px-4 py-4 font-medium whitespace-nowrap text-gray-900"
                     >
                       {item.documentId}
                     </th>
-                    <td class="px-6 py-4">{item.owner?.username}</td>
-                    <td class="px-6 py-4">{item.address}</td>
-                    <td class="px-6 py-4">
+                    <td className="px-6 py-4">{item.owner?.username}</td>
+                    <td className="px-6 py-4">{item.address}</td>
+                    <td className="px-6 py-4">
                       {dayjs(item.createdAt).format("DD MMM YYYY")}
                     </td>
-                    <td class="py-4 ps-6">
+                    <td className="py-4 ps-6">
                       {item?.order_product?.map((item, index) => (
                         <div key={index}>
                           {item?.name} ({item.selectedSize}){" "}

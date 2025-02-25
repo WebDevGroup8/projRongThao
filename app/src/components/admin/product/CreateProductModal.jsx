@@ -107,6 +107,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
       return [];
     }
   };
+
   // --- SECTION: change stock ---
   const handleStockChange = (index, field, value) => {
     const newStock = [...productData.stock];
@@ -133,6 +134,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
     }));
   };
   // --- END SECTION: change stock ---
+
   const resetState = () => {
     // เพิ่มฟังก์ชันนี้
     setProductData(defaultProductTempalte);
@@ -158,8 +160,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
         data: {
           ...productData,
           price: Number(productData.price),
-          size: productData.size.split(",").map((s) => s.trim()), // ปรับให้ trim ช่องว่าง
-          stock: Number(productData.stock),
+          stock: productData.stock,
           image: uploadedImageIds,
           categories: selectedCategories,
         },
@@ -170,7 +171,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
       resetState(); // เพิ่มเพื่อรีเซ็ต state
       onClose();
     } catch (error) {
-      console.error("❌ Error creating product:", error.response?.data);
+      console.error("❌ Error creating product:", error);
       toast.error(
         "❌ Failed to create product: " +
           (error.response?.data?.message || "Unknown error"),
@@ -383,37 +384,6 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
               <Plus size={20} /> Add Size
             </button>
           </div>
-          {/* <div>
-            <div className="grid">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Sizes (Number)
-                </label>
-                <input
-                  name="size"
-                  type="text"
-                  value={productData.size}
-                  onChange={handleChange}
-                  required
-                  placeholder="e.g. XX, YY, ZZ"
-                  className="focus:ring-primary focus:border-primary w-full rounded-md border-gray-300 p-2 shadow-sm"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Stock
-              </label>
-              <input
-                name="stock"
-                type="number"
-                value={productData.stock}
-                onChange={handleChange}
-                required
-                className="focus:ring-primary focus:border-primary w-full rounded-md border-gray-300 p-2 shadow-sm"
-              />
-            </div>
-          </div> */}
 
           <div className="col-span-full flex justify-end">
             <button

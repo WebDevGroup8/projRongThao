@@ -33,9 +33,6 @@
       "type": "decimal",
       "required": false
     },
-    "size": {
-      "type": "json"
-    },
     "rating": {
       "type": "decimal",
       "default": 0
