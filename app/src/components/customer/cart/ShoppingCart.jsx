@@ -106,12 +106,16 @@ export default function ShoppingCart() {
     try {
       setIsLoading(true);
       const productRequests = cartItems.map((item) =>
-        ax.get(endpoint.public.product.get(item.id)).then((response) => ({
-          size: item.size,
-          imageUrl: item.image,
-          ...response.data,
-          quantity: item.quantity,
-        })),
+        ax.get(endpoint.public.product.get(item.id)).then((response) => {
+          return {
+            size: item.size,
+            imageUrl:
+              response.data.data[0].image[0].formats?.thumbnail.url ||
+              `/placeholder.png`,
+            ...response.data,
+            quantity: item.quantity,
+          };
+        }),
       );
 
       const responses = await Promise.all(productRequests);
@@ -143,7 +147,7 @@ export default function ShoppingCart() {
       };
       const products = responses.map((response) => ({
         selectedSize: response.size,
-        selectedImage: response.imageUrl,
+        thumbnailImage: response.imageUrl,
         ...response.data[0],
         price: promotionPrice(response.data[0]),
         quantity: response.quantity,
@@ -192,9 +196,10 @@ export default function ShoppingCart() {
                   key={index}
                   className="flex flex-col items-center rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition-shadow duration-200 hover:shadow-lg sm:flex-row sm:p-6"
                 >
+                  {/* {console.log(item)} */}
                   <img
                     src={
-                      `${conf.imageUrlPrefix}${item.selectedImage}` ||
+                      `${conf.imageUrlPrefix}${item.thumbnailImage}` ||
                       "/placeholder.svg"
                     }
                     alt={item.name}

@@ -36,9 +36,6 @@
     "size": {
       "type": "json"
     },
-    "stock": {
-      "type": "integer"
-    },
     "rating": {
       "type": "decimal",
       "default": 0
@@ -56,6 +53,9 @@
       "min": 1
     },
     "promotion": {
+      "type": "json"
+    },
+    "stock": {
       "type": "json"
     }
   }

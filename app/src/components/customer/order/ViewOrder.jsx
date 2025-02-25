@@ -201,7 +201,7 @@ export const ViewOrderCard = ({ item }) => {
             <div className="mt-3 mb-2 flex w-full flex-row">
               <img
                 src={
-                  `${conf.imageUrlPrefix}${item.selectedImage}` ||
+                  `${conf.imageUrlPrefix}${item.image[0]?.url}` ||
                   "/placeholder.svg"
                 }
                 alt={item.name}
