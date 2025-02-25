@@ -47,29 +47,7 @@ export default function ShoppingCart() {
       });
     });
 
-    setCartItems((updatedItems) => {
-      const updatedItem = updatedItems.find(
-        (item) =>
-          item.id === id &&
-          item.selectedColor === color &&
-          item.selectedSize === size,
-      );
-
-      if (updatedItem) {
-        const newTotal =
-          updatedItems
-            .filter((item) => item.id === id)
-            .reduce((sum, item) => sum + item.quantity, 0) + change;
-
-        if (newTotal <= updatedItem.stock) {
-          updateCartItem(id, color, size, change);
-        } else {
-          toast.error(`Only ${updatedItem.stock} items available in stock.`);
-        }
-      }
-
-      return updatedItems;
-    });
+    updateCartItem(id, color, size, change);
   };
 
   const removeItem = (id, color, size) => {
