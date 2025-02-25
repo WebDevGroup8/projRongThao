@@ -11,7 +11,6 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
     description: "",
     price: "",
     size: "",
-    color: "",
     stock: "",
   });
 
@@ -40,7 +39,6 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
         description: "",
         price: "",
         size: "",
-        color: "",
         stock: "",
       });
       setImages([]);
@@ -102,7 +100,6 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
       description: "",
       price: "",
       size: "",
-      color: "",
       stock: "",
     });
     setImages([]);
@@ -128,7 +125,6 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
           ...productData,
           price: Number(productData.price),
           size: productData.size.split(",").map((s) => s.trim()), // ปรับให้ trim ช่องว่าง
-          color: productData.color.split(",").map((c) => c.trim()),
           stock: Number(productData.stock),
           image: uploadedImageIds,
           categories: selectedCategories,
@@ -278,20 +274,6 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
                   onChange={handleChange}
                   required
                   placeholder="e.g. XX, YY, ZZ"
-                  className="focus:ring-primary focus:border-primary w-full rounded-md border-gray-300 p-2 shadow-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Colors
-                </label>
-                <input
-                  name="color"
-                  type="text"
-                  value={productData.color}
-                  onChange={handleChange}
-                  required
-                  placeholder="e.g. Red, Blue"
                   className="focus:ring-primary focus:border-primary w-full rounded-md border-gray-300 p-2 shadow-sm"
                 />
               </div>
