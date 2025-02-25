@@ -39,7 +39,7 @@ export const endpoint = {
       get: (id) =>
         `/products?populate=image&populate=categories&filters[id]=${id}`,
       query: () =>
-        `/products?populate=image&populate=categories&populate=reviews&filters[stock][$gt]=0`,
+        `/products?populate=image&populate=categories&filters[stock][$gt]=0`,
     },
     category: {
       query: () => `/categories`,
@@ -68,8 +68,7 @@ export const endpoint = {
     },
     product: {
       create: () => `/products`,
-      query: () =>
-        `/products?populate=image&populate=categories&populate=reviews`,
+      query: () => `/products?populate=image&populate=categories`,
       update: (documentId) => `/products/${documentId}`,
       delete: (documentId) => `/products/${documentId}`,
     },

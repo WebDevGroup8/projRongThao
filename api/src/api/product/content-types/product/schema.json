@@ -36,21 +36,12 @@
     "size": {
       "type": "json"
     },
-    "color": {
-      "type": "json"
-    },
     "stock": {
       "type": "integer"
     },
     "rating": {
       "type": "decimal",
       "default": 0
-    },
-    "reviews": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::review.review",
-      "mappedBy": "product"
     },
     "categories": {
       "type": "relation",

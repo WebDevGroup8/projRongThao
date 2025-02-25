@@ -482,7 +482,6 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
       'manyToMany',
       'api::category.category'
     >;
-    color: Schema.Attribute.JSON;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -502,7 +501,6 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     promotion: Schema.Attribute.JSON;
     publishedAt: Schema.Attribute.DateTime;
     rating: Schema.Attribute.Decimal & Schema.Attribute.DefaultTo<0>;
-    reviews: Schema.Attribute.Relation<'oneToMany', 'api::review.review'>;
     size: Schema.Attribute.JSON;
     soldCount: Schema.Attribute.Integer &
       Schema.Attribute.Required &
@@ -570,7 +568,6 @@ export interface ApiReviewReview extends Struct.CollectionTypeSchema {
       'api::review.review'
     > &
       Schema.Attribute.Private;
-    product: Schema.Attribute.Relation<'manyToOne', 'api::product.product'>;
     publishedAt: Schema.Attribute.DateTime;
     rating: Schema.Attribute.Decimal;
     updatedAt: Schema.Attribute.DateTime;
