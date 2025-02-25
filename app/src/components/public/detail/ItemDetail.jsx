@@ -1,5 +1,4 @@
 import "react-toastify/dist/ReactToastify.css";
-
 import {
   ChevronDown,
   ChevronLeft,
@@ -10,14 +9,22 @@ import {
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
 import Loading from "@layout/Loading";
 import ax from "@/conf/ax";
 import { path, conf, endpoint } from "@/conf/main";
 import { toast } from "react-toastify";
 import useAuthStore from "@/store/store";
 
-export const ExampleImg = ({ img }) => {
+const getImage = (color, product) =>
+  product?.image?.find((img) => img.name.includes(color))?.url ?? null;
+
+export const ExampleImg = ({
+  img,
+  setColor,
+  selectedColor,
+  allColors,
+  product,
+}) => {
   const [key, setKey] = useState(0);
   return (
     <div className="relative mt-4 mb-8 flex h-80 w-full flex-col items-center lg:w-full">
@@ -25,20 +32,26 @@ export const ExampleImg = ({ img }) => {
         {key > 0 && (
           <button
             className="t-0 absolute start-5 flex h-full items-center lg:-start-18"
-            onClick={() => setKey(key - 1)}
+            onClick={() => {
+              setKey(key - 1);
+              setColor(allColors[key - 1]);
+            }}
           >
             <ChevronLeft size={80} strokeWidth={2} className="text-gray-400" />
           </button>
         )}
         <img
-          src={`${conf.imageUrlPrefix}${img[key]}`}
+          src={`${conf.imageUrlPrefix}${getImage(selectedColor, product)}`}
           alt="รองเท้า"
           className="h-80 w-80 rounded-2xl border-4 border-gray-300 object-cover lg:h-100 lg:w-full"
         />
         {key < img.length - 1 && (
           <button
             className="absolute end-5 top-1/2 -translate-y-1/2 lg:-end-18"
-            onClick={() => setKey(key + 1)}
+            onClick={() => {
+              setKey(key + 1);
+              setColor(allColors[key + 1]);
+            }}
           >
             <ChevronRight size={80} strokeWidth={2} className="text-gray-400" />
           </button>
@@ -50,10 +63,10 @@ export const ExampleImg = ({ img }) => {
           <button
             key={index}
             className="h-15 w-15 rounded-xl border-2 border-gray-300 object-cover focus:ring-1 focus:ring-black focus:outline-none lg:h-fit"
-            onClick={() => setKey(index)}
+            onClick={() => setColor(allColors[index])}
           >
             <img
-              src={`${conf.imageUrlPrefix}${image}`}
+              src={`${conf.imageUrlPrefix}${getImage(allColors[index], product)}`}
               alt="รองเท้า"
               className="aspect-square h-fit w-fit rounded-xl object-cover"
             />
@@ -219,15 +232,14 @@ export default function ItemDetail() {
       const response = await ax.get(endpoint.public.product.get(id));
       setProduct(response.data.data[0]);
       setImages(response.data.data[0].image);
+      setColor(response.data.data[0].color[0]);
+      setSize(response.data.data[0].size[0]);
     } catch (error) {
       console.error("Error fetching product:", error);
     } finally {
       setIsLoading(false);
     }
   };
-
-  const getImage = (color) =>
-    product?.image?.find((img) => img.name.includes(color))?.url ?? null;
 
   const handleAddToCart = async () => {
     if (size === "Size" || color === "Color") {
@@ -246,7 +258,7 @@ export default function ItemDetail() {
         id: product.id,
         name: product.name,
         price: product.price,
-        image: getImage(color),
+        image: getImage(color, product),
         quantity: 1,
         size,
         color,
@@ -283,6 +295,10 @@ export default function ItemDetail() {
           <ExampleImg
             shoeName={product.name}
             img={images.map((image) => image.url)}
+            selectedColor={color}
+            setColor={setColor}
+            allColors={product.color}
+            product={product}
           />
         </div>
         <div className="flex flex-col gap-5 px-5 lg:w-1/2">
