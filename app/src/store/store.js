@@ -91,23 +91,22 @@ const useAuthStore = create((set) => ({
     }
   },
 
-  updateCartItem: async (productId, change) => {
+  updateCartItem: async (productId, color, size, change) => {
     set((state) => ({
       cart: state.cart.map((item) =>
-        item.id === productId
+        item.id === productId && item.color === color && item.size === size
           ? { ...item, quantity: item.quantity + change }
           : item,
       ),
     }));
 
     try {
-      // Get the updated cart AFTER the state change
       const updatedCart = useAuthStore.getState().cart;
 
       await ax.put(
         endpoint.customer.cart.update(useAuthStore.getState().user.id),
         {
-          cart: updatedCart, // Use the latest cart state
+          cart: updatedCart,
         },
       );
     } catch (e) {

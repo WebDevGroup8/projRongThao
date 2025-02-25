@@ -55,8 +55,17 @@ export default function ShoppingCart() {
           item.selectedSize === size,
       );
 
-      if (updatedItem && updatedItem.quantity + change <= updatedItem.stock) {
-        updateCartItem(id, change);
+      if (updatedItem) {
+        const newTotal =
+          updatedItems
+            .filter((item) => item.id === id)
+            .reduce((sum, item) => sum + item.quantity, 0) + change;
+
+        if (newTotal <= updatedItem.stock) {
+          updateCartItem(id, color, size, change);
+        } else {
+          toast.error(`Only ${updatedItem.stock} items available in stock.`);
+        }
       }
 
       return updatedItems;
@@ -265,7 +274,14 @@ export default function ShoppingCart() {
                       </button>
                       <span className="mx-3">{item.quantity}</span>
                       <button
-                        onClick={() => updateQuantity(item.id, -1)}
+                        onClick={() =>
+                          updateQuantity(
+                            item.id,
+                            item.selectedColor,
+                            item.selectedSize,
+                            -1,
+                          )
+                        }
                         disabled={item.quantity === 1}
                         className={`cursor-pointer rounded p-1 hover:bg-gray-200 ${
                           item.quantity === 1
