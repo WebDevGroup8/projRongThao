@@ -37,7 +37,9 @@ export default function SeeAllItem() {
       setIsLoading(true);
       fetchCategories();
       fetchProducts(setProducts);
-      setSelectedCategories([searchParams.get("category")] || "");
+      setSelectedCategories(
+        searchParams.get("category") ? [searchParams.get("category")] : [],
+      );
     } catch (e) {
       console.log(e);
     } finally {
