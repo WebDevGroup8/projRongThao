@@ -203,8 +203,8 @@ export const ViewOrderCard = ({ item }) => {
                 className="mb3 h-16 w-16 rounded-md object-cover lg:h-18 lg:w-18"
               />
               <div className="flex w-full flex-row justify-between pt-2 lg:ps-9 lg:pt-0">
-                <div className="ms-3 flex flex-col text-sm lg:me-7">
-                  <div className="w-28 truncate pb-2 font-semibold whitespace-nowrap lg:text-base">
+                <div className="ms-3 flex w-full flex-col text-sm lg:me-7">
+                  <div className="w-28 pb-2 font-semibold text-wrap lg:w-full lg:text-base">
                     {item.name}
                   </div>
                   <div className="font-xs font-thin lg:text-sm">

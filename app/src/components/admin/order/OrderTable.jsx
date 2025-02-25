@@ -217,7 +217,10 @@ const OrderTable = (props) => {
                       {item?.order_product?.map((item, index) => (
                         <div key={index}>
                           {item?.name} ({item.selectedSize},{item.selectedColor}
-                          ) x {item?.quantity}
+                          ){" "}
+                          <strong className="font-semibold">
+                            x{item?.quantity}
+                          </strong>
                         </div>
                       ))}
                     </td>

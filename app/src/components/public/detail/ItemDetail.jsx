@@ -266,7 +266,7 @@ export default function ItemDetail() {
         className: "mt-20",
       });
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
