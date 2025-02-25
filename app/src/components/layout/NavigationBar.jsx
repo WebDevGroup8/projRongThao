@@ -136,7 +136,7 @@ export default function NavigationBar() {
               }}
               className="self-center whitespace-nowrap text-white"
             >
-              <p className="cursor-pointer hover:underline">SEE ALL PRODUCT</p>
+              <p className="cursor-pointer hover:underline">DISCOVERY</p>
             </button>
           </p>
         </div>
