@@ -58,7 +58,7 @@ export default factories.createCoreController(
           const image = `${process.env.SELF_URL}${item.image[0].url}`;
 
           const isPromotionValid = (product) => {
-            if (product.promotion.name) {
+            if (product.promotion?.name) {
               const startDate = new Date(product.promotion.start);
               const endDate = new Date(product.promotion.end);
 

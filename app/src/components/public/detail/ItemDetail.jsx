@@ -89,7 +89,7 @@ export const Detail = ({
   const [isPromotion, setIsPromotion] = useState(false);
   const now = new Date();
   const isPromotionValid = () => {
-    if (promotion.name) {
+    if (promotion?.name) {
       const startDate = new Date(promotion.start);
       const endDate = new Date(promotion.end);
 
