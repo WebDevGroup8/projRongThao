@@ -92,6 +92,7 @@ function App() {
             path={`${path.public.detail}/:id`}
             element={
               <div className="z-50">
+                <ScrollToTop />
                 <NavigationBar />
                 <Container>
                   <ItemDetail />
