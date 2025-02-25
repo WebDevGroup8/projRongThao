@@ -27,6 +27,7 @@ export const GroupViewCard = ({ selectedStatus }) => {
       console.error("Error fetching OrderItems:", error);
     }
   };
+  console.log(orderItems);
 
   const filteredOrderItems = orderItems?.filter(
     (order) =>
@@ -195,7 +196,7 @@ export const ViewOrderCard = ({ item }) => {
             <div className="mt-3 mb-2 flex w-full flex-row">
               <img
                 src={
-                  `${conf.imageUrlPrefix}${item.image[0].url}` ||
+                  `${conf.imageUrlPrefix}${item.selectedImage}` ||
                   "/placeholder.svg"
                 }
                 alt={item.name}
@@ -207,10 +208,10 @@ export const ViewOrderCard = ({ item }) => {
                     {item.name}
                   </div>
                   <div className="font-xs font-thin lg:text-sm">
-                    Color: {item.color}
+                    Color: {item.selectedColor}
                   </div>
                   <div className="font-xs font-thin lg:text-sm">
-                    Size: {item.size}
+                    Size: {item.selectedSize}
                   </div>
                 </div>
                 <div className="flex flex-col ps-8 text-end whitespace-nowrap">
