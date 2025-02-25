@@ -33,7 +33,13 @@ const useAuthStore = create((set) => ({
   addToCart: async (product) => {
     set((state) => {
       const existingCart = state.cart || [];
-      const existingItem = existingCart.find((item) => item.id === product.id);
+      const existingItem = existingCart.find(
+        (item) =>
+          item.id === product.id &&
+          item.size === product.size &&
+          item.color === product.color,
+      );
+      // item.id === Number(id) && item.size === size && item.color === color,
 
       let updatedCart;
 
@@ -62,9 +68,16 @@ const useAuthStore = create((set) => ({
     }
   },
 
-  removeFromCart: async (productId) => {
+  removeFromCart: async (productId, productColor, productSize) => {
+    console.log(useAuthStore.getState().cart);
+
     set((state) => ({
-      cart: state.cart.filter((item) => item.id !== productId),
+      cart: state.cart.filter(
+        (item) =>
+          item.id !== productId ||
+          item.color !== productColor ||
+          item.size !== productSize,
+      ),
     }));
     try {
       await ax.put(

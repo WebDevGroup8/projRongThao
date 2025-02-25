@@ -222,7 +222,10 @@ export default function ItemDetail() {
 
   console.log(cart);
 
-  const isItemInCart = cart.find((item) => item.id === Number(id));
+  const isItemInCart = cart.find(
+    (item) =>
+      item.id === Number(id) && item.size === size && item.color === color,
+  );
   const navigate = useNavigate();
 
   const fetchProduct = async () => {

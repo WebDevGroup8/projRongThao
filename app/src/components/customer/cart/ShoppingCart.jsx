@@ -44,9 +44,16 @@ export default function ShoppingCart() {
     }
   };
 
-  const removeItem = (id) => {
-    setCartItems((items) => items.filter((item) => item.id !== id));
-    removeFromCart(id);
+  const removeItem = (id, color, size) => {
+    setCartItems((items) =>
+      items.filter(
+        (item) =>
+          item.id !== id ||
+          item.selectedColor !== color ||
+          item.selectedSize !== size,
+      ),
+    );
+    removeFromCart(id, color, size);
   };
 
   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
@@ -75,7 +82,7 @@ export default function ShoppingCart() {
     } catch (error) {
       if (error.response.data?.error?.type === "coupon") {
         // TODO: implement toast
-        alert("Invalid Coupon Code");
+        toast.error("Invalid Coupon Code");
       }
       console.error("Payment Error:", error);
     }
@@ -86,17 +93,16 @@ export default function ShoppingCart() {
       0,
     );
     setSubtotal(newSubtotal);
-    if (cartItems?.length !== 0) {
-      // TODO: remove hard code shipping
-      const newShipping = 150;
-      const newDiscountPercentage = 0;
-      const newDiscount = newSubtotal * (newDiscountPercentage / 100);
-      const newTotal = newSubtotal + newShipping - newDiscount;
-      setShipping(newShipping);
-      setDiscountPercentage(newDiscountPercentage);
-      setDiscount(newDiscount);
-      setTotal(newTotal);
-    }
+
+    // TODO: remove hard code shipping
+    const newShipping = 150;
+    const newDiscountPercentage = 0;
+    const newDiscount = newSubtotal * (newDiscountPercentage / 100);
+    const newTotal = newSubtotal + newShipping - newDiscount;
+    setShipping(newShipping);
+    setDiscountPercentage(newDiscountPercentage);
+    setDiscount(newDiscount);
+    setTotal(newTotal);
   };
 
   const fetchProducts = async () => {
@@ -159,7 +165,6 @@ export default function ShoppingCart() {
       setIsLoading(false);
     }
   };
-  console.log(`${conf.imageUrlPrefix}${cartItems[1]?.selectedImage}`);
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -191,9 +196,9 @@ export default function ShoppingCart() {
                 </p>
               </div>
             ) : (
-              cartItems?.map((item) => (
+              cartItems?.map((item, index) => (
                 <div
-                  key={item.id}
+                  key={index}
                   className="flex flex-col items-center rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition-shadow duration-200 hover:shadow-lg sm:flex-row sm:p-6"
                 >
                   <img
@@ -265,7 +270,13 @@ export default function ShoppingCart() {
                       </p>
                     </div>
                     <button
-                      onClick={() => removeItem(item.id)}
+                      onClick={() =>
+                        removeItem(
+                          item.id,
+                          item.selectedColor,
+                          item.selectedSize,
+                        )
+                      }
                       className="cursor-pointer rounded p-1 text-red-400 transition hover:bg-red-500 hover:text-white"
                     >
                       <svg
