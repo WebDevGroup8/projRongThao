@@ -241,7 +241,6 @@ export default function ItemDetail() {
 
     try {
       setIsLoading(true);
-      console.log(getImage(color));
 
       await addToCart({
         id: product.id,

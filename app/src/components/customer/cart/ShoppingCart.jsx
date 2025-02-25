@@ -18,9 +18,6 @@ export default function ShoppingCart() {
   const [total, setTotal] = useState(subtotal);
   const [promoCode, setPromoCode] = useState("");
 
-  console.log("cart", cart);
-  console.log("cartItems", cartItems);
-
   const handlePromoChange = (e) => {
     setPromoCode(e.target.value);
   };
