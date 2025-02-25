@@ -11,6 +11,9 @@ import SeeAllItem from "@public/discovery/SeeAllItem";
 import ItemDetail from "@public/detail/ItemDetail";
 import SignIn from "@public/login/SignIn";
 import SignUp from "@public/register/Singup";
+import SizeGuide from "@public/misc/SizeGuide";
+import Helps from "@public/misc/Helps";
+import ShippingReturn from "@public/misc/ShippingReturn";
 
 // Customer Routes
 import ShoppingCart from "@customer/cart/ShoppingCart";
@@ -30,9 +33,7 @@ import ProtectedAdminRoute from "@layout/ProtectedAdminRoute";
 import NavigationBar from "@layout/NavigationBar";
 import Container from "@layout/Container";
 import Footer from "@layout/Footer";
-import SizeGuide from "./components/public/misc/SizeGuide";
-import Helps from "./components/public/misc/Helps";
-import ShippingReturn from "./components/public/misc/ShippingReturn";
+import ScrollToTop from "@layout/ScrollToTop";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
@@ -64,6 +65,7 @@ function App() {
             path="/"
             element={
               <>
+                <ScrollToTop />
                 <NavigationBar />
                 <HomePage />
                 <Footer />
@@ -76,6 +78,7 @@ function App() {
             path={path.public.discovery}
             element={
               <>
+                <ScrollToTop />
                 <NavigationBar />
                 <Container>
                   <SeeAllItem />
@@ -102,6 +105,7 @@ function App() {
             path={path.public.size}
             element={
               <>
+                <ScrollToTop />
                 <NavigationBar />
                 <Container>
                   <SizeGuide />
@@ -115,6 +119,7 @@ function App() {
             path={path.public.helps}
             element={
               <>
+                <ScrollToTop />
                 <NavigationBar />
                 <Container>
                   <Helps />
@@ -128,6 +133,7 @@ function App() {
             path={path.public.shipping}
             element={
               <>
+                <ScrollToTop />
                 <NavigationBar />
                 <Container>
                   <ShippingReturn />

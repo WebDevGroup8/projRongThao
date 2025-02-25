@@ -136,7 +136,7 @@ export default function NavigationBar() {
               }}
               className="self-center whitespace-nowrap text-white"
             >
-              <p className="cursor-pointer hover:underline">SEE ALL PRODUCT</p>
+              <p className="cursor-pointer hover:underline">DISCOVERY</p>
             </button>
           </p>
         </div>
@@ -257,7 +257,7 @@ export default function NavigationBar() {
           className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
         >
           <Search size={18} />
-          See All Product
+          Discovery
         </div>
         {user && (
           <>
