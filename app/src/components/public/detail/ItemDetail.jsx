@@ -1,5 +1,4 @@
 import "react-toastify/dist/ReactToastify.css";
-
 import {
   ChevronDown,
   ChevronLeft,
@@ -10,14 +9,13 @@ import {
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
 import Loading from "@layout/Loading";
 import ax from "@/conf/ax";
 import { path, conf, endpoint } from "@/conf/main";
 import { toast } from "react-toastify";
 import useAuthStore from "@/store/store";
 
-export const ExampleImg = ({ img }) => {
+export const ExampleImg = ({ images }) => {
   const [key, setKey] = useState(0);
   return (
     <div className="relative mt-4 mb-8 flex h-80 w-full flex-col items-center lg:w-full">
@@ -25,20 +23,24 @@ export const ExampleImg = ({ img }) => {
         {key > 0 && (
           <button
             className="t-0 absolute start-5 flex h-full items-center lg:-start-18"
-            onClick={() => setKey(key - 1)}
+            onClick={() => {
+              setKey(key - 1);
+            }}
           >
             <ChevronLeft size={80} strokeWidth={2} className="text-gray-400" />
           </button>
         )}
         <img
-          src={`${conf.imageUrlPrefix}${img[key]}`}
+          src={`${conf.imageUrlPrefix}${images[key]}`}
           alt="รองเท้า"
           className="h-80 w-80 rounded-2xl border-4 border-gray-300 object-cover lg:h-100 lg:w-full"
         />
-        {key < img.length - 1 && (
+        {key < images.length - 1 && (
           <button
             className="absolute end-5 top-1/2 -translate-y-1/2 lg:-end-18"
-            onClick={() => setKey(key + 1)}
+            onClick={() => {
+              setKey(key + 1);
+            }}
           >
             <ChevronRight size={80} strokeWidth={2} className="text-gray-400" />
           </button>
@@ -46,14 +48,13 @@ export const ExampleImg = ({ img }) => {
       </div>
 
       <div className="mt-4 flex w-full flex-wrap justify-center gap-3 lg:mt-0">
-        {img?.map((image, index) => (
+        {images?.map((img, index) => (
           <button
             key={index}
             className="h-15 w-15 rounded-xl border-2 border-gray-300 object-cover focus:ring-1 focus:ring-black focus:outline-none lg:h-fit"
-            onClick={() => setKey(index)}
           >
             <img
-              src={`${conf.imageUrlPrefix}${image}`}
+              src={`${conf.imageUrlPrefix}${img}`}
               alt="รองเท้า"
               className="aspect-square h-fit w-fit rounded-xl object-cover"
             />
@@ -64,19 +65,12 @@ export const ExampleImg = ({ img }) => {
   );
 };
 
-export const Detail = ({
-  country,
-  solds,
-  price,
-  shoeName,
-  stock,
-  promotion,
-}) => {
+export const Detail = ({ country, solds, price, shoeName, promotion }) => {
   const [refinePrice, setRefinePrice] = useState(0);
   const [isPromotion, setIsPromotion] = useState(false);
   const now = new Date();
   const isPromotionValid = () => {
-    if (promotion.name) {
+    if (promotion?.name) {
       const startDate = new Date(promotion.start);
       const endDate = new Date(promotion.end);
 
@@ -137,9 +131,6 @@ export const Detail = ({
           <p>
             {solds} {solds <= 0 ? "Sold" : "Solds"}
           </p>
-          <p>
-            Total {stock} product{stock !== 1 ? "s" : ""} available.
-          </p>
         </div>
       </div>
     </div>
@@ -157,8 +148,6 @@ export const Tag = ({ text }) => {
           <p className="text-center font-semibold text-white">{text}</p>
         </div>
       ))}
-
-      <p className="text-center font-semibold text-white">{text}</p>
     </div>
   );
 };
@@ -207,16 +196,17 @@ export const Description = ({ description }) => {
 
 export default function ItemDetail() {
   const [IsOpenSize, setIsOpenSize] = useState(false);
-  const [IsOpenColor, setIsOpenColor] = useState(false);
-  const [size, setSize] = useState("Value");
-  const [color, setColor] = useState("Value");
+  const [size, setSize] = useState("Select Size");
+  const [sizeIndex, setSizeIndex] = useState(null);
   const [product, setProduct] = useState(null);
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const { user, cart, addToCart } = useAuthStore();
 
-  const isItemInCart = cart.find((item) => item.id === Number(id));
+  const isItemInCart = cart.find(
+    (item) => item.id === Number(id) && item.sizeIndex === sizeIndex,
+  );
   const navigate = useNavigate();
 
   const fetchProduct = async () => {
@@ -234,15 +224,39 @@ export default function ItemDetail() {
   };
 
   const handleAddToCart = async () => {
-    try {
-      await addToCart({ id: product.id });
-      toast.success("Item added to cart!", {
+    if (size === "Select Size") {
+      toast.error("Please select size before adding to cart!", {
         position: "top-right",
         autoClose: 3000,
-        className: "mt-20",
+      });
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+
+      await addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+        sizeIndex: sizeIndex,
+      });
+
+      toast.success("Item added to cart!", {
+        position: "top-right",
+        autoClose: 2000,
+        className: "top-20",
       });
     } catch (e) {
-      console.log(e);
+      console.error("Error adding to cart:", e);
+
+      toast.error("Failed to add item to cart. Please try again.", {
+        position: "top-right",
+        autoClose: 2000,
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -256,18 +270,14 @@ export default function ItemDetail() {
     <div className="mb-20 h-full w-full flex-wrap space-y-5 lg:mb-10 lg:px-20 lg:py-10">
       <div className="lg:flex lg:w-full lg:flex-row lg:justify-between">
         <div className="lg:w-full">
-          <ExampleImg
-            shoeName={product.name}
-            img={images.map((image) => image.url)}
-          />
+          <ExampleImg images={images.map((image) => image.url)} />
         </div>
-        <div className="flex flex-col gap-5 px-5 lg:w-1/2">
+        <div className="flex flex-col gap-5 px-5 lg:w-full">
           {
             <Detail
               country="Thailand"
               solds={product.soldCount}
               price={product.price}
-              stock={product.stock}
               shoeName={product.name}
               promotion={product.promotion ? product.promotion : {}}
             />
@@ -276,7 +286,7 @@ export default function ItemDetail() {
 
           <div className="flex flex-col gap-10">
             <div className="flex flex-row justify-between gap-12">
-              <div className="relative flex w-84 flex-col gap-y-2">
+              <div className="relative z-50 flex w-full flex-col gap-y-2">
                 <p>Size</p>
                 <button
                   onClick={() => setIsOpenSize(!IsOpenSize)}
@@ -291,49 +301,24 @@ export default function ItemDetail() {
                 {IsOpenSize && (
                   <div className="absolute top-full mt-1 w-44 divide-y divide-gray-100 rounded-lg bg-white shadow-sm">
                     <ul className="py-2 text-sm text-gray-700">
-                      {product.size.map((item, index) => (
+                      {product.stock.map((size, index) => (
                         <li key={index}>
                           <a
-                            className="block px-4 py-2 hover:bg-gray-100"
+                            className={`z-50 flex flex-row justify-between px-4 py-2 hover:bg-gray-100 ${size.stock <= 0 && `bg-gray-300 hover:bg-gray-400`}`}
                             onClick={() => {
-                              return setSize(item), setIsOpenSize(!IsOpenSize);
+                              if (size.stock > 0) {
+                                setSizeIndex(index);
+                                setSize(size.size);
+                                setIsOpenSize(!IsOpenSize);
+                              } else {
+                                toast.error("Cannot select out of stock size");
+                              }
                             }}
                           >
-                            {item}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-              <div className="relative flex w-84 flex-col gap-y-2">
-                <p>Colors</p>
-                <button
-                  onClick={() => setIsOpenColor(!IsOpenColor)}
-                  className="inline-flex items-center rounded-lg border-1 bg-white px-5 py-2.5 text-center text-sm font-light text-black focus:ring-1 focus:ring-black focus:outline-none"
-                  type="button"
-                >
-                  {color}
-
-                  <div className="ms-auto">
-                    <ChevronDown />
-                  </div>
-                </button>
-                {IsOpenColor && (
-                  <div className="absolute top-full mt-1 w-44 divide-y divide-gray-100 rounded-lg bg-white shadow-sm">
-                    <ul className="py-2 text-sm text-gray-700">
-                      {product.color.map((item, index) => (
-                        <li key={index}>
-                          <a
-                            className="block px-4 py-2 hover:bg-gray-100"
-                            onClick={() => {
-                              return (
-                                setColor(item), setIsOpenColor(!IsOpenColor)
-                              );
-                            }}
-                          >
-                            {item}
+                            <p className="font-bold">{size.size} </p>
+                            <span className="font-light text-gray-900">
+                              ({size.stock} in stock)
+                            </span>
                           </a>
                         </li>
                       ))}

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import Loading from "@/components/layout/Loading";
 import ax from "@/conf/ax";
 import { endpoint, conf } from "@/conf/main";
@@ -17,20 +16,21 @@ export default function ShoppingCart() {
   const [discountPercentage, setDiscountPercentage] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState(subtotal);
-
   const [promoCode, setPromoCode] = useState("");
 
   const handlePromoChange = (e) => {
     setPromoCode(e.target.value);
   };
-  const updateQuantity = (id, change) => {
+
+  const updateQuantity = (id, sizeIndex, change) => {
     setCartItems((items) => {
       return items.map((item) => {
-        if (item.id === id) {
+        if (item.id === id && item.sizeIndex === sizeIndex) {
           const newQuantity = item.quantity + change;
-
-          if (newQuantity > item.stock) {
-            toast.error(`Only ${item.stock} items available in stock.`);
+          if (newQuantity > item.stock[sizeIndex].stock) {
+            toast.error(
+              `Only ${item.stock[sizeIndex].stock} items available in stock.`,
+            );
             return item;
           }
 
@@ -39,16 +39,22 @@ export default function ShoppingCart() {
         return item;
       });
     });
-
-    const updatedItem = cartItems.find((item) => item.id === id);
-    if (updatedItem && updatedItem.quantity + change <= updatedItem.stock) {
-      updateCartItem(id, change);
+    const updatedItem = cartItems.find(
+      (item) => item.id === id && item.sizeIndex === sizeIndex,
+    );
+    if (
+      updatedItem &&
+      updatedItem.quantity + change <= updatedItem.stock[sizeIndex].stock
+    ) {
+      updateCartItem(id, sizeIndex, change);
     }
   };
 
-  const removeItem = (id) => {
-    setCartItems((items) => items.filter((item) => item.id !== id));
-    removeFromCart(id);
+  const removeItem = (id, sizeIndex) => {
+    setCartItems((items) =>
+      items.filter((item) => item.id !== id || item.sizeIndex !== sizeIndex),
+    );
+    removeFromCart(id, sizeIndex);
   };
 
   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
@@ -77,7 +83,7 @@ export default function ShoppingCart() {
     } catch (error) {
       if (error.response.data?.error?.type === "coupon") {
         // TODO: implement toast
-        alert("Invalid Coupon Code");
+        toast.error("Invalid Coupon Code");
       }
       console.error("Payment Error:", error);
     }
@@ -88,30 +94,33 @@ export default function ShoppingCart() {
       0,
     );
     setSubtotal(newSubtotal);
-    if (cartItems?.length !== 0) {
-      // TODO: remove hard code shipping
-      const newShipping = 150;
-      const newDiscountPercentage = 0;
-      const newDiscount = newSubtotal * (newDiscountPercentage / 100);
-      const newTotal = newSubtotal + newShipping - newDiscount;
-      setShipping(newShipping);
-      setDiscountPercentage(newDiscountPercentage);
-      setDiscount(newDiscount);
-      setTotal(newTotal);
-    }
+
+    // TODO: remove hard code shipping
+    const newShipping = 150;
+    const newDiscountPercentage = 0;
+    const newDiscount = newSubtotal * (newDiscountPercentage / 100);
+    const newTotal = newSubtotal + newShipping - newDiscount;
+    setShipping(newShipping);
+    setDiscountPercentage(newDiscountPercentage);
+    setDiscount(newDiscount);
+    setTotal(newTotal);
   };
+
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
       const productRequests = cartItems.map((item) =>
-        ax
-          .get(
-            `/products?populate=image&populate=categories&filters[id]=${item.id}`,
-          )
-          .then((response) => ({
+        ax.get(endpoint.public.product.get(item.id)).then((response) => {
+          return {
+            selectedSize: response.data.data[0].stock[item.sizeIndex].size,
+            sizeIndex: item.sizeIndex,
+            imageUrl:
+              response.data.data[0].image[0].formats?.thumbnail.url ||
+              `/placeholder.png`,
             ...response.data,
             quantity: item.quantity,
-          })),
+          };
+        }),
       );
 
       const responses = await Promise.all(productRequests);
@@ -143,6 +152,9 @@ export default function ShoppingCart() {
       };
       const products = responses.map((response) => ({
         ...response.data[0],
+        selectedSize: response.selectedSize,
+        thumbnailImage: response.imageUrl,
+        sizeIndex: response.sizeIndex,
         price: promotionPrice(response.data[0]),
         quantity: response.quantity,
       }));
@@ -154,7 +166,6 @@ export default function ShoppingCart() {
       setIsLoading(false);
     }
   };
-
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -186,14 +197,15 @@ export default function ShoppingCart() {
                 </p>
               </div>
             ) : (
-              cartItems?.map((item) => (
+              cartItems?.map((item, index) => (
                 <div
-                  key={item.id}
+                  key={index}
                   className="flex flex-col items-center rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition-shadow duration-200 hover:shadow-lg sm:flex-row sm:p-6"
                 >
+                  {/* {console.log(item)} */}
                   <img
                     src={
-                      `${conf.imageUrlPrefix}${item?.image?.[0]?.url}` ||
+                      `${conf.imageUrlPrefix}${item.thumbnailImage}` ||
                       "/placeholder.svg"
                     }
                     alt={item.name}
@@ -201,12 +213,16 @@ export default function ShoppingCart() {
                   />
                   <div className="ml-0 flex-1 text-center sm:ml-4 sm:text-left">
                     <h3 className="font-semibold">{item.name}</h3>
-                    <p className="text-sm text-gray-500">Size: {item.size}</p>
+                    <p className="text-sm text-gray-500">
+                      Size: {item.selectedSize}
+                    </p>
                   </div>
                   <div className="mt-4 flex items-center space-x-15 sm:mt-0">
                     <div className="flex items-center">
                       <button
-                        onClick={() => updateQuantity(item.id, 1)}
+                        onClick={() =>
+                          updateQuantity(item.id, item.sizeIndex, 1)
+                        }
                         className="cursor-pointer rounded p-1 hover:bg-gray-200"
                       >
                         <svg
@@ -224,8 +240,15 @@ export default function ShoppingCart() {
                       </button>
                       <span className="mx-3">{item.quantity}</span>
                       <button
-                        onClick={() => updateQuantity(item.id, -1)}
-                        className="cursor-pointer rounded p-1 hover:bg-gray-200"
+                        onClick={() =>
+                          updateQuantity(item.id, item.sizeIndex, -1)
+                        }
+                        disabled={item.quantity === 1}
+                        className={`cursor-pointer rounded p-1 hover:bg-gray-200 ${
+                          item.quantity === 1
+                            ? "cursor-not-allowed opacity-20"
+                            : ""
+                        }`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -250,7 +273,7 @@ export default function ShoppingCart() {
                       </p>
                     </div>
                     <button
-                      onClick={() => removeItem(item.id)}
+                      onClick={() => removeItem(item.id, item.sizeIndex)}
                       className="cursor-pointer rounded p-1 text-red-400 transition hover:bg-red-500 hover:text-white"
                     >
                       <svg

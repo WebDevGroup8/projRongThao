@@ -58,7 +58,7 @@ function App() {
   return (
     !isLoginPending && (
       <div className="h-full w-full">
-        <ToastContainer />
+        <ToastContainer className="z-0" />
         <Routes>
           {/* Public Route */}
           <Route
@@ -91,14 +91,13 @@ function App() {
           <Route
             path={`${path.public.detail}/:id`}
             element={
-              <>
-                <ScrollToTop />
+              <div className="z-50">
                 <NavigationBar />
                 <Container>
                   <ItemDetail />
                 </Container>
                 <Footer />
-              </>
+              </div>
             }
           />
 

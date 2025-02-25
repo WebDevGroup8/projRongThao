@@ -1,19 +1,39 @@
-import { ImageIcon, Upload, X } from "lucide-react";
+import { ImageIcon, Plus, Trash, Upload, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 import ax from "@/conf/ax";
 import { toast } from "react-toastify";
 import { endpoint } from "@/conf/main";
 
+const defaultProductTempalte = {
+  name: "",
+  description: "",
+  price: "",
+  stock: [
+    {
+      size: "36",
+      stock: 0,
+    },
+    {
+      size: "38",
+      stock: 0,
+    },
+    {
+      size: "40",
+      stock: 0,
+    },
+    {
+      size: "42",
+      stock: 0,
+    },
+    {
+      size: "44",
+      stock: 0,
+    },
+  ],
+};
 export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
-  const [productData, setProductData] = useState({
-    name: "",
-    description: "",
-    price: "",
-    size: "",
-    color: "",
-    stock: "",
-  });
+  const [productData, setProductData] = useState(defaultProductTempalte);
 
   const [images, setImages] = useState([]);
   const [previewUrls, setPreviewUrls] = useState([]);
@@ -35,14 +55,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
       };
       fetchCategories();
       // เพิ่มการรีเซ็ต state
-      setProductData({
-        name: "",
-        description: "",
-        price: "",
-        size: "",
-        color: "",
-        stock: "",
-      });
+      setProductData(defaultProductTempalte);
       setImages([]);
       setPreviewUrls([]);
       setSelectedCategories([]);
@@ -95,16 +108,36 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
     }
   };
 
+  // --- SECTION: change stock ---
+  const handleStockChange = (index, field, value) => {
+    const newStock = [...productData.stock];
+    newStock[index][field] =
+      field === "stock" ? Math.max(0, parseInt(value)) || 0 : value;
+    setProductData((prev) => ({
+      ...prev,
+      stock: newStock,
+    }));
+  };
+
+  const addRow = () => {
+    setProductData((prev) => ({
+      ...prev,
+      stock: [...prev.stock, { size: "", stock: 0 }],
+    }));
+  };
+
+  const removeRow = (index) => {
+    const newStock = productData.stock.filter((_, i) => i !== index);
+    setProductData((prev) => ({
+      ...prev,
+      stock: newStock,
+    }));
+  };
+  // --- END SECTION: change stock ---
+
   const resetState = () => {
     // เพิ่มฟังก์ชันนี้
-    setProductData({
-      name: "",
-      description: "",
-      price: "",
-      size: "",
-      color: "",
-      stock: "",
-    });
+    setProductData(defaultProductTempalte);
     setImages([]);
     setPreviewUrls([]);
     setSelectedCategories([]);
@@ -127,9 +160,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
         data: {
           ...productData,
           price: Number(productData.price),
-          size: productData.size.split(",").map((s) => s.trim()), // ปรับให้ trim ช่องว่าง
-          color: productData.color.split(",").map((c) => c.trim()),
-          stock: Number(productData.stock),
+          stock: productData.stock,
           image: uploadedImageIds,
           categories: selectedCategories,
         },
@@ -140,7 +171,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
       resetState(); // เพิ่มเพื่อรีเซ็ต state
       onClose();
     } catch (error) {
-      console.error("❌ Error creating product:", error.response?.data);
+      console.error("❌ Error creating product:", error);
       toast.error(
         "❌ Failed to create product: " +
           (error.response?.data?.message || "Unknown error"),
@@ -149,12 +180,11 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
       setIsLoading(false); // เพิ่มเพื่อรีเซ็ตสถานะ loading
     }
   };
-
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-      <div className="w-full max-w-3xl rounded-lg bg-white p-6 shadow-xl">
+      <div className="w-full max-w-5xl rounded-lg bg-white p-6 shadow-xl">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold">Create New Product</h2>
           <button
@@ -266,58 +296,15 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
                 className="focus:ring-primary focus:border-primary w-full rounded-md border-gray-300 p-2 shadow-sm"
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Sizes (Number)
-                </label>
-                <input
-                  name="size"
-                  type="text"
-                  value={productData.size}
-                  onChange={handleChange}
-                  required
-                  placeholder="e.g. XX, YY, ZZ"
-                  className="focus:ring-primary focus:border-primary w-full rounded-md border-gray-300 p-2 shadow-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Colors
-                </label>
-                <input
-                  name="color"
-                  type="text"
-                  value={productData.color}
-                  onChange={handleChange}
-                  required
-                  placeholder="e.g. Red, Blue"
-                  className="focus:ring-primary focus:border-primary w-full rounded-md border-gray-300 p-2 shadow-sm"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Stock
-              </label>
-              <input
-                name="stock"
-                type="number"
-                value={productData.stock}
-                onChange={handleChange}
-                required
-                className="focus:ring-primary focus:border-primary w-full rounded-md border-gray-300 p-2 shadow-sm"
-              />
-            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Categories
               </label>
-              <div className="mt-1 h-20 overflow-y-scroll rounded-md p-2 shadow-sm">
+              <div className="flex flex-wrap gap-1.5 rounded-md p-3 shadow-sm">
                 {categories.map((category) => (
                   <div
                     key={category.id}
-                    className="focus:ring-primary focus:border-primary flex items-center gap-2"
+                    className="focus:ring-primary focus:border-primary me-4 flex flex-row items-center gap-1"
                   >
                     <input
                       type="checkbox"
@@ -332,6 +319,70 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
                 ))}
               </div>
             </div>
+            {/* Size Stock */}
+            <label className="block text-sm font-medium text-gray-700">
+              Stock
+            </label>
+            <div className="h-50 overflow-y-auto">
+              <table className="w-full text-left text-sm text-gray-500 shadow-sm rtl:text-right">
+                <thead className="rounded border-1 border-gray-200 bg-gray-50 text-xs text-gray-700">
+                  <tr>
+                    <th className="border border-gray-200 px-2 py-1.5 text-center">
+                      Size
+                    </th>
+                    <th className="border border-gray-200 px-2 py-1.5 text-center">
+                      Stock
+                    </th>
+                    <th className="border border-gray-200 px-2 py-1.5 text-center"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {productData.stock.map((row, index) => (
+                    <tr
+                      key={index}
+                      className="items-center border-b border-gray-200 bg-white"
+                    >
+                      <td className="border border-gray-200 p-2">
+                        <input
+                          type="text"
+                          value={row.size}
+                          onChange={(e) =>
+                            handleStockChange(index, "size", e.target.value)
+                          }
+                          className="w-full rounded border p-1"
+                        />
+                      </td>
+                      <td className="border border-gray-200 p-2">
+                        <input
+                          type="number"
+                          value={row.stock}
+                          onChange={(e) =>
+                            handleStockChange(index, "stock", e.target.value)
+                          }
+                          className="w-full rounded border p-1"
+                        />
+                      </td>
+                      <td className="items-center border border-gray-200 p-2 text-center">
+                        <button
+                          onClick={() => removeRow(index)}
+                          className="w-fit items-center gap-1 rounded bg-red-500 px-2 py-2 text-center text-white"
+                          disabled={productData.stock.length === 1}
+                        >
+                          <Trash size={16} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <button
+              type="button"
+              onClick={addRow}
+              className="flex w-full items-center justify-center gap-1 rounded-md bg-blue-500 px-1 py-1 text-center font-normal text-white shadow-md"
+            >
+              <Plus size={20} /> Add Size
+            </button>
           </div>
 
           <div className="col-span-full flex justify-end">

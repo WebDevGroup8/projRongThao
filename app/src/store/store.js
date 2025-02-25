@@ -33,7 +33,10 @@ const useAuthStore = create((set) => ({
   addToCart: async (product) => {
     set((state) => {
       const existingCart = state.cart || [];
-      const existingItem = existingCart.find((item) => item.id === product.id);
+      const existingItem = existingCart.find(
+        (item) =>
+          item.id === product.id && item.sizeIndex === product.sizeIndex,
+      );
 
       let updatedCart;
 
@@ -62,9 +65,11 @@ const useAuthStore = create((set) => ({
     }
   },
 
-  removeFromCart: async (productId) => {
+  removeFromCart: async (productId, productSizeIndex) => {
     set((state) => ({
-      cart: state.cart.filter((item) => item.id !== productId),
+      cart: state.cart.filter(
+        (item) => item.id !== productId || item.sizeIndex !== productSizeIndex,
+      ),
     }));
     try {
       await ax.put(
@@ -78,23 +83,22 @@ const useAuthStore = create((set) => ({
     }
   },
 
-  updateCartItem: async (productId, change) => {
+  updateCartItem: async (productId, sizeIndex, change) => {
     set((state) => ({
       cart: state.cart.map((item) =>
-        item.id === productId
+        item.id === productId && item.sizeIndex === sizeIndex
           ? { ...item, quantity: item.quantity + change }
           : item,
       ),
     }));
 
     try {
-      // Get the updated cart AFTER the state change
       const updatedCart = useAuthStore.getState().cart;
 
       await ax.put(
         endpoint.customer.cart.update(useAuthStore.getState().user.id),
         {
-          cart: updatedCart, // Use the latest cart state
+          cart: updatedCart,
         },
       );
     } catch (e) {

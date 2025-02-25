@@ -10,6 +10,7 @@ type OrderProduct = {
   id: string;
   documentId: string;
   quantity: number;
+  selectedSize: string;
 };
 
 type ItemData = {
@@ -33,6 +34,7 @@ export default factories.createCoreController(
       const orderedProduct = order_product.map((product) => ({
         documentId: product.documentId,
         quantity: product.quantity,
+        sizeIndex: product.sizeIndex,
       }));
 
       if (!order_product || !Array.isArray(order_product)) {
@@ -58,7 +60,7 @@ export default factories.createCoreController(
           const image = `${process.env.SELF_URL}${item.image[0].url}`;
 
           const isPromotionValid = (product) => {
-            if (product.promotion.name) {
+            if (product.promotion?.name) {
               const startDate = new Date(product.promotion.start);
               const endDate = new Date(product.promotion.end);
 
@@ -85,7 +87,7 @@ export default factories.createCoreController(
             price_data: {
               currency: "THB",
               product_data: {
-                name: item.name,
+                name: `${item.name} (Size: ${product.selectedSize})`,
                 images: [image],
               },
               unit_amount: promotionPrice(item) * 100,

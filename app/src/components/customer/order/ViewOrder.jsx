@@ -32,6 +32,7 @@ export const GroupViewCard = ({ selectedStatus }) => {
       console.error("Error fetching OrderItems:", error);
     }
   };
+  console.log(orderItems);
 
   const filteredOrderItems = orderItems?.filter(
     (order) =>
@@ -171,8 +172,8 @@ export const GroupViewCard = ({ selectedStatus }) => {
                           </span>
                         </div>
                         <div className="font-semi-bold mt-5 flex justify-between pt-3 text-lg">
-                          <span>Address</span>
-                          <span>{item.address ? item.address : "No Data"}</span>
+                          <p>Address: </p>
+                          <p>{item.address ? item.address : "No Data"}</p>
                         </div>
                       </div>
                     ) : (
@@ -200,22 +201,20 @@ export const ViewOrderCard = ({ item }) => {
             <div className="mt-3 mb-2 flex w-full flex-row">
               <img
                 src={
-                  `${conf.imageUrlPrefix}${item.image[0].url}` ||
+                  `${conf.imageUrlPrefix}${item.image[0]?.url}` ||
                   "/placeholder.svg"
                 }
                 alt={item.name}
                 className="mb3 h-16 w-16 rounded-md object-cover lg:h-18 lg:w-18"
               />
               <div className="flex w-full flex-row justify-between pt-2 lg:ps-9 lg:pt-0">
-                <div className="ms-3 flex flex-col text-sm lg:me-7">
-                  <div className="w-28 truncate pb-2 font-semibold whitespace-nowrap lg:text-base">
+                <div className="ms-3 flex w-full flex-col text-sm lg:me-7">
+                  <div className="w-28 pb-2 font-semibold text-wrap lg:w-full lg:text-base">
                     {item.name}
                   </div>
+
                   <div className="font-xs font-thin lg:text-sm">
-                    Color: {item.color}
-                  </div>
-                  <div className="font-xs font-thin lg:text-sm">
-                    Size: {item.size}
+                    Size: {item.selectedSize}
                   </div>
                 </div>
                 <div className="flex flex-col ps-8 text-end whitespace-nowrap">

@@ -32,7 +32,7 @@ export default function ProductCard(props) {
 
   const now = new Date();
   const isPromotionValid = () => {
-    if (props.promotion.name) {
+    if (props.promotion?.name) {
       const startDate = new Date(props.promotion.start);
       const endDate = new Date(props.promotion.end);
 

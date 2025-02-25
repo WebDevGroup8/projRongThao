@@ -125,7 +125,6 @@ export default function HomePage() {
                 price={product.price}
                 stock={product.stock}
                 size={product.size}
-                color={product.color}
                 categories={product.categories}
                 soldCount={product.soldCount}
                 reviews={product.reviews}
