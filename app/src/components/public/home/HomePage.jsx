@@ -6,37 +6,37 @@ import Container from "@layout/Container";
 import ProductCard from "@public/discovery/ProductCard";
 import PromotionCarousel from "@public/home/PromotionCarousel";
 import fetchProducts from "@/utils/FetchProduct";
-
+import { path } from "@/conf/main";
 const categories = [
   {
     imageUrl:
       "https://www.sportpodium.com/cdn/shop/collections/19FW_FP_Shoes-Womens_PLP_IWallpaper-Tile_DT-Rev-01_10212019_tcm274-416491_65c23005-b9bb-422b-8b95-a82809b0d290.jpg?v=1622964858",
     title: "New Arrival",
-    navigateTo: "/",
+    navigateTo: `${path.public.discovery}${path.public.discoveryCategory.new}`,
   },
   {
     imageUrl:
       "https://www.blessthisstuff.com/imagens/listagem/2011/grande/grande_img_2011_nike_mag.jpg",
     title: "Limited",
-    navigateTo: "/",
+    navigateTo: `${path.public.discovery}${path.public.discoveryCategory.limited}`,
   },
   {
     imageUrl:
       "https://s.alicdn.com/@sc04/kf/H25dc07b105f54dca881858a05046426dK.jpg_720x720q50.jpg",
     title: "Sport",
-    navigateTo: "/",
+    navigateTo: `${path.public.discovery}${path.public.discoveryCategory.sport}`,
   },
   {
     imageUrl:
       "https://nothingnew.com/cdn/shop/products/HighTop-White-Thumbanil-2_1024x1024.jpg?v=1652119826",
     title: "High Top",
-    navigateTo: "/",
+    navigateTo: `${path.public.discovery}${path.public.discoveryCategory.highTop}`,
   },
   {
     imageUrl:
       "https://fashionista.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNTA1MDg3MjU0NTM3ODk0/shop-platform-sneakers.jpg",
-    title: "Dlatform",
-    navigateTo: "/",
+    title: "Platform",
+    navigateTo: `${path.public.discovery}${path.public.discoveryCategory.platform}`,
   },
 ];
 
