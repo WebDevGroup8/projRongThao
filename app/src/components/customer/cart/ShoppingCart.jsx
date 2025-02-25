@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import Loading from "@/components/layout/Loading";
 import ax from "@/conf/ax";
 import { endpoint, conf } from "@/conf/main";
@@ -17,8 +16,10 @@ export default function ShoppingCart() {
   const [discountPercentage, setDiscountPercentage] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState(subtotal);
-
   const [promoCode, setPromoCode] = useState("");
+
+  console.log("cart", cart);
+  console.log("cartItems", cartItems);
 
   const handlePromoChange = (e) => {
     setPromoCode(e.target.value);
@@ -100,6 +101,7 @@ export default function ShoppingCart() {
       setTotal(newTotal);
     }
   };
+
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
@@ -109,6 +111,9 @@ export default function ShoppingCart() {
             `/products?populate=image&populate=categories&filters[id]=${item.id}`,
           )
           .then((response) => ({
+            color: item.color,
+            size: item.size,
+            imageUrl: item.image,
             ...response.data,
             quantity: item.quantity,
           })),
@@ -142,6 +147,9 @@ export default function ShoppingCart() {
         }
       };
       const products = responses.map((response) => ({
+        selectedSize: response.size,
+        selectedColor: response.color,
+        selectedImage: response.imageUrl,
         ...response.data[0],
         price: promotionPrice(response.data[0]),
         quantity: response.quantity,
@@ -154,7 +162,7 @@ export default function ShoppingCart() {
       setIsLoading(false);
     }
   };
-
+  console.log(`${conf.imageUrlPrefix}${cartItems[1]?.selectedImage}`);
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -193,7 +201,7 @@ export default function ShoppingCart() {
                 >
                   <img
                     src={
-                      `${conf.imageUrlPrefix}${item?.image?.[0]?.url}` ||
+                      `${conf.imageUrlPrefix}${item.selectedImage}` ||
                       "/placeholder.svg"
                     }
                     alt={item.name}
@@ -201,7 +209,12 @@ export default function ShoppingCart() {
                   />
                   <div className="ml-0 flex-1 text-center sm:ml-4 sm:text-left">
                     <h3 className="font-semibold">{item.name}</h3>
-                    <p className="text-sm text-gray-500">Size: {item.size}</p>
+                    <p className="text-sm text-gray-500">
+                      Size: {item.selectedSize}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Color: {item.selectedColor}
+                    </p>
                   </div>
                   <div className="mt-4 flex items-center space-x-15 sm:mt-0">
                     <div className="flex items-center">

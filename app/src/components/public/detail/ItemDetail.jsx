@@ -199,13 +199,15 @@ export const Description = ({ description }) => {
 export default function ItemDetail() {
   const [IsOpenSize, setIsOpenSize] = useState(false);
   const [IsOpenColor, setIsOpenColor] = useState(false);
-  const [size, setSize] = useState("Value");
-  const [color, setColor] = useState("Value");
+  const [size, setSize] = useState(null);
+  const [color, setColor] = useState(null);
   const [product, setProduct] = useState(null);
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const { user, cart, addToCart } = useAuthStore();
+
+  console.log(cart);
 
   const isItemInCart = cart.find((item) => item.id === Number(id));
   const navigate = useNavigate();
@@ -224,16 +226,48 @@ export default function ItemDetail() {
     }
   };
 
+  const getImage = (color) =>
+    product?.image?.find((img) => img.name.includes(color))?.url ?? null;
+
   const handleAddToCart = async () => {
+    if (!size || !color) {
+      toast.error("Please select size and color before adding to cart!", {
+        position: "top-right",
+        autoClose: 3000,
+        className: "mt-20",
+      });
+      return;
+    }
+
     try {
-      await addToCart({ id: product.id });
+      setIsLoading(true);
+      console.log(getImage(color));
+
+      await addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: getImage(color),
+        quantity: 1,
+        size,
+        color,
+      });
+
       toast.success("Item added to cart!", {
         position: "top-right",
         autoClose: 3000,
         className: "mt-20",
       });
     } catch (e) {
-      console.log(e);
+      console.error("Error adding to cart:", e);
+
+      toast.error("Failed to add item to cart. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        className: "mt-20",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
