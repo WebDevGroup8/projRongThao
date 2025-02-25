@@ -199,8 +199,8 @@ export const Description = ({ description }) => {
 export default function ItemDetail() {
   const [IsOpenSize, setIsOpenSize] = useState(false);
   const [IsOpenColor, setIsOpenColor] = useState(false);
-  const [size, setSize] = useState(null);
-  const [color, setColor] = useState(null);
+  const [size, setSize] = useState("Size");
+  const [color, setColor] = useState("Color");
   const [product, setProduct] = useState(null);
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -230,7 +230,7 @@ export default function ItemDetail() {
     product?.image?.find((img) => img.name.includes(color))?.url ?? null;
 
   const handleAddToCart = async () => {
-    if (!size || !color) {
+    if (size === "Size" || color === "Color") {
       toast.error("Please select size and color before adding to cart!", {
         position: "top-right",
         autoClose: 3000,
