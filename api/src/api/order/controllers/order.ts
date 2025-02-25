@@ -34,6 +34,7 @@ export default factories.createCoreController(
       const orderedProduct = order_product.map((product) => ({
         documentId: product.documentId,
         quantity: product.quantity,
+        sizeIndex: product.sizeIndex,
       }));
 
       if (!order_product || !Array.isArray(order_product)) {
