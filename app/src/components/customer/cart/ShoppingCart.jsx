@@ -235,7 +235,12 @@ export default function ShoppingCart() {
                       <span className="mx-3">{item.quantity}</span>
                       <button
                         onClick={() => updateQuantity(item.id, -1)}
-                        className="cursor-pointer rounded p-1 hover:bg-gray-200"
+                        disabled={item.quantity === 1}
+                        className={`cursor-pointer rounded p-1 hover:bg-gray-200 ${
+                          item.quantity === 1
+                            ? "cursor-not-allowed opacity-20"
+                            : ""
+                        }`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
