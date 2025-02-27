@@ -66,7 +66,6 @@ const ReviewManage = () => {
           const isExpanded = expandedProduct.includes(product.id);
           const stats = getProductStats(product.id);
           const reviews = product.reviews;
-          console.log(reviews);
 
           return (
             <div

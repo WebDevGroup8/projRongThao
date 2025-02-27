@@ -16,7 +16,6 @@ export default function ProductCard(props) {
   const fetchReviews = async () => {
     try {
       const res = await ax.get(endpoint.public.review.get(props.id));
-      console.log("Reviews:", res.data.data);
       setReviews(res.data.data);
     } catch (error) {
       console.error("Error fetching Reviews:", error);

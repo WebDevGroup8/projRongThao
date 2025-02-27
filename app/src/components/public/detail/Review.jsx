@@ -19,7 +19,6 @@ export default function Review({
   const fetchReviews = async () => {
     try {
       const res = await ax.get(endpoint.public.review.get(productId));
-      console.log("Reviews:", res.data.data);
       setReviews(res.data.data);
     } catch (error) {
       console.error("Error fetching Reviews:", error);
@@ -48,7 +47,6 @@ export default function Review({
           endpoint.public.review.create(),
           newReviewData,
         );
-        console.log("New Review:", res.data.data);
       } catch (error) {
         console.error("Error posting Review:", error);
       }
