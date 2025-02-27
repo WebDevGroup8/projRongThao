@@ -2,9 +2,16 @@ import { useEffect, useState } from "react";
 import { Star } from "lucide-react";
 import ax from "@/conf/ax";
 import { endpoint } from "@/conf/main";
+import dayjs from "dayjs";
 
-export default function Review({ user, productId }) {
-  const [reviews, setReviews] = useState([]);
+export default function Review({
+  user,
+  productId,
+  averageRating,
+  setAverageRating,
+  reviews,
+  setReviews,
+}) {
   const [newReview, setNewReview] = useState("");
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
@@ -45,10 +52,11 @@ export default function Review({ user, productId }) {
     }
   };
 
-  const averageRating =
+  const NewAverageRating =
     reviews.length > 0
       ? reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
       : 0;
+  setAverageRating(NewAverageRating);
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4">
@@ -130,7 +138,7 @@ export default function Review({ user, productId }) {
                 <div className="flex items-center justify-between">
                   <h3 className="font-medium">{review.user?.username}</h3>
                   <span className="text-sm text-gray-500">
-                    {new Date(review.createdAt).toLocaleDateString()}
+                    {dayjs(review.createdAt).format("DD MMM YYYY")}
                   </span>
                 </div>
                 <div className="flex">
@@ -148,7 +156,7 @@ export default function Review({ user, productId }) {
                 <p className="mt-2 text-sm">{review.comment}</p>
               </div>
             </div>
-            <hr className="border-gray-200" />
+            <hr className="border-gray-300" />
           </div>
         ))}
       </div>

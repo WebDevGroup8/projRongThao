@@ -6,6 +6,7 @@ import {
   MapPinned,
   Minus,
   Plus,
+  Star,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -66,7 +67,15 @@ export const ExampleImg = ({ images }) => {
   );
 };
 
-export const Detail = ({ country, solds, price, shoeName, promotion }) => {
+export const Detail = ({
+  country,
+  solds,
+  price,
+  shoeName,
+  promotion,
+  reviews,
+  averageRating,
+}) => {
   const [refinePrice, setRefinePrice] = useState(0);
   const [isPromotion, setIsPromotion] = useState(false);
   const now = new Date();
@@ -98,7 +107,7 @@ export const Detail = ({ country, solds, price, shoeName, promotion }) => {
   }, []);
   return (
     <div className="mt-12 flex flex-col lg:mt-0 lg:gap-2">
-      <div className="lg:mb-7">
+      <div className="lg:mb-3">
         <p className="mt-2 mb-2 text-xl font-bold lg:mb-0 lg:text-2xl lg:text-black">
           {shoeName}
         </p>
@@ -122,13 +131,27 @@ export const Detail = ({ country, solds, price, shoeName, promotion }) => {
           )
         )}
       </div>
+
       {/* Location & Sold Info */}
       <div className="flex flex-row gap-9">
-        <div className="flex flex-row gap-15">
-          <div className="flex flex-row gap-2">
-            <MapPinned />
-            <p>{country}</p>
+        <div className="flex items-center">
+          <div className="flex">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <Star
+                key={star}
+                className={`h-4 w-4 ${
+                  star <= Math.round(averageRating)
+                    ? "fill-yellow-400 text-yellow-400"
+                    : "fill-gray-200 text-gray-200"
+                }`}
+              />
+            ))}
           </div>
+          <span className="ml-2 text-gray-500">
+            {averageRating.toFixed(1)} ({reviews.length} reviews)
+          </span>
+        </div>
+        <div className="flex flex-row gap-10">
           <p>
             {solds} {solds <= 0 ? "Sold" : "Solds"}
           </p>
@@ -200,8 +223,10 @@ export default function ItemDetail() {
   const [size, setSize] = useState("Select Size");
   const [sizeIndex, setSizeIndex] = useState(null);
   const [product, setProduct] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [averageRating, setAverageRating] = useState(0);
   const { id } = useParams();
   const { user, cart, addToCart } = useAuthStore();
   const location = useLocation();
@@ -278,7 +303,9 @@ export default function ItemDetail() {
         <div className="flex flex-col gap-5 px-5 lg:w-full">
           {
             <Detail
+              reviews={reviews}
               country="Thailand"
+              averageRating={averageRating}
               solds={product.soldCount}
               price={product.price}
               shoeName={product.name}
@@ -369,7 +396,14 @@ export default function ItemDetail() {
           </div>
         </div>
       </div>
-      <Review user={user} productId={id} />
+      <Review
+        user={user}
+        productId={id}
+        averageRating={averageRating}
+        reviews={reviews}
+        setReviews={setReviews}
+        setAverageRating={setAverageRating}
+      />
     </div>
   );
 }
