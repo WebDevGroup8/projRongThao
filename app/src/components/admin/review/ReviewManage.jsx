@@ -44,6 +44,15 @@ const ReviewManage = () => {
     );
   };
 
+  const handleDeleteReview = async (documentId) => {
+    try {
+      ax.delete(endpoint.admin.review.delete(documentId));
+      fetchReviews();
+    } catch (error) {
+      console.error("Error deleting review:", error);
+    }
+  };
+
   useEffect(() => {
     fetchReviews();
   }, []);
@@ -110,7 +119,6 @@ const ReviewManage = () => {
 
               {isExpanded && (
                 <div className="border-t border-gray-300">
-                  {/* Review Stats */}
                   <div className="grid grid-cols-2 gap-4 rounded-md bg-gray-50 p-4 shadow-md">
                     <div className="flex items-center space-x-2">
                       <h3 className="text-sm text-gray-500">Total Reviews</h3>
@@ -187,7 +195,7 @@ const ReviewManage = () => {
                             <td className="px-6 py-4">
                               <button
                                 onClick={() =>
-                                  handleDeleteReview(product.id, review.id)
+                                  handleDeleteReview(review.documentId)
                                 }
                                 className="text-red-600 transition duration-200 ease-in-out hover:text-red-900"
                               >
