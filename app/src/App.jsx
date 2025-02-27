@@ -26,6 +26,7 @@ import OrderManagement from "@admin/order/OrderManagement";
 import ManageProduct from "@admin/product/ManageProduct";
 import ManageCategory from "@admin/category/ManageCategory";
 import Promotion from "@admin/promotion/Promotion";
+import ReviewManage from "@admin/review/ReviewManage";
 
 // Layout Components
 import ProtectedCustomerRoute from "@layout/ProtectedCustomerRoute";
@@ -34,7 +35,6 @@ import NavigationBar from "@layout/NavigationBar";
 import Container from "@layout/Container";
 import Footer from "@layout/Footer";
 import ScrollToTop from "@layout/ScrollToTop";
-import ReviewManage from "./components/admin/review/ReviewManage";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ChevronDown, ChevronUp, Star, Trash2 } from "lucide-react";
 import ax from "@/conf/ax";
 import { endpoint } from "@/conf/main";
-import { conf } from "../../../conf/main";
+import { conf } from "@/conf/main";
 import dayjs from "dayjs";
 
 const ReviewManage = () => {
@@ -52,6 +52,7 @@ const ReviewManage = () => {
       console.error("Error deleting review:", error);
     }
   };
+  const starNumber = [1, 2, 3, 4, 5];
 
   useEffect(() => {
     fetchReviews();
@@ -98,7 +99,7 @@ const ReviewManage = () => {
                       {product.reviews.length} Reviews
                     </div>
                     <div className="flex items-center justify-end">
-                      {[...Array(5)].map((_, index) => (
+                      {starNumber.map((_, index) => (
                         <Star
                           key={index}
                           className={`h-4 w-4 ${
@@ -175,7 +176,7 @@ const ReviewManage = () => {
                             </td>
                             <td className="px-6 py-4">
                               <div className="flex">
-                                {[...Array(5)].map((_, index) => (
+                                {starNumber.map((_, index) => (
                                   <Star
                                     key={index}
                                     className={`h-4 w-4 ${
