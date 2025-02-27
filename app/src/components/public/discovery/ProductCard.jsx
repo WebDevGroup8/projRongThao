@@ -150,7 +150,7 @@ export default function ProductCard(props) {
           <Star
             className={`mr-1 h-4 w-4 ${starColor[Math.round(averageRating)]}`}
           />
-          <span>{averageRating}</span>
+          <span>{averageRating.toFixed(1)}</span>
 
           <span className="ml-1 text-gray-500">
             ({reviews?.length} Reviews)
