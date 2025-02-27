@@ -88,7 +88,9 @@ const ReviewManage = () => {
                   />
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-lg font-semibold">{product.name}</h2>
+                  <h2 className="text-lg font-semibold text-gray-800">
+                    {product.name}
+                  </h2>
                 </div>
 
                 <div className="flex items-center gap-4">
@@ -110,9 +112,9 @@ const ReviewManage = () => {
                     </div>
                   </div>
                   {isExpanded ? (
-                    <ChevronUp className="h-6 w-6 text-gray-400" />
+                    <ChevronUp className="h-6 w-6 text-gray-500" />
                   ) : (
-                    <ChevronDown className="h-6 w-6 text-gray-400" />
+                    <ChevronDown className="h-6 w-6 text-gray-500" />
                   )}
                 </div>
               </div>
@@ -121,13 +123,13 @@ const ReviewManage = () => {
                 <div className="border-t border-gray-300">
                   <div className="grid grid-cols-2 gap-4 rounded-md bg-gray-50 p-4 shadow-md">
                     <div className="flex items-center space-x-2">
-                      <h3 className="text-sm text-gray-500">Total Reviews</h3>
-                      <p className="text-xl font-bold text-gray-900">
+                      <h3 className="text-gray-600">Total Reviews</h3>
+                      <p className="text-xl font-bold text-gray-800">
                         {stats?.total}
                       </p>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <h3 className="text-sm text-gray-500">Average Rating</h3>
+                      <h3 className="text-gray-600">Average Rating</h3>
                       <div className="flex items-center">
                         <div className="relative flex h-4 w-24 items-center rounded-full bg-gray-300">
                           <div
@@ -135,7 +137,7 @@ const ReviewManage = () => {
                             style={{ width: `${(stats?.average / 5) * 100}%` }}
                           />
                         </div>
-                        <p className="ml-2 text-xl font-bold text-gray-900">
+                        <p className="ml-2 text-xl font-bold text-gray-800">
                           {stats?.average.toFixed(1)}
                         </p>
                       </div>
@@ -146,19 +148,19 @@ const ReviewManage = () => {
                     <table className="w-full">
                       <thead className="bg-gray-50">
                         <tr>
-                          <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+                          <th className="px-6 py-3 text-left text-sm font-medium tracking-wider text-gray-600 uppercase">
                             Customer
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+                          <th className="px-6 py-3 text-left text-sm font-medium tracking-wider text-gray-600 uppercase">
                             Rating
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+                          <th className="px-6 py-3 text-left text-sm font-medium tracking-wider text-gray-600 uppercase">
                             Comment
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+                          <th className="px-6 py-3 text-left text-sm font-medium tracking-wider text-gray-600 uppercase">
                             Date
                           </th>
-                          <th className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">
+                          <th className="px-6 py-3 text-left text-sm font-medium tracking-wider text-gray-600 uppercase">
                             Actions
                           </th>
                         </tr>
@@ -169,7 +171,7 @@ const ReviewManage = () => {
                             key={review.id}
                             className="transition duration-200 ease-in-out hover:bg-gray-100"
                           >
-                            <td className="px-6 py-4 text-sm text-gray-700">
+                            <td className="px-6 py-4 text-gray-700">
                               {review.user?.username}
                             </td>
                             <td className="px-6 py-4">
@@ -186,10 +188,10 @@ const ReviewManage = () => {
                                 ))}
                               </div>
                             </td>
-                            <td className="max-w-xs truncate px-6 py-4 text-sm text-gray-500">
+                            <td className="max-w-xs truncate px-6 py-4 text-gray-500">
                               {review.comment}
                             </td>
-                            <td className="px-6 py-4 text-sm text-gray-500">
+                            <td className="px-6 py-4 text-gray-500">
                               {dayjs(review.created_at).format("DD MMM YYYY")}
                             </td>
                             <td className="px-6 py-4">
