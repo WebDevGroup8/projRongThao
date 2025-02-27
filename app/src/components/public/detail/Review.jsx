@@ -35,22 +35,31 @@ export default function Review({
 
     try {
       const newReviewData = {
-        comment: newReview,
-        rating: rating,
-        product: productId,
-        user: user.id,
+        data: {
+          comment: newReview,
+          rating: rating,
+          product: productId,
+          user: user.id,
+        },
       };
 
-      const res = await ax.post(endpoint.public.review.create, newReviewData);
-      console.log("New Review:", res.data);
-
-      setReviews([{ ...res.data }, ...reviews]);
-      setNewReview("");
-      setRating(0);
+      try {
+        const res = await ax.post(
+          endpoint.public.review.create(),
+          newReviewData,
+        );
+        console.log("New Review:", res.data.data);
+      } catch (error) {
+        console.error("Error posting Review:", error);
+      }
+      fetchReviews();
     } catch (error) {
-      console.error("Error submitting review:", error);
+      console.error("Error handling review submission:", error);
     }
   };
+  const sortReviews = reviews.sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+  );
 
   const NewAverageRating =
     reviews.length > 0
@@ -131,7 +140,7 @@ export default function Review({
       <div className="space-y-6">
         <h2 className="text-2xl font-bold">All Reviews ({reviews.length})</h2>
 
-        {reviews.map((review) => (
+        {sortReviews.map((review) => (
           <div key={review.id} className="space-y-4">
             <div className="flex items-start gap-4">
               <div className="flex-1 space-y-1">

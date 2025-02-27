@@ -47,6 +47,7 @@ export const endpoint = {
     review: {
       get: (id) =>
         `/reviews?populate=product&populate=user&filters[product][id]=${id}`,
+      create: () => `/reviews`,
     },
   },
   customer: {
