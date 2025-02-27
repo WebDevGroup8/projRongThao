@@ -88,6 +88,10 @@ export const endpoint = {
         delete: (id) => `/stripe/promotion/${id}`,
       },
     },
+    review: {
+      query: () => `/products?populate[reviews][populate]=user&populate=image`,
+      delete: (documentId) => `/reviews/${documentId}`,
+    },
     meida: {
       upload: () => `/upload`,
       delete: (id) => `/upload/files/${id}`,
@@ -135,6 +139,7 @@ export const path = {
     product: `/admin/product`,
     category: `/admin/category`,
     promotion: `/admin/promotion`,
+    review: `/admin/review`,
   },
   otherwise: `*`,
 };

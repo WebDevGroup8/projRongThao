@@ -5,6 +5,7 @@ import {
   LayoutList,
   LogOut,
   ReceiptText,
+  Star,
 } from "lucide-react";
 
 import useAuthStore from "@/store/store";
@@ -56,6 +57,13 @@ export default function AdminSidebar() {
         >
           <CirclePercentIcon />
           Promotion
+        </button>
+        <button
+          className="flex cursor-pointer flex-row gap-2 hover:underline"
+          onClick={() => navigate(path.admin.review)}
+        >
+          <Star />
+          Review
         </button>
       </div>
       <div className="mt-20 flex justify-center">

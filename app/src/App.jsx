@@ -34,6 +34,7 @@ import NavigationBar from "@layout/NavigationBar";
 import Container from "@layout/Container";
 import Footer from "@layout/Footer";
 import ScrollToTop from "@layout/ScrollToTop";
+import ReviewManage from "./components/admin/review/ReviewManage";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
@@ -211,6 +212,15 @@ function App() {
             element={
               <ProtectedAdminRoute>
                 <Promotion />
+              </ProtectedAdminRoute>
+            }
+          />
+
+          <Route
+            path={path.admin.review}
+            element={
+              <ProtectedAdminRoute>
+                <ReviewManage />
               </ProtectedAdminRoute>
             }
           />
