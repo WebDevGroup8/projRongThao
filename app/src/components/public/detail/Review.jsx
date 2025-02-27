@@ -15,6 +15,7 @@ export default function Review({
   const [newReview, setNewReview] = useState("");
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
+  console.log(rating);
 
   const fetchReviews = async () => {
     try {
@@ -47,6 +48,8 @@ export default function Review({
           endpoint.public.review.create(),
           newReviewData,
         );
+        setNewReview("");
+        setRating(0);
       } catch (error) {
         console.error("Error posting Review:", error);
       }
