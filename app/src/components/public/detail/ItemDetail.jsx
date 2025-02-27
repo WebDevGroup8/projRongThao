@@ -15,7 +15,7 @@ import ax from "@/conf/ax";
 import { path, conf, endpoint } from "@/conf/main";
 import { toast } from "react-toastify";
 import useAuthStore from "@/store/store";
-import Review from "./Review";
+import Review from "@public/detail/Review";
 
 export const ExampleImg = ({ images }) => {
   const [key, setKey] = useState(0);
@@ -66,6 +66,7 @@ export const ExampleImg = ({ images }) => {
     </div>
   );
 };
+const starNumber = [1, 2, 3, 4, 5];
 
 export const Detail = ({
   country,
@@ -136,7 +137,7 @@ export const Detail = ({
       <div className="flex flex-row gap-9">
         <div className="flex items-center">
           <div className="flex">
-            {[1, 2, 3, 4, 5].map((star) => (
+            {starNumber.map((star) => (
               <Star
                 key={star}
                 className={`h-4 w-4 ${

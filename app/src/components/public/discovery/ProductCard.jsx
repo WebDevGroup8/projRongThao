@@ -43,6 +43,19 @@ export default function ProductCard(props) {
     heel: "bg-teal-100 text-teal-800 border-teal-400",
   };
 
+  const starColor =
+    averageRating === 5
+      ? "text-yellow-600"
+      : averageRating === 4
+        ? "text-yellow-500"
+        : averageRating === 3
+          ? "text-yellow-400"
+          : averageRating === 2
+            ? "text-yellow-300"
+            : averageRating === 1
+              ? "text-yellow-200"
+              : "text-gray-200";
+
   const handleDetail = () => {
     navigate(`${path.public.detail}/${props.id}`);
   };
@@ -139,21 +152,7 @@ export default function ProductCard(props) {
       </div>
       <div className="mt-1 flex flex-row justify-between text-xs text-gray-600">
         <div className="flex">
-          <Star
-            className={
-              averageRating === 5
-                ? "mr-1 h-4 w-4 text-yellow-600"
-                : averageRating === 4
-                  ? "mr-1 h-4 w-4 text-yellow-500"
-                  : averageRating === 3
-                    ? "mr-1 h-4 w-4 text-yellow-400"
-                    : averageRating === 2
-                      ? "mr-1 h-4 w-4 text-yellow-300"
-                      : averageRating === 1
-                        ? "mr-1 h-4 w-4 text-yellow-200"
-                        : "mr-1 h-4 w-4 text-gray-200"
-            }
-          />
+          <Star className={`mr-1 h-4 w-4 ${starColor}`} />
           <span>{averageRating}</span>
 
           <span className="ml-1 text-gray-500">
