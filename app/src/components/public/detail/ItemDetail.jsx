@@ -14,6 +14,7 @@ import ax from "@/conf/ax";
 import { path, conf, endpoint } from "@/conf/main";
 import { toast } from "react-toastify";
 import useAuthStore from "@/store/store";
+import Review from "./Review";
 
 export const ExampleImg = ({ images }) => {
   const [key, setKey] = useState(0);
@@ -368,6 +369,7 @@ export default function ItemDetail() {
           </div>
         </div>
       </div>
+      <Review user={user} productId={id} />
     </div>
   );
 }

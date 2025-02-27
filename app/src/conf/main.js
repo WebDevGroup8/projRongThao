@@ -44,6 +44,10 @@ export const endpoint = {
     category: {
       query: () => `/categories`,
     },
+    review: {
+      get: (id) =>
+        `/reviews?populate=product&populate=user&filters[product][id]=${id}`,
+    },
   },
   customer: {
     order: {
