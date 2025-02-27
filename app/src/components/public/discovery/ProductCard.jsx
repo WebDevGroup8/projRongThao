@@ -1,18 +1,34 @@
 import React, { useEffect, useState } from "react";
 
 import { Star } from "lucide-react";
-import { conf } from "@/conf/main";
+import { conf, endpoint } from "@/conf/main";
 import { useNavigate } from "react-router";
 import { path } from "@/conf/main";
+import ax from "@/conf/ax";
 
 export default function ProductCard(props) {
   const [animate, setAnimate] = useState(false);
+  const [reviews, setReviews] = useState();
+
   const [refinePrice, setRefinePrice] = useState(0);
   const [isPromotion, setIsPromotion] = useState(false);
 
+  const fetchReviews = async () => {
+    try {
+      const res = await ax.get(endpoint.public.review.get(props.id));
+      setReviews(res.data.data);
+    } catch (error) {
+      console.error("Error fetching Reviews:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchReviews();
+  }, []);
+
   const navigate = useNavigate();
 
-  const image = props.image?.[0]?.url || "/placeholder.png"; // ถ้าไม่มีรูปใช้ placeholder
+  const image = props.image?.[0]?.url || "/placeholder.png";
 
   const categoryColors = {
     limited: "bg-yellow-100 text-yellow-800 border-yellow-400",
@@ -24,6 +40,14 @@ export default function ProductCard(props) {
     "low top": "bg-blue-100 text-blue-800 border-blue-400",
     platform: "bg-orange-100 text-orange-800 border-orange-400",
     heel: "bg-teal-100 text-teal-800 border-teal-400",
+  };
+
+  const starColor = {
+    5: "text-yellow-600 fill-yellow-600",
+    4: "text-yellow-500 fill-yellow-500 ",
+    3: "text-yellow-400 fill-yellow-400 ",
+    2: "text-yellow-300 fill-yellow-300 ",
+    1: "text-yellow-200 fill-yellow-200",
   };
 
   const handleDetail = () => {
@@ -59,6 +83,12 @@ export default function ProductCard(props) {
   useEffect(() => {
     setRefinePrice(promotionPrice);
   }, []);
+
+  const averageRating =
+    reviews?.length > 0
+      ? reviews?.reduce((acc, review) => acc + review.rating, 0) /
+        reviews?.length
+      : 0;
 
   return (
     <div
@@ -116,20 +146,19 @@ export default function ProductCard(props) {
       </div>
       <div className="mt-1 flex flex-row justify-between text-xs text-gray-600">
         <div className="flex">
-          <Star className="mr-1 h-4 w-4 text-yellow-400" />
-          <span>
-            {/* {props.rating} */}
-            4.5
-          </span>
+          <Star
+            className={`mr-1 h-4 w-4 ${starColor[Math.round(averageRating)]}`}
+          />
+          <span>{averageRating.toFixed(1)}</span>
 
           <span className="ml-1 text-gray-500">
-            {/* {props.reviews.length} */}
-            (5.1k Reviews)
+            ({reviews?.length} Reviews)
           </span>
         </div>
         <span>
-          {/* {props.soldCount}  */}
-          2.51k Solds
+          {props.soldCount <= 1
+            ? `${props.soldCount} Sold`
+            : `${props.soldCount} Solds`}
         </span>
       </div>
     </div>

@@ -136,8 +136,6 @@ export default function SeeAllItem() {
                   size={product.size}
                   categories={product.categories}
                   soldCount={product.soldCount}
-                  reviews={product.reviews}
-                  rating={product.rating}
                   promotion={product.promotion ? product.promotion : {}}
                 />
               </motion.div>

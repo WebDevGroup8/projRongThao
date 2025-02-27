@@ -44,6 +44,11 @@ export const endpoint = {
     category: {
       query: () => `/categories`,
     },
+    review: {
+      get: (id) =>
+        `/reviews?populate=product&populate=user&filters[product][id]=${id}`,
+      create: () => `/reviews`,
+    },
   },
   customer: {
     order: {
@@ -82,6 +87,10 @@ export const endpoint = {
         update: (id) => `/stripe/promotion/${id}`,
         delete: (id) => `/stripe/promotion/${id}`,
       },
+    },
+    review: {
+      query: () => `/products?populate[reviews][populate]=user&populate=image`,
+      delete: (documentId) => `/reviews/${documentId}`,
     },
     meida: {
       upload: () => `/upload`,
@@ -130,6 +139,7 @@ export const path = {
     product: `/admin/product`,
     category: `/admin/category`,
     promotion: `/admin/promotion`,
+    review: `/admin/review`,
   },
   otherwise: `*`,
 };

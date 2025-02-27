@@ -26,6 +26,7 @@ import OrderManagement from "@admin/order/OrderManagement";
 import ManageProduct from "@admin/product/ManageProduct";
 import ManageCategory from "@admin/category/ManageCategory";
 import Promotion from "@admin/promotion/Promotion";
+import ReviewManage from "@admin/review/ReviewManage";
 
 // Layout Components
 import ProtectedCustomerRoute from "@layout/ProtectedCustomerRoute";
@@ -211,6 +212,15 @@ function App() {
             element={
               <ProtectedAdminRoute>
                 <Promotion />
+              </ProtectedAdminRoute>
+            }
+          />
+
+          <Route
+            path={path.admin.review}
+            element={
+              <ProtectedAdminRoute>
+                <ReviewManage />
               </ProtectedAdminRoute>
             }
           />
