@@ -25,7 +25,7 @@ const UserDetails = React.memo(({ user, logout }) => {
   return (
     <div className="ml-4 flex flex-row gap-4 bg-gradient-to-l text-white">
       <a className="text-normal self-center whitespace-nowrap text-white">|</a>
-      <p className="text-base">Login as : {user.username}</p>
+      <p className="">Login as : {user.username}</p>
       <a className="text-normal self-center whitespace-nowrap text-white">|</a>
       <button
         type="button"
@@ -139,7 +139,7 @@ export default function NavigationBar() {
               }}
               className="self-center whitespace-nowrap text-white"
             >
-              <p className="cursor-pointer hover:underline">DISCOVERY</p>
+              <p className="cursor-pointer hover:underline">SEE ALL PRODUCTS</p>
             </button>
           </p>
         </div>
@@ -261,7 +261,7 @@ export default function NavigationBar() {
           className="flex flex-row items-center gap-2 px-4 py-1.5 hover:bg-blue-50 hover:text-black"
         >
           <Search size={18} />
-          SEE ALL PRODUCTS
+          See All Products
         </div>
         {!user && (
           <>
