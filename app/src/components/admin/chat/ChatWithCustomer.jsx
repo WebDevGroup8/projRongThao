@@ -76,7 +76,7 @@ export default function ChatWithCustomer() {
       {/* Chat List */}
       <div className="w-96 border-r border-gray-300 bg-white">
         <div className="border-b border-gray-300 p-4">
-          <h1 className="m-1.5 text-2xl font-semibold">Chat with customer</h1>
+          <h1 className="m-2.5 text-2xl font-semibold">Chat with customer</h1>
         </div>
         <div className="h-[calc(100vh-89px)] overflow-y-auto">
           {chats.map((chat) => (
@@ -105,8 +105,8 @@ export default function ChatWithCustomer() {
       {selectedChat && (
         <div className="flex flex-1 flex-col">
           <div className="border-b border-gray-300 bg-white p-4">
-            <h2 className="font-semibold">{selectedChat.username}</h2>
-            <p className="text-sm text-gray-500">{selectedChat.email}</p>
+            <h2 className="text-lg font-semibold">{selectedChat.username}</h2>
+            <p className="text-gray-500">{selectedChat.email}</p>
           </div>
 
           {/* Messages */}
@@ -149,7 +149,7 @@ export default function ChatWithCustomer() {
               />
               <button
                 type="submit"
-                className="rounded-lg bg-blue-500 p-2 px-4 text-white hover:bg-blue-600"
+                className="rounded-lg bg-gradient-to-tr from-cyan-600 to-purple-600 p-2 px-4 text-white hover:bg-blue-600"
               >
                 <Send className="h-5 w-5" />
               </button>
