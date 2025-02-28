@@ -109,7 +109,7 @@ export const endpoint = {
     user: {
       customer: {
         queryMessage: () =>
-          `/users?populate[messages]=*&populate[role]=*&filters[messages][$notNull]=true&filters[role][type][$eq]=customer`,
+          `/users?populate[messages]=*&populate[role]=*&filters[messages][$notNull]=true&filters[role][type][$eq]=${conf.role.customer}`,
         query: () =>
           `/users?populate[role][filters][id]=${conf.role.customerId}&populate=order_histories`,
       },
