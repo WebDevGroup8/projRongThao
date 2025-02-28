@@ -15,7 +15,6 @@ export default function Review({
   const [newReview, setNewReview] = useState("");
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
-  console.log(rating);
 
   const fetchReviews = async () => {
     try {

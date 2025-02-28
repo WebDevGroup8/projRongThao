@@ -37,7 +37,6 @@ export default function ChatWithCustomer() {
       const sortedChats = res.data.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
       );
-      console.log(sortedChats);
       setChats(sortedChats);
     } catch (error) {
       console.error(error);

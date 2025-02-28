@@ -1,7 +1,6 @@
 import { Range } from "react-range";
 import React, { useEffect, useState } from "react";
 const groupAvailableSizes = (products) => {
-  // console.log(products);
   return products?.reduce((grouped, product) => {
     product.stock?.forEach(({ size, stock }) => {
       if (stock > 0) {

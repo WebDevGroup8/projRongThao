@@ -62,7 +62,6 @@ export default function ShoppingCart() {
   const handlePayment = async () => {
     try {
       const stripe = await stripePromise;
-      console.log(cartItems);
       // return;
       const response = await ax.post(endpoint.customer.order.create(), {
         userId: user.id,

@@ -42,7 +42,6 @@ export default function SupportChat() {
       data: { text: message, sender: user.id },
     };
 
-    console.log(newMessage);
     try {
       await ax.post(endpoint.customer.message.create(), newMessage);
       setMessage("");

@@ -46,7 +46,6 @@ const OrderTable = (props) => {
   const fetchOrders = async () => {
     try {
       const res = await ax.get(endpoint.admin.order.query());
-      console.log(res.data.data);
       setOrders(res.data.data);
       const sumTotalPrice = res.data.data.reduce((acc, order) => {
         return acc + (order.total_price || 0);
@@ -56,7 +55,6 @@ const OrderTable = (props) => {
       console.error("Error fetching orders:", error);
     }
   };
-  console.log(orders);
   const filteredOrder = orders
     ?.filter(
       (order) =>
