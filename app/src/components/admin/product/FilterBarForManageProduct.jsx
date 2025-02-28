@@ -1,6 +1,16 @@
 import { Range } from "react-range";
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+const groupAvailableSizes = (products) => {
+  // console.log(products);
+  return products?.reduce((grouped, product) => {
+    product.stock?.forEach(({ size, stock }) => {
+      if (stock > 0) {
+        grouped[size] = (grouped[size] || 0) + 1;
+      }
+    });
+    return grouped;
+  }, {});
+};
 export const FilterBarForManageProduct = ({
   categories,
   priceRange,
@@ -9,8 +19,13 @@ export const FilterBarForManageProduct = ({
   setSelectedCategories,
   selectedSizes,
   setSelectedSizes,
+  products = { products },
 }) => {
-  const sizes = [34, 36, 38, 40, 42, 44, 46];
+  const [availableSizes, setAvailableSizes] = useState({});
+
+  useEffect(() => {
+    setAvailableSizes(groupAvailableSizes(products));
+  }, [products]);
 
   const toggleCategory = (categoryTitle) => {
     setSelectedCategories((prev) =>
@@ -87,17 +102,24 @@ export const FilterBarForManageProduct = ({
 
       <div className="text-md pb-2 font-medium text-gray-900">Sizes</div>
       <div className="flex flex-wrap gap-5">
-        {sizes.map((size, index) => (
-          <label key={index} className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              checked={selectedSizes.includes(size)}
-              onChange={() => toggleSize(size)}
-              className="h-4 w-4 border-black accent-gray-800 focus:ring-black"
-            />
-            <span className="text-md text-gray-800">{size}</span>
-          </label>
-        ))}
+        {products &&
+          Object.entries(availableSizes).map(([size, stock], index) => (
+            <label
+              key={index}
+              className="flex flex-row items-center gap-2 lg:justify-between"
+            >
+              <div className="flex flex-row items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={selectedSizes.includes(size)}
+                  onChange={() => toggleSize(size)}
+                  className="h-4 w-4 border-black accent-gray-800 focus:ring-black"
+                />
+                <p>{size}</p>
+              </div>
+              <p className="text-xs text-gray-700">({stock} available)</p>
+            </label>
+          ))}
       </div>
     </div>
   );

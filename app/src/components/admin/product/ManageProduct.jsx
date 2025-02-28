@@ -65,9 +65,11 @@ export default function ManageProduct() {
 
   const now = new Date();
   const filteredProducts = products
+    // Filter by search
     .filter((product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase()),
     )
+    // Filter by Category
     .filter((product) =>
       selectedCategories.length > 0
         ? selectedCategories.every((selected) => {
@@ -86,13 +88,15 @@ export default function ManageProduct() {
           })
         : true,
     )
+    // Filter by price range
     .filter(
       (product) =>
         product.price >= priceRange[0] && product.price <= priceRange[1],
     )
+    // Filter by size
     .filter((product) =>
       selectedSizes.length > 0
-        ? product.size.some((size) => selectedSizes.includes(size))
+        ? product.stock?.some(({ size }) => selectedSizes.includes(size))
         : true,
     );
 
@@ -122,6 +126,7 @@ export default function ManageProduct() {
           setPriceRange={setPriceRange}
           selectedSizes={selectedSizes}
           setSelectedSizes={setSelectedSizes}
+          products={products}
         />
       </div>
       {/* Grid แสดงสินค้า */}
