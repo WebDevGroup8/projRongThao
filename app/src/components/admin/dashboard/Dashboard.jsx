@@ -92,8 +92,8 @@ export const StatCard = (props) => {
         <div className="p- flex w-fit flex-col justify-start gap-4 rounded-lg border-2 border-gray-400 p-4 shadow-sm">
           <div className="flex flex-col items-start justify-between gap-5">
             <div>
-              <p className="text-2xl font-bold whitespace-nowrap text-gray-600">
-                All time item sell :
+              <p className="min-w-70 text-2xl font-bold whitespace-nowrap text-gray-600">
+                All time Orders :
               </p>
             </div>
           </div>
