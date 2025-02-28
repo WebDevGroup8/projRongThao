@@ -56,7 +56,7 @@ const OrderTable = (props) => {
       console.error("Error fetching orders:", error);
     }
   };
-
+  console.log(orders);
   const filteredOrder = orders
     ?.filter(
       (order) =>
@@ -64,12 +64,16 @@ const OrderTable = (props) => {
           selectedStatus.includes(order.orderStatus.trim())) &&
         (order.documentId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           order.orderStatus?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.owner?.username
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          order.createdAt?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.address?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           order.order_product?.some((product) =>
             product.name?.toLowerCase().includes(searchTerm.toLowerCase()),
           )),
     )
     .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-
   const updateStatus = async (orderId, newStatus) => {
     try {
       await ax.put(endpoint.admin.order.update(orderId), {
