@@ -7,6 +7,7 @@ import ProductCard from "@public/discovery/ProductCard";
 import PromotionCarousel from "@public/home/PromotionCarousel";
 import fetchProducts from "@/utils/FetchProduct";
 import { path } from "@/conf/main";
+import SupportChat from "@/components/layout/SupportChat";
 const categories = [
   {
     imageUrl:
@@ -135,6 +136,7 @@ export default function HomePage() {
           </div>
         </div>
       </Container>
+      <SupportChat />
     </div>
   );
 }
