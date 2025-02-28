@@ -427,7 +427,7 @@ export interface ApiMessageMessage extends Struct.CollectionTypeSchema {
       'plugin::users-permissions.user'
     >;
     sender: Schema.Attribute.Relation<
-      'oneToOne',
+      'manyToOne',
       'plugin::users-permissions.user'
     >;
     text: Schema.Attribute.String;
@@ -1093,6 +1093,7 @@ export interface PluginUsersPermissionsUser
       'plugin::users-permissions.user'
     > &
       Schema.Attribute.Private;
+    messages: Schema.Attribute.Relation<'oneToMany', 'api::message.message'>;
     order_histories: Schema.Attribute.Relation<'oneToMany', 'api::order.order'>;
     password: Schema.Attribute.Password &
       Schema.Attribute.Private &
