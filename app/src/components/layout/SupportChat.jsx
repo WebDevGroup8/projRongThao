@@ -85,7 +85,7 @@ export default function SupportChat() {
               </div>
             </div>
 
-            <div className="no-sc h-80 space-y-4 overflow-hidden p-2">
+            <div className="h-80 space-y-4 overflow-hidden p-2">
               <div
                 ref={chatContainerRef}
                 className="no-scrollbar h-full space-y-4 overflow-y-auto p-2"
