@@ -35,6 +35,7 @@ import NavigationBar from "@layout/NavigationBar";
 import Container from "@layout/Container";
 import Footer from "@layout/Footer";
 import ScrollToTop from "@layout/ScrollToTop";
+import SupportChat from "./components/layout/SupportChat";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
@@ -69,6 +70,7 @@ function App() {
                 <ScrollToTop />
                 <NavigationBar />
                 <HomePage />
+                <SupportChat />
                 <Footer />
               </>
             }
@@ -83,6 +85,7 @@ function App() {
                 <NavigationBar />
                 <Container>
                   <SeeAllItem />
+                  <SupportChat />
                 </Container>
                 <Footer />
               </>
@@ -97,6 +100,7 @@ function App() {
                 <NavigationBar />
                 <Container>
                   <ItemDetail />
+                  <SupportChat />
                 </Container>
                 <Footer />
               </div>
@@ -111,6 +115,7 @@ function App() {
                 <NavigationBar />
                 <Container>
                   <SizeGuide />
+                  <SupportChat />
                 </Container>
                 <Footer />
               </>
@@ -125,6 +130,7 @@ function App() {
                 <NavigationBar />
                 <Container>
                   <Helps />
+                  <SupportChat />
                 </Container>
                 <Footer />
               </>
@@ -139,6 +145,7 @@ function App() {
                 <NavigationBar />
                 <Container>
                   <ShippingReturn />
+                  <SupportChat />
                 </Container>
                 <Footer />
               </>
@@ -151,6 +158,7 @@ function App() {
             element={
               <ProtectedCustomerRoute>
                 <ShoppingCart />
+                <SupportChat />
               </ProtectedCustomerRoute>
             }
           />
@@ -159,6 +167,7 @@ function App() {
             element={
               <ProtectedCustomerRoute>
                 <ViewOrder />
+                <SupportChat />
               </ProtectedCustomerRoute>
             }
           />

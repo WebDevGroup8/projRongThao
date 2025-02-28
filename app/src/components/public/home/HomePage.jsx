@@ -136,7 +136,6 @@ export default function HomePage() {
           </div>
         </div>
       </Container>
-      <SupportChat />
     </div>
   );
 }
