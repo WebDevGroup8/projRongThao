@@ -27,6 +27,7 @@ import ManageProduct from "@admin/product/ManageProduct";
 import ManageCategory from "@admin/category/ManageCategory";
 import Promotion from "@admin/promotion/Promotion";
 import ReviewManage from "@admin/review/ReviewManage";
+import ChatWithCustomer from "@admin/chat/ChatWithCustomer";
 
 // Layout Components
 import ProtectedCustomerRoute from "@layout/ProtectedCustomerRoute";
@@ -228,6 +229,15 @@ function App() {
             element={
               <ProtectedAdminRoute>
                 <ReviewManage />
+              </ProtectedAdminRoute>
+            }
+          />
+
+          <Route
+            path={path.admin.chat}
+            element={
+              <ProtectedAdminRoute>
+                <ChatWithCustomer />
               </ProtectedAdminRoute>
             }
           />

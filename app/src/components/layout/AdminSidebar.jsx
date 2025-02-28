@@ -4,6 +4,7 @@ import {
   Gauge,
   LayoutList,
   LogOut,
+  MessageCircleMore,
   ReceiptText,
   Star,
 } from "lucide-react";
@@ -64,6 +65,13 @@ export default function AdminSidebar() {
         >
           <Star />
           Review
+        </button>
+        <button
+          className="flex cursor-pointer flex-row gap-2 hover:underline"
+          onClick={() => navigate(path.admin.chat)}
+        >
+          <MessageCircleMore />
+          Chat
         </button>
       </div>
       <div className="mt-20 flex justify-center">

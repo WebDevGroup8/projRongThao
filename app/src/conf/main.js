@@ -145,6 +145,7 @@ export const path = {
     category: `/admin/category`,
     promotion: `/admin/promotion`,
     review: `/admin/review`,
+    chat: `/admin/chat`,
   },
   otherwise: `*`,
 };
