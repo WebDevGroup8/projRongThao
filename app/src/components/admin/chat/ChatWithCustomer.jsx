@@ -34,7 +34,10 @@ export default function ChatWithCustomer() {
   const fetchChats = async () => {
     try {
       const res = await ax.get(endpoint.admin.user.customer.queryMessage());
-      setChats(res.data);
+      const sortedChats = res.data.sort(
+        (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt),
+      );
+      setChats(sortedChats);
     } catch (error) {
       console.error(error);
     }
