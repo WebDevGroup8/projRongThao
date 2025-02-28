@@ -35,8 +35,9 @@ export default function ChatWithCustomer() {
     try {
       const res = await ax.get(endpoint.admin.user.customer.queryMessage());
       const sortedChats = res.data.sort(
-        (a, b) => new Date(b.createAt) - new Date(a.createdAt),
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
       );
+      console.log(sortedChats);
       setChats(sortedChats);
     } catch (error) {
       console.error(error);
@@ -49,7 +50,6 @@ export default function ChatWithCustomer() {
       const sortedMessages = res.data.data.sort(
         (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
       );
-      console.log(sortedMessages);
       setMessages(sortedMessages);
     } catch (error) {
       console.error(error);
@@ -72,7 +72,6 @@ export default function ChatWithCustomer() {
       console.error("Sending error", error);
     }
   };
-  console.log(messages);
 
   return (
     <div className="flex h-screen bg-gray-100">
