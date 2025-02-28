@@ -29,7 +29,7 @@ const PrintShipLabel = ({ order }) => {
                 <p><strong>ที่อยู่:</strong> ${order.address}</p>
                 <hr/>
                 <p><strong>รายการสินค้า:</strong></p>
-                  ${order.order_product.map((product) => `<p>🔹 ${product.name} (${product.selectedSize}) x ${product.quantity}</p>`).join("")}
+                  ${order.order_product.map((product) => `<p>🔹 ${product.name} (Size: ${product.selectedSize}) x ${product.quantity}</p>`).join("")}
                 <hr/>
                 <p><strong>วันที่สั่งซื้อ:</strong> ${dayjs(order.createdAt).format("DD MMM YYYY")}</p>
                 <p><strong>สถานะคำสั่งซื้อ:</strong> ${order.orderStatus}</p>
