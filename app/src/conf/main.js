@@ -97,12 +97,19 @@ export const endpoint = {
       query: () => `/products?populate[reviews][populate]=user&populate=image`,
       delete: (documentId) => `/reviews/${documentId}`,
     },
+    message: {
+      get: (id) =>
+        `/messages?populate[sender][populate]=role&populate[receiver][populate]=role&filters[$or][0][sender][id]=${id}&filters[$or][1][receiver][id]=${id}`,
+      create: () => `/messages`,
+    },
     meida: {
       upload: () => `/upload`,
       delete: (id) => `/upload/files/${id}`,
     },
     user: {
       customer: {
+        queryMessage: () =>
+          `/users?populate[messages]=*&populate[role]=*&filters[messages][$notNull]=true&filters[role][type][$eq]=customer`,
         query: () =>
           `/users?populate[role][filters][id]=${conf.role.customerId}&populate=order_histories`,
       },
