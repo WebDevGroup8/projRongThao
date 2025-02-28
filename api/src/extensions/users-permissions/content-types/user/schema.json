@@ -79,6 +79,12 @@
     },
     "cart": {
       "type": "json"
+    },
+    "messages": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::message.message",
+      "mappedBy": "sender"
     }
   }
 }

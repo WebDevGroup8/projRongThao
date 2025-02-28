@@ -4,7 +4,9 @@
   --color-primary: #213555;
   --color-primary-light: #214857;
   --color-primary-dark: #213555;
+  
 }
+
 
 body {
   background-color: #f9fafb;
@@ -51,4 +53,14 @@ body {
 :root {
   --toastify-z-index: 0;
 
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
