@@ -23,12 +23,10 @@ export default function SideBar({
   setSelectedSizes,
   products,
 }) {
-  // const sizes = [34, 36, 38, 40, 42, 44, 46];
   const [availableSizes, setAvailableSizes] = useState({});
 
   useEffect(() => {
     setAvailableSizes(groupAvailableSizes(products));
-    console.log(Object.entries(availableSizes));
   }, [products]);
 
   const toggleCategory = (categoryTitle) => {
