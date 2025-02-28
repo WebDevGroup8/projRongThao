@@ -38,7 +38,6 @@ const OrderTable = (props) => {
       const res = await ax.get(endpoint.admin.user.customer.query());
 
       setUser(res.data);
-      console.log(res.data);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -47,8 +46,12 @@ const OrderTable = (props) => {
   const fetchOrders = async () => {
     try {
       const res = await ax.get(endpoint.admin.order.query());
-      setOrders(res.data.data);
       console.log(res.data.data);
+      setOrders(res.data.data);
+      const sumTotalPrice = res.data.data.reduce((acc, order) => {
+        return acc + (order.total_price || 0);
+      }, 0);
+      props.setTotalRevenue(sumTotalPrice);
     } catch (error) {
       console.error("Error fetching orders:", error);
     }

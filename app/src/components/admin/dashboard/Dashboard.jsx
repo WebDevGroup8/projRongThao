@@ -7,16 +7,15 @@ import OrderTable from "@admin/order/OrderTable";
 import ax from "@/conf/ax";
 import { endpoint } from "@/conf/main";
 
-export const StatCard = () => {
+export const StatCard = (props) => {
   const [user, setUser] = useState([]);
-
   const [totalPurchasedItems, setTotalPurchasedItems] = useState(0);
   const [bestSellers, setBestSellers] = useState([]);
+
   const fetchUser = async () => {
     try {
       const res = await ax.get(endpoint.admin.user.customer.query());
       setUser(res.data);
-      console.log(res.data);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -59,6 +58,11 @@ export const StatCard = () => {
     setBestSellers(sortedBestSellers);
   }, [user]);
 
+  const formattedPrice = new Intl.NumberFormat("th-TH", {
+    style: "currency",
+    currency: "THB",
+  }).format(props.totalRevenue);
+
   // Fetch users on component mount
   useEffect(() => {
     fetchUser();
@@ -69,7 +73,7 @@ export const StatCard = () => {
         <div className="flex w-full flex-col justify-start gap-4 rounded-lg border-2 border-gray-400 p-4 shadow-sm">
           <div className="flex flex-row items-center justify-between gap-5">
             <div>
-              <p className="text-xs font-semibold text-gray-500">
+              <p className="text-2xl font-semibold text-gray-600">
                 Total Revenue
               </p>
             </div>
@@ -79,8 +83,8 @@ export const StatCard = () => {
               <ChartNoAxesCombined className="stroke-white" />
             </div>
             <div>
-              <h1 className="text-xl font-semibold text-gray-600">
-                91002 Bath
+              <h1 className="text-3xl font-semibold text-gray-600">
+                {formattedPrice} THB
               </h1>
             </div>
           </div>
@@ -100,7 +104,7 @@ export const StatCard = () => {
         <div className="flex w-full flex-col justify-start gap-4 rounded-lg border-2 border-gray-400 p-4 shadow-sm">
           <div className="mb-2 flex flex-row items-center justify-between gap-5">
             <div>
-              <p className="text-2xl font-bold text-gray-500">Best Selling</p>
+              <p className="text-2xl font-bold text-gray-600">Best Selling</p>
             </div>
           </div>
 
@@ -124,10 +128,16 @@ export const StatCard = () => {
 };
 
 export default function Dashboard() {
+  const [totalRevenue, setTotalRevenue] = useState(0);
+
   return (
     <div className="mt-5 w-full px-10">
-      <StatCard />
-      <OrderTable configView={false} />
+      <StatCard totalRevenue={totalRevenue} setTotalRevenue={setTotalRevenue} />
+      <OrderTable
+        totalRevenue={totalRevenue}
+        setTotalRevenue={setTotalRevenue}
+        configView={false}
+      />
     </div>
   );
 }
