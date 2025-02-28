@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MessageCircle, Send, X } from "lucide-react";
 import { endpoint } from "@/conf/main";
 import ax from "@/conf/ax";
@@ -10,6 +10,8 @@ export default function SupportChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [chats, setChats] = useState([]);
+
+  const chatContainerRef = useRef(null);
 
   const fetchChats = async () => {
     try {
@@ -25,7 +27,11 @@ export default function SupportChat() {
 
   useEffect(() => {
     fetchChats();
-  }, []);
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [isOpen]);
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
@@ -47,88 +53,95 @@ export default function SupportChat() {
   };
 
   return (
-    <>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`fixed right-6 bottom-6 flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition-all duration-300 ${
-          isOpen ? "bg-red-400" : "bg-primary"
-        } text-white`}
-      >
-        {isOpen ? (
-          <X className="h-6 w-6" />
-        ) : (
-          <MessageCircle className="h-6 w-6" />
-        )}
-      </button>
+    user && (
+      <div>
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className={`fixed right-6 bottom-6 flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition-all duration-300 ${
+            isOpen
+              ? "bg-red-500"
+              : "bg-gradient-to-r from-cyan-600 to-purple-600"
+          } text-white`}
+        >
+          {isOpen ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <MessageCircle className="h-6 w-6" />
+          )}
+        </button>
 
-      {isOpen && (
-        <div className="fixed right-6 bottom-24 w-11/12 rounded-xl border-gray-200 bg-white shadow-xl md:w-96">
-          <div className="bg-primary flex items-center space-x-4 rounded-t-xl p-3">
-            <img
-              src="/admin-icon.png"
-              alt="Support"
-              className="h-10 w-10 rounded-full"
-            />
-            <div>
-              <h3 className="text-lg font-medium text-white">
-                Support Service
-              </h3>
+        {isOpen && (
+          <div className="fixed right-6 bottom-24 w-11/12 rounded-xl border-gray-200 bg-white shadow-xl md:w-96">
+            <div className="flex items-center space-x-4 rounded-t-xl bg-gradient-to-r from-cyan-600 to-purple-600 p-3">
+              <img
+                src="/admin-icon.png"
+                alt="Support"
+                className="h-10 w-10 rounded-full"
+              />
+              <div>
+                <h3 className="text-lg font-medium text-white">
+                  Support Service
+                </h3>
+              </div>
             </div>
-          </div>
 
-          <div className="h-80 space-y-4 overflow-hidden p-2">
-            <div className="h-full space-y-4 overflow-y-auto p-2">
-              {chats.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`flex ${msg.sender?.id === user.id ? "justify-end" : "justify-start"}`}
-                >
+            <div className="no-sc h-80 space-y-4 overflow-hidden p-2">
+              <div
+                ref={chatContainerRef} // ใช้ ref เพื่อเข้าถึงคอนเทนเนอร์นี้
+                className="no-scrollbar h-full space-y-4 overflow-y-auto p-2"
+              >
+                {chats.map((msg) => (
                   <div
-                    className={`w-full ${
-                      msg.sender?.id === user.id
-                        ? "flex flex-row-reverse"
-                        : "flex flex-row"
-                    }`}
+                    key={msg.id}
+                    className={`flex ${msg.sender?.id === user.id ? "justify-end" : "justify-start"}`}
                   >
                     <div
-                      className={`max-w-[80%] rounded-xl px-4 py-1.5 ${
+                      className={`w-full ${
                         msg.sender?.id === user.id
-                          ? "bg-primary text-white"
-                          : "bg-gray-200 text-gray-800"
+                          ? "flex flex-row-reverse"
+                          : "flex flex-row"
                       }`}
                     >
-                      <div className="flex items-center space-x-2">
-                        <p className="mb-0.5 text-sm">{msg.text}</p>
+                      <div
+                        className={`max-w-[80%] rounded-xl px-4 py-1.5 ${
+                          msg.sender?.id === user.id
+                            ? "bg-blue-500 text-white"
+                            : "bg-gray-200 text-gray-800"
+                        }`}
+                      >
+                        <div className="flex items-center space-x-2">
+                          <p className="mb-0.5 text-sm">{msg.text}</p>
+                        </div>
+                      </div>
+                      <div className="mb-1.5 flex flex-col-reverse">
+                        <span className="mx-2 text-xs text-gray-500">
+                          {dayjs(msg.createdAt).format("HH:MM")}
+                        </span>
                       </div>
                     </div>
-                    <div className="mb-1.5 flex flex-col-reverse">
-                      <span className="mx-2 text-xs text-gray-500">
-                        {dayjs(msg.createdAt).format("HH:MM")}
-                      </span>
-                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+            </div>
+
+            <div className="flex border-t-2 border-gray-300 p-3">
+              <input
+                type="text"
+                placeholder="Type a message..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="focus:border-bg-cyan-500 flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm"
+              />
+              <button
+                onClick={handleSendMessage}
+                className="ml-2 h-10 w-10 rounded-full bg-gradient-to-r from-cyan-600 to-purple-600 text-white hover:bg-cyan-700"
+              >
+                <Send className="ml-1.5 h-5 w-6" />
+              </button>
             </div>
           </div>
-
-          <div className="flex border-t-2 border-gray-300 p-3">
-            <input
-              type="text"
-              placeholder="Type a message..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500"
-            />
-            <button
-              onClick={handleSendMessage}
-              className="bg-primary ml-2 h-10 w-10 rounded-full text-white hover:bg-blue-600"
-            >
-              <Send className="ml-1.5 h-5 w-6" />
-            </button>
-          </div>
-        </div>
-      )}
-    </>
+        )}
+      </div>
+    )
   );
 }

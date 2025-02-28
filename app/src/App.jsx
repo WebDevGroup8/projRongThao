@@ -158,7 +158,6 @@ function App() {
             element={
               <ProtectedCustomerRoute>
                 <ShoppingCart />
-                <SupportChat />
               </ProtectedCustomerRoute>
             }
           />
@@ -167,7 +166,6 @@ function App() {
             element={
               <ProtectedCustomerRoute>
                 <ViewOrder />
-                <SupportChat />
               </ProtectedCustomerRoute>
             }
           />
