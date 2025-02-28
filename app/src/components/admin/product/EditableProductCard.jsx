@@ -109,24 +109,7 @@ export const EditableProductCard = (props) => {
           ))}
         </div>
       </div>
-      <div className="mt-1 flex flex-row justify-between text-xs text-gray-600">
-        <div className="flex">
-          <Star className="mr-1 h-4 w-4 text-yellow-400" />
-          <span>
-            {/* {props.rating} */}
-            4.5
-          </span>
 
-          <span className="ml-1 text-gray-500">
-            {/* {props.reviews.length} */}
-            (5.1k Reviews)
-          </span>
-        </div>
-        <span>
-          {/* {props.soldCount}  */}
-          2.51k Solds
-        </span>
-      </div>
       <div
         onClick={(e) => {
           e.stopPropagation();
