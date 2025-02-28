@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import Loading from "@layout/Loading";
 import ProductCard from "@public/discovery/ProductCard";
@@ -46,11 +46,14 @@ export default function SeeAllItem() {
       setIsLoading(false);
     }
   }, [searchParams]);
+
   const now = new Date();
   const filteredProducts = products
+    // Filter by Search
     .filter((product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase()),
     )
+    // Filter by Category
     .filter((product) =>
       selectedCategories.length > 0
         ? selectedCategories.every((selected) => {
@@ -69,14 +72,15 @@ export default function SeeAllItem() {
           })
         : true,
     )
-
+    // Filter by price range
     .filter(
       (product) =>
         product.price >= priceRange[0] && product.price <= priceRange[1],
     )
+    // Filter by size
     .filter((product) =>
       selectedSizes.length > 0
-        ? product.size.some((size) => selectedSizes.includes(size))
+        ? product.stock.some(({ size }) => selectedSizes.includes(size))
         : true,
     );
 
@@ -84,6 +88,7 @@ export default function SeeAllItem() {
     <Loading />
   ) : (
     <div className="flex min-h-screen w-full min-w-fit bg-gray-50">
+      {/* Desktop Filter Sidebar */}
       <div className="hidden w-fit flex-shrink-0 lg:flex">
         <SideBar
           categories={categories}
@@ -93,9 +98,11 @@ export default function SeeAllItem() {
           setPriceRange={setPriceRange}
           selectedSizes={selectedSizes}
           setSelectedSizes={setSelectedSizes}
+          products={products}
         />
       </div>
 
+      {/* Mobile Filter Sidebar */}
       <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center">
         <div className="w-full flex-shrink-0 lg:hidden">
           <SideBar
@@ -106,6 +113,7 @@ export default function SeeAllItem() {
             setPriceRange={setPriceRange}
             selectedSizes={selectedSizes}
             setSelectedSizes={setSelectedSizes}
+            products={products}
           />
         </div>
         <div className="mb-4 flex w-full flex-col items-center justify-between px-3 sm:flex-row lg:px-1">
