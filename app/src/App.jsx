@@ -36,7 +36,7 @@ import NavigationBar from "@layout/NavigationBar";
 import Container from "@layout/Container";
 import Footer from "@layout/Footer";
 import ScrollToTop from "@layout/ScrollToTop";
-import SupportChat from "./components/layout/SupportChat";
+import SupportChat from "@layout/SupportChat";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
