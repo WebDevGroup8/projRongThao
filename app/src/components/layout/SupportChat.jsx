@@ -15,7 +15,7 @@ export default function SupportChat() {
 
   const fetchChats = async () => {
     try {
-      const res = await ax.get(endpoint.customer.message.query(user.id));
+      const res = await ax.get(endpoint.customer.message.get(user.id));
       const sortedChats = res.data.data.sort((a, b) => {
         return new Date(a.createdAt) - new Date(b.createdAt);
       });
@@ -115,7 +115,7 @@ export default function SupportChat() {
                       </div>
                       <div className="mb-1.5 flex flex-col-reverse">
                         <span className="mx-2 text-xs text-gray-500">
-                          {dayjs(msg.createdAt).format("HH:MM")}
+                          {dayjs(msg.createdAt).format("HH:mm")}
                         </span>
                       </div>
                     </div>
@@ -127,7 +127,7 @@ export default function SupportChat() {
             <div className="flex border-t-2 border-gray-300 p-3">
               <input
                 type="text"
-                placeholder="Type a message..."
+                placeholder=" Aa"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 className="focus:border-bg-cyan-500 flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm"

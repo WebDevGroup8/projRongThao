@@ -20,9 +20,7 @@ export default function ChatWithCustomer() {
   }, []);
 
   useEffect(() => {
-    if (selectedUserId) {
-      fetchMessages(selectedUserId);
-    }
+    fetchMessages(selectedUserId);
   }, [selectedUserId]);
 
   useEffect(() => {
@@ -46,7 +44,7 @@ export default function ChatWithCustomer() {
     try {
       const res = await ax.get(endpoint.admin.message.get(userId));
       const sortedMessages = res.data.data.sort(
-        (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+        (a, b) => new Date(a.publishedAt) - new Date(b.publishedAt),
       );
       console.log(sortedMessages);
       setMessages(sortedMessages);
@@ -71,6 +69,7 @@ export default function ChatWithCustomer() {
       console.error("Sending error", error);
     }
   };
+  console.log(messages);
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -92,8 +91,8 @@ export default function ChatWithCustomer() {
               <div className="flex items-center justify-between">
                 <h3 className="font-medium">{chat.username}</h3>
                 <span className="text-xs text-gray-500">
-                  {dayjs(chat.messages.at(-1)?.createdAt).format(
-                    "HH:MM DD/MM/YY",
+                  {dayjs(chat.messages.at(-1)?.publishedAt).format(
+                    "HH:mm DD/MM/YY",
                   )}
                 </span>
               </div>
@@ -129,7 +128,7 @@ export default function ChatWithCustomer() {
                     <p>{message.text}</p>
                   </div>
                   <div className="m-2 self-end text-xs text-gray-500">
-                    {dayjs(message.createdAt).format("HH:MM")}
+                    {dayjs(message.publishedAt).format("HH:mm")}
                   </div>
                 </div>
               </div>

@@ -59,7 +59,7 @@ export const endpoint = {
       update: (id) => `users/${id}`,
     },
     message: {
-      query: (id) =>
+      get: (id) =>
         `/messages?populate[sender][populate]=role&populate[receiver][populate]=role&filters[$or][0][sender][id]=${id}&filters[$or][1][receiver][id]=${id}`,
       create: () => `/messages`,
     },
