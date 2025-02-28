@@ -62,8 +62,8 @@ export default function SupportChat() {
       </button>
 
       {isOpen && (
-        <div className="fixed right-6 bottom-24 w-11/12 rounded-lg border-gray-200 bg-white shadow-xl md:w-96">
-          <div className="bg-primary flex items-center space-x-4 rounded-t-lg p-3">
+        <div className="fixed right-6 bottom-24 w-11/12 rounded-xl border-gray-200 bg-white shadow-xl md:w-96">
+          <div className="bg-primary flex items-center space-x-4 rounded-t-xl p-3">
             <img
               src="/admin-icon.png"
               alt="Support"
@@ -76,8 +76,8 @@ export default function SupportChat() {
             </div>
           </div>
 
-          <div className="h-80 space-y-4 overflow-hidden p-4">
-            <div className="h-80 space-y-4 overflow-y-auto p-4">
+          <div className="h-80 space-y-4 overflow-hidden p-2">
+            <div className="h-full space-y-4 overflow-y-auto p-2">
               {chats.map((msg) => (
                 <div
                   key={msg.id}
@@ -91,17 +91,17 @@ export default function SupportChat() {
                     }`}
                   >
                     <div
-                      className={`max-w-[80%] rounded-lg px-4 py-1.5 ${
+                      className={`max-w-[80%] rounded-xl px-4 py-1.5 ${
                         msg.sender?.id === user.id
                           ? "bg-primary text-white"
                           : "bg-gray-200 text-gray-800"
                       }`}
                     >
                       <div className="flex items-center space-x-2">
-                        <p className="text-sm">{msg.text}</p>
+                        <p className="mb-0.5 text-sm">{msg.text}</p>
                       </div>
                     </div>
-                    <div className="text-center">
+                    <div className="mb-1.5 flex flex-col-reverse">
                       <span className="mx-2 text-xs text-gray-500">
                         {dayjs(msg.createdAt).format("HH:MM")}
                       </span>
@@ -118,7 +118,7 @@ export default function SupportChat() {
               placeholder="Type a message..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500"
+              className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500"
             />
             <button
               onClick={handleSendMessage}
