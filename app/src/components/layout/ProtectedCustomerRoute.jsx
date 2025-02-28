@@ -7,7 +7,7 @@ import useAuthStore from "@/store/store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { conf, path } from "@/conf/main";
-import SupportChat from "@/components/layout/SupportChat";
+import SupportChat from "@layout/SupportChat";
 
 export default function ProtectedCustomerRoute({ children }) {
   const { isLoginPending, user } = useAuthStore();
