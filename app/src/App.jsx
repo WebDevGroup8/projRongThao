@@ -32,11 +32,9 @@ import ChatWithCustomer from "@admin/chat/ChatWithCustomer";
 // Layout Components
 import ProtectedCustomerRoute from "@layout/ProtectedCustomerRoute";
 import ProtectedAdminRoute from "@layout/ProtectedAdminRoute";
-import NavigationBar from "@layout/NavigationBar";
-import Container from "@layout/Container";
-import Footer from "@layout/Footer";
-import ScrollToTop from "@layout/ScrollToTop";
-import SupportChat from "@layout/SupportChat";
+import PublicRoute from "@layout/PublicRoute";
+import SimpleRoute from "@layout/SimpleRoute";
+import Otherwise from "@layout/Otherwise";
 
 function App() {
   const { autoLogin, jwt, isLoginPending, setIsLoginPending } = useAuthStore();
@@ -63,194 +61,42 @@ function App() {
       <div className="h-full w-full">
         <ToastContainer className="z-0" />
         <Routes>
-          {/* Public Route */}
-          <Route
-            path="/"
-            element={
-              <>
-                <ScrollToTop />
-                <NavigationBar />
-                <HomePage />
-                <SupportChat />
-                <Footer />
-              </>
-            }
-          />
+          {/* Authentication Route */}
           <Route path={path.public.login} element={<SignIn />} />
           <Route path={path.public.register} element={<SignUp />} />
-          <Route
-            path={path.public.discovery}
-            element={
-              <>
-                <ScrollToTop />
-                <NavigationBar />
-                <Container>
-                  <SeeAllItem />
-                  <SupportChat />
-                </Container>
-                <Footer />
-              </>
-            }
-          />
 
-          <Route
-            path={`${path.public.detail}/:id`}
-            element={
-              <div className="z-50">
-                <ScrollToTop />
-                <NavigationBar />
-                <Container>
-                  <ItemDetail />
-                  <SupportChat />
-                </Container>
-                <Footer />
-              </div>
-            }
-          />
-
-          <Route
-            path={path.public.size}
-            element={
-              <>
-                <ScrollToTop />
-                <NavigationBar />
-                <Container>
-                  <SizeGuide />
-                  <SupportChat />
-                </Container>
-                <Footer />
-              </>
-            }
-          />
-
-          <Route
-            path={path.public.helps}
-            element={
-              <>
-                <ScrollToTop />
-                <NavigationBar />
-                <Container>
-                  <Helps />
-                  <SupportChat />
-                </Container>
-                <Footer />
-              </>
-            }
-          />
-
-          <Route
-            path={path.public.shipping}
-            element={
-              <>
-                <ScrollToTop />
-                <NavigationBar />
-                <Container>
-                  <ShippingReturn />
-                  <SupportChat />
-                </Container>
-                <Footer />
-              </>
-            }
-          />
+          {/* Public Route */}
+          <Route element={<SimpleRoute />}>
+            <Route path={path.public.home} element={<HomePage />} />
+          </Route>
+          <Route element={<PublicRoute />}>
+            <Route path={path.public.discovery} element={<SeeAllItem />} />
+            <Route path={path.public.detailRoute} element={<ItemDetail />} />
+            <Route path={path.public.size} element={<SizeGuide />} />
+            <Route path={path.public.helps} element={<Helps />} />
+            <Route path={path.public.shipping} element={<ShippingReturn />} />
+          </Route>
 
           {/* Customer Route */}
-          <Route
-            path={path.customer.cart}
-            element={
-              <ProtectedCustomerRoute>
-                <ShoppingCart />
-              </ProtectedCustomerRoute>
-            }
-          />
-          <Route
-            path={path.customer.order}
-            element={
-              <ProtectedCustomerRoute>
-                <ViewOrder />
-              </ProtectedCustomerRoute>
-            }
-          />
+          <Route element={<ProtectedCustomerRoute />}>
+            <Route path={path.customer.cart} element={<ShoppingCart />} />
+            <Route path={path.customer.order} element={<ViewOrder />} />
+          </Route>
 
           {/* Admin Route */}
-          <Route
-            path={path.admin.default}
-            element={
-              <ProtectedAdminRoute>
-                <Admin />
-              </ProtectedAdminRoute>
-            }
-          />
-          <Route
-            path={path.admin.dashboard}
-            element={
-              <ProtectedAdminRoute>
-                <Dashboard />
-              </ProtectedAdminRoute>
-            }
-          />
-
-          <Route
-            path={path.admin.order}
-            element={
-              <ProtectedAdminRoute>
-                <OrderManagement />
-              </ProtectedAdminRoute>
-            }
-          />
-          <Route
-            path={path.admin.product}
-            element={
-              <ProtectedAdminRoute>
-                <ManageProduct />
-              </ProtectedAdminRoute>
-            }
-          />
-
-          <Route
-            path={path.admin.category}
-            element={
-              <ProtectedAdminRoute>
-                <ManageCategory />
-              </ProtectedAdminRoute>
-            }
-          />
-
-          <Route
-            path={path.admin.promotion}
-            element={
-              <ProtectedAdminRoute>
-                <Promotion />
-              </ProtectedAdminRoute>
-            }
-          />
-
-          <Route
-            path={path.admin.review}
-            element={
-              <ProtectedAdminRoute>
-                <ReviewManage />
-              </ProtectedAdminRoute>
-            }
-          />
-
-          <Route
-            path={path.admin.chat}
-            element={
-              <ProtectedAdminRoute>
-                <ChatWithCustomer />
-              </ProtectedAdminRoute>
-            }
-          />
+          <Route element={<ProtectedAdminRoute />}>
+            <Route path={path.admin.default} element={<Admin />} />
+            <Route path={path.admin.dashboard} element={<Dashboard />} />
+            <Route path={path.admin.order} element={<OrderManagement />} />
+            <Route path={path.admin.product} element={<ManageProduct />} />
+            <Route path={path.admin.category} element={<ManageCategory />} />
+            <Route path={path.admin.promotion} element={<Promotion />} />
+            <Route path={path.admin.review} element={<ReviewManage />} />
+            <Route path={path.admin.chat} element={<ChatWithCustomer />} />
+          </Route>
 
           {/* Otherwise route */}
-          <Route
-            path={path.otherwise}
-            element={
-              <a className="hover:underline" href="/">
-                Go Back
-              </a>
-            }
-          />
+          <Route path={path.otherwise} element={<Otherwise />} />
         </Routes>
       </div>
     )

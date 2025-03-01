@@ -2,10 +2,10 @@ import AdminSidebar from "@layout/AdminSidebar";
 import Loading from "@layout/Loading";
 import useAuthStore from "@/store/store";
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import { conf, path } from "@/conf/main";
 
-export default function ProtectedAdminRoute({ children }) {
+export default function ProtectedAdminRoute() {
   const { isLoginPending, user } = useAuthStore();
   const navigate = useNavigate();
   useEffect(() => {
@@ -34,7 +34,9 @@ export default function ProtectedAdminRoute({ children }) {
         <AdminSidebar />
       </div>
       {/* Content */}
-      <div className="w-full">{children}</div>
+      <div className="w-full">
+        <Outlet />
+      </div>
     </div>
   );
 }
