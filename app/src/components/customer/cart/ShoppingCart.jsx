@@ -5,6 +5,7 @@ import { endpoint, conf } from "@/conf/main";
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "react-toastify";
 import useAuthStore from "@/store/store";
+import { Minus, Plus } from "lucide-react";
 
 export default function ShoppingCart() {
   const { user, cart, updateCartItem, removeFromCart, clearCart } =
@@ -17,10 +18,7 @@ export default function ShoppingCart() {
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState(subtotal);
   const [promoCode, setPromoCode] = useState("");
-
-  const handlePromoChange = (e) => {
-    setPromoCode(e.target.value);
-  };
+  const [isProcessPayment, setIsProcessPayment] = useState(false);
 
   const updateQuantity = (id, sizeIndex, change) => {
     setCartItems((items) => {
@@ -61,8 +59,8 @@ export default function ShoppingCart() {
 
   const handlePayment = async () => {
     try {
+      setIsProcessPayment(true);
       const stripe = await stripePromise;
-      // return;
       const response = await ax.post(endpoint.customer.order.create(), {
         userId: user.id,
         order_product: cartItems,
@@ -81,10 +79,11 @@ export default function ShoppingCart() {
       await stripe.redirectToCheckout({ sessionId });
     } catch (error) {
       if (error.response.data?.error?.type === "coupon") {
-        // TODO: implement toast
         toast.error("Invalid Coupon Code");
       }
       console.error("Payment Error:", error);
+    } finally {
+      setIsProcessPayment(false);
     }
   };
   const calculateSummary = () => {
@@ -220,26 +219,6 @@ export default function ShoppingCart() {
                     <div className="flex items-center">
                       <button
                         onClick={() =>
-                          updateQuantity(item.id, item.sizeIndex, 1)
-                        }
-                        className="cursor-pointer rounded p-1 hover:bg-gray-200"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-4 w-4"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </button>
-                      <span className="mx-3">{item.quantity}</span>
-                      <button
-                        onClick={() =>
                           updateQuantity(item.id, item.sizeIndex, -1)
                         }
                         disabled={item.quantity === 1}
@@ -249,18 +228,17 @@ export default function ShoppingCart() {
                             : ""
                         }`}
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-4 w-4"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
+                        <Minus />
+                      </button>
+                      <span className="mx-3">{item.quantity}</span>
+
+                      <button
+                        onClick={() =>
+                          updateQuantity(item.id, item.sizeIndex, 1)
+                        }
+                        className="cursor-pointer rounded p-1 hover:bg-gray-200"
+                      >
+                        <Plus />
                       </button>
                     </div>
                     <div className="text-right">
@@ -322,13 +300,6 @@ export default function ShoppingCart() {
                 </div>
               </div>
               <div className="mt-6 space-y-3">
-                <input
-                  type="text"
-                  className="w-full rounded-md border border-gray-300 px-4 py-2"
-                  placeholder="Promo code"
-                  value={promoCode}
-                  onChange={handlePromoChange}
-                />
                 <button
                   onClick={handlePayment}
                   className={`w-full rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white ${
@@ -336,7 +307,7 @@ export default function ShoppingCart() {
                       ? "cursor-not-allowed opacity-50"
                       : "hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none"
                   }`}
-                  disabled={cartItems.length === 0}
+                  disabled={isProcessPayment || cartItems.length === 0}
                 >
                   Checkout →
                 </button>

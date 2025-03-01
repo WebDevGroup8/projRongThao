@@ -117,6 +117,7 @@ export default factories.createCoreController(
           },
         ],
         metadata: { orderedProduct: JSON.stringify(orderedProduct) },
+        allow_promotion_codes: true,
       };
 
       try {

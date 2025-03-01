@@ -36,6 +36,10 @@ export default {
         duration: duration,
         percent_off: percent_off,
       });
+      const promotionCode = await stripe.promotionCodes.create({
+        coupon: name,
+        code: name,
+      });
       ctx.status = 200;
       ctx.body = coupon;
     } catch (e) {
@@ -55,6 +59,10 @@ export default {
         name: name,
         duration: duration,
         percent_off: percent_off,
+      });
+      const promotionCode = await stripe.promotionCodes.create({
+        coupon: name,
+        code: name,
       });
       ctx.status = 200;
       ctx.body = coupon;

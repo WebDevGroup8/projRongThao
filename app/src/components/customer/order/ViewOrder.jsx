@@ -225,30 +225,6 @@ export const ViewOrderCard = ({ item }) => {
                 </div>
               </div>
             </div>
-            {/* <div className=" w-full flex justify-center">
-              <div className="relative w-64 flex items-center">
-                <hr className=" border-3 border-black w-full" />
-                <div className=" absolute flex flex-row  justify-between  w-full">
-                  {item.ToShip === "stageOne" ? (
-                    <div className="flex w-5 h-5 rounded-full bg-white items-center justify-center">
-                      <CircleCheck />
-                    </div>
-                  ) : (
-                    <div className=" w-4 h-4 bg-black rounded-full flex justify-center">
-                      <p className="mt-6 text-xs">shipped</p>
-                    </div>
-                  )}
-                  <div className=" w-4 h-4 bg-black rounded-full flex justify-center">
-                    <p className="mt-6 text-xs whitespace-nowrap">
-                      Out for Delivery
-                    </p>
-                  </div>
-                  <div className=" w-4 h-4 bg-black rounded-full flex justify-center">
-                    <p className="mt-6 text-xs">Delivered</p>
-                  </div>
-                </div>
-              </div>
-            </div> */}
           </div>
         </div>
       ))}
@@ -285,9 +261,7 @@ export default function ViewOrder() {
           </div>
         </div>
 
-        <div>
-          <hr className="absolute right-0 -bottom-2 left-0 border-2 border-blue-900" />
-        </div>
+        <hr className="my-4 border-2 border-blue-900" />
       </div>
       {active === "To Ship" ? (
         <GroupViewCard selectedStatus={selectedStatus} />
