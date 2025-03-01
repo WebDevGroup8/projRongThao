@@ -80,7 +80,10 @@ export default function SeeAllItem() {
     // Filter by size
     .filter((product) =>
       selectedSizes.length > 0
-        ? product.stock.some(({ size }) => selectedSizes.includes(size))
+        ? product.stock?.some(
+            ({ size, stock }) =>
+              selectedSizes.includes(size) && Number(stock) > 0,
+          )
         : true,
     );
 
