@@ -414,7 +414,7 @@ export default function ItemDetail() {
                   }
                   className="w-full cursor-pointer rounded-md border border-blue-950 px-4 py-2 text-center text-xl text-blue-950"
                 >
-                  <p className="hover:underline">PLEASE LOGIN TO ADD TO CART</p>
+                  <p className="hover:underline">PLEASE LOGIN BEFORE BUY</p>
                 </button>
               ) : isItemInCart ? (
                 <button className="w-full cursor-pointer rounded-md border border-blue-950 px-4 py-2 text-center text-xl text-blue-950">
@@ -434,12 +434,14 @@ export default function ItemDetail() {
                 </button>
               )}
 
-              <button
-                onClick={handlePayment}
-                className="w-full cursor-pointer rounded-md bg-black px-4 py-2 text-center text-xl text-white"
-              >
-                <p className="hover:underline">BUY IT NOW</p>
-              </button>
+              {user && (
+                <button
+                  onClick={handlePayment}
+                  className="w-full cursor-pointer rounded-md bg-black px-4 py-2 text-center text-xl text-white"
+                >
+                  <p className="hover:underline">BUY IT NOW</p>
+                </button>
+              )}
             </div>
 
             <Description description={product.description} />
