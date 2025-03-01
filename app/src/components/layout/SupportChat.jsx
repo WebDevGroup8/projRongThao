@@ -51,6 +51,16 @@ export default function SupportChat() {
     }
   };
 
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const interval = setInterval(() => {
+      fetchChats();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isOpen]);
+
   return (
     user && (
       <div>
