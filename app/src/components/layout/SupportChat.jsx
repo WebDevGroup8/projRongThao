@@ -51,12 +51,22 @@ export default function SupportChat() {
     }
   };
 
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const interval = setInterval(() => {
+      fetchChats();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isOpen]);
+
   return (
     user && (
       <div>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className={`fixed right-6 bottom-6 flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition-all duration-300 ${
+          className={`fixed right-6 bottom-6 z-100 flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition-all duration-300 ${
             isOpen
               ? "bg-red-500"
               : "bg-gradient-to-r from-cyan-600 to-purple-600"
@@ -70,7 +80,7 @@ export default function SupportChat() {
         </button>
 
         {isOpen && (
-          <div className="fixed right-6 bottom-24 w-11/12 rounded-xl border-gray-200 bg-white shadow-xl md:w-96">
+          <div className="fixed right-6 bottom-24 z-100 w-11/12 rounded-xl border-gray-200 bg-white shadow-xl md:w-96">
             <div className="flex items-center space-x-4 rounded-t-xl bg-gradient-to-r from-cyan-600 to-purple-600 p-3">
               <img
                 src="/admin-icon.png"

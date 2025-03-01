@@ -72,6 +72,16 @@ export default function ChatWithCustomer() {
     }
   };
 
+  useEffect(() => {
+    if (!selectedUserId) return;
+
+    const interval = setInterval(() => {
+      fetchMessages(selectedUserId);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [selectedUserId]);
+
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Chat List */}
