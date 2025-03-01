@@ -38,7 +38,6 @@ const OrderTable = (props) => {
       const res = await ax.get(endpoint.admin.user.customer.query());
 
       setUser(res.data);
-      console.log(res.data);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
@@ -48,12 +47,14 @@ const OrderTable = (props) => {
     try {
       const res = await ax.get(endpoint.admin.order.query());
       setOrders(res.data.data);
-      console.log(res.data.data);
+      const sumTotalPrice = res.data.data.reduce((acc, order) => {
+        return acc + (order.total_price || 0);
+      }, 0);
+      props.setTotalRevenue(sumTotalPrice);
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
   };
-
   const filteredOrder = orders
     ?.filter(
       (order) =>
@@ -61,12 +62,16 @@ const OrderTable = (props) => {
           selectedStatus.includes(order.orderStatus.trim())) &&
         (order.documentId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           order.orderStatus?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.owner?.username
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          order.createdAt?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.address?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           order.order_product?.some((product) =>
             product.name?.toLowerCase().includes(searchTerm.toLowerCase()),
           )),
     )
     .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-
   const updateStatus = async (orderId, newStatus) => {
     try {
       await ax.put(endpoint.admin.order.update(orderId), {

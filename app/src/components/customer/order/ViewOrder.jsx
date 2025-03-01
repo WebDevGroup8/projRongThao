@@ -27,12 +27,10 @@ export const GroupViewCard = ({ selectedStatus }) => {
           ...order,
         })),
       );
-      console.log(res.data.order_histories);
     } catch (error) {
       console.error("Error fetching OrderItems:", error);
     }
   };
-  console.log(orderItems);
 
   const filteredOrderItems = orderItems?.filter(
     (order) =>

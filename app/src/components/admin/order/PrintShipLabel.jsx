@@ -25,11 +25,11 @@ const PrintShipLabel = ({ order }) => {
                 <h2>📦 RongThao - ใบเสร็จการขนส่ง</h2>
                 <hr/>
                 <p><strong>หมายเลขคำสั่งซื้อ:</strong> ${order.documentId}</p>
-                <p><strong>ชื่อผู้รับ:</strong> ${order.owner?.username}</p>
+                <p><strong>ชื่อผู้รับ:</strong> ${order.owner?.username}</p> 
                 <p><strong>ที่อยู่:</strong> ${order.address}</p>
                 <hr/>
                 <p><strong>รายการสินค้า:</strong></p>
-                  ${order.order_product.map((product) => `<p>🔹 ${product.name}</p>`).join("")}
+                  ${order.order_product.map((product) => `<p>🔹 ${product.name} (Size: ${product.selectedSize}) x ${product.quantity}</p>`).join("")}
                 <hr/>
                 <p><strong>วันที่สั่งซื้อ:</strong> ${dayjs(order.createdAt).format("DD MMM YYYY")}</p>
                 <p><strong>สถานะคำสั่งซื้อ:</strong> ${order.orderStatus}</p>
