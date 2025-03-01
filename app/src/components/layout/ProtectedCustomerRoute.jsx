@@ -5,11 +5,11 @@ import NavigationBar from "@layout/NavigationBar";
 import ScrollToTop from "@layout/ScrollToTop";
 import useAuthStore from "@/store/store";
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import { conf, path } from "@/conf/main";
 import SupportChat from "@layout/SupportChat";
 
-export default function ProtectedCustomerRoute({ children }) {
+export default function ProtectedCustomerRoute() {
   const { isLoginPending, user } = useAuthStore();
   const navigate = useNavigate();
   useEffect(() => {
@@ -35,7 +35,9 @@ export default function ProtectedCustomerRoute({ children }) {
     <div>
       <ScrollToTop />
       <NavigationBar />
-      <Container>{children}</Container>
+      <Container>
+        <Outlet />
+      </Container>
       <SupportChat />
       <Footer />
     </div>

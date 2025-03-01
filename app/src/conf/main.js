@@ -132,6 +132,7 @@ export const path = {
       platform: `?category=platform`,
     },
     detail: `/product`,
+    detailRoute: `/product/:id`,
     login: `/login`,
     register: `/register`,
     size: `/size`,
