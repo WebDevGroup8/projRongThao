@@ -16,6 +16,7 @@ import { path, conf, endpoint } from "@/conf/main";
 import { toast } from "react-toastify";
 import useAuthStore from "@/store/store";
 import Review from "@public/detail/Review";
+import { loadStripe } from "@stripe/stripe-js";
 
 export const ExampleImg = ({ images }) => {
   const [key, setKey] = useState(0);
@@ -233,10 +234,54 @@ export default function ItemDetail() {
   const location = useLocation();
   const { pathname, search } = location;
 
+  // shipping
+  const shipping = 150;
+
   const isItemInCart = cart.find(
     (item) => item.id === Number(id) && item.sizeIndex === sizeIndex,
   );
   const navigate = useNavigate();
+
+  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+
+  const handlePayment = async () => {
+    if (size === "Select Size") {
+      toast.error("Please select size before adding to cart!", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    try {
+      const stripe = await stripePromise;
+      // return;
+      const productLine = {
+        ...product,
+        quantity: 1,
+        selectedSize: size,
+      };
+      const response = await ax.post(endpoint.customer.order.create(), {
+        userId: user.id,
+        order_product: [productLine],
+        amount_shipping: shipping,
+      });
+
+      // Extract session ID
+      const sessionId = response.data?.stripeSession?.id;
+
+      if (!sessionId) {
+        throw new Error("Stripe session ID not received.");
+      }
+      await stripe.redirectToCheckout({ sessionId });
+    } catch (error) {
+      if (error.response.data?.error?.type === "coupon") {
+        // TODO: implement toast
+        toast.error("Invalid Coupon Code");
+      }
+      console.error("Payment Error:", error);
+    }
+  };
 
   const fetchProduct = async () => {
     try {
@@ -375,7 +420,8 @@ export default function ItemDetail() {
                 <button className="w-full cursor-pointer rounded-md border border-blue-950 px-4 py-2 text-center text-xl text-blue-950">
                   <p className="hover:underline">ITEM ALREADY IN CART</p>
                 </button>
-              ) : product.stock === 0 ? (
+              ) : // TODO new stock checking logic
+              product.stock === 0 ? (
                 <button className="w-full cursor-pointer rounded-md border border-blue-950 px-4 py-2 text-center text-xl text-blue-950">
                   <p className="hover:underline">OUT OF STOCK</p>
                 </button>
@@ -388,7 +434,10 @@ export default function ItemDetail() {
                 </button>
               )}
 
-              <button className="w-full cursor-pointer rounded-md bg-black px-4 py-2 text-center text-xl text-white">
+              <button
+                onClick={handlePayment}
+                className="w-full cursor-pointer rounded-md bg-black px-4 py-2 text-center text-xl text-white"
+              >
                 <p className="hover:underline">BUY IT NOW</p>
               </button>
             </div>
