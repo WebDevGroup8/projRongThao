@@ -5,7 +5,7 @@ export default function ClickableCard(props) {
 
   return (
     <div
-      className="relative h-55 w-55 cursor-pointer rounded-xl bg-cover bg-center shadow-lg"
+      className="relative h-55 w-55 cursor-pointer rounded-xl bg-cover bg-center shadow-lg hover:scale-115"
       style={{ backgroundImage: `url('${props.imageUrl}')` }}
       onClick={() => navigate(props.navigateTo)}
     >
