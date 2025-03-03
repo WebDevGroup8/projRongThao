@@ -241,7 +241,7 @@ export default function EditProductModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-      <div className="w-full max-w-3xl rounded-lg bg-white p-6 shadow-xl">
+      <div className="w-full max-w-5xl rounded-lg bg-white p-6 shadow-xl">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold">Edit Product</h2>
           <button
@@ -253,7 +253,7 @@ export default function EditProductModal({
         </div>
         <form
           onSubmit={handleSubmit}
-          className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2"
+          className="mt-4 grid gap-6 grid-cols-3"
         >
           {/* Image Upload Section */}
           <div className="space-y-4">
@@ -283,13 +283,13 @@ export default function EditProductModal({
               </button>
             </div>
             {previewUrls.length > 0 && (
-              <div className="flex max-h-103 flex-wrap justify-start gap-2 overflow-y-auto">
+              <div className="flex max-h-70 flex-wrap justify-start gap-2 overflow-y-auto">
                 {previewUrls.map((url, index) => (
                   <div key={index} className="group relative h-fit w-fit">
                     <img
                       src={url}
                       alt={`preview-${index}`}
-                      className="h-40 w-40 rounded-md object-cover"
+                      className="h-35 w-35 rounded-md object-cover"
                     />
                     <button
                       type="button"
@@ -366,11 +366,17 @@ export default function EditProductModal({
                 ))}
               </div>
             </div>
+
+
+
+          </div>
+
+          <div div className="space-y-4">
             {/* Size Stock */}
             <label className="block text-sm font-medium text-gray-700">
               Stock
             </label>
-            <div className="h-20 overflow-y-auto">
+            <div className="h-75 overflow-y-auto">
               <table className="w-full text-left text-sm text-gray-500 shadow-sm rtl:text-right">
                 <thead className="rounded border-1 border-gray-200 bg-gray-50 text-xs text-gray-700">
                   <tr>
@@ -431,6 +437,7 @@ export default function EditProductModal({
               <Plus size={20} /> Add Size
             </button>
           </div>
+
           <div className="col-span-full flex justify-end">
             <button
               type="submit"
