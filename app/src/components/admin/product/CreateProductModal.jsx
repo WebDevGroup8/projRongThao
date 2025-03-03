@@ -79,9 +79,24 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    setImages([...images, ...files]);
-    setPreviewUrls([
-      ...previewUrls,
+    // กำหนด MIME types ที่ยอมรับ (ประเภทรูปภาพ)
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+    ];
+    // ตรวจสอบว่าไฟล์ทุกตัวเป็นรูปภาพหรือไม่
+    const allImages = files.every((file) => allowedTypes.includes(file.type));
+
+    if (!allImages) {
+      toast.error("Only image files are allowed!");
+      return; // ออกจากฟังก์ชัน ไม่เพิ่มอะไรลง state
+    }
+    // ถ้าไฟล์ทั้งหมดเป็นรูปภาพ ค่อยอัปเดต state
+    setImages((prev) => [...prev, ...files]);
+    setPreviewUrls((prev) => [
+      ...prev,
       ...files.map((file) => URL.createObjectURL(file)),
     ]);
   };
