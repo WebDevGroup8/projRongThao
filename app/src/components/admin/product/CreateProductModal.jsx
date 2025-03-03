@@ -174,7 +174,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
       console.error("❌ Error creating product:", error);
       toast.error(
         "❌ Failed to create product: " +
-          (error.response?.data?.message || "Unknown error"),
+        (error.response?.data?.message || "Unknown error"),
       );
     } finally {
       setIsLoading(false); // เพิ่มเพื่อรีเซ็ตสถานะ loading
@@ -241,7 +241,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
                     <img
                       src={url}
                       alt={`preview-${index}`}
-                      className="h-40 w-40 rounded-md object-cover"
+                      className="h-55 w-55 rounded-md object-cover"
                     />
                     <button
                       type="button"
@@ -323,7 +323,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
             <label className="block text-sm font-medium text-gray-700">
               Stock
             </label>
-            <div className="h-50 overflow-y-auto">
+            <div className="h-20 overflow-y-auto">
               <table className="w-full text-left text-sm text-gray-500 shadow-sm rtl:text-right">
                 <thead className="rounded border-1 border-gray-200 bg-gray-50 text-xs text-gray-700">
                   <tr>

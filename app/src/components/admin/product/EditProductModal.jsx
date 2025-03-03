@@ -229,7 +229,7 @@ export default function EditProductModal({
       );
       toast.error(
         "❌ Failed to update product: " +
-          (error.response?.data?.message || "Unknown error"),
+        (error.response?.data?.message || "Unknown error"),
       );
     } finally {
       setIsLoading(false);
@@ -369,7 +369,7 @@ export default function EditProductModal({
             <label className="block text-sm font-medium text-gray-700">
               Stock
             </label>
-            <div className="h-50 overflow-y-auto">
+            <div className="h-20 overflow-y-auto">
               <table className="w-full text-left text-sm text-gray-500 shadow-sm rtl:text-right">
                 <thead className="rounded border-1 border-gray-200 bg-gray-50 text-xs text-gray-700">
                   <tr>
