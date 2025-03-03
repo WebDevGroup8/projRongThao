@@ -85,11 +85,34 @@ export default function EditProductModal({
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === "price") {
+      // แปลงค่าเป็นตัวเลขเพื่อตรวจสอบ
+      const priceValue = Number(value);
+      if (priceValue < 0) {
+        toast.error("Price cannot be negative!");
+        setProductData({ ...productData, [name]: "" }); // รีเซ็ตเป็นค่าว่าง หรือใช้ 0 ถ้าต้องการ
+        return;
+      }
+    }
     setProductData({ ...productData, [name]: value });
   };
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
+    // กำหนด MIME types ที่ยอมรับ (ประเภทรูปภาพ)
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+    ];
+    // ตรวจสอบว่าไฟล์ทุกตัวเป็นรูปภาพหรือไม่
+    const allImages = files.every((file) => allowedTypes.includes(file.type));
+    if (!allImages) {
+      toast.error("Only image files are allowed!");
+      return; // ออกจากฟังก์ชัน ไม่เพิ่มอะไรลง state
+    }
+    // ถ้าไฟล์ทั้งหมดเป็นรูปภาพ ค่อยอัปเดต state
     setImages((prev) => [...prev, ...files]);
     setPreviewUrls((prev) => [
       ...prev,

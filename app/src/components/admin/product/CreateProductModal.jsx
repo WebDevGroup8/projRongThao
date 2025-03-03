@@ -74,6 +74,15 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === "price") {
+      // แปลงค่าเป็นตัวเลขเพื่อตรวจสอบ
+      const priceValue = Number(value);
+      if (priceValue < 0) {
+        toast.error("Price cannot be negative!");
+        setProductData({ ...productData, [name]: "" }); // รีเซ็ตเป็นค่าว่าง หรือใช้ 0 ถ้าต้องการ
+        return;
+      }
+    }
     setProductData({ ...productData, [name]: value });
   };
 
