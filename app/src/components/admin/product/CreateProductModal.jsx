@@ -101,6 +101,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
       const response = await ax.post(endpoint.admin.meida.upload(), formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+      //มันจะ restpont image id ออกมา เเล้วเราก็เก็บเป็น array เเล้วยิงขึ้นไป
       return response.data.map((file) => file.id);
     } catch (error) {
       console.error("❌ Error uploading images:", error);
@@ -197,8 +198,9 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
 
         <form
           onSubmit={handleSubmit}
-          className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2"
+          className="mt-4 grid gap-6 grid-cols-3"
         >
+
           {/* Image Upload Section */}
           <div className="space-y-4">
             <label className="block text-sm font-medium text-gray-700">
@@ -235,13 +237,13 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
 
             {/* Preview Images */}
             {previewUrls.length > 0 && (
-              <div className="flex max-h-103 flex-wrap justify-start gap-2 overflow-y-auto">
+              <div className="flex max-h-70 flex-wrap justify-start gap-2 overflow-y-auto">
                 {previewUrls.map((url, index) => (
                   <div key={index} className="group relative h-fit w-fit">
                     <img
                       src={url}
                       alt={`preview-${index}`}
-                      className="h-55 w-55 rounded-md object-cover"
+                      className="h-35 w-35 rounded-md object-cover"
                     />
                     <button
                       type="button"
@@ -319,11 +321,15 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
                 ))}
               </div>
             </div>
+
+          </div>
+
+          <div div className="space-y-4">
             {/* Size Stock */}
             <label className="block text-sm font-medium text-gray-700">
               Stock
             </label>
-            <div className="h-20 overflow-y-auto">
+            <div className="h-75 overflow-y-auto">
               <table className="w-full text-left text-sm text-gray-500 shadow-sm rtl:text-right">
                 <thead className="rounded border-1 border-gray-200 bg-gray-50 text-xs text-gray-700">
                   <tr>

@@ -97,6 +97,7 @@ export default function EditProductModal({
     ]);
   };
 
+
   const removeImage = (index) => {
     // ถ้า index น้อยกว่าจำนวน existingImages แปลว่าเป็นรูปเก่า
     if (index < existingImages.length) {
