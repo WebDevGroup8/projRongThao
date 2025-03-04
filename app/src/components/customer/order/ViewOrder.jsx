@@ -61,7 +61,7 @@ export const GroupViewCard = ({ selectedStatus }) => {
   return (
     <div className="space-y-5">
       {filteredOrderItems
-        ?.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+        ?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         .map((item) => (
           <div
             key={item.id}
