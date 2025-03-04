@@ -55,6 +55,7 @@ export const ExampleImg = ({ images }) => {
           <button
             key={index}
             className="h-15 w-15 rounded-xl border-2 border-gray-300 object-cover focus:ring-1 focus:ring-black focus:outline-none lg:h-fit"
+            onClick={() => setKey(index)}
           >
             <img
               src={`${conf.imageUrlPrefix}${img}`}
@@ -404,7 +405,7 @@ export default function ItemDetail() {
               </div>
             </div>
 
-            <div className="flex w-full flex-col gap-5">
+            <div className="flex w-full flex-col gap-5 lg:min-h-24">
               {!user ? (
                 <button
                   onClick={() =>
