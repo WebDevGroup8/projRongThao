@@ -49,7 +49,11 @@ export default function SideBar({
       <div className="text-md pb-2 font-medium text-gray-900">Categories</div>
       <div className="grid grid-cols-3 gap-2 lg:min-h-70 lg:grid-cols-1">
         {categories.map((category) => (
-          <label key={category.id} className="flex items-center gap-2">
+          <label
+            data-testid={`category-checkbox-${category.title}`}
+            key={category.id}
+            className="flex items-center gap-2"
+          >
             <input
               type="checkbox"
               checked={selectedCategories.includes(category.title)}
