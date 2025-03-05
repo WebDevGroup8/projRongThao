@@ -25,6 +25,8 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
+    screenshot: 'only-on-failure', // ถ้าเทสล้ม ให้บันทึก screenshot
+    video: 'retain-on-failure', // ถ้าเทสล้ม ให้บันทึก video
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
 
@@ -72,8 +74,8 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
+  //   command: "npm run dev", 
+  //   url: "http://localhost:5173",
+  //   reuseExistingServer: true,
   // },
 });

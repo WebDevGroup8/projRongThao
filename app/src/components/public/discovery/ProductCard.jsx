@@ -92,6 +92,7 @@ export default function ProductCard(props) {
 
   return (
     <div
+      data-testid="product-item"
       onClick={handleDetail}
       onMouseEnter={() => setAnimate(true)}
       onMouseLeave={() => setAnimate(false)}
