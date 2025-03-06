@@ -366,6 +366,7 @@ export default function ItemDetail() {
               <div className="relative z-50 flex w-full flex-col gap-y-2">
                 <p>Size</p>
                 <button
+                  data-testid="select-size-button"
                   onClick={() => setIsOpenSize(!IsOpenSize)}
                   className="inline-flex items-center rounded-lg border-1 bg-white px-5 py-2.5 text-center text-sm font-light text-black focus:ring-1 focus:ring-black focus:outline-none"
                   type="button"
