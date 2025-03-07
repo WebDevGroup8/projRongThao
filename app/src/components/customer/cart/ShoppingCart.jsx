@@ -5,7 +5,7 @@ import { endpoint, conf } from "@/conf/main";
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "react-toastify";
 import useAuthStore from "@/store/store";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, X } from "lucide-react";
 
 export default function ShoppingCart() {
   const { user, cart, updateCartItem, removeFromCart, clearCart } =
@@ -197,6 +197,7 @@ export default function ShoppingCart() {
             ) : (
               cartItems?.map((item, index) => (
                 <div
+                  data-testid="item-cart"
                   key={index}
                   className="flex flex-col items-center rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition-shadow duration-200 hover:shadow-lg sm:flex-row sm:p-6"
                 >
@@ -218,6 +219,7 @@ export default function ShoppingCart() {
                   <div className="mt-4 flex items-center space-x-15 sm:mt-0">
                     <div className="flex items-center">
                       <button
+                        data-testid="minus"
                         onClick={() =>
                           updateQuantity(item.id, item.sizeIndex, -1)
                         }
@@ -230,9 +232,12 @@ export default function ShoppingCart() {
                       >
                         <Minus />
                       </button>
-                      <span className="mx-3">{item.quantity}</span>
+                      <span data-testid="quantity" className="mx-3">
+                        {item.quantity}
+                      </span>
 
                       <button
+                        data-testid="plus"
                         onClick={() =>
                           updateQuantity(item.id, item.sizeIndex, 1)
                         }
@@ -250,21 +255,11 @@ export default function ShoppingCart() {
                       </p>
                     </div>
                     <button
+                      data-testid="remove"
                       onClick={() => removeItem(item.id, item.sizeIndex)}
                       className="cursor-pointer rounded p-1 text-red-400 transition hover:bg-red-500 hover:text-white"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+                      <X />
                     </button>
                   </div>
                 </div>

@@ -25,4 +25,9 @@ export default defineConfig({
       "@assets": path.resolve(__dirname, "./src/assets"),
     },
   },
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "./setupTests.js", // Optional: for global setups
+  },
 });
