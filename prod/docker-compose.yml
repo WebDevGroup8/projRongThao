@@ -10,17 +10,47 @@ services:
     env_file: .env
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}
-      DATABASE_FILENAME: ${DATABASE_FILENAME}
+      DATABASE_HOST: strapiDB
+      DATABASE_PORT: 3306
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       JWT_SECRET: ${JWT_SECRET}
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       APP_KEYS: ${APP_KEYS}
       NODE_ENV: ${NODE_ENV}
     volumes:
-      - ../api/config:/opt/app/config
-      - ../api/src:/opt/app/src
-      - ../api/package.json:/opt/package.json
-      - ../api/package-lock.json:/opt/package-lock.json
-      - ../api/.tmp:/opt/app/.tmp      
-      - ../api/public/uploads:/opt/app/public/uploads
+      - ../api/:/app
     ports:
       - "127.0.0.1:1337:1337"
+    networks:
+      - strapi
+    depends_on:
+      - strapiDB
+
+  strapiDB:
+    container_name: strapiDB
+    platform: linux/amd64 #for platform error on Apple M1 chips
+    restart: unless-stopped
+    env_file: .env
+    image: mysql/mysql-server
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_USER: ${DATABASE_USERNAME}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_NAME}
+    volumes:
+      - strapi-data:/var/lib/mysql
+      #- ./data:/var/lib/mysql # if you want to use a bind folder
+    ports:
+      - "127.0.0.1:3306:3306"
+    networks:
+      - strapi
+
+volumes:
+  strapi-data:
+
+networks:
+  strapi:
+    driver: bridge
