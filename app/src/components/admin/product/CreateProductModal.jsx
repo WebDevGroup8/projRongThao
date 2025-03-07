@@ -74,14 +74,38 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === "price") {
+      // แปลงค่าเป็นตัวเลขเพื่อตรวจสอบ
+      const priceValue = Number(value);
+      if (priceValue < 0) {
+        toast.error("Price cannot be negative!");
+        setProductData({ ...productData, [name]: "" }); // รีเซ็ตเป็นค่าว่าง หรือใช้ 0 ถ้าต้องการ
+        return;
+      }
+    }
     setProductData({ ...productData, [name]: value });
   };
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    setImages([...images, ...files]);
-    setPreviewUrls([
-      ...previewUrls,
+    // กำหนด MIME types ที่ยอมรับ (ประเภทรูปภาพ)
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+    ];
+    // ตรวจสอบว่าไฟล์ทุกตัวเป็นรูปภาพหรือไม่
+    const allImages = files.every((file) => allowedTypes.includes(file.type));
+
+    if (!allImages) {
+      toast.error("Only image files are allowed!");
+      return; // ออกจากฟังก์ชัน ไม่เพิ่มอะไรลง state
+    }
+    // ถ้าไฟล์ทั้งหมดเป็นรูปภาพ ค่อยอัปเดต state
+    setImages((prev) => [...prev, ...files]);
+    setPreviewUrls((prev) => [
+      ...prev,
       ...files.map((file) => URL.createObjectURL(file)),
     ]);
   };
@@ -101,6 +125,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
       const response = await ax.post(endpoint.admin.meida.upload(), formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+      //มันจะ restpont image id ออกมา เเล้วเราก็เก็บเป็น array เเล้วยิงขึ้นไป
       return response.data.map((file) => file.id);
     } catch (error) {
       console.error("❌ Error uploading images:", error);
@@ -174,7 +199,7 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
       console.error("❌ Error creating product:", error);
       toast.error(
         "❌ Failed to create product: " +
-          (error.response?.data?.message || "Unknown error"),
+        (error.response?.data?.message || "Unknown error"),
       );
     } finally {
       setIsLoading(false); // เพิ่มเพื่อรีเซ็ตสถานะ loading
@@ -197,8 +222,9 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
 
         <form
           onSubmit={handleSubmit}
-          className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2"
+          className="mt-4 grid gap-6 grid-cols-3"
         >
+
           {/* Image Upload Section */}
           <div className="space-y-4">
             <label className="block text-sm font-medium text-gray-700">
@@ -235,13 +261,13 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
 
             {/* Preview Images */}
             {previewUrls.length > 0 && (
-              <div className="flex max-h-103 flex-wrap justify-start gap-2 overflow-y-auto">
+              <div className="flex max-h-70 flex-wrap justify-start gap-2 overflow-y-auto">
                 {previewUrls.map((url, index) => (
                   <div key={index} className="group relative h-fit w-fit">
                     <img
                       src={url}
                       alt={`preview-${index}`}
-                      className="h-40 w-40 rounded-md object-cover"
+                      className="h-35 w-35 rounded-md object-cover"
                     />
                     <button
                       type="button"
@@ -319,11 +345,15 @@ export default function CreateProductModal({ isOpen, onClose, fetchProducts }) {
                 ))}
               </div>
             </div>
+
+          </div>
+
+          <div div className="space-y-4">
             {/* Size Stock */}
             <label className="block text-sm font-medium text-gray-700">
               Stock
             </label>
-            <div className="h-50 overflow-y-auto">
+            <div className="h-75 overflow-y-auto">
               <table className="w-full text-left text-sm text-gray-500 shadow-sm rtl:text-right">
                 <thead className="rounded border-1 border-gray-200 bg-gray-50 text-xs text-gray-700">
                   <tr>
