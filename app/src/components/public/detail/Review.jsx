@@ -78,6 +78,7 @@ export default function Review({
                 {[1, 2, 3, 4, 5].map((star) => (
                   <Star
                     key={star}
+                    data-testid={`result-star-${star}`}
                     className={`h-5 w-5 ${
                       star <= Math.round(averageRating)
                         ? "fill-yellow-400 text-yellow-400"
@@ -103,6 +104,7 @@ export default function Review({
                 {[1, 2, 3, 4, 5].map((star) => (
                   <Star
                     key={star}
+                    data-testid={`rate-star-${star}`}
                     className={`h-6 w-6 cursor-pointer transition-all ${
                       star <= (hoveredRating || rating)
                         ? "fill-yellow-400 text-yellow-400"
@@ -125,11 +127,13 @@ export default function Review({
               disabled={!user}
               onChange={(e) => setNewReview(e.target.value)}
               className="min-h-[100px] w-full rounded-md border border-gray-300 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              data-testid="review-textarea"
             />
             <button
               onClick={handleSubmitReview}
               disabled={newReview.trim() === "" || rating === 0 || !user}
               className="rounded-md bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
+              data-testid="submit-review-button"
             >
               Submit Review
             </button>
@@ -154,6 +158,7 @@ export default function Review({
                   {[1, 2, 3, 4, 5].map((star) => (
                     <Star
                       key={star}
+                      data-testid={`review-star-${star}`}
                       className={`h-4 w-4 ${
                         star <= review.rating
                           ? "fill-yellow-400 text-yellow-400"
