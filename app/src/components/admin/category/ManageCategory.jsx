@@ -97,6 +97,7 @@ const ManageCategory = () => {
                       size={27} // ปรับขนาด Icon
                       onClick={() => handleEdit(category)}
                       className="text-primary hover:text-primary-light cursor-pointer rounded-lg p-1 transition-all duration-200 hover:bg-gray-200"
+                      data-testid={`edit-icon-${category.id}`}
                     />
                   </td>
                   <td className="justify-center py-4 ps-12">
@@ -104,6 +105,7 @@ const ManageCategory = () => {
                       size={27} // ปรับขนาด Icon
                       onClick={() => handleDelete(category)}
                       className="cursor-pointer rounded-lg p-1 text-red-500 transition-all duration-200 hover:bg-red-100 hover:text-red-700"
+                      data-testid={`delete-icon-${category.id}`}
                     />
                   </td>
                 </tr>
